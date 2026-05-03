@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pride and Prejudice</title>
+<style>
+body   { font-family: Georgia, serif; background: #f5f0e8; color: #1a1a1a; margin: 0; }
+
+/* Page header */
+.pg-header { max-width: 960px; margin: 0 auto; padding: 2.2rem 1.5rem 0;
+             text-align: center; }
+.pg-title  { font-size: 2.4rem; font-weight: 700; letter-spacing: .02em;
+             margin: 0 0 .3rem; color: #1a1a1a; }
+.pg-author { font-size: 1rem; color: #666; margin: 0 0 1.2rem;
+             letter-spacing: .04em; }
+.pg-rule   { border: none; border-top: 2px double #688050;
+             margin: 0 auto; max-width: 912px; }
+
+/* Layout */
+.ch    { display: none; }
+.ch.on { display: block; }
+.layout { display: flex; max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+.sb    { width: 178px; flex-shrink: 0; position: sticky; top: 1.5rem;
+         align-self: flex-start; padding-right: 1.2rem; }
+.main  { flex: 1; min-width: 0; }
+.sb-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em;
+            color: #999; padding: 0 9px 6px; }
+.tdiv  { height: 1px; background: rgba(0,0,0,.1); margin: 6px 0 6px; }
+
+.ti    { display: block; width: 100%; text-align: left; background: none;
+         border: none; padding: 5px 9px; border-radius: 6px; cursor: pointer;
+         font-family: system-ui,sans-serif; font-size: 13px; color: #555;
+         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+         border-left: 2px solid transparent; transition: background .12s; }
+.ti:hover { background: rgba(0,0,0,.06); color: #1a1a1a; }
+.ti.on    { background: rgba(104,128,80,.12); color: #1a1a1a; font-weight: 600;
+            border-left: 2px solid #688050; }
+
+.ti-icon     { display: inline-flex; align-items: center; gap: 5px; }
+.ti-icon svg { flex-shrink: 0; }
+
+/* Chapter prose */
+.ch-title { font-size: 1.45rem; font-weight: 700; margin: 0 0 .2rem; color: #688050; }
+.ch-sub   { font-size: .88rem; color: #8a8070; margin: 0 0 1.4rem;
+            letter-spacing: .05em; text-transform: uppercase; }
+.ch p { line-height: 1.85; font-size: 1.1rem; margin: 0 0 1.1rem; }
+.ch p:first-of-type::first-letter { float: left; font-size: 3.4em; line-height: .85;
+  margin: .08em .12em 0 0; font-weight: 700; color: #688050; }
+
+/* Quotes */
+.qt { border-left: 3px solid #688050; padding: .9rem 1.1rem .9rem 1.3rem;
+      margin: 1.6rem 0; border-radius: 0 6px 6px 0; opacity: .92;
+      background: rgba(104,128,80,.05); }
+.qt p { margin: 0 0 .35rem; font-style: italic; font-size: 1.05rem; line-height: 1.75; }
+.qt cite { font-size: .82rem; font-style: normal; opacity: .7; }
+
+/* Recap block */
+.ch-recap { margin: 2rem 0 0; padding: 1.1rem 1.4rem;
+            border-radius: 6px; border-top: 2px solid rgba(104,128,80,.25);
+            background: rgba(104,128,80,.06); }
+.ch-recap p { font-size: .97rem; line-height: 1.72; margin: 0;
+              font-style: italic; }
+
+/* Navigation bar */
+.nr { display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 0 .5rem; margin-top: 1rem;
+      border-top: 1px solid rgba(0,0,0,.08); }
+.nr button { background: none; border: 1px solid rgba(0,0,0,.2); border-radius: 5px;
+             padding: .45rem .9rem; cursor: pointer; font-size: .9rem;
+             transition: background .12s; }
+.nr button:hover:not(:disabled) { background: rgba(0,0,0,.06); }
+.nr button:disabled { opacity: .35; cursor: default; }
+
+/* Why it matters page */
+.hl { background: rgba(104,128,80,.08); border-left: 3px solid #688050;
+      padding: .8rem 1.1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+.hl strong { display: block; margin-bottom: .3rem; color: #4a6038; }
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.2rem 0; }
+.card { background: #fff; border: 1px solid rgba(104,128,80,.2);
+        border-radius: 8px; padding: 1rem 1.1rem; }
+.card h4 { margin: 0 0 .4rem; color: #688050; font-size: 1rem; }
+.card p { margin: 0; font-size: .93rem; line-height: 1.65; }
+.stat-row { display: flex; gap: 1rem; margin: 1rem 0; flex-wrap: wrap; }
+.stat-card { flex: 1; min-width: 120px; background: #fff;
+             border-radius: 8px; padding: .9rem 1rem; text-align: center;
+             border: 1px solid rgba(104,128,80,.2); }
+.stat-card .stat-n { font-size: 1.6rem; font-weight: 700; color: #688050; }
+.stat-card .stat-l { font-size: .8rem; color: #777; margin-top: .2rem; }
+.wim-qt { border-left: 3px solid #688050; padding: .8rem 1.1rem;
+          margin: 1.2rem 0; background: rgba(104,128,80,.06);
+          border-radius: 0 6px 6px 0; }
+.wim-qt p { font-style: italic; margin: 0 0 .3rem; line-height: 1.7; }
+.wim-qt cite { font-size: .82rem; opacity: .7; }
+.wim-qt .qt-why { font-size: .9rem; margin-top: .5rem; font-style: normal; color: #444; }
+
+/* Quiz */
+.qz-q { margin: 1.6rem 0; }
+.qz-q h4 { font-size: 1rem; margin: 0 0 .7rem; }
+.qz-opts { display: flex; flex-direction: column; gap: .45rem; }
+.qz-opt { background: #fff; border: 1px solid rgba(0,0,0,.18); border-radius: 6px;
+          padding: .55rem .9rem; cursor: pointer; text-align: left;
+          font-size: .95rem; transition: background .12s; }
+.qz-opt:hover:not(:disabled) { background: rgba(104,128,80,.1); }
+.qz-opt.correct  { background: rgba(104,128,80,.18); border-color: #688050; font-weight: 600; }
+.qz-opt.wrong    { background: rgba(180,60,60,.1); border-color: #b43c3c; }
+.qz-opt.reveal   { opacity: .5; }
+.qz-fb { display: none; font-size: .9rem; margin-top: .6rem; padding: .6rem .9rem;
+         border-radius: 6px; line-height: 1.6; }
+.qz-fb.show         { display: block; }
+.qz-fb.show.correct { background: rgba(104,128,80,.12); color: #3a5028; }
+.qz-fb.show.wrong   { background: rgba(180,60,60,.08); color: #7a2020; }
+#qz-score { display: none; margin-top: 1.5rem; padding: 1rem 1.2rem;
+            background: rgba(104,128,80,.1); border-radius: 8px; text-align: center; }
+#qz-score.show { display: block; }
+#score-n { font-size: 1.6rem; font-weight: 700; color: #688050; }
+#score-msg { font-size: .95rem; color: #555; margin-top: .3rem; }
+
+/* Character tooltips */
+.cn-tip  { border-bottom: 1px dotted #888; cursor: help; }
+.tip-box { display: none; position: fixed; z-index: 9999; max-width: 240px;
+           background: #fff8f0; border: .5px solid #ccc; border-radius: 8px;
+           padding: 10px 13px; box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+.tip-name { font-weight: 700; font-size: .95rem; margin-bottom: 3px; }
+.tip-pron { font-size: .8rem; color: #666; display: flex; align-items: center;
+            gap: 6px; margin-bottom: 5px; }
+.tip-speak { font-size: .75rem; background: none; border: 1px solid #ccc;
+             border-radius: 4px; padding: 1px 6px; cursor: pointer; }
+.tip-desc { font-size: .85rem; line-height: 1.5; color: #333; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  .layout { flex-direction: column; padding: 1rem .9rem; }
+  .sb { width: 100%; padding: 0 0 .8rem; position: static;
+        display: flex; flex-wrap: nowrap; overflow-x: auto;
+        gap: .3rem; -webkit-overflow-scrolling: touch; }
+  .sb::-webkit-scrollbar { display: none; }
+  .sb .sb-label, .sb .tdiv { display: none; }
+  .ti { width: auto; flex-shrink: 0; white-space: nowrap; border-left: none;
+        border-bottom: 2px solid transparent; border-radius: 4px; }
+  .ti.on { border-bottom: 2px solid #688050; border-left: none; }
+  .pg-title { font-size: 1.9rem; }
+  .ch p { font-size: 1.05rem; }
+  .qt p { font-size: 1rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .stat-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header class="pg-header">
+  <h1 class="pg-title">Pride and Prejudice</h1>
+  <p class="pg-author">Jane Austen &middot; 1813</p>
+  <div class="pg-rule"></div>
+</header>
+
+<div class="layout">
+  <div class="sb">
+    <div class="sb-label">Chapters</div>
+    <button class="ti on" onclick="go(0)">I · The Bennets</button>
+    <button class="ti" onclick="go(1)">II · The Ball</button>
+    <button class="ti" onclick="go(2)">III · Mr Collins</button>
+    <button class="ti" onclick="go(3)">IV · Wickham</button>
+    <button class="ti" onclick="go(4)">V · Hunsford</button>
+    <button class="ti" onclick="go(5)">VI · Pemberley</button>
+    <button class="ti" onclick="go(6)">VII · Lydia's Ruin</button>
+    <button class="ti" onclick="go(7)">VIII · Two Proposals</button>
+    <div class="tdiv"></div>
+    <button class="ti" onclick="go(8)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M15 2L15.5387 4.39157C15.9957 6.42015 17.5798 8.00431 19.6084 8.46127L22 9L19.6084 9.53873C17.5798 9.99569 15.9957 11.5798 15.5387 13.6084L15 16L14.4613 13.6084C14.0043 11.5798 12.4202 9.99569 10.3916 9.53873L8 9L10.3916 8.46127C12.4201 8.00431 14.0043 6.42015 14.4613 4.39158L15 2Z"/><path d="M7 12L7.38481 13.7083C7.71121 15.1572 8.84275 16.2888 10.2917 16.6152L12 17L10.2917 17.3848C8.84275 17.7112 7.71121 18.8427 7.38481 20.2917L7 22L6.61519 20.2917C6.28879 18.8427 5.15725 17.7112 3.70827 17.3848L2 17L3.70827 16.6152C5.15725 16.2888 6.28879 15.1573 6.61519 13.7083L7 12Z"/></svg>Why it matters</span></button>
+    <button class="ti" onclick="go(9)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 22C7.49306 22 5.48959 22 4.2448 20.5355C3 19.0711 3 16.714 3 12C3 7.28596 3 4.92893 4.2448 3.46447C5.48959 2 7.49306 2 11.5 2C15.5069 2 17.5104 2 18.7552 3.46447C19.7572 4.64332 19.9527 6.40054 19.9908 9.5"/><path d="M8 8H15M8 13H11"/><path d="M19.6092 18.1054C20.4521 17.4918 21 16.4974 21 15.375C21 13.511 19.489 12 17.625 12H17.375C15.511 12 14 13.511 14 15.375C14 16.4974 14.5479 17.4918 15.3908 18.1054M19.6092 18.1054C19.0523 18.5108 18.3666 18.75 17.625 18.75H17.375C16.6334 18.75 15.9477 18.5108 15.3908 18.1054M19.6092 18.1054L20.192 19.9404C20.4143 20.6403 20.5255 20.9903 20.4951 21.2082C20.4318 21.6617 20.0619 21.9984 19.6252 22C19.4154 22.0008 19.101 21.8358 18.4723 21.5059C18.2027 21.3644 18.0679 21.2936 17.93 21.252C17.649 21.1673 17.351 21.1673 17.07 21.252C16.9321 21.2936 16.7973 21.3644 16.5277 21.5059C15.899 21.8358 15.5846 22.0008 15.3748 22C14.9381 21.9984 14.5682 21.6617 14.5049 21.2082C14.4745 20.9903 14.5857 20.6403 14.808 19.9404L15.3908 18.1054"/></svg>Quiz</span></button>
+  </div>
+
+  <div class="main">
+
+    <!-- CH 1 -->
+    <div class="ch on" data-t="I · The Bennets">
+      <div class="ch-title">I · The Bennets</div>
+      <div class="ch-sub">Hertfordshire, autumn — a single man of large fortune</div>
+
+      <svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:1.4rem;border-radius:8px;">
+        <defs>
+          <radialGradient id="sky1" cx="50%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="#c8d8b0"/>
+            <stop offset="100%" stop-color="#8aab6a"/>
+          </radialGradient>
+          <radialGradient id="sun1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fffbe0"/>
+            <stop offset="100%" stop-color="#c8d8b0" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="680" height="200" fill="url(#sky1)"/>
+        <circle cx="580" cy="50" r="38" fill="url(#sun1)"/>
+        <!-- Rolling hills -->
+        <ellipse cx="340" cy="210" rx="380" ry="80" fill="#4a6a30"/>
+        <ellipse cx="100" cy="200" rx="200" ry="60" fill="#3d5a28"/>
+        <ellipse cx="600" cy="205" rx="180" ry="55" fill="#3d5a28"/>
+        <!-- Hedgerow -->
+        <rect x="0" y="148" width="680" height="12" fill="#3d5a28"/>
+        <ellipse cx="60" cy="148" rx="28" ry="18" fill="#2d4a20"/>
+        <ellipse cx="130" cy="145" rx="22" ry="20" fill="#2d4a20"/>
+        <ellipse cx="210" cy="150" rx="25" ry="16" fill="#2d4a20"/>
+        <ellipse cx="480" cy="147" rx="28" ry="19" fill="#2d4a20"/>
+        <ellipse cx="560" cy="150" rx="24" ry="17" fill="#2d4a20"/>
+        <ellipse cx="630" cy="146" rx="22" ry="20" fill="#2d4a20"/>
+        <!-- Longbourn house silhouette -->
+        <rect x="270" y="90" width="140" height="65" fill="#2a3a1e"/>
+        <rect x="260" y="85" width="160" height="15" fill="#1e2e18"/>
+        <!-- Chimney stacks -->
+        <rect x="285" y="68" width="10" height="22" fill="#1e2e18"/>
+        <rect x="385" y="65" width="10" height="25" fill="#1e2e18"/>
+        <!-- Windows -->
+        <rect x="280" y="100" width="16" height="20" fill="#c8d890" opacity=".7"/>
+        <rect x="310" y="100" width="16" height="20" fill="#c8d890" opacity=".6"/>
+        <rect x="354" y="100" width="16" height="20" fill="#c8d890" opacity=".7"/>
+        <rect x="384" y="100" width="16" height="20" fill="#c8d890" opacity=".5"/>
+        <!-- Door -->
+        <rect x="326" y="125" width="28" height="30" fill="#1a2814" rx="2"/>
+        <!-- Figures on path -->
+        <ellipse cx="240" cy="158" rx="6" ry="10" fill="#1a2814"/>
+        <circle cx="240" cy="146" r="5" fill="#1a2814"/>
+        <ellipse cx="258" cy="159" rx="5" ry="9" fill="#253820"/>
+        <circle cx="258" cy="148" r="4" fill="#253820"/>
+        <!-- Birds -->
+        <path d="M440 60 Q445 55 450 60" stroke="#1a2814" stroke-width="1.2" fill="none"/>
+        <path d="M460 50 Q465 45 470 50" stroke="#1a2814" stroke-width="1.2" fill="none"/>
+        <text x="10" y="192" font-family="Georgia,serif" font-size="11" fill="#1a2814" opacity=".45">Hertfordshire, 1811</text>
+      </svg>
+
+      <p>It is a truth universally acknowledged that a single man in possession of a good fortune must be in want of a wife — and so the news of Netherfield Park's new tenant reaches <span class="cn-tip" data-char="MrsBennet">Mrs Bennet</span> like a summons. She needs no further reasoning. Bingley is young, handsome, and worth five thousand a year; that is cause enough for celebration, and her eldest daughter <span class="cn-tip" data-char="Jane">Jane</span> is the obvious candidate.</p>
+
+      <div class="qt" data-qid="pride-and-prejudice-ch1-q1">
+        <p>"It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife."</p>
+        <cite>— Opening line, Chapter 1</cite>
+      </div>
+
+      <p><span class="cn-tip" data-char="MrBennet">Mr Bennet</span>, a man of dry wit and studied detachment, has long since taken refuge in irony from a marriage more vigorous in nerves than in sense. He obliges his wife by calling on Bingley but takes pleasure in letting her suffer the suspense first. The five Bennet daughters — <span class="cn-tip" data-char="Jane">Jane</span>, <span class="cn-tip" data-char="Elizabeth">Elizabeth</span>, Mary, Kitty, and <span class="cn-tip" data-char="Lydia">Lydia</span> — exist in a household whose only real urgency is matrimony. None of them will inherit Longbourn; the entail passes to a male cousin.</p>
+
+      <p>At the first neighbourhood assembly, Bingley arrives with his fashionable party, including his still more fashionable friend <span class="cn-tip" data-char="Darcy">Mr Darcy</span>. Bingley dances every dance; Darcy dances none. Bingley singles out Jane at once. Darcy, surveying the room with calm displeasure, declines to be introduced to Elizabeth — she is, he tells Bingley within her hearing, "tolerable, but not handsome enough to tempt me." Elizabeth overhears the slight, laughs at it, and repeats it to her friends. The evening ends with <span class="cn-tip" data-char="MrsBennet">Mrs Bennet</span> triumphant about Jane and Elizabeth cheerfully unimpressed by Darcy.</p>
+
+      <div class="ch-recap">
+        <p>Mrs Bennet's campaign begins in earnest — and already the gap between what she says and what she means is the engine of every scene. Bingley is charming and pliant; Darcy's first impression of Elizabeth is the novel's first great irony, since we will watch that contempt turn slowly into something far more costly for his pride.</p>
+      </div>
+    </div>
+
+    <!-- CH 2 -->
+    <div class="ch" data-t="II · The Ball">
+      <div class="ch-title">II · The Ball</div>
+      <div class="ch-sub">Netherfield — Bingley's admiration, Darcy's slow awakening</div>
+
+      <svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:1.4rem;border-radius:8px;">
+        <defs>
+          <radialGradient id="light2" cx="50%" cy="40%" r="55%">
+            <stop offset="0%" stop-color="#fff8d8"/>
+            <stop offset="100%" stop-color="#b89a60" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="680" height="200" fill="#2a1e10"/>
+        <!-- Ballroom glow -->
+        <rect x="100" y="20" width="480" height="160" fill="#3d2c14" rx="4"/>
+        <ellipse cx="340" cy="60" r="80" fill="url(#light2)" opacity=".8"/>
+        <!-- Chandelier -->
+        <circle cx="340" cy="22" r="6" fill="#ffe080"/>
+        <line x1="340" y1="28" x2="340" y2="50" stroke="#ffe080" stroke-width="1.5"/>
+        <path d="M300 50 Q340 44 380 50" stroke="#ffe080" stroke-width="1.2" fill="none"/>
+        <circle cx="300" cy="50" r="4" fill="#ffe080"/>
+        <circle cx="340" cy="44" r="4" fill="#ffe080"/>
+        <circle cx="380" cy="50" r="4" fill="#ffe080"/>
+        <!-- Dancing figures — couples -->
+        <ellipse cx="240" cy="145" rx="10" ry="20" fill="#8a6a38"/>
+        <circle cx="240" cy="122" r="7" fill="#8a6a38"/>
+        <ellipse cx="256" cy="143" rx="12" ry="22" fill="#6a8050"/>
+        <circle cx="256" cy="119" r="7" fill="#6a8050"/>
+        <!-- Second couple -->
+        <ellipse cx="340" cy="143" rx="10" ry="20" fill="#5a4a2a"/>
+        <circle cx="340" cy="121" r="7" fill="#5a4a2a"/>
+        <ellipse cx="358" cy="142" rx="13" ry="23" fill="#8aaa70"/>
+        <circle cx="358" cy="117" r="8" fill="#8aaa70"/>
+        <!-- Lone figure — Darcy standing aside -->
+        <ellipse cx="530" cy="140" rx="9" ry="22" fill="#1a1a1a"/>
+        <circle cx="530" cy="116" r="7" fill="#1a1a1a"/>
+        <!-- Candles on walls -->
+        <rect x="118" y="55" width="4" height="12" fill="#ffe080"/>
+        <ellipse cx="120" cy="53" rx="4" ry="3" fill="#fff4a0"/>
+        <rect x="556" y="55" width="4" height="12" fill="#ffe080"/>
+        <ellipse cx="558" cy="53" rx="4" ry="3" fill="#fff4a0"/>
+        <!-- Tall windows -->
+        <rect x="150" y="30" width="22" height="50" fill="#c8b870" opacity=".25" rx="2"/>
+        <rect x="500" y="30" width="22" height="50" fill="#c8b870" opacity=".25" rx="2"/>
+        <text x="10" y="192" font-family="Georgia,serif" font-size="11" fill="#ffe080" opacity=".4">Netherfield Ball</text>
+      </svg>
+
+      <p>Jane's visits to Netherfield become longer and closer. When she falls ill during a rainy call, she is installed as a houseguest, and <span class="cn-tip" data-char="Elizabeth">Elizabeth</span> — refusing to wait decorously — walks three muddy miles to nurse her. The visit places Elizabeth squarely in Darcy's company for several days. He finds himself watching her, then catching himself watching her, then becoming irritated that he watches her at all.</p>
+
+      <p><span class="cn-tip" data-char="Darcy">Darcy</span>'s companions, <span class="cn-tip" data-char="Bingley">Bingley</span>'s sisters, are delighted to condescend to Elizabeth in the drawing room and whisper against her behind her back. They find Darcy's apparent attention to her ridiculous. Darcy, who has been telling himself he merely admires the quickness of her wit as an intellectual curiosity, begins transcribing her eyes into letters he does not send.</p>
+
+      <div class="qt" data-qid="pride-and-prejudice-ch2-q1">
+        <p>"She is tolerable, but not handsome enough to tempt me."</p>
+        <cite>— Mr Darcy, overheard by Elizabeth, Chapter 3</cite>
+      </div>
+
+      <p>The Netherfield ball arrives. <span class="cn-tip" data-char="Elizabeth">Elizabeth</span> is handed down the set by <span class="cn-tip" data-char="Darcy">Darcy</span> himself — a surprise that silences the room — and the dance is a sparring match more than a courtesy. He is proud; she is playful; neither gives ground. The evening turns sour: <span class="cn-tip" data-char="MrsBennet">Mrs Bennet</span> talks too loudly about Bingley for Jane; Mary performs too long at the piano; and <span class="cn-tip" data-char="Lydia">Lydia</span> makes a spectacle. Darcy watches the family and calculates what association with them would cost. Bingley — who has danced twice with Jane and cannot see past his own happiness — notices none of this.</p>
+
+      <div class="ch-recap">
+        <p>The ball crystallises two trajectories: Bingley moving toward Jane with uncomplicated warmth, Darcy moving toward Elizabeth against his own will and his own judgement. His coolness is not indifference — it is the rearguard action of a man who does not yet know he has already lost.</p>
+      </div>
+    </div>
+
+    <!-- CH 3 -->
+    <div class="ch" data-t="III · Mr Collins">
+      <div class="ch-title">III · Mr Collins</div>
+      <div class="ch-sub">Longbourn — proposals, Charlotte's bargain</div>
+
+      <svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:1.4rem;border-radius:8px;">
+        <defs>
+          <radialGradient id="parlour3" cx="40%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#e8d8a0"/>
+            <stop offset="100%" stop-color="#8a7040" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="680" height="200" fill="#1e1810"/>
+        <!-- Parlour interior -->
+        <rect x="60" y="30" width="560" height="155" fill="#2e2418" rx="4"/>
+        <rect x="60" y="150" width="560" height="35" fill="#261e14"/>
+        <!-- Fireplace glow -->
+        <rect x="280" y="90" width="120" height="65" fill="#1a1208"/>
+        <ellipse cx="340" cy="150" r="50" fill="url(#parlour3)" opacity=".6"/>
+        <rect x="295" y="130" width="90" height="25" fill="#3a2808"/>
+        <!-- Fire flicker -->
+        <path d="M320 148 Q330 120 340 148 Q350 120 360 148" fill="#ff8820" opacity=".7"/>
+        <path d="M325 148 Q335 130 340 148 Q345 130 355 148" fill="#ffb040" opacity=".8"/>
+        <!-- Mantelpiece ornaments -->
+        <rect x="275" y="87" width="130" height="6" fill="#4a3820"/>
+        <rect x="310" y="75" width="10" height="14" fill="#8a6a30"/>
+        <rect x="360" y="74" width="10" height="15" fill="#8a6a30"/>
+        <!-- Seated figure — Mr Collins, portly, bowing -->
+        <ellipse cx="180" cy="145" rx="20" ry="12" fill="#2a4a20"/>
+        <ellipse cx="180" cy="132" rx="14" ry="16" fill="#2a4a20"/>
+        <circle cx="180" cy="114" r="9" fill="#6a5030"/>
+        <!-- Elizabeth — upright, arms crossed -->
+        <ellipse cx="460" cy="143" rx="16" ry="14" fill="#8aaa70"/>
+        <ellipse cx="460" cy="128" rx="11" ry="15" fill="#8aaa70"/>
+        <circle cx="460" cy="111" r="8" fill="#6a5030"/>
+        <!-- Window curtains -->
+        <rect x="68" y="32" width="20" height="140" fill="#3a2818"/>
+        <rect x="592" y="32" width="20" height="140" fill="#3a2818"/>
+        <text x="360" y="192" font-family="Georgia,serif" font-size="11" fill="#e8c870" opacity=".35" text-anchor="middle">Longbourn parlour</text>
+      </svg>
+
+      <p>Mr Collins arrives at Longbourn as a houseguest. He is the heir to the entail — a clergyman of profound self-satisfaction, patron-dropped names (Lady Catherine de Bourgh), and breathless deference to rank. His stated intention is to marry one of the Bennet daughters, which <span class="cn-tip" data-char="MrsBennet">Mrs Bennet</span> finds perfectly sensible and which the daughters find considerably less so.</p>
+
+      <p>He proposes to <span class="cn-tip" data-char="Elizabeth">Elizabeth</span> with a speech of extraordinary length and very little doubt about its outcome. She declines — firmly, repeatedly, and with increasing specificity. Mr Collins attributes each refusal to maidenly coyness, until <span class="cn-tip" data-char="MrBennet">Mr Bennet</span> is asked to adjudicate and confirms with some satisfaction that Elizabeth means it. Within days, Mr Collins transfers his affections to <span class="cn-tip" data-char="Charlotte">Charlotte Lucas</span>, Elizabeth's closest friend, and is accepted. The neighbourhood is briefly scandalized; Charlotte is entirely composed.</p>
+
+      <div class="qt" data-qid="pride-and-prejudice-ch3-q1">
+        <p>"I am not romantic, you know. I never was. I ask only a comfortable home."</p>
+        <cite>— Charlotte Lucas, to Elizabeth, on accepting Mr Collins</cite>
+      </div>
+
+      <p>Meanwhile, Bingley abruptly departs Netherfield. No farewell, no letter, no engagement. <span class="cn-tip" data-char="Jane">Jane</span> receives a note from Caroline Bingley intimating that the party is settled in London for the winter — and gently suggesting that Bingley's attentions may tend in another direction entirely. Jane believes the best of everyone, so the wound takes longer to reach her than it should. Elizabeth is angrier on Jane's behalf than Jane allows herself to be.</p>
+
+      <div class="ch-recap">
+        <p>Charlotte's pragmatism sits deliberately against Elizabeth's romantic expectations. Both women are making rational calculations given what the world offers them — they simply weigh the variables differently. Bingley's disappearance is the novel's first real blow, and the question of who engineered it will shape everything that follows.</p>
+      </div>
+    </div>
+
+    <!-- CH 4 -->
+    <div class="ch" data-t="IV · Wickham">
+      <div class="ch-title">IV · Wickham</div>
+      <div class="ch-sub">Meryton — charm, lies, and a militia regiment</div>
+
+      <svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:1.4rem;border-radius:8px;">
+        <defs>
+          <linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a0b8d0"/>
+            <stop offset="100%" stop-color="#6a8aa0"/>
+          </linearGradient>
+        </defs>
+        <rect width="680" height="200" fill="url(#sky4)"/>
+        <!-- Town street -->
+        <rect x="0" y="130" width="680" height="70" fill="#6a5a38"/>
+        <rect x="0" y="128" width="680" height="6" fill="#5a4a28"/>
+        <!-- Buildings -->
+        <rect x="40" y="60" width="80" height="74" fill="#3a3020"/>
+        <rect x="30" y="55" width="100" height="10" fill="#2a2018"/>
+        <rect x="55" y="75" width="14" height="18" fill="#8a9870" opacity=".5"/>
+        <rect x="85" y="75" width="14" height="18" fill="#8a9870" opacity=".5"/>
+        <rect x="140" y="75" width="70" height="59" fill="#4a3828"/>
+        <rect x="130" y="70" width="90" height="10" fill="#3a2818"/>
+        <rect x="550" y="55" width="90" height="79" fill="#3a3020"/>
+        <rect x="540" y="50" width="110" height="10" fill="#2a2018"/>
+        <!-- Militia officers — red coats -->
+        <ellipse cx="310" cy="152" rx="9" ry="18" fill="#8a1a1a"/>
+        <circle cx="310" cy="132" r="7" fill="#6a4820"/>
+        <ellipse cx="335" cy="150" rx="9" ry="19" fill="#8a2020"/>
+        <circle cx="335" cy="129" r="7" fill="#6a4820"/>
+        <!-- Wickham — central, charming posture -->
+        <ellipse cx="370" cy="148" rx="10" ry="20" fill="#9a2020"/>
+        <circle cx="370" cy="126" r="8" fill="#7a5830"/>
+        <!-- Elizabeth and Lydia approaching -->
+        <ellipse cx="420" cy="149" rx="11" ry="21" fill="#7a9a68"/>
+        <circle cx="420" cy="126" r="7" fill="#7a5830"/>
+        <ellipse cx="445" cy="151" rx="10" ry="19" fill="#9aaa80"/>
+        <circle cx="445" cy="130" r="7" fill="#7a5830"/>
+        <!-- Trees -->
+        <rect x="230" y="100" width="8" height="34" fill="#3a2a18"/>
+        <ellipse cx="234" cy="90" rx="22" ry="18" fill="#3a5828"/>
+        <rect x="480" y="95" width="8" height="38" fill="#3a2a18"/>
+        <ellipse cx="484" cy="85" rx="22" ry="20" fill="#3a5828"/>
+        <text x="10" y="192" font-family="Georgia,serif" font-size="11" fill="#2a2018" opacity=".4">Meryton, autumn</text>
+      </svg>
+
+      <p>A militia regiment winters at Meryton, and the Bennet household — particularly <span class="cn-tip" data-char="Lydia">Lydia</span> and Kitty — is enchanted. Among the officers is George <span class="cn-tip" data-char="Wickham">Wickham</span>: handsome, easy, and possessed of a manner that opens drawing rooms and loosens confidences. He attaches himself to Elizabeth almost immediately, and over the course of a single evening walk in Meryton he tells her a long, smooth story about Darcy — how Darcy's late father loved Wickham like a son, left him a valuable living in his will, and how Darcy, out of jealousy, contrived to withhold it.</p>
+
+      <p>Elizabeth listens with gratifying outrage. Everything in the story confirms what she already thought of <span class="cn-tip" data-char="Darcy">Darcy</span>: arrogant, unscrupulous, quick to abuse power. Wickham is the story's victim and she becomes its indignant champion. She tells Jane; Jane suggests there may be fault on both sides. Elizabeth finds this generous but unlikely. The story circulates through Meryton and nobody questions it, because Wickham is charming and Darcy is cold and coldness looks very like guilt.</p>
+
+      <p>When <span class="cn-tip" data-char="Elizabeth">Elizabeth</span> next sees Darcy at a party, she meets his eye with an arch composure that tells him plainly she knows — or thinks she knows — everything. He meets her look and says nothing. She interprets his silence as shame. It is, but not for the reasons she imagines.</p>
+
+      <div class="ch-recap">
+        <p>Wickham is the novel's most brilliant illustration of how prejudice is formed: Elizabeth hears one side of a story from a man who is beautiful to look at, and the story slots so perfectly into her existing view of Darcy that she never thinks to ask a question. Her intelligence, which she rightly prizes, becomes the very instrument of her manipulation.</p>
+      </div>
+    </div>
+
+    <!-- CH 5 -->
+    <div class="ch" data-t="V · Hunsford">
+      <div class="ch-title">V · Hunsford</div>
+      <div class="ch-sub">Kent — Lady Catherine's court, a disastrous proposal</div>
+
+      <svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:1.4rem;border-radius:8px;">
+        <defs>
+          <radialGradient id="room5" cx="60%" cy="40%" r="55%">
+            <stop offset="0%" stop-color="#d8c890"/>
+            <stop offset="100%" stop-color="#7a6838" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="680" height="200" fill="#12100a"/>
+        <!-- Grand room at Rosings -->
+        <rect x="50" y="20" width="580" height="165" fill="#1e1a0e" rx="4"/>
+        <!-- Tall windows with curtains -->
+        <rect x="70" y="28" width="35" height="120" fill="#c8b870" opacity=".15" rx="3"/>
+        <rect x="575" y="28" width="35" height="120" fill="#c8b870" opacity=".15" rx="3"/>
+        <rect x="62" y="24" width="14" height="128" fill="#3a2c18"/>
+        <rect x="104" y="24" width="14" height="128" fill="#3a2c18"/>
+        <rect x="567" y="24" width="14" height="128" fill="#3a2c18"/>
+        <rect x="610" y="24" width="14" height="128" fill="#3a2c18"/>
+        <!-- Glow -->
+        <ellipse cx="400" cy="100" rx="100" ry="70" fill="url(#room5)" opacity=".7"/>
+        <!-- Fireplace -->
+        <rect x="300" y="100" width="80" height="55" fill="#0e0c08"/>
+        <rect x="290" y="97" width="100" height="8" fill="#2a2210"/>
+        <path d="M318 152 Q340 125 362 152" fill="#cc6010" opacity=".7"/>
+        <path d="M325 152 Q340 132 355 152" fill="#ee8020" opacity=".8"/>
+        <!-- Lady Catherine — imposing chair -->
+        <rect x="370" y="75" width="50" height="80" fill="#2a1e10" rx="3"/>
+        <ellipse cx="395" cy="100" rx="14" ry="18" fill="#4a3020"/>
+        <circle cx="395" cy="80" r="9" fill="#5a4030"/>
+        <!-- Darcy — standing left of centre -->
+        <ellipse cx="240" cy="138" rx="11" ry="24" fill="#1a1a1a"/>
+        <circle cx="240" cy="112" r="8" fill="#3a2c20"/>
+        <!-- Elizabeth — standing, facing him -->
+        <ellipse cx="265" cy="136" rx="12" ry="22" fill="#688050"/>
+        <circle cx="265" cy="112" r="8" fill="#5a4030"/>
+        <text x="340" y="192" font-family="Georgia,serif" font-size="11" fill="#d8c890" opacity=".35" text-anchor="middle">Rosings Park, Kent</text>
+      </svg>
+
+      <p>Elizabeth visits Charlotte at Hunsford parsonage in Kent. Charlotte, now Mrs Collins, manages her husband and her drawing room with quiet efficiency and no illusions. The neighbourhood is dominated by Rosings Park, seat of Lady <span class="cn-tip" data-char="LadyCatherine">Lady Catherine de Bourgh</span> — <span class="cn-tip" data-char="Darcy">Darcy</span>'s aunt — who dispenses opinions on all subjects with the confidence of someone who has never been contradicted. Elizabeth is unimpressed and says so, with just enough polish to be considered playful rather than rude.</p>
+
+      <p>Darcy and his cousin <span class="cn-tip" data-char="Colonel">Colonel Fitzwilliam</span> call at Rosings regularly. Darcy's visits to the parsonage grow more frequent than propriety strictly requires. During one private call, he proposes to Elizabeth — and he does it badly. He tells her he loves her despite the inferiority of her family, despite her connections, despite every argument against it. He seems to expect that this act of condescension will be received with grateful astonishment.</p>
+
+      <div class="qt" data-qid="pride-and-prejudice-ch5-q1">
+        <p>"In vain have I struggled. It will not do. My feelings will not be repressed. You must allow me to tell you how ardently I admire and love you."</p>
+        <cite>— Mr Darcy, first proposal, Chapter 34</cite>
+      </div>
+
+      <p>Elizabeth refuses him — and refuses him thoroughly. She accuses him of arrogance, of destroying Jane's happiness with Bingley, and of ruining Wickham's prospects. Darcy is shaken to silence. The next morning he leaves a letter at the parsonage door. The letter does not repeat the proposal. Instead it explains, point by point, the true history of Wickham — including his pursuit of Darcy's fifteen-year-old sister, Georgiana, and the attempted elopement for her fortune. Elizabeth reads the letter twice, then reads it again.</p>
+
+      <div class="ch-recap">
+        <p>The letter is the pivot on which the whole novel turns. Every certainty Elizabeth has built about Darcy and Wickham must now be held up to the light and re-examined. The humiliation is double: she was wrong about Wickham, and she was wrong in a way that her own vanity made possible. Darcy, meanwhile, must reckon with the fact that his manner of proposing was itself a kind of insult.</p>
+      </div>
+    </div>
+
+    <!-- CH 6 -->
+    <div class="ch" data-t="VI · Pemberley">
+      <div class="ch-title">VI · Pemberley</div>
+      <div class="ch-sub">Derbyshire — Elizabeth sees Darcy truly</div>
+
+      <svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:1.4rem;border-radius:8px;">
+        <defs>
+          <radialGradient id="sky6" cx="50%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#b8d0e8"/>
+            <stop offset="100%" stop-color="#6a90b0"/>
+          </radialGradient>
+          <radialGradient id="lake6" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#88aac8"/>
+            <stop offset="100%" stop-color="#4a6880"/>
+          </radialGradient>
+        </defs>
+        <rect width="680" height="200" fill="url(#sky6)"/>
+        <!-- Hills behind -->
+        <ellipse cx="340" cy="200" rx="420" ry="100" fill="#3a5838"/>
+        <ellipse cx="100" cy="190" rx="200" ry="80" fill="#2e4a2e"/>
+        <ellipse cx="600" cy="195" rx="180" ry="75" fill="#2e4a2e"/>
+        <!-- Lake -->
+        <ellipse cx="340" cy="170" rx="280" ry="40" fill="url(#lake6)"/>
+        <!-- Pemberley house — grand, reflected in lake -->
+        <rect x="230" y="68" width="220" height="90" fill="#2a3828"/>
+        <rect x="220" y="62" width="240" height="14" fill="#1e2e1e"/>
+        <!-- Wings -->
+        <rect x="180" y="82" width="60" height="76" fill="#24321e"/>
+        <rect x="440" y="82" width="60" height="76" fill="#24321e"/>
+        <!-- Columns -->
+        <rect x="250" y="68" width="6" height="90" fill="#1a2818"/>
+        <rect x="268" y="68" width="6" height="90" fill="#1a2818"/>
+        <rect x="406" y="68" width="6" height="90" fill="#1a2818"/>
+        <rect x="424" y="68" width="6" height="90" fill="#1a2818"/>
+        <!-- Windows -->
+        <rect x="240" y="80" width="20" height="28" fill="#a0c0a8" opacity=".35"/>
+        <rect x="270" y="80" width="20" height="28" fill="#a0c0a8" opacity=".3"/>
+        <rect x="350" y="80" width="20" height="28" fill="#a0c0a8" opacity=".35"/>
+        <rect x="390" y="80" width="20" height="28" fill="#a0c0a8" opacity=".3"/>
+        <rect x="420" y="80" width="20" height="28" fill="#a0c0a8" opacity=".35"/>
+        <!-- Reflection in lake -->
+        <rect x="230" y="158" width="220" height="22" fill="#2a3828" opacity=".3"/>
+        <!-- Two small figures on lawn -->
+        <ellipse cx="350" cy="150" rx="5" ry="10" fill="#688050"/>
+        <circle cx="350" cy="138" r="4" fill="#5a4030"/>
+        <ellipse cx="366" cy="150" rx="5" ry="11" fill="#1a1a1a"/>
+        <circle cx="366" cy="137" r="4" fill="#3a2c20"/>
+        <!-- Trees lining the approach -->
+        <rect x="148" y="95" width="6" height="62" fill="#2e3820"/>
+        <ellipse cx="151" cy="85" rx="18" ry="22" fill="#2e4828"/>
+        <rect x="526" y="95" width="6" height="62" fill="#2e3820"/>
+        <ellipse cx="529" cy="85" rx="18" ry="22" fill="#2e4828"/>
+        <text x="10" y="192" font-family="Georgia,serif" font-size="11" fill="#2a3828" opacity=".45">Pemberley, Derbyshire</text>
+      </svg>
+
+      <p>Travelling through Derbyshire with her aunt and uncle, the Gardiners, <span class="cn-tip" data-char="Elizabeth">Elizabeth</span> visits Pemberley on the assurance that its owner is away. The estate is magnificent — but more than that, it is tasteful. The housekeeper, Mrs Reynolds, speaks of Darcy with unstudied warmth: a good master, a kind brother, generous to every servant who has ever worked there. Elizabeth wanders through rooms of quiet, well-chosen elegance and finds her opinion of the man revising itself room by room.</p>
+
+      <p><span class="cn-tip" data-char="Darcy">Darcy</span> arrives early and unexpectedly. The meeting on the lawn is the novel's most delicately managed scene: both characters flushed with surprise, both conscious of the last time they spoke, both changed. Darcy is warm, civil, and entirely without condescension. He asks to introduce his sister <span class="cn-tip" data-char="Georgiana">Georgiana</span>, who is shy rather than proud. He invites the Gardiners to fish his river. He is, in every way, the man his housekeeper described.</p>
+
+      <div class="qt" data-qid="pride-and-prejudice-ch6-q1">
+        <p>"She had never seen him so desirous to please, so free from self-consequence, or unbending reserve."</p>
+        <cite>— Narrator, on Elizabeth observing Darcy at Pemberley</cite>
+      </div>
+
+      <p>Elizabeth is bewildered and a little disarmed. Before she can properly untangle what she feels, a letter arrives from <span class="cn-tip" data-char="Jane">Jane</span>: <span class="cn-tip" data-char="Lydia">Lydia</span> has run away from Brighton with Wickham. There is no mention of marriage. The Gardiners cut the holiday short immediately, and Elizabeth — who has just, perhaps, allowed herself to wonder — must leave Pemberley without knowing if anything real might have grown here.</p>
+
+      <div class="ch-recap">
+        <p>Pemberley functions as a second proposal by other means: the house, the grounds, the testimony of every person employed there, all make the case that Darcy could not make for himself in Kent. Elizabeth begins to understand that her first impression was a prejudice shaped by vanity — and that Wickham, the charming narrator of her mistake, is now the instrument of her family's catastrophe.</p>
+      </div>
+    </div>
+
+    <!-- CH 7 -->
+    <div class="ch" data-t="VII · Lydia's Ruin">
+      <div class="ch-title">VII · Lydia's Ruin</div>
+      <div class="ch-sub">Brighton and London — an elopement, a rescue in secret</div>
+
+      <svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:1.4rem;border-radius:8px;">
+        <defs>
+          <radialGradient id="night7" cx="50%" cy="20%" r="60%">
+            <stop offset="0%" stop-color="#304060"/>
+            <stop offset="100%" stop-color="#101820"/>
+          </radialGradient>
+        </defs>
+        <rect width="680" height="200" fill="url(#night7)"/>
+        <!-- Moon -->
+        <circle cx="580" cy="38" r="22" fill="#d8d0b8"/>
+        <circle cx="590" cy="34" r="18" fill="#181820"/>
+        <!-- London street night -->
+        <rect x="0" y="120" width="680" height="80" fill="#1a1408"/>
+        <rect x="0" y="118" width="680" height="6" fill="#141008"/>
+        <!-- Buildings dark -->
+        <rect x="30" y="60" width="70" height="64" fill="#0e0c08"/>
+        <rect x="22" y="55" width="86" height="10" fill="#0a0808"/>
+        <rect x="48" y="72" width="12" height="16" fill="#ffe090" opacity=".3"/>
+        <rect x="75" y="72" width="12" height="16" fill="#ffe090" opacity=".2"/>
+        <rect x="130" y="70" width="60" height="54" fill="#0e0c08"/>
+        <rect x="480" y="50" width="80" height="74" fill="#0e0c08"/>
+        <rect x="472" y="45" width="96" height="10" fill="#0a0808"/>
+        <rect x="492" y="63" width="12" height="16" fill="#ffe090" opacity=".25"/>
+        <rect x="530" y="63" width="12" height="16" fill="#ffe090" opacity=".2"/>
+        <rect x="570" y="55" width="70" height="69" fill="#0e0c08"/>
+        <!-- Carriage -->
+        <rect x="265" y="112" width="80" height="40" fill="#1a1a0a" rx="4"/>
+        <rect x="258" y="108" width="94" height="10" fill="#101008" rx="2"/>
+        <circle cx="278" cy="155" r="11" fill="#0a0808" stroke="#3a3828" stroke-width="2"/>
+        <circle cx="332" cy="155" r="11" fill="#0a0808" stroke="#3a3828" stroke-width="2"/>
+        <!-- Horses -->
+        <ellipse cx="230" cy="138" rx="28" ry="10" fill="#181410"/>
+        <ellipse cx="215" cy="130" rx="10" ry="18" fill="#181410"/>
+        <circle cx="215" cy="112" r="7" fill="#181410"/>
+        <ellipse cx="248" cy="130" rx="10" ry="18" fill="#181410"/>
+        <circle cx="248" cy="112" r="7" fill="#181410"/>
+        <!-- Darcy figure entering building to the right -->
+        <ellipse cx="450" cy="138" rx="9" ry="22" fill="#0e0e0e"/>
+        <circle cx="450" cy="114" r="7" fill="#2a2018"/>
+        <!-- Gaslight -->
+        <rect x="400" y="80" width="4" height="45" fill="#3a3020"/>
+        <circle cx="402" cy="78" r="6" fill="#ffe090" opacity=".6"/>
+        <ellipse cx="402" cy="78" rx="12" ry="10" fill="#ffe090" opacity=".2"/>
+        <text x="10" y="192" font-family="Georgia,serif" font-size="11" fill="#d8d0b0" opacity=".35">London, night</text>
+      </svg>
+
+      <p><span class="cn-tip" data-char="Lydia">Lydia</span> has gone to Brighton as the guest of a militia officer's wife, against <span class="cn-tip" data-char="MrBennet">Mr Bennet</span>'s better judgement and with <span class="cn-tip" data-char="Elizabeth">Elizabeth</span>'s express warning, which he did not act on. From Brighton she elopes with <span class="cn-tip" data-char="Wickham">Wickham</span>. No letter, no destination given. Wickham has debts all over Meryton; an elopement without marriage is ruin for the entire family. All five daughters lose their marriage prospects unless Lydia is found and made decent.</p>
+
+      <p>Mr Bennet goes to London to search; <span class="cn-tip" data-char="MrGardiner">Mr Gardiner</span> coordinates from his house in Gracechurch Street. Days pass. Then, abruptly, a letter arrives: the pair have been found, Wickham will marry Lydia, and Wickham's debts will be paid. Mr Bennet assumes his brother-in-law has paid the price and is appropriately mortified. Elizabeth assumes the same — until she learns, weeks later, that the negotiation was managed entirely by <span class="cn-tip" data-char="Darcy">Darcy</span>. He tracked Wickham through London, paid the debts, purchased the commission, and made the whole thing possible — then forbade Mrs Gardiner to mention it.</p>
+
+      <div class="qt" data-qid="pride-and-prejudice-ch7-q1">
+        <p>"If he had done it for Jane — but it was not for Jane's sake."</p>
+        <cite>— Elizabeth, realising Darcy's motive, Chapter 52</cite>
+      </div>
+
+      <p>Lydia — entirely unconscious of what has been arranged around her — arrives at Longbourn in triumph, full of wedding stories. She lets slip, carelessly, that Darcy was at the church. The secret unravels; Elizabeth writes to her aunt and receives the full account. She has, it becomes clear, allowed herself to love a man she had once dismissed — and he has spent a fortune saving a family he was under no obligation to save, and has told no one.</p>
+
+      <div class="ch-recap">
+        <p>Darcy acts not from duty or calculation but because Elizabeth is the reason, and no other reason is offered or required. His silence about it — the deliberate withholding of credit — is the single most character-revealing action in the novel. Compare it to Wickham's confident public performance of virtue; the contrast is as sharp as the novel ever gets.</p>
+      </div>
+    </div>
+
+    <!-- CH 8 -->
+    <div class="ch" data-t="VIII · Two Proposals">
+      <div class="ch-title">VIII · Two Proposals</div>
+      <div class="ch-sub">Longbourn, autumn — Bingley returns, Darcy and Elizabeth</div>
+
+      <svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:1.4rem;border-radius:8px;">
+        <defs>
+          <radialGradient id="garden8" cx="40%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#c8d8a0"/>
+            <stop offset="100%" stop-color="#688050" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="680" height="200" fill="#c0d0a0"/>
+        <!-- Autumn garden -->
+        <ellipse cx="340" cy="220" rx="400" ry="100" fill="#4a6030"/>
+        <!-- Garden path -->
+        <path d="M340 200 Q330 160 340 120 Q350 80 340 50" stroke="#b0a880" stroke-width="14" fill="none" stroke-linecap="round" opacity=".6"/>
+        <!-- Hedgerows -->
+        <rect x="0" y="100" width="220" height="100" fill="#3a5028"/>
+        <rect x="460" y="100" width="220" height="100" fill="#3a5028"/>
+        <ellipse cx="100" cy="100" rx="120" ry="30" fill="#2e4020"/>
+        <ellipse cx="580" cy="100" rx="120" ry="30" fill="#2e4020"/>
+        <!-- Autumn trees -->
+        <rect x="145" y="60" width="8" height="50" fill="#4a3020"/>
+        <ellipse cx="149" cy="52" rx="32" ry="28" fill="#8a5828"/>
+        <rect x="520" y="58" width="8" height="52" fill="#4a3020"/>
+        <ellipse cx="524" cy="50" rx="32" ry="28" fill="#9a6830"/>
+        <!-- Bingley and Jane — left of path -->
+        <ellipse cx="195" cy="148" rx="11" ry="22" fill="#3a5828"/>
+        <circle cx="195" cy="124" r="8" fill="#6a4830"/>
+        <ellipse cx="217" cy="146" rx="12" ry="24" fill="#7a9a68"/>
+        <circle cx="217" cy="120" r="8" fill="#6a4830"/>
+        <!-- Darcy and Elizabeth — right of path -->
+        <ellipse cx="462" cy="148" rx="11" ry="22" fill="#1a1a1a"/>
+        <circle cx="462" cy="124" r="8" fill="#3a2c20"/>
+        <ellipse cx="482" cy="146" rx="12" ry="24" fill="#8aaa78"/>
+        <circle cx="482" cy="120" r="8" fill="#5a4030"/>
+        <!-- Fallen leaves -->
+        <ellipse cx="300" cy="170" rx="6" ry="4" fill="#9a5820" opacity=".6" transform="rotate(-20,300,170)"/>
+        <ellipse cx="390" cy="165" rx="5" ry="3" fill="#8a4820" opacity=".5" transform="rotate(15,390,165)"/>
+        <ellipse cx="250" cy="155" rx="5" ry="3" fill="#aa6020" opacity=".5" transform="rotate(30,250,155)"/>
+        <text x="10" y="192" font-family="Georgia,serif" font-size="11" fill="#2a2018" opacity=".45">Longbourn, late autumn</text>
+      </svg>
+
+      <p><span class="cn-tip" data-char="Bingley">Bingley</span> returns to Netherfield. He calls at Longbourn frequently; the calls grow longer; and one afternoon, walking in the garden with <span class="cn-tip" data-char="Jane">Jane</span>, he proposes. Jane's happiness is complete, quiet, and entirely without drama. She does not know — and is never told — that Darcy spent months persuading Bingley to return, having accepted that his own interference with the match was wrong.</p>
+
+      <p><span class="cn-tip" data-char="LadyCatherine">Lady Catherine de Bourgh</span> sweeps into Longbourn uninvited, radiating authority and rumour. She has heard that <span class="cn-tip" data-char="Darcy">Darcy</span> intends to marry Elizabeth. She demands an assurance that no such engagement exists. Elizabeth refuses to give it. Lady Catherine leaves in fury. Darcy, learning of the encounter, takes it for exactly what it is: Elizabeth's implicit answer. He comes to Longbourn and, on a morning walk, tries again.</p>
+
+      <div class="qt" data-qid="pride-and-prejudice-ch8-q1">
+        <p>"You are too generous to trifle with me. If your feelings are still what they were last April, tell me so at once."</p>
+        <cite>— Mr Darcy, second proposal, Chapter 58</cite>
+      </div>
+
+      <p>This proposal is nothing like the first. He is uncertain; she is the one who must put him at ease. She tells him her feelings have entirely changed and she is grateful, deeply grateful. They walk two hours in the garden and tell each other, slowly, what the intervening months have looked like from the inside. <span class="cn-tip" data-char="MrBennet">Mr Bennet</span>, when asked for consent, is genuinely astonished — and then, confirming in private that Elizabeth truly loves the man, gives it without reservation. <span class="cn-tip" data-char="MrsBennet">Mrs Bennet</span>, informed that her least favourite and most impertinent daughter is to marry a man worth ten thousand a year, discovers that she has always found him charming.</p>
+
+      <div class="ch-recap">
+        <p>The second proposal works because both characters have changed. Darcy has shed his contempt for the Bennets and proved it by action; Elizabeth has shed her certainty and earned the humility to see clearly. The novel earns its resolution not by wish-fulfilment but by showing that pride and prejudice are curable — given time, self-knowledge, and the willingness to be wrong.</p>
+      </div>
+    </div>
+
+    <!-- CH 9 -->
+    <div class="ch" data-t="Why it matters">
+      <div class="ch-title">Why it matters</div>
+      <div class="ch-sub">Legacy, themes, and the novel's enduring argument</div>
+
+      <div class="hl">
+        <strong>The central argument</strong>
+        <ul style="margin:.3rem 0 0;padding-left:1.2rem;line-height:1.75;font-size:.97rem;">
+          <li>First impressions are formed by the observer's existing biases as much as by the person observed.</li>
+          <li>Social class shapes every relationship in ways that both characters and readers absorb without noticing.</li>
+          <li>Intelligence is not immunity to manipulation — it can be the instrument of it.</li>
+          <li>A good marriage requires mutual respect between equals, not romantic projection.</li>
+        </ul>
+      </div>
+
+      <div class="card-grid">
+        <div class="card">
+          <h4>Pride</h4>
+          <p>Darcy's pride is social — a habit of class — and Elizabeth's is personal — the pride of a sharp mind that does not like to be wrong. Austen is careful not to make one species virtuous and the other villainous: both must be dissolved before the novel can end.</p>
+        </div>
+        <div class="card">
+          <h4>Prejudice</h4>
+          <p>Elizabeth forms her opinion of Darcy from a single overheard remark, confirms it through Wickham's fiction, and resists every revision until a letter forces the issue. Austen shows how prejudice is self-reinforcing: once established, it interprets all evidence in its own favour.</p>
+        </div>
+        <div class="card">
+          <h4>Marriage as economics</h4>
+          <p>The Bennets' entail is not a background detail — it is the novel's engine. Every woman in the book must marry or be destitute. Charlotte's choice is not weakness; it is the clearest-eyed reading of the situation on offer. Austen never mocks her for it.</p>
+        </div>
+        <div class="card">
+          <h4>Irony as method</h4>
+          <p>Austen's irony operates at every level: in narrator's voice, in dialogue, in plot. She never editoralises. The gap between what characters say and what they mean is the substance of almost every scene, and the reader is trusted to close that gap without guidance.</p>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-n">1813</div>
+          <div class="stat-l">First published</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-n">£110</div>
+          <div class="stat-l">Austen received for the copyright</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-n">20M+</div>
+          <div class="stat-l">Copies sold worldwide</div>
+        </div>
+      </div>
+
+      <ul style="line-height:1.9;font-size:.97rem;padding-left:1.3rem;margin:1rem 0;">
+        <li>Consistently ranked among the five most-read novels in the English language.</li>
+        <li>Austen herself called it "my own darling child" in correspondence.</li>
+        <li>Adapted for film, television, and stage more than any other British novel of the 19th century.</li>
+        <li>Its opening sentence is cited in more linguistics papers on free indirect discourse than any other in English.</li>
+        <li>The novel was published anonymously — "By a Lady" — Austen never publicly claimed it in her lifetime.</li>
+      </ul>
+
+      <div class="wim-qt">
+        <p>"It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife."</p>
+        <cite>— Chapter 1</cite>
+        <p class="qt-why">The opening sentence is not merely witty — it is a trap. Stated as universal law, it encodes the entire social logic the novel will spend 300 pages interrogating. The "truth" belongs to Mrs Bennet and her world; the irony belongs to Austen. Both coexist in the same sentence, and the reader must locate themselves between the two.</p>
+      </div>
+
+      <div class="wim-qt">
+        <p>"I declare after all there is no enjoyment like reading!"</p>
+        <cite>— Caroline Bingley, Chapter 11</cite>
+        <p class="qt-why">Caroline says this while patently not reading, in order to seem cultured to Darcy. It is one of Austen's most economical ironic reversals, and it is misquoted ceaselessly by reading advocates who do not realise the speaker is an anti-reading hypocrite.</p>
+      </div>
+
+      <div class="wim-qt">
+        <p>"You must allow me to tell you how ardently I admire and love you."</p>
+        <cite>— Darcy, Chapter 34</cite>
+        <p class="qt-why">The first proposal is beloved precisely because it fails. Darcy's declaration is a speech of competing motives — love and contempt intertwined — and it reveals more about his character in one page than the preceding thirty chapters. The failure is what makes the eventual success matter.</p>
+      </div>
+
+      <div class="hl" style="margin-top:1.4rem;">
+        <strong>On misattribution</strong>
+        <p style="margin:.3rem 0 0;font-size:.95rem;line-height:1.7;">"I am not the only one who feels this way" is frequently attributed to Elizabeth Bennet or even to Austen herself. Neither said it. It is a modern internet coinage applied to Austen's name for authority. The actual Elizabeth Bennet tends to say things more carefully and with more irony than the internet gives her credit for.</p>
+      </div>
+    </div>
+
+    <!-- CH 10 -->
+    <div class="ch" data-t="Quiz">
+      <div class="ch-title">Quiz</div>
+      <div class="ch-sub">Three questions on themes and ideas</div>
+
+      <div class="qz-q">
+        <h4>1. Darcy intervenes to secure Lydia and Wickham's marriage, but tells no one. What does Austen reveal through this choice?</h4>
+        <div class="qz-opts" id="q1-opts">
+          <button class="qz-opt" onclick="answer(1,'a')">a) That Darcy acts from a sense of class obligation — the Bennets are beneath him but must be kept respectable.</button>
+          <button class="qz-opt" onclick="answer(1,'b')">b) That genuine change of character is shown through action rather than declaration — and that true virtue does not require an audience.</button>
+          <button class="qz-opt" onclick="answer(1,'c')">c) That Darcy is strategic, buying goodwill with Elizabeth by performing generosity where he knows she will eventually hear of it.</button>
+        </div>
+        <div class="qz-fb" id="q1-fb"></div>
+      </div>
+
+      <div class="qz-q">
+        <h4>2. Charlotte Lucas accepts Mr Collins knowing exactly who he is. What does Austen's treatment of her choice suggest?</h4>
+        <div class="qz-opts" id="q2-opts">
+          <button class="qz-opt" onclick="answer(2,'a')">a) That Charlotte is morally weak — she should have held out for genuine affection as Elizabeth does.</button>
+          <button class="qz-opt" onclick="answer(2,'b')">b) That the novel's romantic ideal is available only to those with the luxury of refusing the practical — Austen presents Charlotte's logic without contempt.</button>
+          <button class="qz-opt" onclick="answer(2,'c')">c) That marriage without love always results in misery, and Charlotte will eventually regret her decision.</button>
+        </div>
+        <div class="qz-fb" id="q2-fb"></div>
+      </div>
+
+      <div class="qz-q">
+        <h4>3. Elizabeth is the novel's cleverest character, yet she is more thoroughly deceived by Wickham than anyone else. What does this irony argue?</h4>
+        <div class="qz-opts" id="q3-opts">
+          <button class="qz-opt" onclick="answer(3,'a')">a) That Elizabeth is not as clever as she believes — her self-regard is the novel's central irony.</button>
+          <button class="qz-opt" onclick="answer(3,'b')">b) That intelligence amplifies rather than prevents prejudice — a quick mind finds confirming evidence faster and dismisses counter-evidence more fluently.</button>
+          <button class="qz-opt" onclick="answer(3,'c')">c) That Wickham is simply an unusually skilled manipulator whose deception would have fooled any careful reader.</button>
+        </div>
+        <div class="qz-fb" id="q3-fb"></div>
+      </div>
+
+      <div id="qz-score">
+        <div id="score-n"></div>
+        <div id="score-msg"></div>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <div class="nr">
+      <button id="pb" onclick="nav(-1)" disabled>&#8592; Back</button>
+      <span><span id="nc">1</span> / <span id="ntot">10</span></span>
+      <button id="fwb" onclick="nav(1)">Next &#8594;</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="tip-box" id="tipbox">
+  <div class="tip-name" id="tipname"></div>
+  <div class="tip-pron" id="tippron">
+    <span></span>
+    <button class="tip-speak" id="tipspeak" data-speak="" title="Hear pronunciation">&#9654; hear</button>
+  </div>
+  <div class="tip-desc" id="tipdesc"></div>
+</div>
+
+<script>
+let c = 0;
+const chs = document.querySelectorAll('.ch');
+const tis = document.querySelectorAll('.ti');
+const N = chs.length;
+function go(i) {
+  chs[c].classList.remove('on'); tis[c].classList.remove('on');
+  c = i;
+  chs[c].classList.add('on'); tis[c].classList.add('on');
+  document.getElementById('pb').disabled  = c === 0;
+  document.getElementById('fwb').disabled = c === N-1;
+  document.getElementById('nc').textContent = (c+1);
+  document.getElementById('ntot').textContent = N;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function nav(d) { go(c+d); }
+</script>
+
+<script>
+var CHARS = {
+  Elizabeth: { pron:"eh-LIZ-uh-beth", speak:"Elizabeth Bennet", desc:"Second Bennet daughter, witty and independently minded." },
+  Jane: { pron:"JAYN", speak:"Jane Bennet", desc:"Eldest Bennet daughter, gentle and inclined to think well of everyone." },
+  Darcy: { pron:"DAR-see", speak:"Mr Darcy", desc:"Proud and wealthy gentleman of Pemberley, friend to Bingley." },
+  Bingley: { pron:"BING-lee", speak:"Mr Bingley", desc:"Cheerful and wealthy newcomer to Netherfield Park." },
+  MrsBennet: { pron:"MIS-iz BEN-it", speak:"Mrs Bennet", desc:"Mother of five daughters, devoted entirely to securing their marriages." },
+  MrBennet: { pron:"MIS-ter BEN-it", speak:"Mr Bennet", desc:"Father of five daughters, witty and detached, at home in his library." },
+  Lydia: { pron:"LID-ee-uh", speak:"Lydia Bennet", desc:"Youngest Bennet daughter, impulsive and obsessed with officers." },
+  Wickham: { pron:"WIK-um", speak:"Mr Wickham", desc:"Charming militia officer with a plausible story and dishonest character." },
+  Charlotte: { pron:"SHAR-lut", speak:"Charlotte Lucas", desc:"Close friend of Elizabeth, practical and clear-eyed about marriage." },
+  LadyCatherine: { pron:"LAY-dee KATH-rin", speak:"Lady Catherine de Bourgh", desc:"Imperious aunt of Darcy and patron of Mr Collins." },
+  Colonel: { pron:"KUR-nel FITS-william", speak:"Colonel Fitzwilliam", desc:"Cousin of Darcy, agreeable and informative during the Kent visit." },
+  Georgiana: { pron:"jor-JAY-nuh", speak:"Georgiana Darcy", desc:"Younger sister of Darcy, shy and nearly ruined by Wickham." },
+  MrGardiner: { pron:"MIS-ter GAR-din-er", speak:"Mr Gardiner", desc:"Sensible brother of Mrs Bennet, married to an equally sensible wife." }
+};
+
+var tipbox   = document.getElementById("tipbox");
+var tipname  = document.getElementById("tipname");
+var tippron  = document.getElementById("tippron");
+var tipspeak = document.getElementById("tipspeak");
+var tipdesc  = document.getElementById("tipdesc");
+var hideTimer = null;
+var currentSpeakText = "";
+
+function placeTip(e) {
+  var x = e.clientX + 16, y = e.clientY + 16;
+  if (x + 260 > window.innerWidth)  x = e.clientX - 264;
+  if (y + 120 > window.innerHeight) y = e.clientY - 124;
+  tipbox.style.left = x + "px";
+  tipbox.style.top  = y + "px";
+}
+function showTip(el, e) {
+  clearTimeout(hideTimer);
+  var ch = CHARS[el.getAttribute("data-char")];
+  if (!ch) return;
+  currentSpeakText = ch.speak;
+  tipname.textContent = el.getAttribute("data-char");
+  tippron.querySelector("span").textContent = ch.pron;
+  tipdesc.textContent = ch.desc;
+  placeTip(e);
+  tipbox.style.display = "block";
+}
+function hideTip() {
+  hideTimer = setTimeout(function(){ tipbox.style.display = "none"; }, 150);
+}
+tipbox.addEventListener("mouseenter", function(){ clearTimeout(hideTimer); });
+tipbox.addEventListener("mouseleave", hideTip);
+tipspeak.addEventListener("click", function(e) {
+  e.stopPropagation();
+  if (!window.speechSynthesis || !currentSpeakText) return;
+  var u = new SpeechSynthesisUtterance(currentSpeakText);
+  var voices = speechSynthesis.getVoices();
+  var match = voices.find(function(v){ return v.lang.startsWith("en-GB"); });
+  u.lang = match ? "en-GB" : "en-GB";
+  u.rate = 0.8;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+});
+if (window.speechSynthesis && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = function(){};
+}
+document.querySelectorAll(".cn-tip").forEach(function(el) {
+  el.addEventListener("mouseenter", function(e){ showTip(el, e); });
+  el.addEventListener("mouseleave", hideTip);
+});
+
+var qAnswers  = { 1:"b", 2:"b", 3:"b" };
+var qDone     = {};
+var qFeedback = {
+  1: { b:"Correct. Darcy acts and stays silent. The secrecy is the point: he has shed the need for credit that once defined his pride. His intervention is a demonstration of character through deed, not word.", wrong:"Both wrong answers read Darcy strategically or socially, which misses the novel's argument. Austen is careful to show that he forbade Mrs Gardiner from disclosing it — removing any possibility of calculated reward." },
+  2: { b:"Correct. Charlotte knows Collins is foolish but the alternative is dependence or poverty. Austen treats her reasoning as internally coherent — Elizabeth disagrees, but the novel does not mock Charlotte or punish her for her choice.", wrong:"The novel never shows Charlotte in misery, nor does it suggest she should have held out for love. Austen is too honest about the economics of the situation to make romance the only moral option." },
+  3: { b:"Correct. Elizabeth processes Wickham's account rapidly and brilliantly — and that same quickness is what makes the deception stick. She slots his narrative into her existing picture of Darcy so effortlessly that she never needs to question it. Austen argues that prejudice and intelligence are not opposites.", wrong:"Option A mistakes the irony for straightforward criticism of Elizabeth. Option C deflects the argument away from Elizabeth entirely, which is not where Austen points the lesson." }
+};
+function answer(qNum, choice) {
+  if (qDone[qNum]) return;
+  qDone[qNum] = choice;
+  var correct = qAnswers[qNum];
+  document.querySelectorAll("#q" + qNum + "-opts .qz-opt").forEach(function(btn, i) {
+    var letter = ["a","b","c"][i];
+    btn.disabled = true;
+    if (letter === correct) btn.classList.add("correct");
+    else if (letter === choice) btn.classList.add("wrong");
+    else btn.classList.add("reveal");
+  });
+  var fb = document.getElementById("q" + qNum + "-fb");
+  fb.textContent = (choice === correct) ? qFeedback[qNum][correct] : qFeedback[qNum]["wrong"];
+  fb.className = "qz-fb show " + (choice === correct ? "correct" : "wrong");
+  if (Object.keys(qDone).length === 3) {
+    var score = [1,2,3].filter(function(q){ return qDone[q] === qAnswers[q]; }).length;
+    document.getElementById("score-n").textContent = score + " / 3";
+    document.getElementById("score-msg").textContent = ["Keep reading.",
+      "Good — you have the shape of it.", "Very good.", "Excellent."][score];
+    document.getElementById("qz-score").classList.add("show");
+  }
+}
+</script>
+
+</body>
+</html>

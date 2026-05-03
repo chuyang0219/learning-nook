@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hamlet</title>
+<style>
+body   { font-family: Georgia, serif; background: #111018; color: #e8e0d0; margin:0; }
+
+.pg-header { max-width: 960px; margin: 0 auto; padding: 2.4rem 1.5rem 0; text-align: center; }
+.pg-title  { font-size: 2.6rem; font-weight: 700; letter-spacing: .08em; margin: 0 0 .25rem;
+             color: #d4af37; text-shadow: 0 0 40px rgba(212,175,55,.3); font-variant: small-caps; }
+.pg-author { font-size: .9rem; color: #9a8f7a; margin: 0 0 1.3rem; letter-spacing: .1em; text-transform: uppercase; }
+.pg-rule   { border: none; border-top: 1px solid #4a3f28; margin: 0 auto 0; max-width: 912px;
+             position: relative; }
+.pg-rule::before { content: "✦"; position: absolute; top: -0.65em; left: 50%; transform: translateX(-50%);
+                   color: #d4af37; font-size: .8rem; background: #111018; padding: 0 .6rem; }
+
+.layout { display: flex; max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+.sb     { width: 178px; flex-shrink: 0; position: sticky; top: 1.5rem;
+          align-self: flex-start; padding-right: 1.2rem; }
+.main   { flex: 1; min-width: 0; }
+
+.sb-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #5a5040;
+            padding: 8px 9px 3px; display: block; }
+.tdiv     { border-top: 1px solid #2a2420; margin: 6px 0; }
+
+.ti    { display: block; width: 100%; text-align: left; background: none;
+         border: none; padding: 5px 9px; border-radius: 6px; cursor: pointer;
+         font-family: system-ui,sans-serif; font-size: 12px; color: #8a7f6a;
+         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+         border-left: 2px solid transparent; transition: background .12s; }
+.ti:hover { background: rgba(212,175,55,.08); color: #d4af37; }
+.ti.on    { background: rgba(212,175,55,.10); color: #d4c070; font-weight: 600;
+            border-left: 2px solid #d4af37; }
+.ti-icon  { display: inline-flex; align-items: center; gap: 5px; }
+.ti-icon svg { flex-shrink: 0; }
+
+.ch    { display: none; }
+.ch.on { display: block; }
+
+h2.ch-title { font-size: 1.3rem; color: #d4af37; margin: 0 0 .2rem;
+              letter-spacing: .04em; font-weight: 700; }
+p.ch-sub    { font-size: .8rem; color: #7a7060; margin: 0 0 1.4rem; letter-spacing: .06em;
+              text-transform: uppercase; }
+
+p { line-height: 1.75; color: #d0c8b8; font-size: .97rem; margin: 0 0 1rem; }
+
+.quote-block { border-left: 3px solid #d4af37; padding: .8rem 1.2rem;
+               margin: 1.5rem 0; background: rgba(212,175,55,.05); border-radius: 0 6px 6px 0; }
+.quote-block p { font-style: italic; color: #c8b870; margin: 0 0 .3rem; font-size: 1rem; }
+.quote-attr  { font-size: .78rem; color: #8a7a58; letter-spacing: .04em; }
+
+.hl-box { background: rgba(212,175,55,.07); border: 1px solid rgba(212,175,55,.2);
+          border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; }
+.hl-box strong { color: #d4c070; display: block; margin-bottom: .4rem; font-size: .85rem;
+                 text-transform: uppercase; letter-spacing: .06em; }
+.hl-box p { margin: 0; font-size: .92rem; color: #b8b0a0; }
+
+.sym-row { display: flex; gap: 1rem; margin: 1.2rem 0; flex-wrap: wrap; }
+.sym     { background: rgba(255,255,255,.04); border: 1px solid #2a2520;
+           border-radius: 6px; padding: .6rem .9rem; font-size: .82rem;
+           color: #9a9080; flex: 1; min-width: 120px; }
+.sym strong { color: #c8b870; display: block; margin-bottom: 2px; }
+
+.nr   { display: flex; align-items: center; justify-content: space-between;
+        padding: 1.5rem 0 .5rem; border-top: 1px solid #2a2420; margin-top: 2rem; }
+.nr button { background: rgba(212,175,55,.12); border: 1px solid rgba(212,175,55,.25);
+             color: #c8af55; padding: .45rem 1.1rem; border-radius: 6px; cursor: pointer;
+             font-family: system-ui; font-size: .85rem; transition: background .12s; }
+.nr button:hover:not(:disabled) { background: rgba(212,175,55,.22); }
+.nr button:disabled { opacity: .3; cursor: default; }
+.nr span { font-family: system-ui; font-size: .82rem; color: #6a6050; }
+
+/* Why it matters */
+.wim-bullets { list-style: none; padding: 0; margin: 0 0 1.4rem; }
+.wim-bullets li { padding: .5rem 0 .5rem 1.4rem; position: relative; color: #c0b8a8;
+                  font-size: .94rem; border-bottom: 1px solid #1e1c18; }
+.wim-bullets li::before { content:"✦"; position:absolute; left:0; color:#d4af37; font-size:.65rem; top:.65rem; }
+
+.card-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.4rem 0; }
+.card       { background: rgba(212,175,55,.06); border: 1px solid rgba(212,175,55,.15);
+              border-radius: 8px; padding: 1rem; }
+.card h4    { color: #d4af37; margin: 0 0 .4rem; font-size: .9rem; }
+.card p     { margin: 0; font-size: .85rem; color: #a8a090; }
+
+.stat-row   { display: flex; gap: 1rem; margin: 1.2rem 0; }
+.stat-card  { background: rgba(255,255,255,.04); border: 1px solid #252220;
+              border-radius: 8px; padding: .9rem 1rem; flex: 1; text-align: center; }
+.stat-card .n { font-size: 1.8rem; font-weight: 700; color: #d4af37; line-height: 1; }
+.stat-card .l { font-size: .72rem; color: #7a7060; text-transform: uppercase;
+                letter-spacing: .06em; margin-top: .2rem; }
+
+.wim-famous { list-style: none; padding: 0; margin: 0; }
+.wim-famous li { padding: .3rem 0 .3rem 1.2rem; position: relative; font-size: .88rem; color: #a8a090; }
+.wim-famous li::before { content:"—"; position:absolute; left:0; color:#5a5040; }
+
+.pull-quote { margin: 1.4rem 0; padding: 1.2rem 1.4rem; background: rgba(212,175,55,.05);
+              border-top: 2px solid #d4af37; border-bottom: 1px solid #2a2420; }
+.pull-quote p.pq-text { font-style:italic; font-size:1.05rem; color:#d0b860; margin:0 0 .5rem; }
+.pull-quote p.pq-why  { font-size:.83rem; color:#8a8070; margin:0; }
+
+/* Quiz */
+.qz-q    { margin-bottom: 1.8rem; }
+.qz-q p  { font-weight: 600; color: #d4c070; margin-bottom: .7rem; }
+.qz-opts { display: flex; flex-direction: column; gap: .45rem; }
+.qz-opt  { background: rgba(255,255,255,.04); border: 1px solid #2a2520;
+           border-radius: 6px; padding: .55rem 1rem; text-align: left;
+           cursor: pointer; font-family: Georgia,serif; font-size: .88rem; color: #c0b8a8;
+           transition: background .12s; }
+.qz-opt:hover:not(:disabled) { background: rgba(212,175,55,.12); border-color: rgba(212,175,55,.3); }
+.qz-opt.correct { background: rgba(50,160,80,.18); border-color: #3a9050; color: #80d898; }
+.qz-opt.wrong   { background: rgba(160,40,40,.18); border-color: #903030; color: #d08080; }
+.qz-opt.reveal  { opacity: .5; }
+.qz-fb { display: none; margin-top: .6rem; padding: .6rem .9rem; border-radius: 6px;
+         font-size: .83rem; line-height: 1.55; }
+.qz-fb.show         { display: block; }
+.qz-fb.correct      { background: rgba(50,160,80,.12); color: #80c890; border: 1px solid rgba(50,160,80,.25); }
+.qz-fb.wrong        { background: rgba(160,40,40,.12); color: #d09090; border: 1px solid rgba(160,40,40,.25); }
+#qz-score { display: none; margin-top: 2rem; text-align: center;
+            padding: 1.2rem; background: rgba(212,175,55,.08); border: 1px solid rgba(212,175,55,.2);
+            border-radius: 10px; }
+#qz-score.show { display: block; }
+#qz-score .big  { font-size: 2rem; font-weight: 700; color: #d4af37; }
+#qz-score p     { color: #9a9080; margin: .3rem 0 0; }
+
+/* Tooltips */
+.cn-tip  { border-bottom: 1px dotted #6a5f40; cursor: help; color: #c8b870; }
+.tip-box { display: none; position: fixed; z-index: 9999; max-width: 240px;
+           background: #1a1710; border: .5px solid #3a3020; border-radius: 8px;
+           padding: 10px 13px; box-shadow: 0 4px 20px rgba(0,0,0,.6); }
+.tip-name { font-weight: 700; color: #d4af37; font-size: .9rem; margin-bottom: 3px; }
+.tip-pron { font-size: .78rem; color: #8a7a58; margin-bottom: 5px; display:flex; align-items:center; gap:6px; }
+.tip-desc { font-size: .82rem; color: #b0a890; line-height: 1.4; }
+.tip-speak { background: none; border: 1px solid #3a3020; border-radius: 4px; color: #8a7a58;
+             font-size: .72rem; padding: 1px 6px; cursor: pointer; }
+.tip-speak:hover { border-color: #d4af37; color: #d4af37; }
+
+svg.illo { display: block; width: 100%; border-radius: 8px; margin-bottom: 1.4rem;
+           max-height: 210px; }
+</style>
+</head>
+<body>
+
+<header class="pg-header">
+  <h1 class="pg-title">Hamlet</h1>
+  <p class="pg-author">William Shakespeare &middot; c. 1600&ndash;1601</p>
+  <div class="pg-rule"></div>
+</header>
+
+<div class="layout">
+  <div class="sb">
+    <span class="sb-label">Characters</span>
+    <button class="ti on" onclick="go(0)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 19.5C7.5 18.5344 7.82853 17.5576 8.63092 17.0204C9.59321 16.3761 10.7524 16 12 16C13.2476 16 14.4068 16.3761 15.3691 17.0204C16.1715 17.5576 16.5 18.5344 16.5 19.5"/><circle cx="12" cy="11" r="2.5"/><path d="M17.5 11C18.6101 11 19.6415 11.3769 20.4974 12.0224C21.2229 12.5696 21.5 13.4951 21.5 14.4038V14.5"/><circle cx="17.5" cy="6.5" r="2"/><path d="M6.5 11C5.38987 11 4.35846 11.3769 3.50256 12.0224C2.77706 12.5696 2.5 13.4951 2.5 14.4038V14.5"/><circle cx="6.5" cy="6.5" r="2"/></svg>Character Map</span></button>
+
+    <span class="sb-label">Acts</span>
+    <button class="ti" onclick="go(1)">Act I · The Ghost</button>
+    <button class="ti" onclick="go(2)">Act II · Feigned Madness</button>
+    <button class="ti" onclick="go(3)">Act III · The Play</button>
+    <button class="ti" onclick="go(4)">Act IV · Exile &amp; Grief</button>
+    <button class="ti" onclick="go(5)">Act V · The Reckoning</button>
+
+    <div class="tdiv"></div>
+    <button class="ti" onclick="go(6)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M15 2L15.5387 4.39157C15.9957 6.42015 17.5798 8.00431 19.6084 8.46127L22 9L19.6084 9.53873C17.5798 9.99569 15.9957 11.5798 15.5387 13.6084L15 16L14.4613 13.6084C14.0043 11.5798 12.4202 9.99569 10.3916 9.53873L8 9L10.3916 8.46127C12.4201 8.00431 14.0043 6.42015 14.4613 4.39158L15 2Z"/><path d="M7 12L7.38481 13.7083C7.71121 15.1572 8.84275 16.2888 10.2917 16.6152L12 17L10.2917 17.3848C8.84275 17.7112 7.71121 18.8427 7.38481 20.2917L7 22L6.61519 20.2917C6.28879 18.8427 5.15725 17.7112 3.70827 17.3848L2 17L3.70827 16.6152C5.15725 16.2888 6.28879 15.1573 6.61519 13.7083L7 12Z"/></svg>Why it matters</span></button>
+    <button class="ti" onclick="go(7)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 22C7.49306 22 5.48959 22 4.2448 20.5355C3 19.0711 3 16.714 3 12C3 7.28596 3 4.92893 4.2448 3.46447C5.48959 2 7.49306 2 11.5 2C15.5069 2 17.5104 2 18.7552 3.46447C19.7572 4.64332 19.9527 6.40054 19.9908 9.5"/><path d="M8 8H15M8 13H11"/><path d="M19.6092 18.1054C20.4521 17.4918 21 16.4974 21 15.375C21 13.511 19.489 12 17.625 12H17.375C15.511 12 14 13.511 14 15.375C14 16.4974 14.5479 17.4918 15.3908 18.1054M19.6092 18.1054C19.0523 18.5108 18.3666 18.75 17.625 18.75H17.375C16.6334 18.75 15.9477 18.5108 15.3908 18.1054M19.6092 18.1054L20.192 19.9404C20.4143 20.6403 20.5255 20.9903 20.4951 21.2082C20.4318 21.6617 20.0619 21.9984 19.6252 22C19.4154 22.0008 19.101 21.8358 18.4723 21.5059C18.2027 21.3644 18.0679 21.2936 17.93 21.252C17.649 21.1673 17.351 21.1673 17.07 21.252C16.9321 21.2936 16.7973 21.3644 16.5277 21.5059C15.899 21.8358 15.5846 22.0008 15.3748 22C14.9381 21.9984 14.5682 21.6617 14.5049 21.2082C14.4745 20.9903 14.5857 20.6403 14.808 19.9404L15.3908 18.1054"/></svg>Quiz</span></button>
+  </div>
+
+  <div class="main">
+
+    <!-- CH 0 -->
+    <div class="ch on" data-t="cast">
+      <h2 class="ch-title">Character Map</h2>
+      <p class="ch-sub">The House of Denmark</p>
+      <!--
+        BOX: w=155 h=80  (name 12px bold · subtitle 9px italic · desc 9.5px × 2 lines)
+        CANVAS: 860 wide × 620 tall
+        Columns (5):  cx = 90, 248, 430, 612, 770
+        Row tops:
+          Gen0 (Old King, Fortinbras Sr) y=30    — deceased generation
+          Gen1 (Claudius/Gertrude, Polonius) y=150
+          Gen2 (Hamlet, Ophelia, Laertes, Horatio) y=310
+          Observers y=490
+
+        Lane A: y=235 (Gen1→Gen2 parent wires)
+        Lane B: y=138 (marriage bar above Gen1)
+        Lane C: y=408 (Gen2 bottom area)
+      -->
+      <svg class="illo" viewBox="0 0 860 620" xmlns="http://www.w3.org/2000/svg" style="max-height:620px;background:#0d0b10;border-radius:10px;">
+        <defs>
+          <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+
+        <!-- ===== GENERATION 0: Deceased King ===== -->
+        <!-- Old King Hamlet box: cx=248, y=30, w=155, h=80 — dashed border, deceased -->
+        <rect x="170" y="30" width="155" height="80" rx="6" fill="#131018" stroke="#4a3f28" stroke-width="1" stroke-dasharray="5,3"/>
+        <text x="247" y="52" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="#c8af60">King Hamlet †</text>
+        <text x="247" y="67" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#6a5f40">(The Ghost)</text>
+        <text x="247" y="83" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">Murdered by his brother;</text>
+        <text x="247" y="97" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">returns to demand revenge</text>
+
+        <!-- ===== GENERATION 1: Claudius / Gertrude / Polonius ===== -->
+        <!-- Claudius: cx=170, y=150 -->
+        <rect x="92" y="150" width="155" height="80" rx="6" fill="#131018" stroke="#5a3a28" stroke-width="1.5"/>
+        <text x="170" y="172" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="#c87040">Claudius</text>
+        <text x="170" y="187" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#6a5f40">King of Denmark</text>
+        <text x="170" y="203" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">Fratricide and usurper;</text>
+        <text x="170" y="217" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">Hamlet Sr's murderer</text>
+
+        <!-- Gertrude: cx=430, y=150 -->
+        <rect x="352" y="150" width="155" height="80" rx="6" fill="#131018" stroke="#4a3f28" stroke-width="1.5"/>
+        <text x="430" y="172" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="#c8a860">Gertrude</text>
+        <text x="430" y="187" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#6a5f40">Queen of Denmark</text>
+        <text x="430" y="203" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">Hamlet's mother; swiftly</text>
+        <text x="430" y="217" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">remarried her brother-in-law</text>
+
+        <!-- Polonius: cx=660, y=150 -->
+        <rect x="582" y="150" width="155" height="80" rx="6" fill="#131018" stroke="#4a3f28" stroke-width="1.5"/>
+        <text x="660" y="172" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="#c8a860">Polonius</text>
+        <text x="660" y="187" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#6a5f40">Lord Chamberlain</text>
+        <text x="660" y="203" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">Officious counsellor; father</text>
+        <text x="660" y="217" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">of Ophelia and Laertes</text>
+
+        <!-- Marriage bar: Claudius & Gertrude, Lane B y=138 -->
+        <!-- Claudius top-mid: x=170, y=150 → up to y=138 → across to x=430 → down to y=150 -->
+        <path d="M170,150 V138 H430 V150" fill="none" stroke="#d09030" stroke-width="2"/>
+        <text x="300" y="134" text-anchor="middle" font-family="Georgia,serif" font-size="8.5" fill="#8a7030">married (usurping)</text>
+
+        <!-- Ghost → Gertrude: dashed from Old King bottom to Gertrude top (former spouse) -->
+        <!-- Old King bottom mid: x=247,y=110; Gertrude top-mid: x=430,y=150 -->
+        <path d="M247,110 V130 H430 V150" fill="none" stroke="#8a7055" stroke-width="1.2" stroke-dasharray="5,3"/>
+
+        <!-- Claudius → Old King: red dashed harm line -->
+        <!-- Claudius top: x=170,y=150; Old King right-mid: x=325,y=70 -->
+        <path d="M247,30 V20 H170 V150" fill="none" stroke="#a04020" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+        <!-- ===== GENERATION 2 ===== -->
+        <!-- Hamlet: cx=248, y=310 -->
+        <rect x="170" y="310" width="155" height="80" rx="6" fill="#131018" stroke="#5a4f28" stroke-width="2" filter="url(#glow)"/>
+        <text x="247" y="332" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="#d4c060">Prince Hamlet</text>
+        <text x="247" y="347" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#8a7040">protagonist</text>
+        <text x="247" y="363" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#a09070">Scholar-prince paralysed</text>
+        <text x="247" y="377" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#a09070">between thought and action</text>
+
+        <!-- Ophelia: cx=500, y=310 -->
+        <rect x="422" y="310" width="155" height="80" rx="6" fill="#131018" stroke="#4a3f28" stroke-width="1.5"/>
+        <text x="500" y="332" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="#c8a860">Ophelia</text>
+        <text x="500" y="347" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#6a5f40">Polonius's daughter</text>
+        <text x="500" y="363" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">Beloved of Hamlet; driven</text>
+        <text x="500" y="377" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">mad by grief and betrayal</text>
+
+        <!-- Laertes: cx=720, y=310 -->
+        <rect x="642" y="310" width="155" height="80" rx="6" fill="#131018" stroke="#4a3f28" stroke-width="1.5"/>
+        <text x="720" y="332" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="#c8a860">Laertes</text>
+        <text x="720" y="347" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#6a5f40">Polonius's son</text>
+        <text x="720" y="363" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">Man of action; foil to</text>
+        <text x="720" y="377" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#806a50">Hamlet's hesitation</text>
+
+        <!-- Parent wires to Hamlet: Gertrude bottom → Lane A y=295 → Hamlet top -->
+        <path d="M430,230 V295 H247 V310" fill="none" stroke="#8a7055" stroke-width="1.5"/>
+        <!-- Claudius bottom → lane y=295 → Hamlet top (step-father) -->
+        <path d="M170,230 V295 H247" fill="none" stroke="#8a7055" stroke-width="1.2" stroke-dasharray="5,3"/>
+
+        <!-- Polonius to Ophelia/Laertes -->
+        <path d="M660,230 V295 H610 V310" fill="none" stroke="#8a7055" stroke-width="1.5"/>
+        <path d="M660,230 V295 H720 V310" fill="none" stroke="#8a7055" stroke-width="1.5"/>
+
+        <!-- Hamlet love → Ophelia: gold line -->
+        <path d="M325,350 H422" fill="none" stroke="#d09030" stroke-width="2"/>
+
+        <!-- ===== OBSERVERS / CONFIDANTS strip ===== -->
+        <!-- Horatio: cx=200, y=470 -->
+        <rect x="50" y="470" width="155" height="80" rx="6" fill="#0f0e14" stroke="#383040" stroke-width="1" stroke-dasharray="6,3"/>
+        <text x="127" y="492" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="#a090c0">Horatio</text>
+        <text x="127" y="507" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#504860">Hamlet's closest friend</text>
+        <text x="127" y="523" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#706880">Loyal witness; the rational</text>
+        <text x="127" y="537" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#706880">anchor amid court madness</text>
+
+        <!-- Fortinbras: cx=500, y=470 -->
+        <rect x="370" y="470" width="155" height="80" rx="6" fill="#0f0e14" stroke="#383040" stroke-width="1" stroke-dasharray="6,3"/>
+        <text x="447" y="492" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="#a090c0">Fortinbras</text>
+        <text x="447" y="507" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#504860">Prince of Norway</text>
+        <text x="447" y="523" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#706880">Contrasting man of decisive</text>
+        <text x="447" y="537" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#706880">action; inherits Denmark</text>
+
+        <!-- Rosencrantz & Guildenstern: cx=720, y=470 -->
+        <rect x="652" y="470" width="155" height="80" rx="6" fill="#0f0e14" stroke="#383040" stroke-width="1" stroke-dasharray="6,3"/>
+        <text x="730" y="492" text-anchor="middle" font-family="Georgia,serif" font-size="10.5" font-weight="bold" fill="#a090c0">Rosencrantz &amp;</text>
+        <text x="730" y="507" text-anchor="middle" font-family="Georgia,serif" font-size="10.5" font-weight="bold" fill="#a090c0">Guildenstern</text>
+        <text x="730" y="522" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#504860">Hamlet's old friends</text>
+        <text x="730" y="538" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#706880">Turned spies; sent to their</text>
+        <text x="730" y="552" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#706880">deaths by Hamlet's cunning</text>
+
+        <!-- Horatio friendship line to Hamlet -->
+        <path d="M247,390 V450 H127 V470" fill="none" stroke="#7060a0" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+        <!-- Separator line for observers -->
+        <line x1="30" y1="460" x2="830" y2="460" stroke="#2a2430" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="430" y="456" text-anchor="middle" font-family="Georgia,serif" font-size="8.5" fill="#4a4050">Confidants &amp; Foils</text>
+
+        <!-- LEGEND -->
+        <rect x="10" y="565" width="260" height="48" rx="5" fill="#0d0b10" stroke="#2a2420" stroke-width="1"/>
+        <line x1="20" y1="577" x2="50" y2="577" stroke="#8a7055" stroke-width="1.5"/><text x="56" y="580" font-family="system-ui" font-size="8.5" fill="#6a6050">family / marriage</text>
+        <line x1="20" y1="591" x2="50" y2="591" stroke="#8a7055" stroke-width="1.2" stroke-dasharray="5,3"/><text x="56" y="594" font-family="system-ui" font-size="8.5" fill="#6a6050">adoption / forced tie</text>
+        <line x1="140" y1="577" x2="170" y2="577" stroke="#d09030" stroke-width="2"/><text x="176" y="580" font-family="system-ui" font-size="8.5" fill="#6a6050">soul-bond / love</text>
+        <line x1="140" y1="591" x2="170" y2="591" stroke="#a04020" stroke-width="1.2" stroke-dasharray="4,2"/><text x="176" y="594" font-family="system-ui" font-size="8.5" fill="#6a6050">deliberate harm</text>
+        <text x="20" y="607" font-family="system-ui" font-size="8.5" fill="#6a6050">dashed box border — observer / foil  ·  † — deceased</text>
+      </svg>
+    </div>
+
+    <!-- CH 1 -->
+    <div class="ch" data-t="act1">
+      <h2 class="ch-title">Act I · The Ghost</h2>
+      <p class="ch-sub">Elsinore Castle · A kingdom in mourning</p>
+      <svg class="illo" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Night battlements, ghostly figure, stars -->
+        <rect width="680" height="200" fill="#080810"/>
+        <!-- Stars -->
+        <circle cx="50" cy="20" r="1" fill="#ffffff" opacity=".6"/>
+        <circle cx="120" cy="10" r=".8" fill="#ffffff" opacity=".5"/>
+        <circle cx="200" cy="30" r="1.2" fill="#ffffff" opacity=".7"/>
+        <circle cx="320" cy="8" r=".9" fill="#ffffff" opacity=".5"/>
+        <circle cx="450" cy="18" r="1" fill="#ffffff" opacity=".6"/>
+        <circle cx="580" cy="12" r=".7" fill="#ffffff" opacity=".4"/>
+        <circle cx="640" cy="35" r="1" fill="#ffffff" opacity=".5"/>
+        <circle cx="100" cy="50" r=".6" fill="#ffffff" opacity=".3"/>
+        <circle cx="380" cy="40" r=".8" fill="#ffffff" opacity=".4"/>
+        <!-- Moon -->
+        <circle cx="580" cy="45" r="28" fill="#1a1a30" opacity=".8"/>
+        <circle cx="580" cy="45" r="26" fill="#c8c0a8" opacity=".15"/>
+        <circle cx="590" cy="38" r="22" fill="#080810"/>
+        <!-- Castle battlements silhouette -->
+        <rect x="0" y="120" width="680" height="80" fill="#0a0810"/>
+        <rect x="0" y="100" width="40" height="20" fill="#0a0810"/>
+        <rect x="50" y="90" width="40" height="30" fill="#0a0810"/>
+        <rect x="100" y="100" width="30" height="20" fill="#0a0810"/>
+        <rect x="140" y="85" width="50" height="35" fill="#0a0810"/>
+        <rect x="200" y="95" width="35" height="25" fill="#0a0810"/>
+        <rect x="245" y="88" width="60" height="32" fill="#0a0810"/>
+        <rect x="320" y="100" width="40" height="20" fill="#0a0810"/>
+        <rect x="370" y="85" width="55" height="35" fill="#0a0810"/>
+        <rect x="440" y="95" width="30" height="25" fill="#0a0810"/>
+        <rect x="480" y="80" width="70" height="40" fill="#0a0810"/>
+        <rect x="560" y="92" width="40" height="28" fill="#0a0810"/>
+        <rect x="610" y="85" width="70" height="35" fill="#0a0810"/>
+        <!-- Ghost figure — glowing white silhouette -->
+        <ellipse cx="340" cy="72" rx="12" ry="15" fill="#d0d8e0" opacity=".3"/>
+        <ellipse cx="340" cy="72" rx="8" ry="11" fill="#e8f0f8" opacity=".4"/>
+        <!-- Ghost body -->
+        <path d="M328,75 Q320,100 318,130 Q330,125 340,128 Q350,125 362,130 Q360,100 352,75 Z" fill="#c8d0d8" opacity=".25"/>
+        <!-- Ghostly glow -->
+        <ellipse cx="340" cy="80" rx="30" ry="40" fill="#8090a8" opacity=".08"/>
+        <!-- Guard silhouettes -->
+        <rect x="260" y="130" width="10" height="50" fill="#1a1820"/>
+        <ellipse cx="265" cy="128" rx="8" ry="9" fill="#1a1820"/>
+        <rect x="400" y="132" width="10" height="48" fill="#1a1820"/>
+        <ellipse cx="405" cy="130" rx="8" ry="9" fill="#1a1820"/>
+        <!-- Ground -->
+        <rect x="0" y="175" width="680" height="25" fill="#080808"/>
+        <text x="340" y="195" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#3a3530" font-style="italic">Elsinore, c. 1600</text>
+      </svg>
+
+      <p>Denmark is rotting. Two months since King Hamlet died — and already his widow <span class="cn-tip" data-char="Gertrude">Gertrude</span> has married his brother <span class="cn-tip" data-char="Claudius">Claudius</span>, who now sits the throne. On the battlements of Elsinore, guards have seen something terrible: a ghost in the armour of the dead king. They summon <span class="cn-tip" data-char="Horatio">Horatio</span>, the prince's levelheaded friend, to witness it for themselves.</p>
+
+      <p>The Ghost walks. It will not speak to the guards. The men agree: they must tell <span class="cn-tip" data-char="Hamlet">Prince Hamlet</span>.</p>
+
+      <p>At court, Hamlet is already in revolt — not yet against Claudius, but against everything. His father is dead; his mother has remarried with obscene speed; and the court around him celebrates while he still wears black. Claudius publicly calls Hamlet's mourning excessive. Hamlet is commanded not to return to university. He is trapped.</p>
+
+      <div class="quote-block">
+        <p>"Frailty, thy name is woman!"</p>
+        <span class="quote-attr">— Hamlet, Act I scene ii · in private soliloquy on his mother's remarriage</span>
+      </div>
+
+      <p>That night on the battlements, the Ghost appears to Hamlet. It speaks. It is his father's spirit — or claims to be. And it tells him something that changes everything: Claudius did not merely step over a dead man's throne. He poured poison into the sleeping king's ear and murdered him. Denmark's new king is an assassin. Hamlet is commanded to revenge.</p>
+
+      <div class="quote-block">
+        <p>"Something is rotten in the state of Denmark."</p>
+        <span class="quote-attr">— Marcellus, Act I scene iv · on the battlements after the Ghost appears</span>
+      </div>
+
+      <div class="hl-box">
+        <strong>The trap of the command</strong>
+        <p>The Ghost's instruction — "revenge his foul and most unnatural murder" — sounds simple. But Hamlet cannot act on a ghost's word alone. What if it is a devil in disguise, exploiting his grief? The play's great engine starts here: not the Ghost's revelation, but Hamlet's inability to simply believe it.</p>
+      </div>
+    </div>
+
+    <!-- CH 2 -->
+    <div class="ch" data-t="act2">
+      <h2 class="ch-title">Act II · Feigned Madness</h2>
+      <p class="ch-sub">The court watches · The prince watches back</p>
+      <svg class="illo" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="680" height="200" fill="#0c0a14"/>
+        <!-- Interior candles/torches -->
+        <rect x="0" y="140" width="680" height="60" fill="#090810"/>
+        <!-- Stone floor pattern -->
+        <line x1="0" y1="155" x2="680" y2="155" stroke="#1a1820" stroke-width="1"/>
+        <line x1="0" y1="170" x2="680" y2="170" stroke="#1a1820" stroke-width="1"/>
+        <!-- Arched windows with candlelight -->
+        <ellipse cx="100" cy="80" rx="35" ry="55" fill="#0c0a14" stroke="#2a2530" stroke-width="1.5"/>
+        <ellipse cx="100" cy="80" rx="28" ry="46" fill="#c88030" opacity=".12"/>
+        <ellipse cx="580" cy="80" rx="35" ry="55" fill="#0c0a14" stroke="#2a2530" stroke-width="1.5"/>
+        <ellipse cx="580" cy="80" rx="28" ry="46" fill="#c88030" opacity=".12"/>
+        <!-- Tapestry/curtain -->
+        <rect x="300" y="0" width="80" height="140" fill="#2a1a10" opacity=".7"/>
+        <line x1="310" y1="0" x2="310" y2="140" stroke="#3a2820" stroke-width="1"/>
+        <line x1="370" y1="0" x2="370" y2="140" stroke="#3a2820" stroke-width="1"/>
+        <!-- Hamlet figure (dark, isolated) -->
+        <rect x="240" y="100" width="14" height="55" fill="#1a1820"/>
+        <ellipse cx="247" cy="96" rx="11" ry="12" fill="#1a1820"/>
+        <!-- Polonius figure (watching) -->
+        <rect x="430" y="108" width="12" height="47" fill="#2a2530"/>
+        <ellipse cx="436" cy="104" rx="9" ry="10" fill="#2a2530"/>
+        <!-- Ophelia figure (smaller) -->
+        <rect x="390" y="115" width="10" height="40" fill="#3a3040"/>
+        <ellipse cx="395" cy="111" rx="8" ry="9" fill="#3a3040"/>
+      </svg>
+
+      <p>Hamlet has sworn his friends to silence and adopted a strategy: he will feign madness. If he seems unhinged, he can probe Claudius without triggering suspicion, and perhaps catch the king's reaction to the Ghost's accusation. But the mask is hard to hold — and harder to see through from the outside.</p>
+
+      <p><span class="cn-tip" data-char="Ophelia">Ophelia</span> reports that Hamlet came to her dishevelled and wild-eyed, staring as if he had escaped from hell. Her father <span class="cn-tip" data-char="Polonius">Polonius</span>, the court's chief busybody, has a ready explanation: Hamlet is mad with love for Ophelia, whom Polonius has forbidden to see him. Polonius brings the theory straight to Claudius and Gertrude, who are already worried.</p>
+
+      <p>Claudius and Gertrude summon <span class="cn-tip" data-char="RandG">Rosencrantz and Guildenstern</span> — old friends of Hamlet's — and ask them to spy on the prince. Hamlet sees through them almost immediately, with a kind of weary contempt. He is not deceived. He is never deceived.</p>
+
+      <div class="quote-block">
+        <p>"What a piece of work is a man! How noble in reason, how infinite in faculty..."</p>
+        <span class="quote-attr">— Hamlet, Act II scene ii · to Rosencrantz and Guildenstern on human greatness and dust</span>
+      </div>
+
+      <p>A theatre troupe arrives at Elsinore. Hamlet seizes on the idea: he will have the players perform a scene that mirrors the Ghost's account of the murder. If Claudius flinches, the Ghost told the truth. If not — Hamlet will know the apparition lied. He calls it "The Mousetrap."</p>
+
+      <div class="hl-box">
+        <strong>Thinking as delay</strong>
+        <p>By Act II, Hamlet has had the Ghost's accusation for weeks and done nothing. The theatre plan is not cowardice — it is philosophy. Hamlet needs proof. But the more he thinks, the more reasons he finds to think further. This is the first sign that thought itself has become his enemy.</p>
+      </div>
+    </div>
+
+    <!-- CH 3 -->
+    <div class="ch" data-t="act3">
+      <h2 class="ch-title">Act III · The Play Within the Play</h2>
+      <p class="ch-sub">The turning point · Proof and its consequences</p>
+      <svg class="illo" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="680" height="200" fill="#0a0c10"/>
+        <!-- Theatre stage scene: audience watching players -->
+        <!-- Stage area -->
+        <rect x="220" y="30" width="240" height="100" fill="#12100a" stroke="#3a3020" stroke-width="1.5"/>
+        <!-- Stage torches -->
+        <rect x="230" y="30" width="4" height="25" fill="#5a4010"/>
+        <ellipse cx="232" cy="28" rx="6" ry="8" fill="#d08020" opacity=".5"/>
+        <rect x="446" y="30" width="4" height="25" fill="#5a4010"/>
+        <ellipse cx="448" cy="28" rx="6" ry="8" fill="#d08020" opacity=".5"/>
+        <!-- Player (murderer) pouring poison -->
+        <rect x="330" y="70" width="10" height="40" fill="#4a3818"/>
+        <ellipse cx="335" cy="66" rx="8" ry="9" fill="#4a3818"/>
+        <!-- Player (victim) reclining -->
+        <ellipse cx="280" cy="105" rx="25" ry="10" fill="#382818"/>
+        <ellipse cx="270" cy="98" rx="9" ry="10" fill="#382818"/>
+        <!-- Audience silhouettes watching -->
+        <rect x="30" y="140" width="10" height="45" fill="#1a1820"/><ellipse cx="35" cy="136" rx="9" ry="10" fill="#1a1820"/>
+        <rect x="60" y="138" width="10" height="47" fill="#1a1820"/><ellipse cx="65" cy="134" rx="9" ry="10" fill="#1a1820"/>
+        <rect x="90" y="142" width="10" height="43" fill="#1a1820"/><ellipse cx="95" cy="138" rx="9" ry="10" fill="#1a1820"/>
+        <!-- Claudius (highlighted, rising) -->
+        <rect x="480" y="130" width="14" height="55" fill="#5a2010"/>
+        <ellipse cx="487" cy="126" rx="11" ry="12" fill="#5a2010"/>
+        <!-- Claudius glow of guilt -->
+        <ellipse cx="487" cy="135" rx="30" ry="25" fill="#c04010" opacity=".08"/>
+        <!-- Hamlet watching from side -->
+        <rect x="160" y="145" width="12" height="40" fill="#2a2838"/>
+        <ellipse cx="166" cy="141" rx="9" ry="10" fill="#2a2838"/>
+        <!-- Arrow pointing Hamlet → Claudius (attention) -->
+        <line x1="178" y1="150" x2="468" y2="135" stroke="#d4af37" stroke-width=".8" stroke-dasharray="4,3" opacity=".5"/>
+      </svg>
+
+      <p>Before the play, <span class="cn-tip" data-char="Hamlet">Hamlet</span> delivers his most famous meditation — weighing the misery of life against the terror of the unknown afterlife. But he cannot act on that despair either.</p>
+
+      <div class="quote-block">
+        <p>"To be, or not to be, that is the question."</p>
+        <span class="quote-attr">— Hamlet, Act III scene i · in soliloquy on existence, endurance, and death</span>
+      </div>
+
+      <p>In this same scene, Hamlet encounters <span class="cn-tip" data-char="Ophelia">Ophelia</span>, and turns savagely on her — "Get thee to a nunnery!" — whether from genuine cruelty, performed madness, or a suspicion that she is being used to spy on him. Ophelia is devastated. Whatever Hamlet felt for her, it looks now like ruin.</p>
+
+      <p>The play is performed. The players re-enact the murder as the Ghost described it. Claudius watches — and stands, and calls for light, and storms out. The proof Hamlet needed is now in his hands.</p>
+
+      <div class="quote-block">
+        <p>"The lady doth protest too much, methinks."</p>
+        <span class="quote-attr">— Gertrude, Act III scene ii · watching the Player Queen's excessive oaths of fidelity</span>
+      </div>
+
+      <p>Now Hamlet has proof. And he still does not act. He finds Claudius alone, kneeling in prayer — the perfect moment for revenge. But he stops himself: killing a man at prayer might send him to heaven. Hamlet wants damnation for Claudius, not absolution. He waits for a worse moment, and loses his only clean chance.</p>
+
+      <p>Sent to confront his mother in her chamber, Hamlet delivers a scalding attack on her remarriage. A noise from behind the arras — <span class="cn-tip" data-char="Polonius">Polonius</span> is hidden there, spying. Hamlet drives his sword through the curtain without looking. Polonius falls dead. "I took thee for thy better," Hamlet says. He is wrong.</p>
+
+      <div class="hl-box">
+        <strong>The cost of delay</strong>
+        <p>The killing of Polonius is the play's hinge. It is not the revenge Hamlet was charged with; it is a blind, impulsive act after weeks of paralysed deliberation. Everything that follows — Ophelia's madness, Laertes' vendetta, Hamlet's exile — flows from this one moment of misplaced urgency.</p>
+      </div>
+
+      <div class="sym-row">
+        <div class="sym"><strong>The play</strong>Theatre as proof — art as trap for the conscience</div>
+        <div class="sym"><strong>Prayer</strong>Mercy Hamlet refuses to grant; mercy he himself will need</div>
+        <div class="sym"><strong>The arras</strong>Concealment: what hides kills both the hider and the finder</div>
+      </div>
+    </div>
+
+    <!-- CH 4 -->
+    <div class="ch" data-t="act4">
+      <h2 class="ch-title">Act IV · Exile and Grief</h2>
+      <p class="ch-sub">The court unravels · Madness becomes real</p>
+      <svg class="illo" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="680" height="200" fill="#080c10"/>
+        <!-- River / water for Ophelia -->
+        <path d="M0,130 Q170,115 340,130 Q510,145 680,130" fill="none" stroke="#304050" stroke-width="1.5"/>
+        <path d="M0,145 Q170,130 340,145 Q510,160 680,145" fill="none" stroke="#2a3848" stroke-width="1"/>
+        <rect x="0" y="155" width="680" height="45" fill="#080c18"/>
+        <!-- Flower silhouettes on water -->
+        <circle cx="260" cy="148" r="5" fill="#3a4838" opacity=".7"/>
+        <circle cx="290" cy="152" r="4" fill="#3a4838" opacity=".6"/>
+        <circle cx="330" cy="148" r="6" fill="#3a4838" opacity=".7"/>
+        <!-- Ophelia floating figure (distant, surrounded by flowers) -->
+        <ellipse cx="320" cy="145" rx="45" ry="12" fill="#182028" opacity=".6"/>
+        <ellipse cx="320" cy="142" rx="12" ry="7" fill="#2a3040" opacity=".7"/>
+        <path d="M295,142 Q305,130 320,135 Q335,130 345,142" fill="#2a3040" opacity=".6"/>
+        <!-- Ship on horizon for Hamlet's exile -->
+        <path d="M560,95 L575,60 L590,95 Z" fill="#1a1a28" opacity=".5"/>
+        <rect x="558" y="95" width="35" height="8" fill="#1a1a28" opacity=".5"/>
+        <!-- Dark clouds -->
+        <ellipse cx="200" cy="40" rx="80" ry="30" fill="#10101a" opacity=".8"/>
+        <ellipse cx="400" cy="25" rx="100" ry="25" fill="#10101a" opacity=".8"/>
+      </svg>
+
+      <p>Claudius moves quickly. Polonius's killing must be managed — it cannot be punished openly without revealing what Hamlet knows. So Claudius packs Hamlet off to England with <span class="cn-tip" data-char="RandG">Rosencrantz and Guildenstern</span>, carrying sealed letters to the English king: orders for Hamlet's execution. The prince, still alive, still reasoning, is being sent to die by the man he has not yet managed to kill.</p>
+
+      <p>Meanwhile, <span class="cn-tip" data-char="Ophelia">Ophelia</span> has broken. Her father is dead; her lover was his killer and is now gone. She appears at court distributing flowers, singing fragments of songs, her speech scattered and strange. This is not performance. This is true madness — the thing Hamlet only mimicked. The court watches her and does not know what to do.</p>
+
+      <p>From France, <span class="cn-tip" data-char="Laertes">Laertes</span> storms back to Elsinore with a mob behind him, demanding justice for his father's murder. Claudius, the master politician, turns Laertes' fury precisely where he wants it: not at himself, the real author of the court's corruption, but at Hamlet. Laertes will be Claudius's instrument of revenge.</p>
+
+      <div class="quote-block">
+        <p>"Too much of water hast thou, poor Ophelia, and therefore I forbid my tears."</p>
+        <span class="quote-attr">— Laertes, Act IV scene vii · on hearing of his sister's drowning</span>
+      </div>
+
+      <p>Ophelia drowns. Garlands, a willow branch, water weeds — she slips beneath the brook's surface, singing as she goes. Whether she intended it no one says. Gertrude delivers the news with terrible beauty. Laertes' grief converts instantly to a harder, colder substance.</p>
+
+      <p>On the ship to England, Hamlet has read the sealed orders. He forged new letters, redirecting the execution orders to Rosencrantz and Guildenstern. A pirate attack allowed him to return to Denmark alone. He writes to Horatio: he is coming back.</p>
+
+      <div class="hl-box">
+        <strong>Two kinds of madness</strong>
+        <p>Shakespeare places Ophelia's real collapse against Hamlet's feigned disorder deliberately. Ophelia has no power to act, no philosophy to retreat into — only grief, which destroys her. Hamlet has all the tools of reason and still cannot move. The play asks which of them is more truly trapped.</p>
+      </div>
+    </div>
+
+    <!-- CH 5 -->
+    <div class="ch" data-t="act5">
+      <h2 class="ch-title">Act V · The Reckoning</h2>
+      <p class="ch-sub">The graveyard and the court · All debts paid</p>
+      <svg class="illo" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="680" height="200" fill="#090810"/>
+        <!-- Graveyard at dawn -->
+        <!-- Earth mound / open grave -->
+        <path d="M260,150 Q300,100 340,150 Q380,100 420,150" fill="#0f0c0a" stroke="#2a2018" stroke-width="1"/>
+        <rect x="0" y="150" width="680" height="50" fill="#090808"/>
+        <!-- Gravestones silhouettes -->
+        <rect x="80" y="110" width="25" height="40" rx="12" fill="#141018"/>
+        <rect x="120" y="118" width="20" height="32" rx="10" fill="#141018"/>
+        <rect x="155" y="112" width="22" height="38" rx="11" fill="#141018"/>
+        <rect x="490" y="108" width="28" height="42" rx="14" fill="#141018"/>
+        <rect x="530" y="115" width="20" height="35" rx="10" fill="#141018"/>
+        <rect x="560" y="120" width="24" height="30" rx="12" fill="#141018"/>
+        <!-- Skull held up -->
+        <ellipse cx="340" cy="85" rx="18" ry="16" fill="#c8c0a0" opacity=".3"/>
+        <ellipse cx="340" cy="90" rx="12" ry="8" fill="#c8c0a0" opacity=".2"/>
+        <!-- Two figures at graveside -->
+        <rect x="295" y="130" width="12" height="45" fill="#1a1820"/>
+        <ellipse cx="301" cy="126" rx="10" ry="11" fill="#1a1820"/>
+        <rect x="360" y="125" width="10" height="50" fill="#1e2018"/>
+        <ellipse cx="365" cy="121" rx="8" ry="9" fill="#1e2018"/>
+        <!-- Faint dawn light on horizon -->
+        <rect x="0" y="0" width="680" height="60" fill="#090810"/>
+        <path d="M0,60 Q340,45 680,60" fill="#100c18"/>
+        <ellipse cx="340" cy="62" rx="200" ry="15" fill="#301808" opacity=".3"/>
+      </svg>
+
+      <p>Hamlet returns to Denmark, and the first thing he encounters is a graveyard. Two gravediggers are digging Ophelia's grave, joking about death with the indifference of men who live beside it. Hamlet picks up a skull — it turns out to be Yorick, the court jester who carried him on his shoulders as a boy. Here is where all wit and flesh end.</p>
+
+      <div class="quote-block">
+        <p>"Alas, poor Yorick! I knew him, Horatio."</p>
+        <span class="quote-attr">— Hamlet, Act V scene i · holding Yorick's skull in the graveyard</span>
+      </div>
+
+      <p>Ophelia's funeral procession arrives. Laertes leaps into the grave, mad with grief. Hamlet reveals himself and they grapple. Hamlet insists his love for Ophelia was real — whatever his cruelty appeared. No one is persuaded. The damage is done.</p>
+
+      <p>Claudius now accelerates his plan. He and Laertes have arranged a fencing match — Laertes will use an unbated, poisoned blade. As insurance, Claudius prepares a poisoned cup for Hamlet. The trap is set.</p>
+
+      <p>Before the match, Hamlet tells <span class="cn-tip" data-char="Horatio">Horatio</span> he has a strange readiness: "the readiness is all." He cannot will the moment of revenge to come. He can only be present when it arrives. Something like acceptance has replaced paralysis — not certainty, but the decision to stop requiring certainty.</p>
+
+      <div class="quote-block">
+        <p>"The readiness is all."</p>
+        <span class="quote-attr">— Hamlet, Act V scene ii · to Horatio before the fatal fencing match</span>
+      </div>
+
+      <p>The fencing match: Laertes wounds Hamlet with the poisoned blade. In the scuffle the rapiers are exchanged — Hamlet wounds Laertes in turn. <span class="cn-tip" data-char="Gertrude">Gertrude</span>, drinking to Hamlet's health, takes the poisoned cup. She falls. Laertes, dying, confesses the plot. Hamlet finally acts: he stabs Claudius with the poisoned sword and forces the poisoned wine down his throat. Claudius dies. Hamlet dies. Laertes dies. Gertrude is already gone.</p>
+
+      <p>Into this hall of the dead walks <span class="cn-tip" data-char="Fortinbras">Fortinbras</span>, returning victorious from Poland — the man who acted where Hamlet deliberated, who took what he wanted while Hamlet thought about what he should want. He orders soldiers' honours for Hamlet, the soldier-scholar prince who never quite believed in soldiering.</p>
+
+      <div class="hl-box">
+        <strong>The deaths of everyone</strong>
+        <p>Hamlet is unusual among Shakespeare's tragedies in that virtually everyone dies — not one figure escapes the court's corruption. The final stage is not moral triumph; it is exhaustion. Denmark passes to Fortinbras, the outsider, precisely because the insiders consumed one another. The revenge is complete. The cost was everything.</p>
+      </div>
+
+      <div class="sym-row">
+        <div class="sym"><strong>Yorick's skull</strong>All human achievement ends in bone and silence</div>
+        <div class="sym"><strong>The poisoned blade</strong>Claudius's method now deployed against him</div>
+        <div class="sym"><strong>Fortinbras</strong>Action without reflection — the world's inheritor</div>
+      </div>
+    </div>
+
+    <!-- CH 6: Why it matters -->
+    <div class="ch" data-t="wim">
+      <h2 class="ch-title">✦ Why It Matters</h2>
+      <p class="ch-sub">Legacy, themes, and the play's enduring force</p>
+
+      <div class="hl-box" style="margin-bottom:1.6rem;">
+        <strong>The central argument</strong>
+        <ul class="wim-bullets">
+          <li>Hamlet maps the catastrophic gap between thought and action — a condition that feels eternal because it is internal, not circumstantial.</li>
+          <li>The play asks whether moral certainty is ever achievable, or whether all action is finally a leap into the unknown.</li>
+          <li>It dramatises grief as a destabilising force that reshapes not just emotion but perception — Hamlet cannot trust what he sees.</li>
+          <li>Its characters are not archetypes but psychological portraits; Claudius, Gertrude, Polonius all contain more than their roles suggest.</li>
+        </ul>
+      </div>
+
+      <div class="card-grid">
+        <div class="card">
+          <h4>Revenge and Justice</h4>
+          <p>Hamlet is charged with revenge but haunted by its illegitimacy. Private vengeance is not justice — it is one more killing. He cannot make the two things coincide, and neither can anyone watching.</p>
+        </div>
+        <div class="card">
+          <h4>Performance and Reality</h4>
+          <p>Nearly every character in the play performs: Hamlet feigns madness, Claudius performs grief, Polonius performs wisdom. The theatre-within-the-play makes the theme literal. How does anyone know what is true?</p>
+        </div>
+        <div class="card">
+          <h4>Death and Delay</h4>
+          <p>The "To be or not to be" soliloquy is not about suicide: it is about the terror of action, since every act is irreversible, and death is the most irreversible act of all. Inaction is Hamlet's attempt to stay before the point of no return.</p>
+        </div>
+        <div class="card">
+          <h4>Women and Power</h4>
+          <p>Gertrude and Ophelia operate entirely within what men allow them. Gertrude's choices are constrained by patriarchy and survival; Ophelia has no choices at all. Their fates are not incidental — they are the collateral of male obsession.</p>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card"><div class="n">400+</div><div class="l">years in repertory</div></div>
+        <div class="stat-card"><div class="n">4,000</div><div class="l">lines — longest Shakespeare play</div></div>
+        <div class="stat-card"><div class="n">#1</div><div class="l">most performed play globally</div></div>
+      </div>
+
+      <p style="margin-top:1rem;"><strong style="color:#d4c070;">Why famous:</strong></p>
+      <ul class="wim-famous">
+        <li>Contains more quoted lines than any other work in the English language except the Bible</li>
+        <li>First performance c. 1600–01; first quarto 1603; appeared in all First Folio editions from 1623</li>
+        <li>Has been played by Edmund Kean, Sarah Bernhardt, Laurence Olivier, John Gielgud, David Tennant, Cumberbatch — every generation claims it</li>
+        <li>Freud used it to anchor his theory of the Oedipus complex; philosophers from Goethe to Nietzsche used it to anatomise modern consciousness</li>
+        <li>The only Shakespeare play that has never left the repertoire since it was written</li>
+      </ul>
+
+      <p style="margin-top:1.6rem;color:#d4c070;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;">Three most famous passages</p>
+
+      <div class="pull-quote">
+        <p class="pq-text">"To be, or not to be, that is the question: whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles..."</p>
+        <p class="pq-why">The most recognisable opening of any soliloquy in world literature — not because it is about suicide, but because it articulates the universal condition of paralysis before an impossible choice.</p>
+      </div>
+
+      <div class="pull-quote">
+        <p class="pq-text">"What a piece of work is a man! How noble in reason, how infinite in faculty... And yet, to me, what is this quintessence of dust?"</p>
+        <p class="pq-why">Shakespeare's fullest expression of Renaissance humanism — and its simultaneous collapse. The speech moves from wonder to desolation in four sentences.</p>
+      </div>
+
+      <div class="pull-quote">
+        <p class="pq-text">"The rest is silence."</p>
+        <p class="pq-why">Hamlet's last words — five syllables that end four hours of speech, thought, and verbal brilliance. The most compressed exit line in dramatic literature.</p>
+      </div>
+    </div>
+
+    <!-- CH 7: Quiz -->
+    <div class="ch" data-t="quiz">
+      <h2 class="ch-title">✎ Quiz</h2>
+      <p class="ch-sub">Three questions on themes and ideas</p>
+
+      <div class="qz-q">
+        <p>1. Hamlet delays killing Claudius for almost the entire play. What does Shakespeare primarily suggest through this delay?</p>
+        <div class="qz-opts" id="q1-opts">
+          <button class="qz-opt" onclick="answer(1,'a')">a) Hamlet is a coward who knows he lacks the physical courage to act</button>
+          <button class="qz-opt" onclick="answer(1,'b')">b) The ability to think deeply is itself a form of paralysis — intelligence can make action impossible</button>
+          <button class="qz-opt" onclick="answer(1,'c')">c) Hamlet is waiting for the right political moment to avoid being blamed for regicide</button>
+        </div>
+        <div class="qz-fb" id="q1-fb"></div>
+      </div>
+
+      <div class="qz-q">
+        <p>2. Why does Shakespeare give the final lines and Denmark's throne to Fortinbras rather than to Horatio?</p>
+        <div class="qz-opts" id="q2-opts">
+          <button class="qz-opt" onclick="answer(2,'a')">a) To show that loyal friendship is ultimately powerless in the face of political force</button>
+          <button class="qz-opt" onclick="answer(2,'b')">b) To contrast Hamlet's fatal reflectiveness with the world's preference for unreflective action — Fortinbras gets what Hamlet thought too much to claim</button>
+          <button class="qz-opt" onclick="answer(2,'c')">c) To follow the historical sources which required a Norwegian succession</button>
+        </div>
+        <div class="qz-fb" id="q2-fb"></div>
+      </div>
+
+      <div class="qz-q">
+        <p>3. Ophelia's madness and drowning serve what dramatic and thematic purpose?</p>
+        <div class="qz-opts" id="q3-opts">
+          <button class="qz-opt" onclick="answer(3,'a')">a) To generate pathos and give Laertes a motive for the duel, as a plot device</button>
+          <button class="qz-opt" onclick="answer(3,'b')">b) To show what genuine grief-without-power looks like — a mirror to Hamlet's performed disorder, and an indictment of how the court treats those without agency</button>
+          <button class="qz-opt" onclick="answer(3,'c')">c) To demonstrate that women are more emotionally fragile than men under pressure</button>
+        </div>
+        <div class="qz-fb" id="q3-fb"></div>
+      </div>
+
+      <div id="qz-score">
+        <div class="big"><span id="score-n">—</span></div>
+        <p id="score-msg"></p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nr">
+      <button id="pb" onclick="nav(-1)" disabled>&#8592; Back</button>
+      <span><span id="nc">1</span> / <span id="ntot">8</span></span>
+      <button id="fwb" onclick="nav(1)">Next &#8594;</button>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<div class="tip-box" id="tipbox">
+  <div class="tip-name" id="tipname"></div>
+  <div class="tip-pron" id="tippron">
+    <span></span>
+    <button class="tip-speak" id="tipspeak" data-speak="" title="Hear pronunciation">&#9654; hear</button>
+  </div>
+  <div class="tip-desc" id="tipdesc"></div>
+</div>
+
+<script>
+let c = 0;
+const chs = document.querySelectorAll('.ch');
+const tis = document.querySelectorAll('.ti');
+const N = chs.length;
+function go(i) {
+  chs[c].classList.remove('on'); tis[c].classList.remove('on');
+  c = i;
+  chs[c].classList.add('on'); tis[c].classList.add('on');
+  document.getElementById('pb').disabled  = c === 0;
+  document.getElementById('fwb').disabled = c === N-1;
+  document.getElementById('nc').textContent = (c+1);
+  document.getElementById('ntot').textContent = N;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function nav(d) { go(c+d); }
+</script>
+
+<script>
+var CHARS = {
+  Hamlet:    { pron:"HAM-let",    speak:"Prince Hamlet",        desc:"Scholar-prince torn between thought and action; son of the murdered king." },
+  Gertrude:  { pron:"GER-trood",  speak:"Queen Gertrude",       desc:"Queen of Denmark; Hamlet mother; remarried Claudius with troubling speed." },
+  Claudius:  { pron:"CLAW-dee-us",speak:"King Claudius",        desc:"Usurper-king; murdered his own brother to seize throne and queen." },
+  Horatio:   { pron:"ho-RAY-shee-oh", speak:"Horatio",          desc:"Hamlet loyal friend and rational confidant; the sole survivor." },
+  Ophelia:   { pron:"oh-FEEL-ee-ah", speak:"Ophelia",           desc:"Polonius daughter; Hamlet beloved; driven to madness and drowning." },
+  Polonius:  { pron:"po-LOH-nee-us", speak:"Polonius",          desc:"Officious lord chamberlain; father of Ophelia and Laertes; killed by Hamlet." },
+  Laertes:   { pron:"lay-ER-teez", speak:"Laertes",             desc:"Polonius son; man of decisive action; foil to Hamlet hesitation." },
+  Fortinbras:{ pron:"FOR-tin-bras", speak:"Fortinbras",         desc:"Prince of Norway; inherits Denmark; the man of action who wins by acting." },
+  RandG:     { pron:"as written",  speak:"Rosencrantz and Guildenstern", desc:"Hamlet old friends turned court spies; sent to their deaths by his cunning." }
+};
+
+var tipbox   = document.getElementById("tipbox");
+var tipname  = document.getElementById("tipname");
+var tippron  = document.getElementById("tippron");
+var tipspeak = document.getElementById("tipspeak");
+var tipdesc  = document.getElementById("tipdesc");
+var hideTimer = null;
+var currentSpeakText = "";
+
+function placeTip(e) {
+  var x = e.clientX + 16, y = e.clientY + 16;
+  if (x + 260 > window.innerWidth)  x = e.clientX - 264;
+  if (y + 120 > window.innerHeight) y = e.clientY - 124;
+  tipbox.style.left = x + "px";
+  tipbox.style.top  = y + "px";
+}
+function showTip(el, e) {
+  clearTimeout(hideTimer);
+  var ch = CHARS[el.getAttribute("data-char")];
+  if (!ch) return;
+  currentSpeakText = ch.speak;
+  tipname.textContent = el.getAttribute("data-char");
+  tippron.querySelector("span").textContent = ch.pron;
+  tipdesc.textContent = ch.desc;
+  placeTip(e);
+  tipbox.style.display = "block";
+}
+function hideTip() {
+  hideTimer = setTimeout(function(){ tipbox.style.display = "none"; }, 150);
+}
+tipbox.addEventListener("mouseenter", function(){ clearTimeout(hideTimer); });
+tipbox.addEventListener("mouseleave", hideTip);
+tipspeak.addEventListener("click", function(e) {
+  e.stopPropagation();
+  if (!window.speechSynthesis || !currentSpeakText) return;
+  var u = new SpeechSynthesisUtterance(currentSpeakText);
+  u.lang = "en-GB";
+  u.rate = 0.8;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+});
+document.querySelectorAll(".cn-tip").forEach(function(el) {
+  el.addEventListener("mouseenter", function(e){ showTip(el, e); });
+  el.addEventListener("mouseleave", hideTip);
+});
+
+var qAnswers  = { 1:"b", 2:"b", 3:"b" };
+var qDone     = {};
+var qFeedback = {
+  1: {
+    b: "Correct. Hamlet is Shakespeare most searching portrait of a mind that cannot stop interrogating its own motives. Every reason to act generates a reason to wait. The Ghost might be a devil; killing Claudius at prayer would send him to heaven; killing him in front of witnesses would make Hamlet a regicide. Thought is not the path to action here — it is the obstacle.",
+    wrong: "The play does not support cowardice or political cunning as the central explanation. Hamlet kills Polonius impulsively, duels Laertes without hesitation, and engineers the deaths of Rosencrantz and Guildenstern coolly. His problem is not nerve — it is that he cannot stop thinking long enough to stop thinking."
+  },
+  2: {
+    b: "Correct. Fortinbras never agonises; he marches, fights, and inherits. Shakespeare places him at the end not to celebrate him but to show the world indifferent logic: it rewards action, not reflection. Hamlet knew this — his fourth-act soliloquy watching Fortinbras army is a direct self-indictment. The tragedy is that knowing it made no difference.",
+    wrong: "Horatio survives specifically to tell the story — he is the witness, not the heir. And while historical sources matter, Shakespeare altered them freely throughout. The Fortinbras ending is a deliberate structural choice about what kind of person the world ultimately gives power to."
+  },
+  3: {
+    b: "Correct. Ophelia is the play sharpest ethical indictment. She is used by her father as bait, abandoned by Hamlet, robbed of the man she loved, and given no means of processing any of it. Her madness is the authentic version of what Hamlet only performs. Her death asks the audience what the court obsession with male honour actually costs — and who pays.",
+    wrong: "Reducing Ophelia to a plot device or a statement about female fragility misses what Shakespeare is doing. Her scenes are among the most carefully written in the play. The flowers she distributes have specific symbolism; her songs are pointed commentaries on what was done to her. She is not background. She is the play conscience."
+  }
+};
+function answer(qNum, choice) {
+  if (qDone[qNum]) return;
+  qDone[qNum] = choice;
+  var correct = qAnswers[qNum];
+  document.querySelectorAll("#q" + qNum + "-opts .qz-opt").forEach(function(btn, i) {
+    var letter = ["a","b","c"][i];
+    btn.disabled = true;
+    if (letter === correct) btn.classList.add("correct");
+    else if (letter === choice) btn.classList.add("wrong");
+    else btn.classList.add("reveal");
+  });
+  var fb = document.getElementById("q" + qNum + "-fb");
+  fb.textContent = (choice === correct) ? qFeedback[qNum][correct] : qFeedback[qNum]["wrong"];
+  fb.className = "qz-fb show " + (choice === correct ? "correct" : "wrong");
+  if (Object.keys(qDone).length === 3) {
+    var score = [1,2,3].filter(function(q){ return qDone[q] === qAnswers[q]; }).length;
+    document.getElementById("score-n").textContent = score + " / 3";
+    document.getElementById("score-msg").textContent = ["Keep reading.", "Good - you have the shape of it.", "Very good.", "Excellent."][score];
+    document.getElementById("qz-score").classList.add("show");
+  }
+}
+</script>
+</body>
+</html>

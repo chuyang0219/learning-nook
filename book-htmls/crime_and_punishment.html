@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crime and Punishment — Synopsis</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,serif;color:#1a1a1a;background:#f5f2ed;min-height:100vh}
+.layout{display:flex;gap:0;align-items:flex-start;max-width:960px;margin:0 auto;padding:2rem 1.5rem}
+/* Sidebar */
+.sb{width:178px;flex-shrink:0;position:sticky;top:1.5rem;padding-right:1.2rem}
+.sb-title{font-size:10px;font-family:system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#888;margin-bottom:.8rem}
+.ti{display:block;width:100%;text-align:left;background:none;border:none;padding:5px 9px;border-radius:6px;cursor:pointer;font-family:system-ui,sans-serif;font-size:12px;color:#555;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .12s,color .12s;margin-bottom:2px;border-left:2px solid transparent}
+.ti:hover{background:rgba(0,0,0,.06);color:#1a1a1a}
+.ti.on{background:rgba(0,0,0,.07);color:#1a1a1a;font-weight:600;border-left:2px solid #555}
+.tdiv{height:.5px;background:#ccc;margin:8px 0}
+/* Main */
+.main{flex:1;min-width:0}
+.ch{display:none}.ch.on{display:block}
+.pl{font-size:10px;font-family:system-ui,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#888;margin-bottom:.4rem}
+.ct{font-size:26px;font-weight:400;line-height:1.2;margin-bottom:.45rem}
+.cs{font-size:14px;font-family:system-ui,sans-serif;color:#666;margin-bottom:1.1rem;line-height:1.5}
+.art{width:100%;border-radius:8px;overflow:hidden;margin-bottom:1.1rem}
+blockquote{border-left:2px solid #bbb;padding:.55rem 1rem;margin:.85rem 0;font-style:italic;font-size:14.5px;line-height:1.8;color:#444}
+blockquote cite{display:block;margin-top:.3rem;font-size:11px;font-family:system-ui,sans-serif;font-style:normal;color:#888;letter-spacing:.04em}
+.prose{font-size:15.5px;line-height:1.88;color:#222}
+.prose p{margin-bottom:.85rem}
+.prose p:last-child{margin-bottom:0}
+
+/* Highlight box */
+.hb{background:#ede9e3;border-radius:8px;padding:.85rem 1.05rem;margin:.85rem 0;border-left:2px solid #999}
+.hl{font-size:10px;font-family:system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:.3rem}
+.hb p{font-size:13px;line-height:1.65;color:#555;font-family:system-ui,sans-serif}
+/* Theory box */
+.tb{background:#ede9e3;border-radius:10px;padding:1rem 1.1rem;margin:.95rem 0;border:.5px solid #ccc}
+.tb h3{font-size:13px;font-weight:600;font-family:system-ui,sans-serif;margin-bottom:.65rem;color:#1a1a1a}
+.ts-list{display:flex;flex-direction:column;gap:8px}
+.ts-row{display:flex;gap:10px;align-items:flex-start}
+.ts-n{font-size:11px;font-family:system-ui,sans-serif;color:#999;width:17px;flex-shrink:0;padding-top:1px}
+.ts-t{font-size:13px;font-family:system-ui,sans-serif;color:#555;line-height:1.55}
+.ts-t strong{color:#1a1a1a;font-weight:600}
+/* Symbols row */
+.sym{display:flex;gap:6px;flex-wrap:wrap;margin:.75rem 0}
+.sy{font-size:11px;font-family:system-ui,sans-serif;color:#555;background:#ede9e3;border:.5px solid #ccc;border-radius:20px;padding:3px 11px}
+/* Nav */
+.nr{display:flex;align-items:center;justify-content:space-between;margin-top:1.4rem;padding-top:.9rem;border-top:.5px solid #ccc}
+.nb{font-family:system-ui,sans-serif;font-size:12px;color:#555;background:none;border:.5px solid #bbb;border-radius:6px;padding:5px 14px;cursor:pointer;transition:all .15s}
+.nb:hover{background:#ede9e3;color:#1a1a1a}
+.nb:disabled{opacity:.3;cursor:default}
+.nc{font-size:11px;font-family:system-ui,sans-serif;color:#999}
+/* Final page */
+.sh{font-size:10px;font-family:system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#888;margin:1.15rem 0 .65rem;padding-top:.85rem;border-top:.5px solid #ccc}
+.sh.first{border-top:none;padding-top:0;margin-top:.2rem}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:.8rem 0}
+.ic{border:.5px solid #d8d4ce;border-radius:8px;padding:11px 13px;background:#ede9e3}
+.it{font-size:12px;font-weight:600;font-family:system-ui,sans-serif;margin-bottom:4px;color:#222}
+.ib{font-size:12px;font-family:system-ui,sans-serif;color:#666;line-height:1.55}
+.sr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:.8rem 0}
+.sc{border:.5px solid #d8d4ce;border-radius:8px;padding:10px 11px;background:#ede9e3;text-align:center}
+.sn{font-size:20px;font-weight:400;font-family:system-ui,sans-serif;color:#1a1a1a}
+.sd{font-size:11px;color:#888;font-family:system-ui,sans-serif;margin-top:2px;line-height:1.4}
+.wl{display:flex;flex-direction:column;gap:7px;margin:.8rem 0}
+.wi{display:flex;gap:10px;font-size:13px;font-family:system-ui,sans-serif;color:#555;line-height:1.55;align-items:flex-start}
+.wd{width:5px;height:5px;border-radius:50%;background:#aaa;flex-shrink:0;margin-top:6px}
+.bq{border-left:3px solid #aaa;padding:.85rem 1.1rem;margin:.85rem 0}
+.bq p{font-size:16px;font-style:italic;line-height:1.82;color:#222}
+.bq cite{font-size:11px;font-family:system-ui,sans-serif;font-style:normal;color:#888;display:block;margin-top:.4rem;letter-spacing:.04em}
+.al{display:flex;flex-direction:column;gap:6px;margin:.85rem 0}
+.as{display:flex;gap:10px;font-size:13px;font-family:system-ui,sans-serif;color:#555;line-height:1.55;align-items:flex-start}
+.an{font-size:10px;color:#bbb;width:16px;flex-shrink:0;padding-top:2px}
+.footer{margin-top:1.4rem;padding:.9rem 1.1rem;border-radius:8px;background:#ede9e3;text-align:center;font-family:system-ui,sans-serif;font-size:12px;color:#888}
+.footer strong{font-size:14px;color:#555;display:block;margin-bottom:.25rem;font-weight:500}
+@media(max-width:600px){
+  .layout{padding:1rem}
+  .sb{display:none;position:fixed;top:0;left:0;height:100%;width:220px;z-index:1000;background:#f5f2ed;box-shadow:2px 0 12px rgba(0,0,0,.18);padding:3rem 0.8rem 1rem;overflow-y:auto}
+  .sb.open{display:flex;flex-direction:column}
+  .sb-overlay{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.35)}
+  .sb-overlay.open{display:block}
+  .sb-toggle{display:flex;align-items:center;justify-content:center;position:fixed;top:0.7rem;left:0.9rem;z-index:1001;width:36px;height:36px;border-radius:6px;cursor:pointer;background:rgba(0,0,0,.06);border:none;font-size:18px;color:#444;line-height:1}
+  .sb-toggle:hover{background:rgba(0,0,0,.12)}
+  .book-header{padding-top:3.5rem}
+  .ig,.sr{grid-template-columns:1fr}
+  .ti{white-space:normal}
+}
+@media(min-width:601px){
+  .sb-toggle{display:none}
+  .sb-overlay{display:none}
+}
+
+/* Character tooltips */
+.cn-tip{border-bottom:1px dotted #888;cursor:help;font-style:normal;color:inherit}
+.tip-box{display:none;position:fixed;z-index:9999;background:#fff8f0;border:.5px solid #ccc;border-radius:8px;padding:10px 13px;max-width:240px;box-shadow:0 2px 14px rgba(0,0,0,.13)}
+.tip-box.show{display:block}
+.tip-name{font-size:12px;font-weight:600;font-family:system-ui,sans-serif;color:#1a1a1a;margin-bottom:1px}
+.tip-pron{font-size:11px;font-family:system-ui,sans-serif;color:#999;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.tip-speak{cursor:pointer;pointer-events:all;background:none;border:.5px solid #ccc;border-radius:4px;padding:1px 6px;font-size:10px;color:#888;line-height:1.6;transition:background .1s}
+.tip-speak:hover{background:#ede9e3;color:#444}
+.tip-desc{font-size:11px;font-family:system-ui,sans-serif;color:#666;line-height:1.4}
+
+/* Quiz */
+.qz-q{margin:1.2rem 0 .5rem;font-size:15.5px;line-height:1.7;font-family:Georgia,serif;color:#1a1a1a}
+.qz-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:.4rem}
+.qz-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:.5px solid #ccc;border-radius:8px;cursor:pointer;font-family:system-ui,sans-serif;font-size:13px;color:#333;background:#fff;text-align:left;line-height:1.5;transition:background .12s,border-color .12s}
+.qz-opt:hover{background:#ede9e3;border-color:#aaa}
+.qz-opt.correct{background:#e8f5e0;border-color:#6a9e40;color:#2a5010;cursor:default}
+.qz-opt.wrong{background:#fce8e8;border-color:#c44;color:#5a1010;cursor:default}
+.qz-opt.reveal{background:#ede9e3;border-color:#aaa;cursor:default}
+.qz-opt span.letter{font-weight:600;flex-shrink:0;width:16px}
+.qz-fb{font-size:13px;font-family:system-ui,sans-serif;line-height:1.6;padding:.7rem .9rem;border-radius:7px;margin-top:.3rem;display:none}
+.qz-fb.show{display:block}
+.qz-fb.correct{background:#e8f5e0;color:#2a5010;border-left:2px solid #6a9e40}
+.qz-fb.wrong{background:#fce8e8;color:#5a1010;border-left:2px solid #c44}
+.qz-score{font-family:system-ui,sans-serif;font-size:14px;text-align:center;padding:1.2rem;border-radius:10px;background:#ede9e3;border:.5px solid #ccc;margin-top:1.5rem;display:none}
+.qz-score.show{display:block}
+.qz-score-n{font-size:28px;font-weight:400;margin-bottom:.3rem;color:#1a1a1a}
+.qz-score-msg{color:#555;line-height:1.6}
+.qz-divider{height:.5px;background:#ddd;margin:1.4rem 0}
+
+/* Title header */
+.book-header{max-width:960px;margin:0 auto;padding:2.8rem 1.5rem 1.6rem;text-align:center;border-bottom:.5px solid #c8c2b8;margin-bottom:0}
+.book-header-title{font-family:Georgia,serif;font-size:clamp(28px,5vw,46px);font-weight:400;letter-spacing:.04em;color:#1a1208;line-height:1.15;margin-bottom:.45rem}
+.book-header-title em{font-style:italic}
+.book-header-rule{width:48px;height:.5px;background:#a89070;margin:.55rem auto .65rem;border:none}
+.book-header-author{font-family:system-ui,sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#8a7a68}
+.book-header-sub{font-family:Georgia,serif;font-size:12px;font-style:italic;color:#b0a090;margin-top:.35rem}
+</style>
+</head>
+<body>
+<header class="book-header">
+  <div class="book-header-title"><em>Crime and Punishment</em></div>
+  <hr class="book-header-rule">
+  <div class="book-header-author">Fyodor Dostoevsky</div>
+</header>
+<div class="sb-overlay" id="sb-overlay"></div>
+<button class="sb-toggle" id="sb-toggle" aria-label="Open contents">&#9776;</button>
+<div class="layout">
+<div class="sb" id="sb">
+  <div class="sb-title">Contents</div>
+  <button class="ti on" data-go="0">I: The idea</button>
+  <button class="ti" data-go="1">II: The murder</button>
+  <button class="ti" data-go="2">III: The fever</button>
+  <button class="ti" data-go="3">IV: Sonya</button>
+  <button class="ti" data-go="4">V: Svidrigailov</button>
+  <button class="ti" data-go="5">VI: Porfiry</button>
+  <button class="ti" data-go="6">VII: Lazarus</button>
+  <button class="ti" data-go="7">VIII: Two endings</button>
+  <button class="ti" data-go="8">IX: Resurrection</button>
+  <div class="tdiv"></div>
+  <button class="ti" data-go="9">✦ Why it matters</button>
+  <button class="ti" data-go="10">✎ Quiz</button>
+</div>
+
+<div class="main">
+<!-- CH 1 -->
+<div class="ch on">
+<div class="pl">I · Summer, St. Petersburg</div>
+<div class="ct">The idea</div>
+<div class="cs">A man hatches a plan he cannot stop thinking about</div>
+<div class="art"><svg width="100%" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
+  <rect width="680" height="195" fill="#14142a"/><rect y="108" width="680" height="87" fill="#0c0c1a"/>
+  <circle cx="60" cy="22" r="1.2" fill="#ccd" opacity=".55"/><circle cx="180" cy="14" r="1" fill="#bbc" opacity=".6"/>
+  <circle cx="310" cy="30" r="1.5" fill="#dde" opacity=".45"/><circle cx="430" cy="18" r="1" fill="#ccd" opacity=".5"/>
+  <circle cx="550" cy="8" r="1.2" fill="#bbc" opacity=".6"/><circle cx="100" cy="50" r="1" fill="#99a" opacity=".4"/>
+  <rect x="0" y="98" width="55" height="97" fill="#0a0a16"/><rect x="12" y="76" width="28" height="22" fill="#0a0a16"/>
+  <rect x="72" y="86" width="60" height="109" fill="#0a0a16"/><rect x="84" y="66" width="32" height="20" fill="#0a0a16"/>
+  <rect x="152" y="73" width="90" height="122" fill="#0a0a16"/><rect x="168" y="53" width="45" height="20" fill="#0a0a16"/>
+  <rect x="265" y="80" width="65" height="115" fill="#0a0a16"/>
+  <rect x="358" y="68" width="100" height="127" fill="#0a0a16"/><rect x="375" y="50" width="40" height="18" fill="#0a0a16"/>
+  <rect x="482" y="76" width="75" height="119" fill="#0a0a16"/>
+  <rect x="578" y="66" width="102" height="129" fill="#0a0a16"/>
+  <rect x="90" y="98" width="7" height="10" fill="#f5c530" opacity=".8"/>
+  <rect x="175" y="83" width="8" height="11" fill="#f5c530" opacity=".65"/>
+  <rect x="283" y="90" width="6" height="9" fill="#f5c530" opacity=".7"/>
+  <rect x="388" y="78" width="7" height="10" fill="#f5c530" opacity=".55"/>
+  <rect x="495" y="88" width="6" height="9" fill="#f5c530" opacity=".75"/>
+  <path d="M0 128 Q80 122 160 128 Q240 134 320 128 Q400 122 480 128 Q560 134 680 128" fill="none" stroke="#1a1a35" stroke-width="4" opacity=".7"/>
+  <ellipse cx="340" cy="147" rx="5" ry="13" fill="#22224a"/><circle cx="340" cy="131" r="6" fill="#22224a"/>
+  <rect x="283" y="36" width="114" height="34" rx="5" fill="#1a1a30" stroke="#2a2a48" stroke-width=".5"/>
+  <text x="340" y="50" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#7777cc" opacity=".75">ordinary vs extraordinary</text>
+  <text x="340" y="64" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" fill="#4444aa" opacity=".6">which one am I?</text>
+</svg></div>
+<div class="prose"><p>High summer in St. Petersburg, 1865. The city stinks. The heat is a physical weight. In a garret no larger than a cupboard — yellow walls, low ceiling, a sofa he has not left for days — Rodion Romanovich <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> lies thinking. He is twenty-three. He has pawned his watch, his coat. He has not eaten properly in weeks. And still the <em>idea</em> will not leave him.</p><p>It began as a thought experiment, as the most dangerous thoughts always do. It has become something he cannot look away from.</p></div>
+<div class="tb"><h3>Raskolnikov's theory — what he has convinced himself of</h3>
+<div class="ts-list">
+  <div class="ts-row"><span class="ts-n">1.</span><span class="ts-t"><strong>The division:</strong> All people belong to one of two categories. The <em>ordinary</em> — the mass of humanity, governed and passive — must obey the law. The <em>extraordinary</em> — the Napoleons, the Newtons — are its makers. They have always transgressed when they needed to, and history has called it genius.</span></div>
+  <div class="ts-row"><span class="ts-n">2.</span><span class="ts-t"><strong>The justification:</strong> There is a pawnbroker — <span class="cn-tip" data-char="Alyona">Alyona Ivanovna</span> — on the Voznesensky Prospect. A louse. She leeches off the desperate, and her money will go to a monastery when she dies. Kill her. Take the money. Study. Become someone who saves thousands. One trivial crime against a useless life.</span></div>
+  <div class="ts-row"><span class="ts-n">3.</span><span class="ts-t"><strong>The real question:</strong> And yet — he knows this is a rationalisation, has always known it. What he is truly asking is something else: <em>am I the kind of man who can do this?</em> Am I extraordinary, or merely ordinary — like everyone else? The murder is a test of his own nature.</span></div>
+  <div class="ts-row"><span class="ts-n">4.</span><span class="ts-t"><strong>The flaw he does not see:</strong> The theory assumes that a sufficiently great man would feel nothing — that conscience is a convention of the herd, not a part of the self. The entire novel that follows is Dostoevsky's answer to that assumption.</span></div>
+</div></div>
+<blockquote>"Power is given only to him who dares to stoop and take it... one must have the courage to dare."<cite>— <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>, Part I</cite></blockquote>
+</div>
+<!-- CH 2 -->
+<div class="ch">
+<div class="pl">II · The act</div><div class="ct">The murder</div>
+<div class="cs">The extraordinary man puts his theory to the test</div>
+<div class="art"><svg width="100%" viewBox="0 0 680 205" xmlns="http://www.w3.org/2000/svg">
+  <rect width="680" height="205" fill="#160808"/><rect y="135" width="680" height="70" fill="#0e0404"/>
+  <radialGradient id="r1" cx="35%" cy="55%"><stop offset="0%" stop-color="#aa1800" stop-opacity=".35"/><stop offset="100%" stop-color="#160808" stop-opacity="0"/></radialGradient>
+  <ellipse cx="240" cy="113" rx="220" ry="97" fill="url(#r1)"/>
+  <rect x="55" y="18" width="5" height="162" fill="#1e1010"/>
+  <rect x="49" y="28" width="17" height="5" fill="#1e1010"/><rect x="49" y="56" width="17" height="5" fill="#1e1010"/>
+  <rect x="49" y="84" width="17" height="5" fill="#1e1010"/><rect x="49" y="112" width="17" height="5" fill="#1e1010"/>
+  <rect x="49" y="140" width="17" height="5" fill="#1e1010"/>
+  <rect x="105" y="16" width="142" height="176" rx="5" fill="#1e0c0c" stroke="#2e1818" stroke-width=".8"/>
+  <rect x="222" y="103" width="6" height="10" rx="3" fill="#7a5828" opacity=".9"/>
+  <ellipse cx="176" cy="103" rx="50" ry="52" fill="#180a0a" stroke="#261010" stroke-width=".5"/>
+  <rect x="150" y="78" width="52" height="56" rx="5" fill="#160808" stroke="#220e0e" stroke-width=".5"/>
+  <line x1="170" y1="91" x2="170" y2="128" stroke="#2a1010" stroke-width="1"/>
+  <line x1="181" y1="91" x2="181" y2="128" stroke="#2a1010" stroke-width="1"/>
+  <line x1="192" y1="91" x2="192" y2="128" stroke="#2a1010" stroke-width="1"/>
+  <rect x="335" y="26" width="7" height="112" fill="#2e2018" rx="2"/>
+  <path d="M312 26 L360 26 L360 59 L312 43 Z" fill="#4a3828"/>
+  <rect x="312" y="57" width="8" height="22" rx="2" fill="#3a2a18"/>
+  <rect x="498" y="78" width="7" height="50" fill="#d8c080" opacity=".75" rx="2"/>
+  <ellipse cx="501" cy="76" rx="4" ry="7" fill="#ff7700" opacity=".9"/>
+  <line x1="305" y1="198" x2="368" y2="198" stroke="#cc2200" stroke-width="2" opacity=".45"/>
+  <line x1="298" y1="204" x2="375" y2="204" stroke="#cc2200" stroke-width=".8" opacity=".25"/>
+  <text x="490" y="182" font-family="Georgia,serif" font-size="10" fill="#3a1818" opacity=".55">seventh floor</text>
+</svg></div>
+<div class="prose"><p><span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> has borrowed an axe. He has rehearsed the route, the door, the words he will use to get her to open it. His hands are cold; his head is very clear. Going up the stairs, he tells himself one last time:</p></div>
+<blockquote>"What do you think, would not one tiny crime be wiped out by thousands of good deeds?"<cite>— <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>'s self-justification, Part I</cite></blockquote>
+<div class="prose"><p>She opens the door. He kills <span class="cn-tip" data-char="Alyona">Alyona Ivanovna</span> with the blunt edge of the axe. Then he stands in her apartment, looking for the keys to her strongbox.</p><p>The door opens. Her half-sister <span class="cn-tip" data-char="Lizaveta">Lizaveta</span> has come home early, arms full of parcels. She stares at him. She raises one hand, feebly, as if to ward off a blow. She had not been part of the calculation at all. He kills her too.</p><p>By extraordinary luck — a tenant rings the bell just as he finishes — he slips down the stairs past two men on their way up, returns the axe, reaches his garret, and loses consciousness.</p></div>
+<div class="hb"><div class="hl">The fatal complication</div><p><span class="cn-tip" data-char="Lizaveta">Lizaveta</span> was everything the theory was supposed to protect: poor, exploited, harmless. Her death quietly demolishes his entire philosophical justification — and he has not even left the apartment when it happens.</p></div>
+<div class="sym"><div class="sy">the axe — instrument &amp; symbol</div><div class="sy">blood — guilt made visible</div><div class="sy">the door — point of no return</div></div>
+</div>
+<!-- CH 3 -->
+<div class="ch">
+<div class="pl">III · The aftermath</div><div class="ct">The fever</div>
+<div class="cs">The murderer is undone not by police — but by his own mind</div>
+<div class="art"><svg width="100%" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
+  <rect width="680" height="195" fill="#0c1220"/>
+  <rect x="55" y="116" width="340" height="57" rx="10" fill="#162030"/>
+  <rect x="55" y="104" width="90" height="26" rx="5" fill="#1a2838"/>
+  <ellipse cx="233" cy="120" rx="125" ry="14" fill="#101828"/>
+  <circle cx="75" cy="113" r="14" fill="#1a2838"/>
+  <ellipse cx="233" cy="120" rx="152" ry="27" fill="none" stroke="#2244aa" stroke-width=".8" opacity=".28"/>
+  <ellipse cx="233" cy="120" rx="192" ry="40" fill="none" stroke="#2244aa" stroke-width=".4" opacity=".15"/>
+  <ellipse cx="515" cy="60" rx="33" ry="41" fill="#221020" opacity=".8"/>
+  <circle cx="503" cy="31" r="13" fill="#221020" opacity=".8"/>
+  <path d="M491 32 Q503 19 515 32" fill="none" stroke="#3a1828" stroke-width="1"/>
+  <line x1="495" y1="34" x2="493" y2="44" stroke="#3a1828" stroke-width=".8"/>
+  <line x1="511" y1="34" x2="509" y2="44" stroke="#3a1828" stroke-width=".8"/>
+  <ellipse cx="585" cy="87" rx="22" ry="29" fill="#1e1020" opacity=".55"/>
+  <circle cx="575" cy="63" r="9" fill="#1e1020" opacity=".55"/>
+  <line x1="596" y1="0" x2="406" y2="195" stroke="#f0e090" stroke-width="22" opacity=".033"/>
+  <text x="455" y="79" font-family="Georgia,serif" font-size="13" fill="#3a1830" opacity=".7" transform="rotate(-6,455,79)">Lizaveta!</text>
+  <text x="340" y="185" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#2a3a50" opacity=".62">four days unconscious</text>
+</svg></div>
+<div class="prose"><p>He does not escape unpunished. He escapes only into himself — which is worse.</p><p>For days he lies in fever, muttering, delirious. His friend <span class="cn-tip" data-char="Razumikhin">Razumikhin</span> — steady, warm, decent in the way <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> is not — nurses him without knowing what has happened. When <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> finally surfaces, pale and shaking, the theory that was supposed to leave him free has instead taken everything from him.</p></div>
+<blockquote>"It takes something more than intelligence to act intelligently."<cite>— the novel's quiet verdict on <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>'s entire project</cite></blockquote>
+<div class="prose"><p>A summons arrives from the police station. He goes in terror — only to find it concerns an unpaid debt. But while he is there, he overhears two clerks talking about the murdered pawnbroker. The room tilts. He faints.</p><p>This is the shape his guilt will take for the rest of the novel: not confession, not flight, but a perpetual half-fainting, always on the edge of giving himself away.</p></div>
+<blockquote>"To go wrong in one's own way is better than to go right in someone else's."<cite>— <span class="cn-tip" data-char="Razumikhin">Razumikhin</span>, Part III</cite></blockquote>
+</div>
+<!-- CH 4 -->
+<div class="ch">
+<div class="pl">IV · The other world</div><div class="ct">Sonya</div>
+<div class="cs">The saint of the gutter — the novel's true moral centre</div>
+<div class="art"><svg width="100%" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
+  <rect width="680" height="195" fill="#0c140e"/>
+  <rect y="109" width="680" height="86" fill="#080e0a"/>
+  <rect x="100" y="113" width="222" height="9" rx="2" fill="#162018"/>
+  <rect x="163" y="122" width="14" height="37" fill="#122016"/>
+  <rect x="237" y="122" width="14" height="37" fill="#122016"/>
+  <rect x="174" y="85" width="11" height="28" rx="3" fill="#224a2a" opacity=".85"/>
+  <circle cx="179" cy="83" r="5" fill="#112218"/>
+  <radialGradient id="cg" cx="50%" cy="50%"><stop offset="0%" stop-color="#e8b830" stop-opacity=".28"/><stop offset="100%" stop-color="#0c140e" stop-opacity="0"/></radialGradient>
+  <ellipse cx="220" cy="100" rx="110" ry="53" fill="url(#cg)"/>
+  <ellipse cx="143" cy="111" rx="26" ry="9" fill="#122016"/>
+  <circle cx="143" cy="96" r="14" fill="#162018"/>
+  <path d="M131 94 Q143 84 155 94" fill="none" stroke="#1e2c1a" stroke-width="1.2"/>
+  <line x1="136" y1="96" x2="134" y2="109" stroke="#1e2c1a" stroke-width=".8"/>
+  <line x1="150" y1="96" x2="148" y2="109" stroke="#1e2c1a" stroke-width=".8"/>
+  <ellipse cx="265" cy="111" rx="24" ry="9" fill="#122016"/>
+  <circle cx="265" cy="96" r="12" fill="#162018"/>
+  <path d="M255 94 Q265 86 275 94" fill="none" stroke="#1e2c1a" stroke-width="1"/>
+  <line x1="257" y1="96" x2="255" y2="107" stroke="#1e2c1a" stroke-width=".8"/>
+  <line x1="270" y1="96" x2="268" y2="107" stroke="#1e2c1a" stroke-width=".8"/>
+  <line x1="455" y1="16" x2="455" y2="151" stroke="#c0960a" stroke-width=".6" opacity=".42"/>
+  <line x1="411" y1="62" x2="499" y2="62" stroke="#c0960a" stroke-width=".6" opacity=".42"/>
+  <circle cx="455" cy="62" r="4" fill="none" stroke="#c0960a" stroke-width=".5" opacity=".35"/>
+  <text x="455" y="171" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#3a5030" opacity=".62">cypress cross</text>
+  <text x="340" y="188" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#2a4020" opacity=".5">Sonya's room · Stolyarny Lane</text>
+</svg></div>
+<div class="prose"><p>Before the murder — in a tavern, of all places — <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> had stumbled into a drunk's company. <span class="cn-tip" data-char="Marmeladov">Marmeladov</span>: a ruined civil servant, magnificently wretched, who wanted to confess his particular degradation to a stranger.</p></div>
+<blockquote>"Do you understand, sir, do you understand what it means when you have absolutely nowhere to turn? For every man must have somewhere to turn."<cite>— <span class="cn-tip" data-char="Marmeladov">Marmeladov</span> to <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>, Part I</cite></blockquote>
+<div class="prose"><p><span class="cn-tip" data-char="Marmeladov">Marmeladov</span> had a daughter, <span class="cn-tip" data-char="Sonya">Sonya</span>. Poverty had driven her to sell herself so that her stepmother's children might eat. Some weeks after this meeting, <span class="cn-tip" data-char="Marmeladov">Marmeladov</span> is struck by a horse-carriage and dies. <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> — impulsively — pays for his funeral. This act brings him to <span class="cn-tip" data-char="Sonya">Sonya</span>'s door.</p><p>She is meek. She wears a cypress cross at her throat. She has been degraded by the world in every material way and remains, inexplicably, unbroken by it. When <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> eventually confesses to her, she does not pull away. She weeps.</p></div>
+<div class="hb"><div class="hl">The contrast Dostoevsky is drawing</div><p><span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> crossed a moral boundary by choice, to prove his freedom. <span class="cn-tip" data-char="Sonya">Sonya</span> crossed an equally terrible one through necessity, with no theory to justify it — and remained spiritually whole. The same transgression. Opposite souls.</p></div>
+</div>
+<!-- CH 5 -->
+<div class="ch">
+<div class="pl">V · The doubles</div><div class="ct">Svidrigailov</div>
+<div class="cs">The man who committed Raskolnikov's crime — and felt nothing</div>
+<div class="art"><svg width="100%" viewBox="0 0 680 205" xmlns="http://www.w3.org/2000/svg">
+  <rect width="680" height="205" fill="#16140a"/>
+  <line x1="340" y1="0" x2="340" y2="205" stroke="#2e2c12" stroke-width=".8" stroke-dasharray="5 5"/>
+  <ellipse cx="185" cy="148" rx="34" ry="12" fill="#22200e"/>
+  <circle cx="185" cy="128" r="20" fill="#22200e"/>
+  <rect x="169" y="145" width="32" height="46" rx="7" fill="#1c1a0c"/>
+  <path d="M171 125 Q185 112 199 125" fill="none" stroke="#302e18" stroke-width="1.5"/>
+  <line x1="175" y1="128" x2="173" y2="142" stroke="#302e18" stroke-width="1"/>
+  <line x1="195" y1="128" x2="193" y2="142" stroke="#302e18" stroke-width="1"/>
+  <circle cx="179" cy="122" r="2" fill="#302e18"/><circle cx="191" cy="122" r="2" fill="#302e18"/>
+  <ellipse cx="490" cy="148" rx="34" ry="12" fill="#1e1c0a"/>
+  <circle cx="490" cy="128" r="20" fill="#1e1c0a"/>
+  <rect x="474" y="145" width="32" height="46" rx="7" fill="#18160a"/>
+  <path d="M476 125 Q490 112 504 125" fill="none" stroke="#2a280e" stroke-width="1.5"/>
+  <line x1="480" y1="128" x2="478" y2="142" stroke="#2a280e" stroke-width=".8"/>
+  <line x1="500" y1="128" x2="498" y2="142" stroke="#2a280e" stroke-width=".8"/>
+  <circle cx="484" cy="122" r="1.5" fill="#2a280e" opacity=".8"/>
+  <circle cx="496" cy="122" r="1.5" fill="#2a280e" opacity=".8"/>
+  <path d="M205 128 Q340 80 470 128" fill="none" stroke="#8a7818" stroke-width=".9" opacity=".38" stroke-dasharray="4 4"/>
+  <text x="185" y="200" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#5a5828">Raskolnikov</text>
+  <text x="490" y="200" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#5a5828">Svidrigailov</text>
+  <rect x="296" y="22" width="88" height="23" rx="4" fill="#1e1c0a" stroke="#2e2c12" stroke-width=".5"/>
+  <text x="340" y="36" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#6a6830">the theory, lived out</text>
+  <line x1="340" y1="45" x2="340" y2="78" stroke="#6a6830" stroke-width=".5" opacity=".38" stroke-dasharray="3 3"/>
+  <ellipse cx="88" cy="90" rx="42" ry="30" fill="#201e0a" opacity=".5"/>
+  <line x1="72" y1="80" x2="69" y2="92" stroke="#3a3818" stroke-width="1" opacity=".6"/>
+  <line x1="86" y1="78" x2="83" y2="90" stroke="#3a3818" stroke-width=".8" opacity=".6"/>
+  <line x1="100" y1="80" x2="97" y2="92" stroke="#3a3818" stroke-width="1" opacity=".6"/>
+  <text x="88" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#4a4820" opacity=".5">boredom &amp; emptiness</text>
+</svg></div>
+<div class="prose"><p>The narrator could be describing either man when he writes:</p></div>
+<blockquote>"Existence alone had never been enough for him; he had always wanted more. Perhaps it was only from the force of his desires that he had regarded himself as a man to whom more was permitted than to others."<cite>— on <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>; equally true of <span class="cn-tip" data-char="Svidrigailov">Svidrigailov</span></cite></blockquote>
+<div class="prose"><p><span class="cn-tip" data-char="Svidrigailov">Svidrigailov</span> arrives in Petersburg trailing rumours. He is the former employer of <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>'s sister <span class="cn-tip" data-char="Dunya">Dunya</span>, from whose household she had fled under unexplained circumstances. His wife died — also under circumstances. He is charming, wealthy, and completely amoral — <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>'s dark mirror. He has crossed every line <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> only theorised about, and emerged utterly hollow. He performs occasional acts of generosity not from goodness but from boredom.</p><p>When he finally meets <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> and recognises him immediately, he is delighted. At last: company.</p></div>
+<blockquote>"We are birds of a feather," <span class="cn-tip" data-char="Svidrigailov">Svidrigailov</span> tells <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> with a smile.<cite>— Part IV, Chapter I</cite></blockquote>
+<div class="hb"><div class="hl">What Svidrigailov proves</div><p>Everything <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>'s theory promised — freedom from scruple, from conventional guilt — <span class="cn-tip" data-char="Svidrigailov">Svidrigailov</span> already has. He is the proof of concept. And he is trivial, jaded, and spiritually dead. The extraordinary man turns out to be merely the empty one.</p></div>
+</div>
+<!-- CH 6 -->
+<div class="ch">
+<div class="pl">VI · The cat and mouse</div><div class="ct">Porfiry</div>
+<div class="cs">A detective who doesn't need evidence — he needs confession</div>
+<div class="art"><svg width="100%" viewBox="0 0 680 205" xmlns="http://www.w3.org/2000/svg">
+  <rect width="680" height="205" fill="#100a1c"/>
+  <g opacity=".16">
+    <rect x="168" y="48" width="22" height="22" fill="#9977ff"/><rect x="190" y="48" width="22" height="22" fill="#100a1c"/>
+    <rect x="212" y="48" width="22" height="22" fill="#9977ff"/><rect x="234" y="48" width="22" height="22" fill="#100a1c"/>
+    <rect x="256" y="48" width="22" height="22" fill="#9977ff"/><rect x="278" y="48" width="22" height="22" fill="#100a1c"/>
+    <rect x="300" y="48" width="22" height="22" fill="#9977ff"/>
+    <rect x="168" y="70" width="22" height="22" fill="#100a1c"/><rect x="190" y="70" width="22" height="22" fill="#9977ff"/>
+    <rect x="212" y="70" width="22" height="22" fill="#100a1c"/><rect x="234" y="70" width="22" height="22" fill="#9977ff"/>
+    <rect x="256" y="70" width="22" height="22" fill="#100a1c"/><rect x="278" y="70" width="22" height="22" fill="#9977ff"/>
+    <rect x="300" y="70" width="22" height="22" fill="#100a1c"/>
+    <rect x="168" y="92" width="22" height="22" fill="#9977ff"/><rect x="190" y="92" width="22" height="22" fill="#100a1c"/>
+    <rect x="212" y="92" width="22" height="22" fill="#9977ff"/><rect x="234" y="92" width="22" height="22" fill="#100a1c"/>
+    <rect x="256" y="92" width="22" height="22" fill="#9977ff"/><rect x="278" y="92" width="22" height="22" fill="#100a1c"/>
+    <rect x="300" y="92" width="22" height="22" fill="#9977ff"/>
+  </g>
+  <rect x="194" y="40" width="16" height="34" rx="3" fill="#4422aa"/>
+  <rect x="186" y="72" width="32" height="7" rx="2" fill="#4422aa"/>
+  <circle cx="202" cy="38" r="9" fill="#4422aa"/>
+  <line x1="202" y1="26" x2="202" y2="36" stroke="#6644cc" stroke-width="2.5"/>
+  <line x1="197" y1="31" x2="207" y2="31" stroke="#6644cc" stroke-width="2.5"/>
+  <rect x="454" y="44" width="14" height="28" rx="3" fill="#2e1a5a"/>
+  <rect x="446" y="70" width="30" height="7" rx="2" fill="#2e1a5a"/>
+  <circle cx="461" cy="42" r="9" fill="#2e1a5a"/>
+  <line x1="455" y1="36" x2="467" y2="50" stroke="#5544aa" stroke-width="1.5"/>
+  <radialGradient id="ig"><stop offset="0%" stop-color="#9988ff" stop-opacity=".13"/><stop offset="100%" stop-color="#100a1c" stop-opacity="0"/></radialGradient>
+  <ellipse cx="340" cy="87" rx="220" ry="107" fill="url(#ig)"/>
+  <path d="M202 78 Q280 127 340 142 Q400 127 461 78" fill="none" stroke="#5533aa" stroke-width=".7" opacity=".3" stroke-dasharray="3 4"/>
+  <text x="200" y="170" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#3a2a60" opacity=".55">Interview 1</text>
+  <text x="340" y="174" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#3a2a60" opacity=".55">Interview 2</text>
+  <text x="480" y="170" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#3a2a60" opacity=".55">Interview 3</text>
+  <text x="340" y="195" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#2a1a40" opacity=".6">"You are the murderer."</text>
+</svg></div>
+<div class="prose"><p>The detective assigned to the pawnbroker's murder is <span class="cn-tip" data-char="Porfiry">Porfiry Petrovich</span>. He is round, mild-mannered, inclined to laugh at his own jokes, and he knows — before he has a single piece of evidence — that <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> is his man. He knows because <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> had published a student article, months before the murder, laying out the precise philosophical justification for exactly this kind of crime. <span class="cn-tip" data-char="Porfiry">Porfiry</span> found it interesting.</p><p>Across three separate interview scenes, he plays with <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> the way a cat plays with something it has already caught. He does not accuse. He praises. He asks innocent questions. He laughs. He leaves long, terrible pauses. He apologises for taking up <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>'s time. Then he adds one more observation.</p></div>
+<blockquote>"A hundred suspicions don't make a proof."<cite>— <span class="cn-tip" data-char="Razumikhin">Razumikhin</span>, Part IV</cite></blockquote>
+<div class="prose"><p><span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> can see every move before it is made. He cannot stop making them. In their final confrontation, <span class="cn-tip" data-char="Porfiry">Porfiry</span> dispenses with the pretence entirely.</p></div>
+<blockquote>"The psychology is a two-edged weapon... You are the murderer, Rodion Romanovich. You yourself are the murderer."<cite>— <span class="cn-tip" data-char="Porfiry">Porfiry Petrovich</span>, Part VI</cite></blockquote>
+<div class="hb"><div class="hl">Dostoevsky's masterstroke</div><p><span class="cn-tip" data-char="Porfiry">Porfiry</span> does not want merely to arrest <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>. He wants him to confess of his own free will — not to escape punishment but because voluntary suffering is, in his view, the only thing that can save <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>'s soul. "Go and confess," he tells him. "It will be better. For yourself." He is simultaneously a detective and a reluctant priest.</p></div>
+<blockquote>"Pain and suffering are always inevitable for a large intelligence and a deep heart. The really great men must, I think, have great sadness on earth."<cite>— <span class="cn-tip" data-char="Porfiry">Porfiry</span> to <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>, Part IV</cite></blockquote>
+</div>
+<!-- CH 7 -->
+<div class="ch">
+<div class="pl">VII · The turning point</div><div class="ct">Lazarus</div>
+<div class="cs">Raskolnikov asks Sonya to read him scripture</div>
+<div class="art"><svg width="100%" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
+  <rect width="680" height="195" fill="#0a0e08"/>
+  <path d="M200 92 Q340 75 480 92 L480 160 Q340 144 200 160 Z" fill="#162010" stroke="#223018" stroke-width=".5"/>
+  <line x1="340" y1="77" x2="340" y2="158" stroke="#2a3c20" stroke-width=".6"/>
+  <line x1="220" y1="104" x2="330" y2="100" stroke="#3a5028" stroke-width=".7" opacity=".52"/>
+  <line x1="218" y1="114" x2="328" y2="110" stroke="#3a5028" stroke-width=".7" opacity=".52"/>
+  <line x1="220" y1="124" x2="330" y2="120" stroke="#3a5028" stroke-width=".6" opacity=".45"/>
+  <line x1="218" y1="134" x2="328" y2="130" stroke="#3a5028" stroke-width=".4" opacity=".38"/>
+  <line x1="352" y1="100" x2="462" y2="104" stroke="#3a5028" stroke-width=".7" opacity=".52"/>
+  <line x1="352" y1="110" x2="462" y2="114" stroke="#3a5028" stroke-width=".7" opacity=".52"/>
+  <line x1="352" y1="120" x2="462" y2="124" stroke="#3a5028" stroke-width=".5" opacity=".42"/>
+  <rect x="225" y="118" width="85" height="8" rx="2" fill="#b89020" opacity=".16"/>
+  <radialGradient id="bg"><stop offset="0%" stop-color="#b09020" stop-opacity=".2"/><stop offset="100%" stop-color="#0a0e08" stop-opacity="0"/></radialGradient>
+  <ellipse cx="340" cy="124" rx="165" ry="66" fill="url(#bg)"/>
+  <ellipse cx="138" cy="154" rx="28" ry="10" fill="#101608"/>
+  <circle cx="138" cy="139" r="16" fill="#162010"/>
+  <path d="M126 137 Q138 127 150 137" fill="none" stroke="#223018" stroke-width="1.2"/>
+  <line x1="131" y1="140" x2="129" y2="152" stroke="#223018" stroke-width=".9"/>
+  <line x1="145" y1="140" x2="143" y2="152" stroke="#223018" stroke-width=".9"/>
+  <ellipse cx="558" cy="154" rx="28" ry="10" fill="#101608"/>
+  <circle cx="558" cy="139" r="16" fill="#162010"/>
+  <path d="M546 137 Q558 127 570 137" fill="none" stroke="#223018" stroke-width="1"/>
+  <line x1="551" y1="140" x2="549" y2="152" stroke="#223018" stroke-width=".8"/>
+  <line x1="565" y1="140" x2="563" y2="152" stroke="#223018" stroke-width=".8"/>
+  <text x="340" y="186" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#4a6038" opacity=".78">John 11:44 — Lazarus, come forth</text>
+</svg></div>
+<div class="prose"><p><span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> has confessed to <span class="cn-tip" data-char="Sonya">Sonya</span>. Now — he doesn't know why, exactly — he asks her to read to him. She takes up the New Testament and finds the passage he has asked for: the raising of Lazarus. A man four days dead. A tomb sealed with a stone. And then a voice, and a man walking out blinking into the light.</p><p><span class="cn-tip" data-char="Sonya">Sonya</span> reads it as she believes it — literally, entirely, without embarrassment. <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> listens. He does not believe it. He asks her to read it again. Then, before he has decided to, he is on his knees before her.</p></div>
+<blockquote>"I did not bow down to you, I bowed down to all the suffering of humanity."<cite>— <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>, Part IV</cite></blockquote>
+<div class="hb"><div class="hl">The novel's spiritual architecture</div><p>Dostoevsky — sentenced to death himself, exiled to Siberia for four years — structures the novel as a passion: sin, suffering, and the possibility of resurrection. But resurrection is not given. It must be chosen, and chosen again, at great cost.</p></div>
+</div>
+<!-- CH 8 -->
+<div class="ch">
+<div class="pl">VIII · The reckoning</div><div class="ct">Two endings</div>
+<div class="cs">One man shoots himself. The other walks to the police station.</div>
+<div class="art"><svg width="100%" viewBox="0 0 680 205" xmlns="http://www.w3.org/2000/svg">
+  <rect width="680" height="205" fill="#0a0c14"/>
+  <line x1="340" y1="0" x2="340" y2="205" stroke="#181c28" stroke-width="1"/>
+  <rect y="114" width="340" height="91" fill="#080a10"/>
+  <radialGradient id="dg"><stop offset="0%" stop-color="#9aa0b0" stop-opacity=".22"/><stop offset="100%" stop-color="#0a0c14" stop-opacity="0"/></radialGradient>
+  <ellipse cx="40" cy="28" rx="180" ry="90" fill="url(#dg)"/>
+  <rect x="26" y="55" width="20" height="104" fill="#0c1018"/>
+  <rect x="20" y="53" width="32" height="10" fill="#0c1018"/>
+  <rect x="26" y="37" width="4" height="18" fill="#0c1018"/>
+  <path d="M113 78 L166 78 L169 87 L154 87 L154 96 L142 96 L142 87 L113 87 Z" fill="#141828" stroke="#202838" stroke-width=".5"/>
+  <ellipse cx="140" cy="143" rx="18" ry="7" fill="#0c1018"/>
+  <circle cx="140" cy="132" r="12" fill="#0c1018"/>
+  <rect x="131" y="140" width="18" height="27" rx="5" fill="#0a0e16"/>
+  <text x="100" y="190" font-family="Georgia,serif" font-size="10" fill="#22283a" opacity=".7">"America" — dawn, alone</text>
+  <rect x="340" y="114" width="340" height="91" fill="#0a0810"/>
+  <radialGradient id="ag"><stop offset="0%" stop-color="#c09040" stop-opacity=".18"/><stop offset="100%" stop-color="#0e0a12" stop-opacity="0"/></radialGradient>
+  <ellipse cx="650" cy="28" rx="180" ry="90" fill="url(#ag)"/>
+  <line x1="488" y1="205" x2="508" y2="102" stroke="#1e1828" stroke-width="20" opacity=".38"/>
+  <ellipse cx="476" cy="153" rx="15" ry="6" fill="#181420"/>
+  <circle cx="476" cy="143" r="10" fill="#181420"/>
+  <rect x="469" y="151" width="14" height="24" rx="5" fill="#141020"/>
+  <rect x="554" y="88" width="65" height="77" fill="#181420"/>
+  <rect x="562" y="78" width="44" height="14" fill="#181420"/>
+  <path d="M476 153 L530 148" fill="none" stroke="#4a3858" stroke-width=".6" opacity=".35" stroke-dasharray="3 3"/>
+  <text x="490" y="190" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#2a2030" opacity=".7">police station — confession</text>
+</svg></div>
+<div class="prose"><p><span class="cn-tip" data-char="Svidrigailov">Svidrigailov</span> makes his final attempt on <span class="cn-tip" data-char="Dunya">Dunya</span> — corners her, refuses to let her leave, and discovers, when she produces a revolver and fires, that she will not be kept. The bullet grazes the air beside his head. He looks at her for a long moment. Then he tells her she may go.</p><p>That night he moves through the city giving things away — money to <span class="cn-tip" data-char="Sonya">Sonya</span>, money to orphans, money to his young fiancée. At dawn he finds a night watchman near an ornamental watchtower and engages him in brief conversation.</p></div>
+<blockquote>"I'm going to America," he said. Then he put the pistol to his right temple.<cite>— Part VI</cite></blockquote>
+<div class="prose"><p>That same morning, <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> goes to <span class="cn-tip" data-char="Sonya">Sonya</span>. Before he leaves, she tells him what he must do:</p></div>
+<blockquote>"Go to the crossroads, bow down to the people, kiss the earth, for you have sinned against it too, and say aloud to the whole world: I am a murderer."<cite>— <span class="cn-tip" data-char="Sonya">Sonya</span> to <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>, Part V</cite></blockquote>
+<div class="prose"><p>He goes to the Haymarket, kneels in the dirt, and kisses the earth while people stare. Then he walks to the police station.</p></div>
+<blockquote>"It was I who killed the old pawnbroker woman and her sister Lizaveta with an axe and robbed them."<cite>— <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>'s confession, Part VI</cite></blockquote>
+</div>
+<!-- CH 9 -->
+<div class="ch">
+<div class="pl">IX · Siberia</div><div class="ct">Resurrection</div>
+<div class="cs">Or its first uncertain glimmer</div>
+<div class="art"><svg width="100%" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
+  <rect width="680" height="195" fill="#08121a"/>
+  <rect y="120" width="680" height="75" fill="#060e12"/>
+  <radialGradient id="sk"><stop offset="0%" stop-color="#c07028" stop-opacity=".28"/><stop offset="45%" stop-color="#305880" stop-opacity=".18"/><stop offset="100%" stop-color="#08121a" stop-opacity="0"/></radialGradient>
+  <rect width="680" height="120" fill="url(#sk)"/>
+  <path d="M0 127 Q80 121 160 127 Q240 133 320 127 Q400 121 480 127 Q560 133 640 127 L680 125" fill="none" stroke="#102030" stroke-width="6" opacity=".72"/>
+  <circle cx="308" cy="122" r="5" fill="#141e2a"/>
+  <circle cx="323" cy="122" r="5" fill="#141e2a"/>
+  <path d="M303 119 Q308 111 313 119" fill="none" stroke="#1c2c3a" stroke-width="1"/>
+  <path d="M318 119 Q323 111 328 119" fill="none" stroke="#1c2c3a" stroke-width="1"/>
+  <polygon points="116,95 138,59 160,95" fill="#0c1820" stroke="#162230" stroke-width=".5"/>
+  <polygon points="140,95 162,59 184,95" fill="#0c1820" stroke="#162230" stroke-width=".5"/>
+  <rect x="146" y="47" width="4" height="20" fill="#142030"/>
+  <line x1="140" y1="57" x2="156" y2="57" stroke="#142030" stroke-width="3"/>
+  <circle cx="80" cy="21" r="1.2" fill="#8898aa" opacity=".4"/>
+  <circle cx="193" cy="13" r="1" fill="#9aacbc" opacity=".35"/>
+  <circle cx="418" cy="18" r="1.4" fill="#8898aa" opacity=".4"/>
+  <circle cx="553" cy="9" r="1" fill="#9aacbc" opacity=".35"/>
+  <text x="340" y="184" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#2a4458" opacity=".72">the Irtysh river, spring</text>
+</svg></div>
+<div class="prose"><p>Eight years' hard labour in Siberia. <span class="cn-tip" data-char="Sonya">Sonya</span> follows him voluntarily — obtains permission, settles in the nearby town, visits when she can. The other convicts, who hate <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> for his coldness and his educated pride, are inexplicably tender with her.</p><p>For the first year, <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> does not repent. He submits to punishment but not to guilt. He had been right, in theory; he had simply been too weak in practice — proved himself ordinary after all. This is cold comfort, but he holds it.</p><p>Then it is spring. The river is running. <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> is standing on the bank when <span class="cn-tip" data-char="Sonya">Sonya</span> approaches, and something breaks in him — not dramatically, not with revelation, but the way a long illness sometimes simply ends.</p></div>
+<blockquote>"How it happened he did not know. But all at once something seemed to seize him and fling him at her feet. He wept and threw his arms around her knees... He loved her, and his heart was renewed."<cite>— Epilogue</cite></blockquote>
+<div class="prose"><p>The novel does not continue past this moment. A new story could begin here — the story of <span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span>'s gradual return to life — but this novel belongs to crime and its aftermath, and so it ends.</p></div>
+<div class="hb"><div class="hl">What Sonya said to him, earlier, when he confessed</div><p>"Your worst sin is that you have destroyed and betrayed yourself for nothing." This is not condemnation. It is the most precise description of what the theory cost him — not the victims' lives, terrible as that is, but his own.</p></div>
+<div class="al">
+  <div class="as"><span class="an">01</span><span>A man with a theory kills to prove he is extraordinary.</span></div>
+  <div class="as"><span class="an">02</span><span>The murder proves the opposite — he is consumed by conscience.</span></div>
+  <div class="as"><span class="an">03</span><span>A detective and a saint, by different means, push him toward confession.</span></div>
+  <div class="as"><span class="an">04</span><span>His double — Svidrigailov — who lives the theory fully, shoots himself.</span></div>
+  <div class="as"><span class="an">05</span><span>Raskolnikov confesses, suffers, and at the very end — begins.</span></div>
+</div>
+</div>
+<!-- CH 10 — Why it matters -->
+<div class="ch">
+<div class="pl">Essay · Why it endures</div>
+<div class="ct">What the novel ultimately argues</div>
+<div class="cs">Ideas, legacy, and the most famous passages</div>
+
+<div class="sh first">The central argument</div>
+<div class="wl">
+  <div class="wi"><span class="wd"></span><span>Suffering is not punishment — it is the only path back to being human. Conscience cannot be reasoned away; it is the self.</span></div>
+  <div class="wi"><span class="wd"></span><span>The theory that freed Raskolnikov from guilt destroyed him. Accepting guilt begins to rebuild him.</span></div>
+  <div class="wi"><span class="wd"></span><span>Sonya's love is not sentimental — it is the only force in the book stronger than pride.</span></div>
+  <div class="wi"><span class="wd"></span><span>Freedom through transgression leads to Svidrigailov's emptiness. Freedom through submission leads to Raskolnikov's first breath of life.</span></div>
+</div>
+
+<div class="sh">Key ideas</div>
+<div class="ig">
+  <div class="ic"><div class="it">Ideas have consequences</div><div class="ib">Raskolnikov acts not from passion or poverty but from a philosophical idea. Abstract ideas divorced from human feeling become monstrous when lived out.</div></div>
+  <div class="ic"><div class="it">The extraordinary man</div><div class="ib">The theory anticipates Nietzsche's Übermensch — written a decade later. Dostoevsky's answer: conscience is not a social convention to be reasoned away. It is the self.</div></div>
+  <div class="ic"><div class="it">Freedom through submission</div><div class="ib">The great paradox: the only freedom Raskolnikov finds is through confession and acceptance. Attempting to transcend limits produced imprisonment. Accepting limits produces release.</div></div>
+  <div class="ic"><div class="it">Psychology of guilt</div><div class="ib">The first novel to make the interior experience of guilt — not its consequences — its central subject. Every psychological thriller since inherits this.</div></div>
+</div>
+
+<div class="sh">Why it is so famous</div>
+<div class="sr">
+  <div class="sc"><div class="sn">1866</div><div class="sd">Published in monthly serial instalments</div></div>
+  <div class="sc"><div class="sn">50+</div><div class="sd">Languages it has been translated into</div></div>
+  <div class="sc"><div class="sn">1.1M+</div><div class="sd">Goodreads ratings, avg. 4.29 stars</div></div>
+</div>
+<div class="wl">
+  <div class="wi"><span class="wd"></span><span>First major novel to treat crime not as plot but as psychological condition — it invented the psychological thriller.</span></div>
+  <div class="wi"><span class="wd"></span><span>Established the confessional unreliable narrator; made guilt — not action — the subject of fiction.</span></div>
+  <div class="wi"><span class="wd"></span><span>Freud called Dostoevsky one of the greatest writers who ever lived. Einstein kept a copy on his desk.</span></div>
+  <div class="wi"><span class="wd"></span><span>Written in four months to pay gambling debts — and reads like a fever dream because it was one.</span></div>
+  <div class="wi"><span class="wd"></span><span>St. Petersburg is rendered as a character: sweltering, claustrophobic, morally rotten, strangely beautiful.</span></div>
+</div>
+
+<div class="sh">Three most famous passages</div>
+<div class="bq"><p>"Pain and suffering are always inevitable for a large intelligence and a deep heart. The really great men must, I think, have great sadness on earth."</p><cite>— Porfiry Petrovich</cite></div>
+<div class="bq"><p>"To go wrong in one's own way is better than to go right in someone else's."</p><cite>— Razumikhin · A throwaway remark in an argument about independent thought. It crystallises one of the novel's deepest themes: authentic error is more human — and more redeemable — than borrowed correctness. It applies to Raskolnikov's theory as much as to anything else.</cite></div>
+<div class="bq"><p>"It takes something more than intelligence to act intelligently."</p><cite> · The quiet epigraph for Raskolnikov's catastrophe. He constructed his justification with perfect logical rigour. What he lacked was not cleverness but humanity — the felt weight of another person's life.</cite></div>
+<div class="sh">A favourite — often misattributed to this novel</div>
+<div class="bq"><p>"The darker the night, the brighter the stars, the deeper the grief, the closer is God."</p><cite>— Dostoevsky, <em>A Raw Youth</em> (1875) · frequently but wrongly attributed to Crime and Punishment</cite></div>
+
+<div class="footer">
+  <strong>Fyodor Dostoevsky · Crime and Punishment · 1866</strong>
+  First published in <em>The Russian Messenger</em>. Written in four months to pay gambling debts. The first great psychological novel.
+</div>
+</div>
+
+<!-- CH 11 — Quiz -->
+<div class="ch">
+<div class="pl">Test yourself</div>
+<div class="ct">Quiz</div>
+<div class="cs">Three questions on the novel's key themes and ideas</div>
+
+<div id="qz">
+
+<div class="qz-q" id="q1-text">1. Raskolnikov commits the murder primarily because he needs money. True or false — and why?</div>
+<div class="qz-opts" id="q1-opts">
+  <button class="qz-opt" data-q="1" data-choice="a"><span class="letter">A</span>True — he is destitute and the pawnbroker's money would fund his studies.</button>
+  <button class="qz-opt" data-q="1" data-choice="b"><span class="letter">B</span>False — money is his stated justification, but the real motive is to test whether he belongs to the "extraordinary" category of person who can act beyond ordinary morality.</button>
+  <button class="qz-opt" data-q="1" data-choice="c"><span class="letter">C</span>False — he commits the murder out of hatred for the pawnbroker personally.</button>
+</div>
+<div class="qz-fb" id="q1-fb"></div>
+
+<div class="qz-divider"></div>
+
+<div class="qz-q" id="q2-text">2. Svidrigailov is introduced as a villain, but Dostoevsky uses him to make a deeper point. What is it?</div>
+<div class="qz-opts" id="q2-opts">
+  <button class="qz-opt" data-q="2" data-choice="a"><span class="letter">A</span>That evil people always receive justice in the end.</button>
+  <button class="qz-opt" data-q="2" data-choice="b"><span class="letter">B</span>That a life truly freed from conscience and moral scruple — what Raskolnikov's theory promises — leads not to greatness but to emptiness and self-destruction.</button>
+  <button class="qz-opt" data-q="2" data-choice="c"><span class="letter">C</span>That wealth and charm can excuse immoral behaviour.</button>
+</div>
+<div class="qz-fb" id="q2-fb"></div>
+
+<div class="qz-divider"></div>
+
+<div class="qz-q" id="q3-text">3. Why does Dostoevsky pair Raskolnikov with Sonya as his confessor, rather than having him confess to a priest or the police?</div>
+<div class="qz-opts" id="q3-opts">
+  <button class="qz-opt" data-q="3" data-choice="a"><span class="letter">A</span>Because Sonya is the only character who already knows he is guilty, so there is no risk.</button>
+  <button class="qz-opt" data-q="3" data-choice="b"><span class="letter">B</span>Because confession to a legal or religious institution would be about punishment or absolution. Confessing to Sonya — who has suffered as much as anyone — is about human recognition: being truly seen and not abandoned. She embodies the suffering love that Dostoevsky believed was the only force capable of reaching a closed soul.</button>
+  <button class="qz-opt" data-q="3" data-choice="c"><span class="letter">C</span>Because the police would arrest him immediately and the novel would end too soon.</button>
+</div>
+<div class="qz-fb" id="q3-fb"></div>
+
+<div class="qz-score" id="qz-score">
+  <div class="qz-score-n" id="score-n"></div>
+  <div class="qz-score-msg" id="score-msg"></div>
+</div>
+
+</div>
+</div>
+
+<!-- Tension + Nav -->
+<div class="nr">
+  <button class="nb" id="pb" disabled>← Back</button>
+  <span class="nc" id="nc">1 / 11</span>
+  <button class="nb" id="fwb">Next →</button>
+</div>
+</div>
+</div>
+
+<script>
+var c=0;
+var chs=document.querySelectorAll('.ch');
+var tis=document.querySelectorAll('.ti');
+var N=chs.length;
+function go(i){
+  chs[c].classList.remove('on');tis[c].classList.remove('on');
+  c=i;
+  chs[c].classList.add('on');tis[c].classList.add('on');
+  document.getElementById('pb').disabled=c===0;
+  document.getElementById('fwb').disabled=c===N-1;
+  document.getElementById('nc').textContent=(c+1)+' / '+N;
+  window.scrollTo({top:0,behavior:'smooth'});
+  closeSb();
+}
+function nav(d){go(c+d);}
+function openSb(){
+  document.getElementById('sb').classList.add('open');
+  document.getElementById('sb-overlay').classList.add('open');
+}
+function closeSb(){
+  var sb=document.getElementById('sb');var ov=document.getElementById('sb-overlay');
+  if(sb)sb.classList.remove('open');if(ov)ov.classList.remove('open');
+}
+/* Wire all buttons — scripts are at bottom of body so DOM is ready */
+document.querySelectorAll('.ti[data-go]').forEach(function(btn){
+  btn.addEventListener('click',function(){go(parseInt(btn.getAttribute('data-go')));});
+});
+document.getElementById('pb').addEventListener('click',function(){nav(-1);});
+document.getElementById('fwb').addEventListener('click',function(){nav(1);});
+document.getElementById('sb-toggle').addEventListener('click',openSb);
+document.getElementById('sb-overlay').addEventListener('click',closeSb);
+</script>
+
+<div class="tip-box" id="tipbox">
+  <div class="tip-name" id="tipname"></div>
+  <div class="tip-pron" id="tippron"><span></span><button class="tip-speak" id="tipspeak" data-speak="" title="Hear pronunciation">&#9654; hear</button></div>
+  <div class="tip-desc" id="tipdesc"></div>
+</div>
+<script>
+var CHARS = {
+  Raskolnikov:  { pron:"Rahs-KOL-ni-koff",  speak:"Raskolnikov",       desc:"Protagonist. Former law student, 23. Brilliant, proud, tormented by his own theory." },
+  Razumikhin:   { pron:"Rah-zoo-MEE-kin",    speak:"Razumikhin",        desc:"Best friend. Warm, practical, honest — a moral counterweight to Raskolnikov." },
+  Sonya:        { pron:"SOHN-ya",            speak:"Sonya",             desc:"Forced into prostitution to feed her family. Devout, gentle, spiritually unbroken." },
+  Marmeladov:   { pron:"Mar-mel-AH-doff",    speak:"Marmeladov",        desc:"A ruined civil servant and hopeless drunk. Father of Sonya." },
+  Porfiry:      { pron:"Por-FEE-ree",        speak:"Porfiry Petrovich", desc:"The detective. Hunts by psychological pressure rather than evidence. Brilliant, theatrical." },
+  Svidrigailov: { pron:"Svid-ri-GUY-loff",   speak:"Svidrigailov",      desc:"Dark double of Raskolnikov. Wealthy, amoral, spiritually hollow." },
+  Dunya:        { pron:"DOON-ya",            speak:"Dunya",             desc:"Sister of Raskolnikov. Proud and brave. Targeted by Svidrigailov." },
+  Luzhin:       { pron:"LOO-zhin",           speak:"Luzhin",            desc:"Calculating fiance of Dunya. Petty and self-serving." },
+  Alyona:       { pron:"Al-YO-na",           speak:"Alyona Ivanovna",   desc:"The pawnbroker. Old and miserly. The intended victim." },
+  Lizaveta:     { pron:"Liz-a-VYE-ta",       speak:"Lizaveta",          desc:"Gentle half-sister of Alyona. Poor and innocent. Her presence destroys the theory." },
+  Katerina:     { pron:"Kat-er-EE-na",       speak:"Katerina Ivanovna", desc:"Consumptive stepmother of Sonya. Proud and tragic." },
+  Pulcheria:    { pron:"Pool-CHAIR-ee-a",     speak:"Pulcheria",         desc:"Devoted mother of Raskolnikov, arriving from the provinces." }
+};
+
+var tipbox   = document.getElementById("tipbox");
+var tipname  = document.getElementById("tipname");
+var tippron  = document.getElementById("tippron");
+var tipspeak = document.getElementById("tipspeak");
+var tipdesc  = document.getElementById("tipdesc");
+var hideTimer = null;
+var currentSpeakText = "";
+
+function placeTip(e) {
+  var x = e.clientX + 16, y = e.clientY + 16;
+  if (x + 260 > window.innerWidth)  x = e.clientX - 264;
+  if (y + 120 > window.innerHeight) y = e.clientY - 124;
+  tipbox.style.left = x + "px";
+  tipbox.style.top  = y + "px";
+}
+
+function showTip(el, e) {
+  clearTimeout(hideTimer);
+  var k  = el.getAttribute("data-char");
+  var ch = CHARS[k];
+  if (!ch) return;
+  currentSpeakText = ch.speak;
+  tipname.textContent = k;
+  tippron.querySelector("span").textContent = ch.pron;
+  tipdesc.textContent = ch.desc;
+  placeTip(e);
+  tipbox.style.display = "block";
+}
+
+function hideTip() {
+  hideTimer = setTimeout(function(){ tipbox.style.display = "none"; }, 150);
+}
+
+tipbox.addEventListener("mouseenter", function(){ clearTimeout(hideTimer); });
+tipbox.addEventListener("mouseleave", hideTip);
+
+tipspeak.addEventListener("click", function(e) {
+  e.stopPropagation();
+  if (!window.speechSynthesis || !currentSpeakText) return;
+  var u = new SpeechSynthesisUtterance(currentSpeakText);
+  var voices = speechSynthesis.getVoices();
+  var ru = voices.find(function(v){ return v.lang.startsWith("ru"); });
+  u.lang = ru ? "ru-RU" : "en-GB";
+  u.rate = 0.8;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+});
+
+if (window.speechSynthesis && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = function(){};
+}
+
+document.querySelectorAll(".cn-tip").forEach(function(el) {
+  el.addEventListener("mouseenter", function(e){ showTip(el, e); });
+  el.addEventListener("mouseleave", hideTip);
+});
+
+var qAnswers = { 1:"b", 2:"b", 3:"b" };
+var qDone    = {};
+var qFeedback = {
+  1: {
+    b: "Exactly. The money is a rationalisation. The real question he is asking is: am I the kind of man who can step over the moral boundary that ordinary people cannot?",
+    wrong: "Not quite. Poverty is the backdrop, but Raskolnikov tells himself the crime is a test of his own nature — not simply a solution to debt."
+  },
+  2: {
+    b: "Correct. Svidrigailov has lived exactly the life the theory promises — beyond guilt and scruple — and it left him trivial, bored, unable to bear himself. He is the proof of concept, and the proof destroys the theory.",
+    wrong: "Not quite. Svidrigailov is a dark mirror: the man who already has the freedom Raskolnikov envies, and found it hollow. His suicide is the logical conclusion of the theory."
+  },
+  3: {
+    b: "Yes. Confession to a priest is about absolution; to the police, punishment. Confessing to Sonya — who has suffered as much as anyone — is about being truly known in guilt and not abandoned. She embodies the suffering love Dostoevsky believed could reach a closed soul.",
+    wrong: "Not quite. Dostoevsky pairs them because Sonya is the living counter-argument: where Raskolnikov tried to reason his way above suffering, she passed through it without a theory and remained whole."
+  }
+};
+
+function answer(qNum, choice) {
+  if (qDone[qNum]) return;
+  qDone[qNum] = choice;
+  var opts = document.querySelectorAll("#q" + qNum + "-opts .qz-opt");
+  var correct = qAnswers[qNum];
+  opts.forEach(function(btn, i) {
+    var letter = ["a","b","c"][i];
+    btn.disabled = true;
+    if (letter === correct) {
+      btn.classList.add("correct");
+    } else if (letter === choice && choice !== correct) {
+      btn.classList.add("wrong");
+    } else {
+      btn.classList.add("reveal");
+    }
+  });
+  var fb = document.getElementById("q" + qNum + "-fb");
+  fb.textContent = (choice === correct) ? qFeedback[qNum][correct] : qFeedback[qNum]["wrong"];
+  fb.className = "qz-fb show " + (choice === correct ? "correct" : "wrong");
+
+  if (Object.keys(qDone).length === 3) {
+    var score = Object.keys(qDone).filter(function(q){ return qDone[q] === qAnswers[q]; }).length;
+    var scoreEl = document.getElementById("qz-score");
+    document.getElementById("score-n").textContent = score + " / 3";
+    var msgs = [
+      "Keep reading — the details are worth it.",
+      "Good — you have the shape of it. Re-read the Svidrigailov chapter.",
+      "Very good. You have understood what Dostoevsky was arguing.",
+      "Excellent. You have read this novel, whether you know it or not."
+    ];
+    document.getElementById("score-msg").textContent = msgs[score];
+    scoreEl.classList.add("show");
+  }
+}
+/* Wire quiz buttons */
+document.querySelectorAll('.qz-opt[data-q]').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    answer(parseInt(btn.getAttribute('data-q')),btn.getAttribute('data-choice'));
+  });
+});
+</script>
+</body>
+</html>
