@@ -50,6 +50,33 @@ Each story chapter: ~300–450 words of prose (1–2 minutes reading time).
 Full synopsis: 5–10 minutes total. Cut ruthlessly — every sentence earns
 its place. No setup, no repetition, no transition padding.
 
+### 3a. Sentence rhythm
+
+Prefer short, clean sentences. Avoid long compound constructions chained
+with hyphens and semi-colons — if a sentence needs three clauses to land,
+break it into two sentences instead. One idea per sentence is almost always
+clearer than two.
+
+Bad: "Darcy surveys the room with cool displeasure — a man of ten thousand
+a year who considers the local gentry beneath him — and declines to be
+introduced to Elizabeth, telling Bingley within her hearing that she is
+tolerable but not handsome enough to tempt him."
+
+Good: "Darcy surveys the room with cool displeasure and declines to dance.
+He tells Bingley within Elizabeth's hearing that she is 'tolerable, but
+not handsome enough to tempt me.' She overhears it, laughs, and repeats
+it to her friends."
+
+### 3b. Quote what you allude to
+
+If the prose references a character's famous remark, witty reply, or
+memorable line, quote it directly. Never write "one of his best lines"
+or "a cutting remark" without giving the actual words.
+
+Bad: "Mr Bennet settles the matter with one of his best lines."
+Good: "Mr Bennet ends the debate: 'An unhappy alternative is before you,
+Elizabeth. From this day you must be a stranger to one of your parents.'"
+
 ### 4. Focus on what matters
 
 Prioritise: key characters, core events, major themes, turning points.

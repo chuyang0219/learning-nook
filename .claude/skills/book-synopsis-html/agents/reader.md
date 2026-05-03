@@ -52,6 +52,15 @@ Does the reader come away knowing why this is a classic?
 Can anything be cut without losing meaning?
 Target: 1–2 minutes per chapter. Flag anything overlong.
 
+**SENTENCE RHYTHM**
+Are sentences clean and direct? Flag any sentence heavy with hyphens, semi-colons,
+or three-or-more chained clauses. One idea per sentence is almost always better.
+
+**INLINE QUOTING**
+Does the prose allude to a famous line or remark without quoting it?
+Flag any phrase like "one of his best lines", "a cutting remark",
+"his famous response" unless the actual words follow immediately.
+
 **RECAP BOXES**
 Is the title evocative and specific (not generic like "Chapter Summary")?
 Does the paragraph add genuine insight — a sharp observation, an irony,

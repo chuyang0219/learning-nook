@@ -23,14 +23,14 @@ You receive:
 ### Images
 Save each found image to:
 ```
-book-htmls/images/{book-slug}/chapter_01.jpg
-book-htmls/images/{book-slug}/chapter_02.jpg
+book-htmls/{book-slug}/images/chapter_01.jpg
+book-htmls/{book-slug}/images/chapter_02.jpg
 …
 ```
 Use `.jpg` for paintings and photographs, `.png` for line art / engravings.
 
 ### Manifest
-Save to: `book-htmls/images/{book-slug}/manifest.json`
+Save to: `book-htmls/{book-slug}/images/manifest.json`
 
 ```json
 {
@@ -115,13 +115,13 @@ Verify the download succeeded: file size > 20KB, file is not an HTML error page.
 
 ### 6. Write caption
 
-1–2 sentences. State: what is shown, who (if identifiable from source), which scene.
-Ground it in the source metadata — do not invent details.
+1 sentence. State what is shown and who (if identifiable). Do not include
+illustrator name, publisher, or edition year — attribution lives in the manifest.
 
-Good: `"Elizabeth Bennet and Mr Darcy during their tense first conversation
-at the Netherfield ball. Illustration by C.E. Brock for the 1895 George Allen edition."`
+Good: `"Elizabeth Bennet and Mr Darcy during their tense first conversation at the Netherfield ball."`
 
 Bad: `"A scene from the novel."` / `"Two characters conversing."`
+Bad: `"Illustration by C.E. Brock for the 1895 George Allen edition of Pride and Prejudice."` ← source info not needed in caption
 
 ---
 
@@ -136,20 +136,37 @@ any illustration.
 
 ## Image display spec
 
-When the Writer inserts an image, it should use this structure (replacing the SVG strip):
+When the Writer inserts an image, use one of two layouts — chosen based on image
+dimensions and where in the prose it sits:
 
+**Full-width** (portrait/square images, or chapter openers):
 ```html
 <figure class="ch-illustration">
-  <img src="images/{book-slug}/chapter_01.jpg"
+  <img src="images/chapter_01.jpg"
        alt="{brief one-line description}"
-       style="width:100%;max-width:680px;max-height:360px;object-fit:cover;border-radius:6px;display:block;">
+       style="width:100%;max-width:680px;border-radius:6px;display:block;">
   <figcaption class="ch-illus-caption">{caption}</figcaption>
 </figure>
 ```
 
+**Float-right** (landscape illustrations mid-prose, wraps text around image):
+```html
+<figure class="ch-illustration float-right">
+  <img src="images/chapter_01.jpg"
+       alt="{brief one-line description}"
+       style="width:100%;border-radius:6px;display:block;">
+  <figcaption class="ch-illus-caption">{caption}</figcaption>
+</figure>
+```
+
+No `max-height` or `object-fit:cover` — never crop images.
+
 CSS to add alongside Step 11:
 ```css
-.ch-illustration  { margin: 0 0 1.4rem; }
+.ch-illustration { margin: 0 0 1.4rem; }
+.ch-illustration.float-right { float: right; margin: 0 0 1rem 1.5rem; max-width: 280px; }
+.ch-illustration.float-left  { float: left;  margin: 0 1.5rem 1rem 0; max-width: 280px; }
+.ch::after { content: ""; display: table; clear: both; }
 .ch-illus-caption { font-size: .78rem; color: #888; margin: .4rem 0 0;
                     font-style: italic; line-height: 1.5; }
 ```

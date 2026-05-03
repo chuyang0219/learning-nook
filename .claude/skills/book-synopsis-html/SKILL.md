@@ -65,14 +65,14 @@ Final check:
 READER FEEDBACK FROM PREVIOUS VERSION:
 [paste reader output verbatim, or "APPROVED — insert images only, no content changes"]
 
-IMAGE MANIFEST: [project]/book-htmls/images/{book-slug}/manifest.json
+IMAGE MANIFEST: [project]/book-htmls/{book-slug}/images/manifest.json
 For chapters with "found": true → replace SVG strip with <figure class="ch-illustration">.
 For chapters with "found": false → keep SVG strip unchanged.
 See agents/illustrator.md for the HTML structure and CSS to use.
 ```
 
-Output path convention: `[project]/book-htmls/<slug>.html`
-Images output: `[project]/book-htmls/images/<slug>/chapter_0N.jpg` + `manifest.json`
+Output path convention: `[project]/book-htmls/<slug>/<slug>.html`
+Images output: `[project]/book-htmls/<slug>/images/chapter_0N.jpg` + `manifest.json`
 
 ### Spawning the Reader
 
@@ -333,16 +333,23 @@ be nested inside the invisible hidden chapter N. They will render blank.
 
 ## Step 4 — Chapter anatomy
 
-Every story chapter body follows this structure, in strict order:
+Every story chapter body follows this structure:
 
 ```
-[illustration SVG]
-[prose — pure narrative, in the author's register]
+[prose — opening paragraph(s)]
+[illustration — placed near the relevant prose moment, not always at the top]
+[prose — continuation]
 [quote — placed where it chronologically occurs]
 [prose — continuation]
 [quote — if a second occurs here]
 [end-of-chapter recap block]
 ```
+
+**Image placement:** Illustrations belong near the prose moment they depict.
+An image of a proposal scene goes next to the paragraph about the proposal,
+not at the top of the chapter. If a chapter's main image depicts the chapter's
+climax, place it just before that climactic paragraph. Top placement is fine
+only when the image introduces the setting or atmosphere of the whole chapter.
 
 **The prose must read like the book, compressed — with meaning woven in very
 lightly.** Think of it as a knowledgeable friend retelling the story: they
