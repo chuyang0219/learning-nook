@@ -18,11 +18,11 @@ like reading the book itself, compressed and illuminated.
 
 ---
 
-## How this skill runs — three-agent loop
+## How this skill runs
 
-Three agents, orchestrated by you (the main agent):
+Four phases, orchestrated by you (the main agent):
 
-- **Writer** — researches the book, produces the HTML. Full spec: `agents/writer.md`
+- **Writer** — receives a research brief, produces the HTML. Full spec: `agents/writer.md`
 - **Reader** — reads the finished HTML fresh (zero prior context), gives critical
   editorial feedback. Full spec: `agents/reader.md`
 - **Illustrator** — finds period illustrations for each chapter, downloads them,
@@ -30,45 +30,131 @@ Three agents, orchestrated by you (the main agent):
 
 Read all three agent files before spawning any agent.
 
-Loop (max 3 writer rounds):
 ```
+Phase 0 — Orchestrator pre-research (before spawning any agent):
+  Run these web searches in parallel:
+  - "[Book title] [Author] plot summary"
+  - "[Book title] famous quotes"
+  - "[Book title] characters"
+  - Wikipedia page for the work
+  - SparkNotes or LitCharts if available
+
+  Compile a Research Brief (format below).
+  The Writer receives this brief and skips its own research step.
+
 Round 1:
-  1. Spawn Writer → saves HTML with SVG atmospheric strips as placeholders
+  1. Spawn Writer with Research Brief → saves HTML with SVG atmospheric strips
   2. [In parallel] Spawn Reader + Spawn Illustrator
      - Reader: critiques HTML, returns APPROVED or NEEDS REVISION
      - Illustrator: finds images, saves manifest.json
 
-Round 2 (always runs — needed to insert images regardless of reader verdict):
-  3. Spawn Writer (round 2) with:
-     - Reader feedback (if NEEDS REVISION) OR instruction "approved — insert images only"
-     - Image manifest path
-     Writer inserts <img> tags from manifest, keeps SVG strips for chapters with found:false
+Image insertion (orchestrator — no Writer spawn needed):
+  3. Once Illustrator finishes: run the image insertion script below.
+     For chapters with found: true → replace SVG strip with <figure>.
+     For chapters with found: false → keep SVG strip unchanged.
+     If Illustrator hasn't finished by the time Round 2 Writer is needed,
+     run Writer revision first, then insert images afterwards.
+
+Round 2 (only if Reader returned NEEDS REVISION):
+  4. Spawn Writer (round 2) with Reader feedback.
+  5. Re-run image insertion script (restores any figures lost in revision).
+  6. Spawn Reader (round 2) → critiques updated HTML.
 
 Round 3 (only if Reader round 2 returns NEEDS REVISION):
-  4. Spawn Reader (round 2) → critiques updated HTML
-  5. If NEEDS REVISION → spawn Writer (round 3, final)
-  6. After round 3, deliver regardless of verdict.
+  7. Spawn Writer (round 3, final). Re-run image insertion after.
+  8. Deliver regardless of verdict.
 
 Final check:
-  7. Compare manifest chapter count vs final HTML chapter count.
-     If chapters were merged/split/reordered during revision: revert mismatched
-     chapter images to SVG strips (set found:false for those chapters, re-run Writer
-     for a quick image-only fix pass).
+  9. Compare manifest chapter count vs final HTML chapter count.
+     Revert mismatched chapter images to SVG strips.
 ```
+
+### Research Brief format
+
+```
+RESEARCH BRIEF — [Book Title]
+Author: [name] · Year: [year]
+Tone: [prose register, e.g. "feverish, compressed, interior — mirror Dostoevsky"]
+
+CHAPTER OUTLINE:
+1. [Working title] — [2–3 sentence beat: what happens, what turns]
+…
+
+KEY CHARACTERS (6–12):
+[Name] (pron: [STRESSED-syllable]) — [role, 1 sentence, no apostrophes]
+…
+
+VERIFIED QUOTES (10–15):
+Ch[N]: "[exact text]" — [speaker, to whom, context]
+…
+
+THEMES (2–3):
+- [theme]: [1–2 sentence explanation]
+…
+```
+
+### Image insertion script
+
+Run this directly after the Illustrator delivers — no Writer spawn needed:
+
+```python
+import json
+
+slug      = "{book-slug}"
+html_path = f"book-htmls/{slug}/{slug}.html"
+manifest_path = f"book-htmls/{slug}/images/manifest.json"
+
+html     = open(html_path).read()
+manifest = json.load(open(manifest_path))
+total    = len(manifest["chapters"])
+
+for ch in manifest["chapters"]:
+    if not ch.get("found"):
+        continue
+    n       = ch["chapter"]
+    tag     = f"<!-- CH {n} -->"
+    nxt_tag = f"<!-- CH {n+1}" if n < total else "<!-- Nav"
+    start   = html.find(tag)
+    end     = html.find(nxt_tag, start)
+    if start == -1 or end == -1:
+        continue
+    block     = html[start:end]
+    svg_start = block.find('<svg width="680"')
+    if svg_start == -1:
+        continue  # already replaced
+    svg_end = block.find("</svg>", svg_start) + len("</svg>")
+    figure = (
+        '<figure class="ch-illustration">\n'
+        f'  <img src="images/chapter_{n:02d}.jpg"\n'
+        f'       alt="{ch["caption"]}"\n'
+        '       style="width:100%;max-width:680px;border-radius:6px;display:block;">\n'
+        f'  <figcaption class="ch-illus-caption">{ch["caption"]}'
+        f' <span style="opacity:.6">— {ch["attribution"]}</span></figcaption>\n'
+        '</figure>'
+    )
+    block = block[:svg_start] + figure + block[svg_end:]
+    html  = html[:start] + block + html[end:]
+
+open(html_path, "w").write(html)
+inserted = sum(1 for c in manifest["chapters"] if c.get("found"))
+print(f"Images inserted: {inserted}/{total} chapters")
+```
+
+Re-run this after every Writer revision round to keep images current.
 
 ### Spawning the Writer
 
-**Round 1 prompt** must include: book name, output path, full contents of `agents/writer.md`.
+**Round 1 prompt** must include: book name, output path, Research Brief, full contents of `agents/writer.md`.
 
 **Round 2+ prompt** must include all of the above, plus:
 ```
 READER FEEDBACK FROM PREVIOUS VERSION:
-[paste reader output verbatim, or "APPROVED — insert images only, no content changes"]
+[paste reader output verbatim]
 
-IMAGE MANIFEST: [project]/book-htmls/{book-slug}/images/manifest.json
-For chapters with "found": true → replace SVG strip with <figure class="ch-illustration">.
-For chapters with "found": false → keep SVG strip unchanged.
-See agents/illustrator.md for the HTML structure and CSS to use.
+Note: images are already spliced into the HTML by the orchestrator.
+Do not remove or replace <figure class="ch-illustration"> blocks unless
+the image is clearly wrong for the chapter. The orchestrator will
+re-run image insertion after this round.
 ```
 
 Output path convention: `[project]/book-htmls/<slug>/<slug>.html`
@@ -148,26 +234,17 @@ not be artificially narrow. Set `max-width` to match the layout's content area
 
 ---
 
-## Step 1 — Research before writing
+## Step 1 — Research brief
 
-**Always research first — do not rely on training data alone.** Even for
-well-known books, training data may misremember quotes, character names, or
-plot details. Use web search to verify before writing.
+You receive a **Research Brief** from the orchestrating agent. Do not re-research —
+the brief is pre-verified. Go straight to Step 2.
 
-Minimum research queries to run (in parallel where possible):
-- `"[Book title] [Author] plot summary"` — for chapter structure
-- `"[Book title] famous quotes"` — for verbatim quote text and attribution
-- `"[Book title] characters"` — for full names, roles, spellings
-- Wikipedia page for the work — publication year, reception, key themes
-- SparkNotes or LitCharts if available — reliable chapter-by-chapter breakdown
-
-For less famous works, do more: search for detailed plot breakdowns, character
-analyses, and academic commentary. If you cannot find reliable information,
-say so before proceeding rather than inventing details.
+If something in the brief conflicts with your knowledge, add a
+`<!-- RESEARCH NOTE: ... -->` HTML comment and proceed with the brief's version.
 
 ---
 
-Establish these from your research before producing any HTML:
+The brief provides these fields — use them directly:
 
 **Structure.** Identify the work's natural dramatic units — usually 5–10 for
 a full novel. For a play, use Acts. For a short novel (<200 pages), 5–6
@@ -179,10 +256,9 @@ thread or interweave both — decide which serves clarity.
 pronunciation of any non-English or difficult name (stressed syllable in
 CAPS: `"Lyeh-OH-vin"`, `"ah-NAH"`), a name string for text-to-speech.
 
-**Quotes.** 10–15 well-known passages. Verify the exact wording from a
-reliable source — do not paraphrase a quote and present it as verbatim.
-For each, note *exactly* where it occurs — which Part/Act, who says it,
-to whom. Famous opening lines belong in Chapter 1.
+**Quotes.** 10–15 well-known passages, pre-verified in the brief. Use the
+exact text provided. For each, the brief notes where it occurs — which Part/Act,
+who says it, to whom. Famous opening lines belong in Chapter 1.
 
 **Themes.** 2–3 central ideas the synopsis must convey — these drive the
 "Why it matters" page.
