@@ -1,5 +1,5 @@
 ---
-name: book-synopsis-html
+name: book-synopsis
 description: >
   Creates a self-contained interactive HTML synopsis for any famous book, play,
   or novel — paginated, illustrated, with sidebar navigation, character tooltips
@@ -670,8 +670,8 @@ Replace `"LANG_CODE"` with the appropriate BCP-47 code: `"ru-RU"` for Russian,
 `"fr-FR"` for French, `"ja-JP"` for Japanese, etc. Use `"en-GB"` as fallback
 for English-language novels.
 
-Note: the correct quiz answer is always option `"b"`. This is a convention for
-consistency — design questions so b is the right answer.
+Choose correct answers independently — update `qAnswers` to match. The only
+constraint: not all three the same letter. Do not make the correct option the longest.
 
 ---
 
@@ -752,7 +752,10 @@ Good question types:
 - "Why does the novel structure work the way it does?"
 - "What does [character/event] represent in contrast to [other]?"
 
-Option B is always correct (by convention — design questions accordingly).
+Choose correct answers independently per question — b, b, a is as valid as
+a, b, c. The only rule: don't make all three the same letter. Do not make the
+correct option the longest. Make distractors genuinely plausible: a thoughtful
+reader should pause before choosing.
 Feedback paragraphs explain the reasoning, not just confirm right/wrong.
 
 ---
@@ -803,14 +806,14 @@ body   { font-family: Georgia, serif; background: #f5f2ed; color: #1a1a1a; }
 
 /* Quotes — standardised .qt class */
 .qt { border-left: 3px solid currentColor; padding: .9rem 1.1rem .9rem 1.3rem;
-      margin: 1.6rem 0; border-radius: 0 6px 6px 0; opacity: .92; }
+      margin: 1.6rem 0; border-radius: 0 6px 6px 0; opacity: .92; clear: both; }
 .qt p { margin: 0 0 .35rem; font-style: italic; font-size: 1.05rem; line-height: 1.75; }
 .qt cite { font-size: .82rem; font-style: normal; opacity: .7; }
 
 /* End-of-chapter recap block */
 .ch-recap { margin: 2rem 0 0; padding: 1.1rem 1.4rem;
             border-radius: 6px; border-top: 2px solid rgba(0,0,0,.1);
-            background: rgba(0,0,0,.03); }
+            background: rgba(0,0,0,.03); clear: both; }
 .recap-title { display: block; font-size: .72rem; text-transform: uppercase;
                letter-spacing: .13em; margin: 0 0 .55rem;
                font-family: system-ui, sans-serif; font-style: normal;
