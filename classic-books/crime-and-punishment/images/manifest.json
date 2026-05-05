@@ -1,0 +1,50 @@
+{
+  "book": "crime-and-punishment",
+  "chapters": [
+    {
+      "chapter": 1,
+      "file": "chapter_01.jpg",
+      "caption": "Raskolnikov stands in the pawnbroker's apartment, axe in hand, as Lizaveta unexpectedly enters and discovers the bloodied body of her sister on the floor.",
+      "attribution": "Nikolay Karazin, 1893",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Karazin1.jpg",
+      "found": true
+    },
+    {
+      "chapter": 2,
+      "file": "chapter_02.jpg",
+      "caption": "Sonya kneels at the bedside of her dying father Marmeladov, surrounded by family members and a priest administering last rites.",
+      "attribution": "Igor Grabar, 1894",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Grabar_Crime_and_Punishment_Sonya_visiting_Marmeladov_1894.jpg",
+      "found": true
+    },
+    {
+      "chapter": 3,
+      "file": "chapter_03.jpg",
+      "caption": "Investigator Porfiry Petrovich sits at his desk laughing with theatrical exuberance during his psychological cat-and-mouse interrogation of Raskolnikov.",
+      "attribution": "Fritz Eichenberg, 1938 (Heritage Press edition)",
+      "source_url": "http://www.fulltable.com/VTS/aoi/e/eichenberg/cp/SH939.jpg",
+      "found": true
+    },
+    {
+      "chapter": 4,
+      "file": "chapter_04.jpg",
+      "caption": "Sonya stands in her dimly lit room, hands raised in an imploring gesture, as the dark silhouette of Raskolnikov listens and a Bible lies open on the table between them.",
+      "attribution": "Fritz Eichenberg, 1938 (Heritage Press edition)",
+      "source_url": "https://www.annexgalleries.com/images/items/large/FE154/The-Confession-Chapter-4-Dostoevskys-Crime-and-Punishment-by-Fritz-Eichenberg.jpg",
+      "found": true
+    },
+    {
+      "chapter": 5,
+      "file": "chapter_05.jpg",
+      "caption": "Svidrigailov stands alone in the dark before a stone archway on the night before his suicide, a stray dog prowling in the shadows behind him.",
+      "attribution": "Fritz Eichenberg, 1938 (Heritage Press edition)",
+      "source_url": "https://www.annexgalleries.com/images/items/large/FE153/Before-the-Suicide-for-Dostoevskys-Crime-and-Punishment-Chapter-6-by-Fritz-Eichenberg.jpg",
+      "found": true
+    },
+    {
+      "chapter": 6,
+      "found": false,
+      "reason": "No qualifying public domain illustration depicting Raskolnikov in Siberian penal servitude or his spiritual renewal with Sonya could be found after searching Wikimedia Commons, Library of Congress, and multiple gallery archives."
+    }
+  ]
+}

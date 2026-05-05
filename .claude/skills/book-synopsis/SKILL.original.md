@@ -1,8 +1,3 @@
-Compressing directly inline since file write requires approval.
-
----
-
-```
 ---
 name: book-synopsis
 description: >
@@ -14,23 +9,26 @@ description: >
   Punishment for [book]", or wants an interactive reading companion for any
   literary work. Works for novels, plays, and long-form narrative non-fiction.
 ---
-```
 
 # Book synopsis HTML skill
 
-Single self-contained `.html`. Reading companion, not Wikipedia summary. Feels like reading book — compressed + illuminated.
+Produces a single self-contained `.html` file that works as a beautifully
+designed reading companion — not a Wikipedia summary. The output should feel
+like reading the book itself, compressed and illuminated.
 
 ---
 
 ## How this skill runs
 
-Four phases, orchestrated by main agent:
+Four phases, orchestrated by you (the main agent):
 
-- **Writer** — receives research brief, produces HTML. Full spec: `agents/writer.md`
-- **Reader** — reads finished HTML fresh (zero prior context), gives critical editorial feedback. Full spec: `agents/reader.md`
-- **Illustrator** — finds period illustrations per chapter, downloads, outputs manifest. Full spec: `agents/illustrator.md`
+- **Writer** — receives a research brief, produces the HTML. Full spec: `agents/writer.md`
+- **Reader** — reads the finished HTML fresh (zero prior context), gives critical
+  editorial feedback. Full spec: `agents/reader.md`
+- **Illustrator** — finds period illustrations for each chapter, downloads them,
+  outputs a manifest. Full spec: `agents/illustrator.md`
 
-Read all three agent files before spawning.
+Read all three agent files before spawning any agent.
 
 ```
 Before Phase 0 — Ask the user one question:
@@ -106,7 +104,7 @@ THEMES (2–3):
 
 ### Image insertion script
 
-Run directly after Illustrator delivers — no Writer spawn needed:
+Run this directly after the Illustrator delivers — no Writer spawn needed:
 
 ```python
 import json
@@ -151,13 +149,15 @@ inserted = sum(1 for c in manifest["chapters"] if c.get("found"))
 print(f"Images inserted: {inserted}/{total} chapters")
 ```
 
-Re-run after every Writer revision round to keep images current.
+Re-run this after every Writer revision round to keep images current.
 
 ### Spawning the Writer
 
 **Round 1 prompt** must include: book name, output path, Research Brief, full contents of `agents/writer.md`.
 
-**Round 2+ prompt** — lean, targeted. Do NOT re-send Research Brief, Steps 0–12, or full `agents/writer.md`. Writer reads existing HTML for context. Include only:
+**Round 2+ prompt** — lean, targeted. Do NOT re-send the Research Brief, Steps 0–12, or
+the full `agents/writer.md`. The writer will read the existing HTML for context.
+Include only:
 ```
 You are the Writer Agent revising an existing book synopsis HTML.
 
@@ -174,41 +174,57 @@ RULES:
 - Output a WHAT CHANGED section listing each fix made.
 ```
 
-writer.md "When revising" section only agent guidance for Round 2. Include if writer spawned fresh. Omit Steps 0–12 entirely.
+The writer.md "When revising" section is the only agent guidance needed for Round 2.
+Include it if the writer is being spawned fresh. Omit Steps 0–12 entirely.
 
 Output path convention: `[project]/book-htmls/<slug>/<slug>.html`
 Images output: `[project]/book-htmls/<slug>/images/chapter_0N.jpg` + `manifest.json`
 
 ### Spawning the Reader
 
-Prompt must include: HTML file path, book title, full contents of `agents/reader.md`. Reader must not have seen writer's process.
+Prompt must include: the HTML file path, the book title, and the full contents
+of `agents/reader.md`. The reader must not have seen the writer's process.
 
 ### Spawning the Illustrator
 
-Prompt must include: book name, slug, chapter list (number + title + 1-sentence scene description per chapter), output directory, full contents of `agents/illustrator.md`, `preferred_sources` list from Before Phase 0 (empty if blank). Illustrator runs in parallel with Reader — spawn both in same turn.
+Prompt must include: book name, slug, chapter list (number + title + 1-sentence scene
+description for each), output directory, full contents of `agents/illustrator.md`,
+and the `preferred_sources` list from Before Phase 0 (empty list if user left blank).
+The illustrator runs in parallel with the Reader — spawn both in the same turn.
 
 ### Rate-limit handling
 
-If subagent returns rate-limit error ("You've hit your limit · resets HH:MMam"):
-- Tell user reset time, stop. Don't re-spawn immediately.
-- When user says "continue", re-spawn agent, resume from where it failed. Pass same prompt — don't restart whole process.
+If a subagent returns a rate-limit error ("You've hit your limit · resets HH:MMam"):
+- Tell the user the reset time and stop. Do not re-spawn immediately.
+- When the user says "continue", re-spawn that agent and resume the loop from
+  where it failed. Pass the same prompt — do not restart the whole process.
 
 ---
 
 ## Step 0 — Page title and header
 
-Set browser tab title, render visible header above layout.
+Set the browser tab title and render a visible header above the layout.
 
-**Browser `<title>`:** Book name only — no subtitles, no "Synopsis", no author name. Examples: `<title>Anna Karenina</title>`, `<title>Hamlet</title>`, `<title>The Great Gatsby</title>`.
+**Browser `<title>`:** Use the book's name only — no subtitles, no "Synopsis",
+no author name appended. Examples: `<title>Anna Karenina</title>`,
+`<title>Hamlet</title>`, `<title>The Great Gatsby</title>`.
 
-**Visible header:** Place `<header class="pg-header">` immediately before `<div class="layout">`. Must show:
-- Book title (large)
-- Author name + year (smaller, muted)
-- Decorative separator below
+**Visible header:** Place a `<header class="pg-header">` block immediately
+before `<div class="layout">`. It must show:
+- The book title (large)
+- The author's name and year (smaller, muted)
+- A decorative separator below
 
-**Design rule — thematic coherence:** Header palette, fonts, motifs match book's world. Derive from Step 5 SVG atmosphere. Only inline styles or Step 11 classes — no external fonts.
+**Design rule — thematic coherence:** The header's palette, font choices, and
+decorative motifs must feel like they belong to the book's world. Derive them
+from the same atmosphere you establish in the SVG illustrations (Step 5).
+Use only inline styles or classes defined in Step 11 — no external fonts.
 
-**Don't invent new colours or override core CSS.** Step 11 body font, drop cap, `.qt` border, `.ch-recap` background, nav styles are fixed. Customise only thematic accent colour (`.ch-title`, `.qt` border-color, drop cap, `.ti.on`) — derive from palette table. Everything else stays as Step 11 defines.
+**Do not invent new colours or override the core CSS.** The body font, drop
+cap, `.qt` border, `.ch-recap` background, and navigation styles from Step 11
+are fixed. Customise only the thematic accent colour (used in `.ch-title`,
+`.qt` border-color, drop cap colour, and sidebar `.ti.on` indicator) — derive
+it from the palette table below. Everything else stays as Step 11 defines it.
 
 | Book world | Suggested palette | Motif |
 |---|---|---|
@@ -219,7 +235,7 @@ Set browser tab title, render visible header above layout.
 | French realism (Flaubert, Zola) | Stone grey / deep red | single hairline rule |
 | Default (any other) | Match `body` background, `#1a1a1a` | simple `<hr>` |
 
-**Minimal markup template** (customise per table above):
+**Minimal markup template** (customise colours and decoration per the table above):
 
 ```html
 <header class="pg-header">
@@ -229,7 +245,10 @@ Set browser tab title, render visible header above layout.
 </header>
 ```
 
-**pg-rule width — critical:** `pg-rule` must span full content width, not artificially narrow. Set `max-width` to match layout content area (`960px` minus `1.5rem` padding each side ≈ `912px`), **not** fixed small value like `480px`. Too-narrow rule looks like bug.
+**pg-rule width — critical:** The `pg-rule` must span the full content width,
+not be artificially narrow. Set `max-width` to match the layout's content area
+(i.e. `max-width: 960px` layout minus `1.5rem` padding on each side ≈ `912px`),
+**not** a fixed small value like `480px`. A too-narrow rule looks like a bug.
 
 ```css
 /* CORRECT — matches content width */
@@ -245,30 +264,42 @@ Set browser tab title, render visible header above layout.
 
 ## Step 1 — Research brief
 
-Receive **Research Brief** from orchestrating agent. Don't re-research — brief is pre-verified. Go to Step 2.
+You receive a **Research Brief** from the orchestrating agent. Do not re-research —
+the brief is pre-verified. Go straight to Step 2.
 
-If brief conflicts with knowledge, add `<!-- RESEARCH NOTE: ... -->` HTML comment, proceed with brief's version.
+If something in the brief conflicts with your knowledge, add a
+`<!-- RESEARCH NOTE: ... -->` HTML comment and proceed with the brief's version.
 
 ---
 
-Brief provides these fields — use directly:
+The brief provides these fields — use them directly:
 
-**Structure.** Natural dramatic units — usually 5–10 for full novel. For play, use Acts. Short novel (<200 pages): 5–6 chapters, don't pad to 8. Long novel with parallel narratives (e.g. Anna Karenina, Middlemarch): each chapter covers one thread or interweaves — decide by clarity.
+**Structure.** Identify the work's natural dramatic units — usually 5–10 for
+a full novel. For a play, use Acts. For a short novel (<200 pages), 5–6
+chapters is appropriate; don't pad to 8. For a long novel with parallel
+narratives (e.g. Anna Karenina, Middlemarch), each chapter can cover one
+thread or interweave both — decide which serves clarity.
 
-**Characters.** 6–12 key figures. Per each: one-sentence role, phonetic pronunciation of non-English or difficult names (stressed syllable in CAPS: `"Lyeh-OH-vin"`, `"ah-NAH"`), name string for text-to-speech.
+**Characters.** 6–12 key figures. For each: one-sentence role, phonetic
+pronunciation of any non-English or difficult name (stressed syllable in
+CAPS: `"Lyeh-OH-vin"`, `"ah-NAH"`), a name string for text-to-speech.
 
-**Quotes.** 10–15 known passages, pre-verified. Use exact text. Brief notes where each occurs — Part/Act, who says it, to whom. Famous opening lines go in Chapter 1.
+**Quotes.** 10–15 well-known passages, pre-verified in the brief. Use the
+exact text provided. For each, the brief notes where it occurs — which Part/Act,
+who says it, to whom. Famous opening lines belong in Chapter 1.
 
-**Themes.** 2–3 central ideas synopsis must convey — drive "Why it matters" page.
+**Themes.** 2–3 central ideas the synopsis must convey — these drive the
+"Why it matters" page.
 
-**Tone.** Note author's prose register. Synopsis prose must mirror it:
+**Tone.** Note the author's prose register. The synopsis prose must mirror it:
 - Dostoevsky: short declarative sentences, fever, compression, interiority
 - Tolstoy: wide and panoramic, societal observation, slow moral certainty
 - Fitzgerald: lyrical, elegiac, saturated with longing
 - Austen: ironic, measured, alert to social performance
 - Shakespeare: the soliloquies carry more weight than the plot; quote generously
 
-> **Copyright:** Short quotations only (under 15 words). Paraphrase everything longer. Never reproduce poems, songs, or substantial prose extracts verbatim.
+> **Copyright:** Short quotations only (under 15 words). Paraphrase everything
+> longer. Never reproduce poems, songs, or substantial prose extracts verbatim.
 
 ---
 
@@ -280,22 +311,26 @@ Brief provides these fields — use directly:
 | N+1 | ✦ Why it matters | Themes, legacy, famous passages |
 | N+2 | ✎ Quiz | 3 questions on key ideas |
 
-Total chapter count is N+2. Chapter 1 is first page shown.
+Total chapter count is N+2. Chapter 1 is the first page shown.
 
 **Chapter count rules:**
-- No minimum. Use as few as story demands — don't pad.
+- No minimum. Use as few as the story demands — don't pad.
 - Standard novels: aim for 5–6 story chapters.
-- Max 6. If book genuinely needs more (very long novel, e.g. War and Peace, Middlemarch), **stop and ask user** before writing:
+- Max 6. If a book genuinely needs more (very long novel, e.g. War and Peace,
+  Middlemarch), **stop and ask the user** before writing:
   > "This book is long enough to warrant more than 6 chapters. Would you prefer:
   > a) A single summary with up to 8 chapters, or
   > b) Two separate summaries — Part I and Part II — each with 4–5 chapters?"
-  Then proceed based on answer.
+  Then proceed based on their answer.
 
-For plays: chapters = Acts (or scene-clusters for long Acts). Subtitle can note what Act is known for: `"Act III · The turning point"`.
+For plays: chapters = Acts (or scene-clusters for long Acts). Subtitle can
+note what the Act is known for: `"Act III · The turning point"`.
 
 ### Sidebar chapter titles
 
-Format: `Roman numeral · Short phrase`. Plain text, no `.ti-icon` wrapper. Full label (including ` · `) under 22 chars — fits 178px sidebar without truncation.
+Format: `Roman numeral · Short phrase`. Plain text, no `.ti-icon` wrapper.
+Keep the full label (including the Roman numeral and ` · `) under 22 characters
+so it fits the 178px sidebar without truncation.
 
 Good: `I · The Bennets`, `V · Pemberley`, `III · Mr Collins`
 Too long: `I · A Single Man of Fortune`, `III · Proposals and Refusals`
@@ -340,7 +375,8 @@ Too long: `I · A Single Man of Fortune`, `III · Proposals and Refusals`
 
 **Nav counter — two-span pattern (avoids the double-slash bug):**
 
-`nc` span holds only current page number. Total in separate `ntot` span. JS updates both independently:
+The `nc` span holds only the current page number. The total is in a separate
+`ntot` span. The JS updates both independently:
 
 ```html
 <!-- HTML -->
@@ -353,9 +389,12 @@ document.getElementById('nc').textContent = (c+1);
 document.getElementById('ntot').textContent = N;
 ```
 
-**Why this matters:** Old pattern `textContent = (c+1) + ' / ' + N` wrote full string into `nc`, while surrounding HTML already had `/ TOTAL` — producing `"2 / 11 / 11"`. Two-span pattern avoids this.
+**Why this matters:** The old pattern `textContent = (c+1) + ' / ' + N` wrote
+the full string into `nc`, while the surrounding HTML already had `/ TOTAL` —
+producing `"2 / 11 / 11"`. The two-span pattern avoids this entirely.
 
-**Total hardcoded in `ntot`** must match actual chapter count (N story chapters + Character Map + Why it matters + Quiz = N+3).
+**The total hardcoded in `ntot`** must match actual chapter count (N story
+chapters + Character Map + Why it matters + Quiz = N+3).
 
 ### Div-balance verification — run this before delivering
 
@@ -391,7 +430,8 @@ for i in range(1, N+3):
 print("All checks passed.")
 ```
 
-Single missing `</div>` on chapter N causes every subsequent chapter to nest inside invisible hidden chapter N. They render blank.
+A single missing `</div>` on chapter N causes every subsequent chapter to
+be nested inside the invisible hidden chapter N. They will render blank.
 
 ---
 
@@ -409,31 +449,46 @@ Every story chapter body follows this structure:
 [end-of-chapter recap block]
 ```
 
-**Image placement:** Illustrations near prose moment they depict. Proposal scene image goes next to proposal paragraph, not chapter top. If main image depicts climax, place before climactic paragraph. Top placement only when image introduces chapter setting/atmosphere.
+**Image placement:** Illustrations belong near the prose moment they depict.
+An image of a proposal scene goes next to the paragraph about the proposal,
+not at the top of the chapter. If a chapter's main image depicts the chapter's
+climax, place it just before that climactic paragraph. Top placement is fine
+only when the image introduces the setting or atmosphere of the whole chapter.
 
-**Prose must read like book, compressed — meaning woven in lightly.** Like knowledgeable friend retelling story: no padding, repetition, or over-explaining, but naturally notes why moment matters. Each major beat: 1–2 paragraphs.
+**The prose must read like the book, compressed — with meaning woven in very
+lightly.** Think of it as a knowledgeable friend retelling the story: they
+don't pad, repeat, or over-explain, but they do naturally say why a moment
+matters as they go. Each major beat gets 1–2 paragraphs.
 
-Light-touch rule: brief phrase hints at significance without stopping story. Insight feels like storytelling, not analysis.
+The light-touch rule: a brief phrase or clause can hint at significance
+without stopping the story. The insight should feel like good storytelling,
+not analysis.
 
 Good (barely-there, flows naturally):
 > "Darcy dismisses Elizabeth as beneath his notice — a judgement he'll spend
 > the rest of the novel slowly, painfully revising."
 > "For the first time, she isn't sure she was right."
 
-Bad (breaks narrative, feels like lecture):
+Bad (breaks the narrative, feels like a lecture):
 > "This symbolises the rigid class structures of Regency society."
 > "Austen uses this scene to critique the role of women."
 > "The tension here represents the novel's central theme."
 
-If meaning-phrase feels heavy or stops reader, cut it. Story first.
+If adding the meaning-phrase makes the sentence feel heavy or stops the
+reader, cut it. Story first, always.
 
-**Reading time target:** Each story chapter: 1–2 min read (~300–450 words prose, not counting quotes or recap). Full synopsis: 5–10 min. Cut ruthlessly — every sentence earns its place.
+**Reading time target:** Each story chapter should take 1–2 minutes to read
+(~300–450 words of prose, not counting quotes or recap). The full synopsis
+should read in 5–10 minutes. Cut ruthlessly — every sentence must earn its
+place.
 
-Don't use `.hl` boxes or `.sym-row` in story chapters. Clutter narrative, banned from chapter body.
+Do **not** use `.hl` highlight boxes or `.sym-row` symbol rows inside story
+chapters. They clutter the narrative and are banned from the chapter body.
 
 ### Quote markup — standardised
 
-Every quote uses `.qt` with `data-qid` attribute (needed for favourites). Format: `[book-slug]-ch[N]-q[N]`:
+Every quote uses `.qt` with a `data-qid` attribute (needed for the favourites
+feature). The `data-qid` format is `[book-slug]-ch[N]-q[N]`:
 
 ```html
 <div class="qt" data-qid="pride-and-prejudice-ch1-q1">
@@ -442,27 +497,36 @@ Every quote uses `.qt` with `data-qid` attribute (needed for favourites). Format
 </div>
 ```
 
-Use `.qt` only — never `.quote-block`, `.pull-quote`, or other variants.
+Use this class only — never `.quote-block`, `.pull-quote`, or other variants.
 
 ### Quote count and placement
 
-Every chapter: **at least one quote**. Up to **three** if multiple famous/relevant passages — don't force extras to hit number.
+Every chapter must have **at least one quote**. Use up to **three** if the
+chapter contains multiple famous or highly relevant passages — don't force
+extra quotes in just to hit a number.
 
-Every quote appears **only in chapter where it chronologically occurs**. Annotation (`— Character, Part III`) must match section.
+Every quote appears **only in the chapter where it chronologically occurs**.
+The annotation (`— Character, Part III`) must match the section.
 
-Never use future quote as "contrast" or "foreshadowing" in earlier chapter. If thematically relevant to earlier moment, make point in *prose*, save quote for correct chapter.
+Never use a future quote as "contrast" or "foreshadowing" in an earlier chapter.
+If a quote is thematically relevant to an earlier moment, make the point in
+*prose* and save the quote for its correct chapter.
 
 Famous opening lines go in Chapter 1 even if they seem like authorial framing.
 
 ### End-of-chapter recap block
 
-Every story chapter ends with `<div class="ch-recap">` containing **evocative title** + **single flowing paragraph**.
+Every story chapter ends with a `<div class="ch-recap">` containing an
+**evocative title** followed by a **single flowing paragraph**.
 
-Title (3–5 words): chapter's defining quality — something reader remembers, not plot label.
+The title (3–5 words) should capture the chapter's defining quality —
+something a reader would remember, not a plot label.
 Good: `"The Social Architecture"`, `"Pemberley as Character"`, `"Pride Before the Fall"`
 Weak: `"Chapter Summary"`, `"What Happened"`, `"Elizabeth Meets Darcy"`
 
-Paragraph (2–4 sentences): editor's note. Draw out what's worth pausing on — irony, character shift, power dynamic, what to carry forward. Feel different every chapter. Never restate the prose.
+The paragraph (2–4 sentences) is an editor's note: draw out whatever is most
+worth pausing on — an irony, a character shift, a power dynamic, what to carry
+forward. It should feel different every chapter. Never just restate the prose.
 
 ```html
 <div class="ch-recap">
@@ -475,28 +539,41 @@ Paragraph (2–4 sentences): editor's note. Draw out what's worth pausing on —
 </div>
 ```
 
-Keep tight. One well-aimed paragraph, not recap of everything. Reader feels chapter crystallise, not summarised.
+Keep it tight. One well-aimed paragraph, not a recap of everything that
+just happened. The reader should feel the chapter crystallise, not be
+summarised at them.
 
 ### Parallel narratives
 
-If novel follows two parallel threads (e.g. Anna/Levin in Karenina, Pip/Estella in Great Expectations), two options:
-- **Interleave:** One chapter per major beat, weaving both threads. Label chapter header to signal switch: `"Part II · Anna and Levin diverge"`.
-- **Separate arcs:** One chapter per thread, clearly labelled. Works when threads don't interact until late.
+If the novel follows two parallel threads (e.g. Anna/Levin in Karenina,
+Pip/Estella in Great Expectations), you have two options:
+- **Interleave:** One chapter per major beat, weaving both threads. Label the
+  chapter header to signal the switch: `"Part II · Anna and Levin diverge"`.
+- **Separate arcs:** One chapter per thread, clearly labelled. Works when the
+  threads don't interact until late.
 
-Either approach fine — pick by clarity.
+Either approach is fine; pick whichever serves clarity for that novel.
 
 ---
 
 ## Step 5 — Illustrations (SVG)
 
-Each chapter: **lightweight atmospheric header** — SVG strip (680×90px) using **hardcoded hex colours only** (no CSS variables, won't invert in dark mode).
+Each chapter gets a **lightweight atmospheric header** — an SVG strip
+(680×90px) using **hardcoded hex colours only** (no CSS variables, won't
+invert in dark mode).
 
-**Keep simple and fast.** Goal: atmosphere, not detailed scene. Gradient sky + 1–2 silhouette shapes enough. Don't draw elaborate paths, multiple figures, or complex compositions.
+**Keep it simple and fast to generate.** The goal is atmosphere, not a
+detailed scene. A gradient sky + one or two silhouette shapes is enough.
+Do not draw elaborate paths, multiple figures, or complex compositions.
 
 Formula per chapter:
-1. `<linearGradient>` or `<radialGradient>` background fill — colours from book's palette
-2. At most **2 simple shapes**: one silhouette (a roofline, a tree, a horizon, a doorway) plus optional accent (a moon, a candle glow, a window light)
-3. Optional: one small atmospheric text label in low-opacity serif (`"St. Petersburg, 1865"`) — only if it adds something
+1. A `<linearGradient>` or `<radialGradient>` background fill for the
+   strip — colours derived from the book's palette
+2. At most **2 simple shapes**: one silhouette (a roofline, a tree, a
+   horizon, a doorway) plus an optional accent (a moon, a candle glow,
+   a window light)
+3. Optional: one small atmospheric text label in low-opacity serif
+   (`"St. Petersburg, 1865"`) — only if it adds something
 
 ```svg
 <!-- Example: English country house chapter -->
@@ -517,7 +594,7 @@ Formula per chapter:
 </svg>
 ```
 
-Establish palette + silhouette vocabulary in Chapter 1, reuse/vary:
+Establish a palette and silhouette vocabulary in Chapter 1 and reuse/vary it:
 - English country house: soft greens/creams, rooflines, hedgerows
 - Russian 19th-century: deep navy/ochre, domes, lit windows against dark sky
 - Jazz-Age America: gold/charcoal, mansion outline, dock lights on water
@@ -527,13 +604,13 @@ Establish palette + silhouette vocabulary in Chapter 1, reuse/vary:
 
 ## Step 6 — Character tooltips
 
-Tag every named character on use (and subsequent uses where reminder helps):
+Tag every named character on use (and on subsequent uses where a reminder helps):
 
 ```html
 <span class="cn-tip" data-char="CharKey">Character Name</span>
 ```
 
-JS `CHARS` object (in script 2) maps each key:
+The JS `CHARS` object (in script 2) maps each key:
 
 ```js
 var CHARS = {
@@ -543,16 +620,21 @@ var CHARS = {
 ```
 
 - `pron`: phonetic guide, stressed syllable in CAPS
-- `speak`: full name passed to `speechSynthesis` — attempts Russian/relevant language voice first, falls back to `en-GB`
-- `desc`: one sentence, **no apostrophes** (e.g. `"Friend of Raskolnikov"` not `"Raskolnikov's friend"` — apostrophes in double-quoted JS strings cause errors)
+- `speak`: full name passed to `speechSynthesis` — will attempt Russian/relevant
+  language voice first, fall back to `en-GB`
+- `desc`: one sentence, **no apostrophes** (e.g. `"Friend of Raskolnikov"` not
+  `"Raskolnikov's friend"` — apostrophes in double-quoted JS strings cause errors)
 
-Tooltip: appears on hover, locks position (doesn't follow mouse), stays open when mouse moves onto it (so user can click hear button).
+Tooltip behaviour: appears on hover, locks position (does not follow mouse),
+stays open when mouse moves onto it (so user can click hear button).
 
 ---
 
 ## Step 7 — Writing JS safely
 
-**Always write second script block via shell heredoc.** Python string escaping silently writes `\'` for apostrophes, breaks browser JS parser: `SyntaxError: Unexpected identifier 's'`.
+**Always write the second script block via a shell heredoc.** Python string
+escaping silently writes `\'` into the file for any apostrophe, which breaks
+the browser JS parser with `SyntaxError: Unexpected identifier 's'`.
 
 ```bash
 cat > /tmp/script2.js << 'JSEOF'
@@ -571,7 +653,7 @@ print('OK — zero single quotes')
 "
 ```
 
-Then splice into HTML in Python:
+Then splice into the HTML in Python:
 
 ```python
 old_start = src.find('\n<script>\nvar CHARS')
@@ -688,15 +770,18 @@ function answer(qNum, choice) {
 }
 ```
 
-Replace `"LANG_CODE"` with BCP-47 code: `"ru-RU"` Russian, `"fr-FR"` French, `"ja-JP"` Japanese, etc. Use `"en-GB"` as fallback for English novels.
+Replace `"LANG_CODE"` with the appropriate BCP-47 code: `"ru-RU"` for Russian,
+`"fr-FR"` for French, `"ja-JP"` for Japanese, etc. Use `"en-GB"` as fallback
+for English-language novels.
 
-Choose correct answers independently — update `qAnswers`. Constraint: not all three same letter. Don't make correct option longest.
+Choose correct answers independently — update `qAnswers` to match. The only
+constraint: not all three the same letter. Do not make the correct option the longest.
 
 ---
 
 ## Step 8 — The tooltip HTML
 
-Place before closing `</body>`:
+Place this just before the closing `</body>`:
 
 ```html
 <div class="tip-box" id="tipbox">
@@ -709,7 +794,7 @@ Place before closing `</body>`:
 </div>
 ```
 
-Critical CSS — `pointer-events` line most-forgotten rule:
+Critical CSS — the `pointer-events` line is the most-forgotten rule:
 
 ```css
 .cn-tip  { border-bottom: 1px dotted #888; cursor: help; }
@@ -723,32 +808,42 @@ Critical CSS — `pointer-events` line most-forgotten rule:
 
 ## Step 9 — "Why it matters" page
 
-Only page where thematic analysis, symbolism, `.hl` boxes are appropriate. Keep out of story chapters.
+This is the only page where thematic analysis, symbolism, and `.hl` highlight
+boxes are appropriate. Keep them out of story chapters.
 
-Structure with clear headings. Visual org (cards, stat elements, pull-quote styling) where it helps — don't force rigid grid if simpler prose works. Goal: informs + delights, not ticks boxes.
+Structure the page with clear headings. Use visual organisation (cards,
+stat elements, pull-quote styling) where it helps — but don't force a rigid
+grid if simpler prose serves better. The goal is a page that informs and
+delights, not one that ticks boxes.
 
 ### Section 1 — Central Themes & Legacy
-*(choose title fitting book — "Why It Endures", "What It's Really About", etc.)*
+*(choose a title that fits the book — "Why It Endures", "What It's Really About", etc.)*
 
-Up to **3** central themes, reasons for fame, or core ideas. Each gets:
-- Short title (3–5 words)
-- 2–3 sentences: why theme matters, what book does with it, why it still resonates
+Up to **3** central themes, reasons for its fame, or core ideas. Each gets:
+- A short title (3–5 words)
+- 2–3 sentences of clear, plain explanation — why does this theme matter,
+  what does the book do with it, why does it still resonate?
 
-Cards, grid, or labelled blocks — whichever reads clearest. No academic jargon. No vague claims ("explores the human condition").
+Use cards, a grid, or simple labelled blocks — whichever reads most clearly.
+No academic jargon. No vague claims ("explores the human condition").
 
 ### Section 2 — Fun Facts
 
-Surprising, memorable, little-known facts: composition, reception, adaptations, controversies, cultural impact, misattributions. 4–6 facts that make non-reader say "I didn't know that."
+Surprising, memorable, or little-known facts about the work: its composition,
+reception, adaptations, controversies, cultural impact, misattributions.
+Aim for 4–6 facts that would make a non-reader say "I didn't know that."
 
-Visual format — stat callout cards, list with markers, or compact grid. Include numbers/dates where interesting (e.g. "Rejected by 12 publishers", "800,000 copies sold in first year").
+Use a visual format — stat-style callout cards, a list with visual markers,
+or a compact grid. Include numbers/dates where they're interesting
+(e.g. "Rejected by 12 publishers", "800,000 copies sold in first year").
 
-If famous quote commonly misattributed to this work, correct it here.
+If a famous quote is commonly misattributed to this work, correct it here.
 
 ### Section 3 — Famous Passages
 
-Three most celebrated quotes. Per each:
-- Quote (styled as pull-quote)
-- One sentence: why passage is famous or what makes it land
+Three of the most celebrated quotes from the work. For each:
+- The quote (styled as a pull-quote)
+- One sentence explaining *why* this passage is famous or what makes it land
 
 ---
 
@@ -761,7 +856,11 @@ Good question types:
 - "Why does the novel structure work the way it does?"
 - "What does [character/event] represent in contrast to [other]?"
 
-Choose correct answers independently — b, b, a valid as a, b, c. Rule: don't make all three same letter. Don't make correct option longest. Distractors genuinely plausible: thoughtful reader pauses before choosing. Feedback paragraphs explain reasoning, not just confirm right/wrong.
+Choose correct answers independently per question — b, b, a is as valid as
+a, b, c. The only rule: don't make all three the same letter. Do not make the
+correct option the longest. Make distractors genuinely plausible: a thoughtful
+reader should pause before choosing.
+Feedback paragraphs explain the reasoning, not just confirm right/wrong.
 
 ---
 
@@ -857,7 +956,8 @@ body   { font-family: Georgia, serif; background: #f5f2ed; color: #1a1a1a; }
 
 ## Step 12 — Sidebar icons (HugeIcons, inlined SVG)
 
-Story chapter buttons: plain text (no `.ti-icon` wrapper). Only two special pages use icons — wrap in `.ti-icon` span.
+Story chapter buttons are plain text (no `.ti-icon` wrapper). Only the two
+special pages use icons — wrap icon + label in a `.ti-icon` span.
 
 **Why it matters** → `SparklesIcon`
 ```html
@@ -869,7 +969,9 @@ Story chapter buttons: plain text (no `.ti-icon` wrapper). Only two special page
 <button class="ti" onclick="go(N+2)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 22C7.49306 22 5.48959 22 4.2448 20.5355C3 19.0711 3 16.714 3 12C3 7.28596 3 4.92893 4.2448 3.46447C5.48959 2 7.49306 2 11.5 2C15.5069 2 17.5104 2 18.7552 3.46447C19.7572 4.64332 19.9527 6.40054 19.9908 9.5"/><path d="M8 8H15M8 13H11"/><path d="M19.6092 18.1054C20.4521 17.4918 21 16.4974 21 15.375C21 13.511 19.489 12 17.625 12H17.375C15.511 12 14 13.511 14 15.375C14 16.4974 14.5479 17.4918 15.3908 18.1054M19.6092 18.1054C19.0523 18.5108 18.3666 18.75 17.625 18.75H17.375C16.6334 18.75 15.9477 18.5108 15.3908 18.1054M19.6092 18.1054L20.192 19.9404C20.4143 20.6403 20.5255 20.9903 20.4951 21.2082C20.4318 21.6617 20.0619 21.9984 19.6252 22C19.4154 22.0008 19.101 21.8358 18.4723 21.5059C18.2027 21.3644 18.0679 21.2936 17.93 21.252C17.649 21.1673 17.351 21.1673 17.07 21.252C16.9321 21.2936 16.7973 21.3644 16.5277 21.5059C15.899 21.8358 15.5846 22.0008 15.3748 22C14.9381 21.9984 14.5682 21.6617 14.5049 21.2082C14.4745 20.9903 14.5857 20.6403 14.808 19.9404L15.3908 18.1054"/></svg>Quiz</span></button>
 ```
 
-SVG paths from `@hugeicons/core-free-icons` (free tier, MIT-licensed). `stroke="currentColor"` inherits button's active/inactive text colour.
+The SVG paths are from `@hugeicons/core-free-icons` (free tier, MIT-licensed
+rendering utilities). `stroke="currentColor"` means they automatically inherit
+the button's active/inactive text colour.
 
 ---
 
@@ -877,20 +979,20 @@ SVG paths from `@hugeicons/core-free-icons` (free tier, MIT-licensed). `stroke="
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| Chapters 2+ render blank | Missing `</div>` on `.ch` wrapper | Run depth-check script; add closing div before each `<!-- CH N -->` marker |
-| `SyntaxError: Unexpected identifier 's'` | Apostrophe in JS double-quoted string (`\'`) | Rewrite desc strings without apostrophes; use shell heredoc for script 2 |
+| Chapters 2+ render blank | Missing `</div>` on a `.ch` wrapper | Run the depth-check script; add closing div before each `<!-- CH N -->` marker |
+| `SyntaxError: Unexpected identifier 's'` | Apostrophe in JS double-quoted string (`\'`) | Rewrite desc strings without apostrophes; always use shell heredoc for script 2 |
 | `SyntaxError: Unexpected token '<'` | Duplicate `<script><script>` open tag | Grep for `<script` count — must equal `</script>` count |
 | Tooltip follows mouse, hear button unreachable | `mousemove` updating position | Position set once in `mouseenter` only — no `mousemove` listener |
 | Tooltip disappears before button click | No delay, or `pointer-events:none` | 150ms `setTimeout` on hide; remove `pointer-events:none` |
-| "Why it matters" page blank | Nested inside unclosed sibling chapter | Run depth-check script — find which chapter has missing `</div>` |
-| Quote annotations don't match section | Quotes placed thematically, not chronologically | Move every quote to chapter where it occurs in book |
+| "Why it matters" page blank | Nested inside an unclosed sibling chapter | Run depth-check script — find which chapter has missing `</div>` |
+| Quote annotations don't match section | Quotes placed thematically, not chronologically | Move every quote to the chapter where it actually occurs in the book |
 | Nav counter shows "2 / 11 / 11" | Old single-span pattern; JS wrote full string into `nc` | Use two-span pattern: `<span id="nc">` for page, `<span id="ntot">` for total |
 | Character Map boxes overflow text | Box height too small for 4 text lines | Use H≥72; measure: name(y+18) + subtitle(y+32) + desc1(y+48) + desc2(y+61) |
 | Character Map lines cut through boxes | Lines not routed to exact edge midpoints | Precompute all edge midpoints in SVG comment block; use only H/V path segments |
 | Character Map boxes overlap | Not enough column spacing | Use ≥170px column spacing with W=150 boxes (gives 20px gap between adjacent) |
 | Header rule looks too narrow | `pg-rule max-width: 480px` | Set `max-width: 912px` to match full content width |
-| Story chapters contain `.hl` / `.sym-row` blocks | Interpretation leaking into narrative | Move analysis to `.ch-recap` or "Why it matters" page |
+| Story chapters contain `.hl` / `.sym-row` blocks | Interpretation leaking into narrative | Move analysis to `.ch-recap` or to the "Why it matters" page |
 | Quote uses `.quote-block` or `.pull-quote` class | Inconsistent markup | Rename to `.qt`; add `data-qid="[slug]-ch[N]-q[N]"` |
 | Recap block missing from a chapter | Skipped by accident | Every story chapter must end with `.ch-recap` |
 | Sidebar titles truncated | Labels too long for 178px column | Keep full label (Roman numeral + phrase) under 22 chars |
-| Story chapter buttons wrapped in `.ti-icon` | Only icon buttons need wrapper | Plain text buttons: `<button class="ti" onclick="go(N)">I · Title</button>` |
+| Story chapter buttons wrapped in `.ti-icon` | Only icon buttons need the wrapper | Plain text buttons: `<button class="ti" onclick="go(N)">I · Title</button>` |
