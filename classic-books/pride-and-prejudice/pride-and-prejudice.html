@@ -1,153 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pride and Prejudice</title>
-<style>
-body   { font-family: Georgia, serif; background: #f5f2ed; color: #1a1a1a; margin: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pride and Prejudice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Page header */
-.pg-header { max-width: 960px; margin: 0 auto; padding: 2.2rem 1.5rem 0; text-align: center; }
-.pg-title  { font-size: 2.4rem; font-weight: 700; letter-spacing: .02em; margin: 0 0 .3rem; color: #1a1a1a; }
-.pg-author { font-size: 1rem; color: #666; margin: 0 0 1.2rem; letter-spacing: .04em; }
-.pg-rule   { border: none; border-top: 2px double #688050; margin: 0 auto; max-width: 912px; }
+    body {
+      background: #FAF6EE;
+      color: #2C2416;
+      font-family: "EB Garamond", "Garamond", "Georgia", serif;
+      font-size: 1.08rem;
+      line-height: 1.72;
+      min-height: 100vh;
+    }
 
-/* Layout */
-.ch    { display: none; }
-.ch.on { display: block; }
-.layout { display: flex; max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
-.sb    { width: 178px; flex-shrink: 0; position: sticky; top: 1.5rem; align-self: flex-start; padding-right: 1.2rem; }
-.main  { flex: 1; min-width: 0; }
-.sb-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: #999; padding: 0 9px 6px; }
-.tdiv  { height: 1px; background: rgba(0,0,0,.1); margin: 6px 0 6px; }
+    /* HEADER */
+    .pg-header {
+      text-align: center;
+      padding: 2.8rem 1.5rem 1.4rem;
+      background: #FAF6EE;
+    }
+    .pg-back {
+      display: inline-block;
+      font-size: .85rem;
+      color: #A89880;
+      text-decoration: none;
+      letter-spacing: .04em;
+      margin-bottom: 1rem;
+      transition: color .2s;
+    }
+    .pg-back:hover { color: #7B4F6E; }
+    .pg-title {
+      font-family: "Cormorant Garamond", "Garamond", "Georgia", serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: .01em;
+      color: #2C2416;
+      line-height: 1.15;
+    }
+    .pg-author {
+      font-size: .95rem;
+      color: #A89880;
+      margin-top: .4rem;
+      letter-spacing: .06em;
+    }
+    .pg-rule {
+      width: 60px;
+      height: 2px;
+      background: #7B4F6E;
+      margin: 1.2rem auto 0;
+      border-radius: 2px;
+    }
 
-.ti    { display: block; width: 100%; text-align: left; background: none; border: none;
-         padding: 5px 9px; border-radius: 6px; cursor: pointer;
-         font-family: system-ui,sans-serif; font-size: 13px; color: #555;
-         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-         border-left: 2px solid transparent; transition: background .12s; }
-.ti:hover { background: rgba(0,0,0,.06); color: #1a1a1a; }
-.ti.on    { background: rgba(0,0,0,.07); color: #1a1a1a; font-weight: 600; border-left: 2px solid #688050; }
-.ti-icon     { display: inline-flex; align-items: center; gap: 5px; }
-.ti-icon svg { flex-shrink: 0; }
+    /* LAYOUT */
+    .layout {
+      display: flex;
+      max-width: 1040px;
+      margin: 2rem auto 4rem;
+      padding: 0 1rem;
+      gap: 2rem;
+      align-items: flex-start;
+    }
 
-/* Chapter prose */
-.ch-title { font-size: 1.45rem; font-weight: 700; margin: 0 0 .2rem; color: #688050; }
-.ch-sub   { font-size: .88rem; color: #8a8070; margin: 0 0 1.4rem; letter-spacing: .05em; text-transform: uppercase; }
-.ch p { line-height: 1.85; font-size: 1.1rem; margin: 0 0 1.1rem; }
-.ch p:first-of-type::first-letter { float: left; font-size: 3.4em; line-height: .85;
-  margin: .08em .12em 0 0; font-weight: 700; color: #688050; }
+    /* SIDEBAR */
+    .sb {
+      width: 165px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 1.5rem;
+    }
+    .sb-label {
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #A89880;
+      margin-bottom: .65rem;
+      padding-left: .3rem;
+    }
+    .ti {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      border-left: 3px solid transparent;
+      padding: .45rem .6rem .45rem .7rem;
+      text-align: left;
+      font-family: "EB Garamond", serif;
+      font-size: .88rem;
+      color: #A89880;
+      cursor: pointer;
+      border-radius: 0 4px 4px 0;
+      transition: color .15s, border-color .15s, background .15s;
+      line-height: 1.35;
+      margin-bottom: .1rem;
+    }
+    .ti:hover { color: #2C2416; background: rgba(123,79,110,.06); }
+    .ti.on {
+      color: #7B4F6E;
+      border-left-color: #7B4F6E;
+      font-weight: 700;
+      background: rgba(123,79,110,.07);
+    }
+    .ti-icon {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+    }
+    .tdiv {
+      height: 1px;
+      background: rgba(0,0,0,.1);
+      margin: .5rem .5rem;
+    }
 
-/* Quotes */
-.qt { border-left: 3px solid #688050; padding: .9rem 1.1rem .9rem 1.3rem;
-      margin: 1.6rem 0; border-radius: 0 6px 6px 0; opacity: .92;
-      background: rgba(104,128,80,.05); clear: both; }
-.qt p { margin: 0 0 .35rem; font-style: italic; font-size: 1.05rem; line-height: 1.75; }
-.qt cite { font-size: .82rem; font-style: normal; opacity: .7; }
+    /* MAIN */
+    .main {
+      flex: 1;
+      min-width: 0;
+    }
 
-/* Recap block */
-.ch-recap { margin: 2rem 0 0; padding: 1.1rem 1.4rem; border-radius: 6px;
-            border-top: 2px solid rgba(0,0,0,.1); background: rgba(0,0,0,.03); clear: both; }
-.recap-title { display: block; font-size: .72rem; text-transform: uppercase;
-               letter-spacing: .13em; margin: 0 0 .55rem;
-               font-family: system-ui, sans-serif; font-style: normal;
-               font-weight: 600; opacity: .55; }
-.ch-recap p { font-size: .97rem; line-height: 1.72; margin: 0; font-style: italic; }
+    /* CHAPTERS */
+    .ch { display: none; }
+    .ch.on { display: block; }
 
-/* Navigation bar */
-.nr { display: flex; align-items: center; justify-content: space-between;
-      padding: 1.4rem 0 .5rem; margin-top: 1rem; border-top: 1px solid rgba(0,0,0,.08); }
-.nr button { background: none; border: 1px solid rgba(0,0,0,.2); border-radius: 5px;
-             padding: .45rem .9rem; cursor: pointer; font-size: .9rem; transition: background .12s; }
-.nr button:hover:not(:disabled) { background: rgba(0,0,0,.06); }
-.nr button:disabled { opacity: .35; cursor: default; }
+    .ch-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #7B4F6E;
+      margin-bottom: 1.4rem;
+      line-height: 1.2;
+    }
 
-/* Why it matters page */
-.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.2rem 0; }
-.card { background: #fff; border: 1px solid rgba(104,128,80,.2);
-        border-radius: 8px; padding: 1rem 1.1rem; }
-.card h4 { margin: 0 0 .4rem; color: #688050; font-size: 1rem; }
-.card p { margin: 0; font-size: .93rem; line-height: 1.65; }
-.stat-row { display: flex; gap: 1rem; margin: 1rem 0; flex-wrap: wrap; }
-.stat-card { flex: 1; min-width: 120px; background: #fff;
-             border-radius: 8px; padding: .9rem 1rem; text-align: center;
-             border: 1px solid rgba(104,128,80,.2); }
-.stat-card .stat-n { font-size: 1.6rem; font-weight: 700; color: #688050; }
-.stat-card .stat-l { font-size: .8rem; color: #777; margin-top: .2rem; }
-.wim-qt { border-left: 3px solid #688050; padding: .8rem 1.1rem;
-          margin: 1.2rem 0; background: rgba(104,128,80,.06);
-          border-radius: 0 6px 6px 0; }
-.wim-qt p { font-style: italic; margin: 0 0 .3rem; line-height: 1.7; }
-.wim-qt cite { font-size: .82rem; opacity: .7; }
-.wim-qt .qt-why { font-size: .9rem; margin-top: .5rem; font-style: normal; color: #444; }
-.wim-section-title { font-size: 1.1rem; font-weight: 700; margin: 2rem 0 .8rem; color: #1a1a1a; }
+    /* DROP CAP */
+    .ch > p:first-of-type::first-letter {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 3.4em;
+      line-height: .85;
+      margin: .08em .12em 0 0;
+      font-weight: 700;
+      float: left;
+      color: #7B4F6E;
+    }
 
-/* Quiz */
-.qz-q { margin: 1.6rem 0; }
-.qz-q h4 { font-size: 1rem; margin: 0 0 .7rem; }
-.qz-opts { display: flex; flex-direction: column; gap: .45rem; }
-.qz-opt { background: #fff; border: 1px solid rgba(0,0,0,.18); border-radius: 6px;
-          padding: .55rem .9rem; cursor: pointer; text-align: left;
-          font-size: .95rem; transition: background .12s; }
-.qz-opt:hover:not(:disabled) { background: rgba(104,128,80,.1); }
-.qz-opt.correct  { background: rgba(104,128,80,.18); border-color: #688050; font-weight: 600; }
-.qz-opt.wrong    { background: rgba(180,60,60,.1); border-color: #b43c3c; }
-.qz-opt.reveal   { opacity: .5; }
-.qz-fb { display: none; font-size: .9rem; margin-top: .6rem; padding: .6rem .9rem;
-         border-radius: 6px; line-height: 1.6; }
-.qz-fb.show         { display: block; }
-.qz-fb.show.correct { background: rgba(104,128,80,.12); color: #3a5028; }
-.qz-fb.show.wrong   { background: rgba(180,60,60,.08); color: #7a2020; }
-#qz-score { display: none; margin-top: 1.5rem; padding: 1rem 1.2rem;
-            background: rgba(104,128,80,.1); border-radius: 8px; text-align: center; }
-#qz-score.show { display: block; }
-#score-n { font-size: 1.6rem; font-weight: 700; color: #688050; }
-#score-msg { font-size: .95rem; color: #555; margin-top: .3rem; }
+    .ch p {
+      margin-bottom: 1.1rem;
+    }
 
-/* Character tooltips */
-.cn-tip  { border-bottom: 1px dotted #888; cursor: help; }
-.tip-box { display: none; position: fixed; z-index: 9999; max-width: 240px;
-           background: #fff8f0; border: .5px solid #ccc; border-radius: 8px;
-           padding: 10px 13px; box-shadow: 0 4px 16px rgba(0,0,0,.12); }
-.tip-name { font-weight: 700; font-size: .95rem; margin-bottom: 3px; }
-.tip-pron { font-size: .8rem; color: #666; display: flex; align-items: center;
-            gap: 6px; margin-bottom: 5px; }
-.tip-speak { font-size: .75rem; background: none; border: 1px solid #ccc;
-             border-radius: 4px; padding: 1px 6px; cursor: pointer; }
-.tip-desc { font-size: .85rem; line-height: 1.5; color: #333; }
+    /* ILLUSTRATION */
+    .ch-illustration {
+      margin: 1.6rem 0;
+      border-radius: 6px;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .ch-illustration svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
 
-.ch-illustration  { margin: 0 0 1.4rem; }
-.ch-illustration.float-right { float: right; margin: 0 0 1rem 1.5rem; max-width: 280px; }
-.ch-illustration.float-left  { float: left;  margin: 0 1.5rem 1rem 0; max-width: 280px; }
-.ch::after { content: ""; display: table; clear: both; }
-.ch-illus-caption { font-size: .78rem; color: #888; margin: .4rem 0 0;
-                    font-style: italic; line-height: 1.5; }
+    /* QUOTES */
+    .qt {
+      border-left: 3px solid #7B4F6E;
+      padding: .9rem 1.1rem .9rem 1.3rem;
+      border-radius: 0 6px 6px 0;
+      background: #EDE0C8;
+      margin: 1.5rem 0;
+    }
+    .qt p {
+      font-style: italic;
+      font-size: 1.05rem;
+      margin-bottom: .3rem;
+      color: #2C2416;
+    }
+    .qt cite {
+      font-size: .83rem;
+      color: #A89880;
+      font-style: normal;
+      letter-spacing: .03em;
+    }
 
-/* Mobile */
-@media (max-width: 640px) {
-  .layout { flex-direction: column; padding: 1rem .9rem; }
-  .sb { width: 100%; padding: 0 0 .8rem; position: static;
-        display: flex; flex-wrap: nowrap; overflow-x: auto;
-        gap: .3rem; -webkit-overflow-scrolling: touch; }
-  .sb::-webkit-scrollbar { display: none; }
-  .sb .sb-label, .sb .tdiv { display: none; }
-  .ti { width: auto; flex-shrink: 0; white-space: nowrap; border-left: none;
-        border-bottom: 2px solid transparent; border-radius: 4px; }
-  .ti.on { border-bottom: 2px solid #688050; border-left: none; }
-  .pg-title { font-size: 1.9rem; }
-  .ch p { font-size: 1.05rem; }
-  .qt p { font-size: 1rem; }
-  .card-grid { grid-template-columns: 1fr; }
-  .stat-row { flex-direction: column; }
-  .ch-illustration.float-right,
-  .ch-illustration.float-left { float: none; margin: 0 0 1.4rem; max-width: 100%; }
-}
-</style>
+    /* RECAP */
+    .ch-recap {
+      background: #F2EBD9;
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+      margin-top: 1.8rem;
+    }
+    .recap-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: #7B4F6E;
+      margin-bottom: .5rem;
+    }
+    .ch-recap p:last-child { margin-bottom: 0; }
+
+    /* CHARACTER TOOLTIPS */
+    .cn-tip {
+      border-bottom: 1px dashed #A89880;
+      cursor: help;
+      position: relative;
+    }
+    .cn-tip .tip-box {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2C2416;
+      color: #FAF6EE;
+      font-size: .8rem;
+      line-height: 1.45;
+      padding: .55rem .75rem;
+      border-radius: 6px;
+      width: 220px;
+      z-index: 100;
+      pointer-events: none;
+      font-style: normal;
+    }
+    .cn-tip .tip-box .tip-pron {
+      font-size: .72rem;
+      color: #A89880;
+      display: block;
+      margin-bottom: .2rem;
+      font-style: italic;
+    }
+    .cn-tip:hover .tip-box { display: block; }
+
+    /* WHY IT MATTERS */
+    .hl {
+      background: #F2EBD9;
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1.2rem;
+    }
+    .hl-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #7B4F6E;
+      margin-bottom: .5rem;
+    }
+    .hl p { margin-bottom: .6rem; }
+    .hl p:last-child { margin-bottom: 0; }
+    .hl ul {
+      padding-left: 1.2rem;
+      margin-bottom: 0;
+    }
+    .hl ul li { margin-bottom: .4rem; }
+
+    /* QUIZ */
+    .quiz-q {
+      margin-bottom: 2rem;
+    }
+    .quiz-q p {
+      font-weight: 700;
+      margin-bottom: .8rem;
+    }
+    .quiz-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #F2EBD9;
+      border: 2px solid transparent;
+      border-radius: 6px;
+      padding: .6rem 1rem;
+      margin-bottom: .45rem;
+      font-family: "EB Garamond", serif;
+      font-size: 1rem;
+      color: #2C2416;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+    .quiz-opt:hover { background: #EDE0C8; }
+    .quiz-opt.correct { background: #d6ead2; border-color: #5a9e60; color: #1e4d22; }
+    .quiz-opt.wrong { background: #f5d5d5; border-color: #c05050; color: #5a1515; }
+    .quiz-feedback {
+      font-size: .9rem;
+      margin-top: .5rem;
+      min-height: 1.2em;
+      color: #7B4F6E;
+      font-style: italic;
+    }
+
+    /* NAV */
+    .nr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(0,0,0,.1);
+      font-size: .9rem;
+      color: #A89880;
+    }
+    .nr button {
+      background: none;
+      border: 1px solid #A89880;
+      border-radius: 4px;
+      padding: .4rem .9rem;
+      font-family: "EB Garamond", serif;
+      font-size: .9rem;
+      color: #A89880;
+      cursor: pointer;
+      transition: color .15s, border-color .15s;
+    }
+    .nr button:hover:not(:disabled) { color: #7B4F6E; border-color: #7B4F6E; }
+    .nr button:disabled { opacity: .35; cursor: default; }
+
+    /* MOBILE */
+    @media (max-width: 680px) {
+      .layout { flex-direction: column; gap: 1rem; }
+      .sb { width: 100%; position: static; display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
+      .sb-label { width: 100%; margin-bottom: .2rem; }
+      .ti { width: auto; border-left: none; border-bottom: 2px solid transparent; border-radius: 4px; padding: .3rem .6rem; font-size: .82rem; }
+      .ti.on { border-bottom-color: #7B4F6E; border-left: none; }
+      .tdiv { display: none; }
+      .pg-title { font-size: 2rem; }
+      .ch-title { font-size: 1.45rem; }
+    }
+  </style>
 </head>
 <body>
 
 <header class="pg-header">
+  <a class="pg-back" href="../../index.html">&#8592; Library</a>
   <h1 class="pg-title">Pride and Prejudice</h1>
   <p class="pg-author">Jane Austen &middot; 1813</p>
   <div class="pg-rule"></div>
@@ -156,490 +339,381 @@ body   { font-family: Georgia, serif; background: #f5f2ed; color: #1a1a1a; margi
 <div class="layout">
   <div class="sb">
     <div class="sb-label">Chapters</div>
-    <button class="ti on" onclick="go(0)">I · The Bennets</button>
-    <button class="ti" onclick="go(1)">II · First Impressions</button>
-    <button class="ti" onclick="go(2)">III · New Arrivals</button>
-    <button class="ti" onclick="go(3)">IV · Hunsford</button>
-    <button class="ti" onclick="go(4)">V · Pemberley</button>
-    <button class="ti" onclick="go(5)">VI · Resolution</button>
+    <button class="ti on" onclick="go(0)">I &middot; First Impressions</button>
+    <button class="ti" onclick="go(1)">II &middot; Complications</button>
+    <button class="ti" onclick="go(2)">III &middot; The Proposal</button>
+    <button class="ti" onclick="go(3)">IV &middot; Pemberley</button>
+    <button class="ti" onclick="go(4)">V &middot; Resolution</button>
     <div class="tdiv"></div>
-    <button class="ti" onclick="go(6)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M15 2L15.5387 4.39157C15.9957 6.42015 17.5798 8.00431 19.6084 8.46127L22 9L19.6084 9.53873C17.5798 9.99569 15.9957 11.5798 15.5387 13.6084L15 16L14.4613 13.6084C14.0043 11.5798 12.4202 9.99569 10.3916 9.53873L8 9L10.3916 8.46127C12.4201 8.00431 14.0043 6.42015 14.4613 4.39158L15 2Z"/><path d="M7 12L7.38481 13.7083C7.71121 15.1572 8.84275 16.2888 10.2917 16.6152L12 17L10.2917 17.3848C8.84275 17.7112 7.71121 18.8427 7.38481 20.2917L7 22L6.61519 20.2917C6.28879 18.8427 5.15725 17.7112 3.70827 17.3848L2 17L3.70827 16.6152C5.15725 16.2888 6.28879 15.1573 6.61519 13.7083L7 12Z"/></svg>Why it matters</span></button>
-    <button class="ti" onclick="go(7)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 22C7.49306 22 5.48959 22 4.2448 20.5355C3 19.0711 3 16.714 3 12C3 7.28596 3 4.92893 4.2448 3.46447C5.48959 2 7.49306 2 11.5 2C15.5069 2 17.5104 2 18.7552 3.46447C19.7572 4.64332 19.9527 6.40054 19.9908 9.5"/><path d="M8 8H15M8 13H11"/><path d="M19.6092 18.1054C20.4521 17.4918 21 16.4974 21 15.375C21 13.511 19.489 12 17.625 12H17.375C15.511 12 14 13.511 14 15.375C14 16.4974 14.5479 17.4918 15.3908 18.1054M19.6092 18.1054C19.0523 18.5108 18.3666 18.75 17.625 18.75H17.375C16.6334 18.75 15.9477 18.5108 15.3908 18.1054M19.6092 18.1054L20.192 19.9404C20.4143 20.6403 20.5255 20.9903 20.4951 21.2082C20.4318 21.6617 20.0619 21.9984 19.6252 22C19.4154 22.0008 19.101 21.8358 18.4723 21.5059C18.2027 21.3644 18.0679 21.2936 17.93 21.252C17.649 21.1673 17.351 21.1673 17.07 21.252C16.9321 21.2936 16.7973 21.3644 16.5277 21.5059C15.899 21.8358 15.5846 22.0008 15.3748 22C14.9381 21.9984 14.5682 21.6617 14.5049 21.2082C14.4745 20.9903 14.5857 20.6403 14.808 19.9404L15.3908 18.1054"/></svg>Quiz</span></button>
+    <button class="ti" onclick="go(5)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M15 2L15.5387 4.39157C15.9957 6.42015 17.5798 8.00431 19.6084 8.46127L22 9L19.6084 9.53873C17.5798 9.99569 15.9957 11.5798 15.5387 13.6084L15 16L14.4613 13.6084C14.0043 11.5798 12.4202 9.99569 10.3916 9.53873L8 9L10.3916 8.46127C12.4201 8.00431 14.0043 6.42015 14.4613 4.39158L15 2Z"/><path d="M7 12L7.38481 13.7083C7.71121 15.1572 8.84275 16.2888 10.2917 16.6152L12 17L10.2917 17.3848C8.84275 17.7112 7.71121 18.8427 7.38481 20.2917L7 22L6.61519 20.2917C6.28879 18.8427 5.15725 17.7112 3.70827 17.3848L2 17L3.70827 16.6152C5.15725 16.2888 6.28879 15.1573 6.61519 13.7083L7 12Z"/></svg>Why it matters</span></button>
+    <button class="ti" onclick="go(6)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 22C7.49306 22 5.48959 22 4.2448 20.5355C3 19.0711 3 16.714 3 12C3 7.28596 3 4.92893 4.2448 3.46447C5.48959 2 7.49306 2 11.5 2C15.5069 2 17.5104 2 18.7552 3.46447C19.7572 4.64332 19.9527 6.40054 19.9908 9.5"/><path d="M8 8H15M8 13H11"/><path d="M19.6092 18.1054C20.4521 17.4918 21 16.4974 21 15.375C21 13.511 19.489 12 17.625 12H17.375C15.511 12 14 13.511 14 15.375C14 16.4974 14.5479 17.4918 15.3908 18.1054M19.6092 18.1054C19.0523 18.5108 18.3666 18.75 17.625 18.75H17.375C16.6334 18.75 15.9477 18.5108 15.3908 18.1054M19.6092 18.1054L20.192 19.9404C20.4143 20.6403 20.5255 20.9903 20.4951 21.2082C20.4318 21.6617 20.0619 21.9984 19.6252 22C19.4154 22.0008 19.101 21.8358 18.4723 21.5059C18.2027 21.3644 18.0679 21.2936 17.93 21.252C17.649 21.1673 17.351 21.1673 17.07 21.252C16.9321 21.2936 16.7973 21.3644 16.5277 21.5059C15.899 21.8358 15.5846 22.0008 15.3748 22C14.9381 21.9984 14.5682 21.6617 14.5049 21.2082C14.4745 20.9903 14.5857 20.6403 14.808 19.9404L15.3908 18.1054"/></svg>Quiz</span></button>
   </div>
 
   <div class="main">
 
-    <!-- CH 1: The Bennets -->
-    <div class="ch on" data-t="I · The Bennets">
-      <div class="ch-title">I · The Bennets</div>
-      <div class="ch-sub">Hertfordshire, 1811 — a neighbourhood in want of a plot</div>
-
-      <p>It is a truth universally acknowledged that a single man in possession of a good fortune must be in want of a wife — and so the news of Netherfield Park's new tenant reaches <span class="cn-tip" data-char="MrsBennet">Mrs Bennet</span> like a military dispatch. <span class="cn-tip" data-char="Bingley">Mr Bingley</span> is young, handsome, and worth five thousand a year; that is cause enough for campaigns, manoeuvres, and at least two new bonnets. Her five daughters — <span class="cn-tip" data-char="Jane">Jane</span>, <span class="cn-tip" data-char="Elizabeth">Elizabeth</span>, Mary, Kitty, and <span class="cn-tip" data-char="Lydia">Lydia</span> — exist in a household whose only real urgency is matrimony: none of them will inherit Longbourn, and their father's estate passes by entail to a male cousin.</p>
+    <!-- CH 1: First Impressions -->
+    <div class="ch on" data-t="First Impressions">
+      <h2 class="ch-title">I. First Impressions</h2>
+      <p>The novel opens with one of literature's most famous first sentences, delivered deadpan by a narrator who knows exactly what she is doing: <span class="cn-tip" data-char="MrsBennet"><span class="tip-box"><span class="tip-pron">MIS-iz BEH-net</span>Mrs Bennet, Elizabeth's mother — anxious matchmaker and social comedy engine of the novel.</span>Mrs Bennet</span> has just learned that a wealthy young man named <span class="cn-tip" data-char="Bingley"><span class="tip-box"><span class="tip-pron">BING-lee</span>Charles Bingley — affable, wealthy friend of Darcy — falls genuinely for Jane.</span>Bingley</span> has taken Netherfield Park, the grand estate nearby. She knows what this means. Her husband is less enthused.</p>
 
       <div class="qt" data-qid="pride-and-prejudice-ch1-q1">
         <p>"It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife."</p>
         <cite>— Opening line, Chapter 1</cite>
       </div>
 
-      <figure class="ch-illustration float-right">
-        <img src="images/chapter_01.jpg"
-             alt="Mr Darcy dismisses Elizabeth Bennet at the Meryton assembly"
-             style="width:100%;border-radius:6px;display:block;">
-        <figcaption class="ch-illus-caption">Mr Darcy dismisses Elizabeth Bennet at the Meryton assembly.</figcaption>
-      </figure>
+      <p>The irony is structural. Austen is not making an observation about wealthy men. She is making one about the world that watches them — a world in which women without money have marriage as their only credible strategy for survival. The sentence mocks and explains the entire novel in fifteen words.</p>
 
-      <p><span class="cn-tip" data-char="MrBennet">Mr Bennet</span>, a man of dry wit and studied detachment, has long since retreated into irony from a marriage more vigorous in nerves than in sense. He obliges his wife by calling on Bingley, but takes visible pleasure in letting her suffer the suspense first. At the first neighbourhood assembly, Bingley arrives with his fashionable party — including his still more fashionable friend, <span class="cn-tip" data-char="Darcy">Mr Darcy</span>, whose annual income of ten thousand a year Mrs Bennet clocks in an instant. Bingley dances every dance and singles out Jane at once. Darcy surveys the room with cool displeasure and declines to be introduced to Elizabeth. She is, he tells Bingley within her hearing, "tolerable, but not handsome enough to tempt me." Elizabeth overhears the slight, laughs at it, and repeats it to her friends — a response that tells us almost everything we need to know about her.</p>
+      <div class="ch-illustration">
+        <figure class="ch-illustration">
+  <img src="images/chapter_01.jpg"
+       alt="Elizabeth Bennet dances with Mr Darcy while Sir William Lucas looks on at a Hertfordshire assembly ball."
+       style="width:100%;max-width:680px;border-radius:6px;display:block;">
+  <figcaption class="ch-illus-caption">Elizabeth Bennet dances with Mr Darcy while Sir William Lucas looks on at a Hertfordshire assembly ball. <span style="opacity:.6">— Hugh Thomson, 1894 (George Allen edition)</span></figcaption>
+</figure>
+      </div>
+
+      <p>At the Meryton assembly ball, Bingley dances twice with <span class="cn-tip" data-char="Jane"><span class="tip-box"><span class="tip-pron">JAYN BEH-net</span>Jane Bennet — eldest daughter, beautiful, trusting, and slow to see ill in anyone.</span>Jane Bennet</span>, the eldest and most beautiful of the five Bennet daughters. His friend, <span class="cn-tip" data-char="Darcy"><span class="tip-box"><span class="tip-pron">FITS-wil-yum DAR-see</span>Fitzwilliam Darcy — wealthy, proud, honest — a man who must learn to humble his pride for love.</span>Fitzwilliam Darcy</span>, stands apart from the dancing. Darcy is richer, better-born, and considerably less charming about it. When Bingley tries to coax him toward <span class="cn-tip" data-char="Elizabeth"><span class="tip-box"><span class="tip-pron">eh-LIZ-uh-beth BEH-net</span>Elizabeth Bennet — second Bennet daughter, witty, independent, and prone to confident misjudgement.</span>Elizabeth Bennet</span>, the second daughter, Darcy surveys her and declines.</p>
 
       <div class="qt" data-qid="pride-and-prejudice-ch1-q2">
         <p>"She is tolerable, but not handsome enough to tempt me."</p>
-        <cite>— Mr Darcy, overheard by Elizabeth at the Meryton assembly</cite>
+        <cite>— Darcy to Bingley, within Elizabeth's hearing</cite>
       </div>
 
-      <p>Mrs Bennet returns home triumphant about Jane and oblivious to the slight against her second daughter. The evening ends exactly as Austen intended: the reader already suspects Darcy's dismissal will cost him dearly.</p>
+      <p>Elizabeth overhears it. She laughs and repeats the remark to her friends. The laugh is real, but so is the sting — and Darcy has just formed, within minutes of their first meeting, the exact prejudice he will spend hundreds of pages dismantling. Her first impression of him is sealed.</p>
 
       <div class="ch-recap">
-        <p class="recap-title">The Social Architecture</p>
-        <p>Austen's comic engine is already running at full speed: Mrs Bennet is ridiculous, but she is not wrong — marriage really is the only viable future for her daughters. Darcy's contempt for Elizabeth is the novel's first great irony, and his throwaway insult is the pebble that sets the whole avalanche in motion.</p>
+        <p class="recap-title">The Marriage Economy</p>
+        <p>Austen establishes the stakes with elegant efficiency: the Bennet girls must marry well, or face genteel poverty when their father dies and the estate passes to a male heir. This is not melodrama — it was plain economic reality for women of the period. The comedy of Mrs Bennet's matchmaking anxiety is inseparable from its underlying desperation. Darcy's insult, meanwhile, tells us everything about his pride before his character has had any chance to show itself.</p>
       </div>
     </div>
 
-    <!-- CH 2: First Impressions -->
-    <div class="ch" data-t="II · First Impressions">
-      <div class="ch-title">II · First Impressions</div>
-      <div class="ch-sub">Netherfield — Darcy's slow, reluctant awakening</div>
+    <!-- CH 2: Complications -->
+    <div class="ch" data-t="Complications">
+      <h2 class="ch-title">II. Complications</h2>
+      <p>The society between Netherfield and Longbourn thickens with new arrivals. A regiment of militia settles in Meryton, bringing officers in red coats and an instant improvement in the spirits of younger Bennets. Among them is <span class="cn-tip" data-char="Wickham"><span class="tip-box"><span class="tip-pron">JOR-j WIK-um</span>George Wickham — charming militia officer whose pleasant surface conceals greed and dishonesty.</span>George Wickham</span> — handsome, easy-mannered, and possessed of a talent for making everyone feel they have known him for years.</p>
 
-      <p>Jane's visits to Netherfield become longer and more deliberate. When she rides over during a downpour and falls ill, she is installed as a houseguest — and <span class="cn-tip" data-char="Elizabeth">Elizabeth</span>, refusing to wait decorously at Longbourn, walks three muddy miles to nurse her. The visit places Elizabeth squarely in <span class="cn-tip" data-char="Darcy">Darcy</span>'s company for several days running. He finds himself watching her, then catching himself watching her, then becoming irritated that he watches her at all.</p>
+      <p>Wickham singles out Elizabeth. On a walk through Meryton, he notices her reaction when Darcy rides past — the two men exchange a glance of unmistakable coldness — and he seizes the moment. Over the course of a long private conversation, Wickham paints Darcy as a proud, cold schemer who cheated him out of a living promised by Darcy's own father. The story is plausible, elegantly told, and almost entirely false. Elizabeth believes every word. She finds it perfectly consistent with everything she has already decided about Darcy.</p>
 
-      <p>His companions, <span class="cn-tip" data-char="Bingley">Bingley</span>'s sisters Caroline and Louisa, are delighted to condescend to Elizabeth in the drawing room and whisper against her behind her back. They consider Darcy's apparent interest absurd, and say so with the particular cruelty of women who feel perfectly secure. Darcy, meanwhile, has begun noting Elizabeth's fine eyes in his private thoughts — which is how a man who prides himself on rational judgement finds himself utterly undone by a woman he has already judged beneath him.</p>
+      <div class="ch-illustration">
+        <figure class="ch-illustration">
+  <img src="images/chapter_02.jpg"
+       alt="Mr Collins makes his pompous proposal of marriage to an unimpressed Elizabeth Bennet."
+       style="width:100%;max-width:680px;border-radius:6px;display:block;">
+  <figcaption class="ch-illus-caption">Mr Collins makes his pompous proposal of marriage to an unimpressed Elizabeth Bennet. <span style="opacity:.6">— Hugh Thomson, 1894 (George Allen edition)</span></figcaption>
+</figure>
+      </div>
+
+      <p>Meanwhile, a cousin arrives at Longbourn. <span class="cn-tip" data-char="Collins"><span class="tip-box"><span class="tip-pron">KOL-inz</span>Mr Collins — pompous clergyman, heir to Longbourn — comic villain of misplaced self-importance.</span>Mr Collins</span> is the male heir who will inherit the Bennet estate, and he has come to choose one of the daughters as his wife — a gesture he presents to himself as magnanimous. His proposal to Elizabeth is a masterpiece of oblivious self-importance. He lists her family's financial disadvantages, his own superior situation, and the honour he is bestowing, all in one breath.</p>
 
       <div class="qt" data-qid="pride-and-prejudice-ch2-q1">
-        <p>"I have been meditating on the very great pleasure which a pair of fine eyes in the face of a pretty woman can bestow."</p>
-        <cite>— Mr Darcy, Chapter 6</cite>
+        <p>"You could not make me happy, and I am convinced that I am the last woman in the world who could make you happy."</p>
+        <cite>— Elizabeth to Mr Collins</cite>
       </div>
 
-      <p>Back in Meryton, the social calendar continues its steady pressure. The Bennet daughters attend balls and dinners. Jane and <span class="cn-tip" data-char="Bingley">Bingley</span>'s attachment deepens into something that looks very much like an understanding, though nothing is formally said. Elizabeth watches them with quiet pleasure and believes Bingley genuinely in love. What she cannot see is that Darcy is already considering whether to intervene.</p>
-
-      <figure class="ch-illustration float-right">
-        <img src="images/chapter_02.jpg"
-             alt="Elizabeth Bennet and Mr Darcy dancing at the Netherfield ball"
-             style="width:100%;border-radius:6px;display:block;">
-        <figcaption class="ch-illus-caption">Elizabeth Bennet and Mr Darcy dancing together at the Netherfield ball.</figcaption>
-      </figure>
-
-      <p>A Netherfield Ball provides the novel's first sustained set-piece of social comedy: Mrs Bennet boasts extravagantly within Darcy's hearing, Mary plays the piano too long, and Darcy himself asks Elizabeth to dance — less a concession than a capitulation he has not yet understood as such. Their conversation on the floor is all sparring wit, and he leaves it more unsettled than when he entered.</p>
+      <p>Collins does not believe her. Mrs Bennet wails. Mr Bennet, whose dry amusement is the novel's other great comedy engine, delivers his verdict to Elizabeth with characteristic precision:</p>
 
       <div class="qt" data-qid="pride-and-prejudice-ch2-q2">
-        <p>"I hope I never ridicule what is wise or good. Follies and nonsense, whims and inconsistencies, do divert me, I own, and I laugh at them whenever I can."</p>
-        <cite>— Elizabeth Bennet, Chapter 11</cite>
+        <p>"An unhappy alternative is before you, Elizabeth. From this day you must be a stranger to one of your parents."</p>
+        <cite>— Mr Bennet to Elizabeth</cite>
       </div>
 
+      <p>Collins promptly pivots to <span class="cn-tip" data-char="Charlotte"><span class="tip-box"><span class="tip-pron">SHAR-lut LOO-kus</span>Charlotte Lucas — Elizabeth's best friend — marries Collins for security, not love.</span>Charlotte Lucas</span>, Elizabeth's closest friend, who accepts him within three days. Elizabeth is dismayed. Charlotte is pragmatic: she is twenty-seven, not beautiful, not wealthy, and this is what security looks like. Jane, meanwhile, is quietly devastated when Bingley abruptly leaves Netherfield for London and does not return. Elizabeth watches her sister's unhappiness, suspects Darcy's influence, and her distrust of him calcifies further.</p>
+
       <div class="ch-recap">
-        <p class="recap-title">Pride Before the Fall</p>
-        <p>Darcy's attraction to Elizabeth is inseparable from his disdain for her family and station — and Austen makes us feel both with equal precision. His admiration is real; his condescension is also real. The Netherfield Ball sets the two in collision, and the reader understands before Darcy does that he has already lost.</p>
+        <p class="recap-title">Prejudice Takes Root</p>
+        <p>Wickham's fabrication works because Elizabeth is primed to believe it. She has already judged Darcy proud and cold; a story confirming that judgement slides in effortlessly. Austen is precise about this mechanism: prejudice does not require malice, only a prior conviction and a charming source. Charlotte's marriage to Collins is the chapter's counterweight — a cold-eyed calculation that Elizabeth finds almost unbearable, yet Austen refuses to condemn it outright.</p>
       </div>
     </div>
 
-    <!-- CH 3: New Arrivals -->
-    <div class="ch" data-t="III · New Arrivals">
-      <div class="ch-title">III · New Arrivals</div>
-      <div class="ch-sub">Meryton — a clergyman and a soldier, both with designs</div>
+    <!-- CH 3: The First Proposal -->
+    <div class="ch" data-t="The First Proposal">
+      <h2 class="ch-title">III. The First Proposal</h2>
+      <p>Elizabeth travels to visit Charlotte, now installed as mistress of Collins's parsonage in Kent. It is a comfortable, slightly suffocating domestic arrangement, and Charlotte manages it with brisk competence. The nearby estate of Rosings Park is home to <span class="cn-tip" data-char="LadyCatherine"><span class="tip-box"><span class="tip-pron">lay-dee KATH-rin deh BOOR</span>Lady Catherine de Bourgh — Darcy's overbearing aunt, representing aristocratic snobbery at its worst.</span>Lady Catherine de Bourgh</span>, Darcy's formidable aunt, who dispenses opinions on everything from music to child-rearing with the authority of someone who has never been contradicted.</p>
 
-      <p>Two new figures arrive to disturb the Hertfordshire equilibrium. The first is <span class="cn-tip" data-char="Collins">Mr Collins</span>, the Bennet girls' cousin and their future inheritor of Longbourn — a man of extraordinary pomposity who manages to quote Lady Catherine de Bourgh, his noble patroness, approximately once per sentence. He has come to Hertfordshire specifically to marry one of the daughters, and selects <span class="cn-tip" data-char="Elizabeth">Elizabeth</span> with the confidence of a man who assumes refusal is not an option.</p>
-
-      <figure class="ch-illustration float-right">
-        <img src="images/chapter_03.jpg"
-             alt="Mr Collins proposes to Elizabeth Bennet"
-             style="width:100%;border-radius:6px;display:block;">
-        <figcaption class="ch-illus-caption">Mr Collins proposes to Elizabeth Bennet.</figcaption>
-      </figure>
-
-      <p>His proposal — cumbersome, self-congratulatory, and utterly tone-deaf — is declined with clarity. Collins, unable to believe it, interprets the refusal as feminine coyness and persists until <span class="cn-tip" data-char="MrBennet">Mr Bennet</span> steps in: "An unhappy alternative is before you, Elizabeth. Your mother will never see you again if you do not marry Mr Collins, and I will never see you again if you do." Collins recovers with admirable speed by proposing to Charlotte Lucas. She accepts. Charlotte has calculated, with cold accuracy, that Collins is a fool she can manage — and that a comfortable home beats no home at all.</p>
+      <p>Darcy arrives at Rosings. He calls at the parsonage, often and without obvious reason. Then one afternoon, without warning, he proposes.</p>
 
       <div class="qt" data-qid="pride-and-prejudice-ch3-q1">
-        <p>"I am not romantic, you know. I never was. I ask only a comfortable home; and considering Mr Collins's character, connections, and situation in life, I am convinced that my chance of happiness with him is as fair as most people can boast on entering the marriage state."</p>
-        <cite>— Charlotte Lucas, Chapter 22</cite>
+        <p>"In vain I have struggled. It will not do. My feelings will not be repressed. You must allow me to tell you how ardently I admire and love you."</p>
+        <cite>— Darcy, first proposal</cite>
       </div>
 
-      <p>The second arrival is <span class="cn-tip" data-char="Wickham">Mr Wickham</span>, a militia officer — charming, handsome, plausible — who singles out Elizabeth almost immediately. Over a chance meeting in Meryton, he tells her a compelling story: that <span class="cn-tip" data-char="Darcy">Darcy</span>, the son of his godfather, robbed him of a promised living after his father's death, leaving him to make his way on an officer's pay. Elizabeth listens, fully persuaded. Wickham tells the story with just enough apparent reluctance to make it seem dragged from him against his will — which is precisely how a liar would tell it. Meanwhile, back at Longbourn, it is left to earnest, overlooked Mary to articulate the novel's central distinction: pride relates to one's opinion of oneself, while vanity is about what one wishes others to think. It is the most useful thing anyone in the family says, and nobody listens.</p>
+      <p>The declaration is genuine. It is also a catastrophe of delivery. Darcy cannot stop himself dwelling on how unsuitable Elizabeth is — her family's inferiority, his own better judgement overcome against his will. He offers love and insult in the same speech, apparently unaware that a proposal should perhaps not catalogue the proposer's reluctance at length.</p>
+
+      <div class="ch-illustration">
+        <figure class="ch-illustration">
+  <img src="images/chapter_03.jpg"
+       alt="Mr Darcy declares his love and proposes to Elizabeth Bennet at Hunsford Parsonage."
+       style="width:100%;max-width:680px;border-radius:6px;display:block;">
+  <figcaption class="ch-illus-caption">Mr Darcy declares his love and proposes to Elizabeth Bennet at Hunsford Parsonage. <span style="opacity:.6">— C. E. Brock, 1895 (Macmillan & Co edition)</span></figcaption>
+</figure>
+      </div>
+
+      <p>Elizabeth's refusal is equally unsparing. She does not soften it.</p>
+
+      <div class="qt" data-qid="pride-and-prejudice-ch3-q2">
+        <p>"I might as well enquire why, with so evident a design of offending and insulting me, you chose to tell me that you liked me against your will, against your reason, and even against your character?"</p>
+        <cite>— Elizabeth, refusing Darcy</cite>
+      </div>
+
+      <p>She also names his crimes: his role in separating Jane and Bingley, his treatment of Wickham. Darcy leaves. The next morning, he delivers a long letter. Elizabeth reads it expecting further arrogance. What she finds instead is a detailed, documented refutation of everything she believed. Wickham is exposed as a schemer who attempted to elope with Darcy's young sister for her fortune. The Bingley separation was real, but motivated partly by genuine doubts and partly by a wish to protect his friend from the Bennet family's embarrassing behaviour — a case Darcy makes without malice, which is almost worse.</p>
+
+      <div class="qt" data-qid="pride-and-prejudice-ch3-q3">
+        <p>"I, who have prided myself on my discernment! — I, who have valued myself on my abilities! How humiliating is this discovery!"</p>
+        <cite>— Elizabeth, on reading Darcy's letter</cite>
+      </div>
+
+      <p>Elizabeth reads the letter twice. Then again. Each reading dismantles a conviction she had held with absolute confidence. The prejudice she had aimed so precisely at Darcy turns back on herself.</p>
 
       <div class="ch-recap">
-        <p class="recap-title">Reasonable Misreading</p>
-        <p>Charlotte accepts Collins and Elizabeth accepts Wickham's story for the same reason: both judgements are entirely reasonable given the available evidence. Austen never lets Elizabeth off easily — her errors are not stupidity but the product of prejudice that mirrors Darcy's own pride. Darcy misjudges Jane's feelings from the outside; Elizabeth misjudges Wickham's character from the inside. Each is undone by believing their own reading of a person rather than the person themselves.</p>
+        <p class="recap-title">The Letter as Mirror</p>
+        <p>Darcy's proposal is the novel's structural hinge: before it, both protagonists are wrong; after it, both begin the slow work of being right. His letter is not a love letter — it is a legal brief, passionless and precise, which makes its effect on Elizabeth all the more devastating. Austen understands that pride is not cured by warmth but by evidence. Elizabeth's self-reproach here is the moral centre of the book: she punishes herself harder than any narrator would dare to.</p>
       </div>
     </div>
 
-    <!-- CH 4: Hunsford -->
-    <div class="ch" data-t="IV · Hunsford">
-      <div class="ch-title">IV · Hunsford</div>
-      <div class="ch-sub">Kent — the worst proposal in English literature</div>
+    <!-- CH 4: Pemberley -->
+    <div class="ch" data-t="Pemberley">
+      <h2 class="ch-title">IV. Pemberley</h2>
+      <p>Months pass. Darcy is absent. Elizabeth returns home with a revised understanding of herself and a growing, uncomfortable appreciation of the man she refused. Then her aunt and uncle, <span class="cn-tip" data-char="Gardiner"><span class="tip-box"><span class="tip-pron">GAR-din-er</span>Mr Gardiner — Mrs Bennet's sensible brother — quiet decency contrasting the household chaos.</span>the Gardiners</span>, invite her on a tour of Derbyshire. Their route, by small degrees, leads to Pemberley — Darcy's country estate.</p>
 
-      <p>In the spring, <span class="cn-tip" data-char="Elizabeth">Elizabeth</span> visits <span class="cn-tip" data-char="Collins">Mr Collins</span> and Charlotte in Kent — an excursion that delivers her, quite unexpectedly, into the orbit of <span class="cn-tip" data-char="Darcy">Darcy</span>, who is visiting his aunt, the formidable <span class="cn-tip" data-char="LadyCatherine">Lady Catherine de Bourgh</span>, at Rosings Park. Their renewed acquaintance is marked by the same friction as before, though Elizabeth now notes that Darcy seems to seek out her company with a persistence she cannot quite explain.</p>
+      <p>Elizabeth agrees to visit only after confirming that the family is away. Pemberley is magnificent. The house sits in natural grounds that have been shaped with taste rather than fashion — no artificial cascade, no over-sculpted shrubbery. The housekeeper, Mrs Reynolds, speaks of her master with a warmth that is clearly not performance. He has been kind to his tenants, beloved by his servants, an excellent brother. Elizabeth stands in the portrait gallery and looks at his painted face for a long time.</p>
 
-      <figure class="ch-illustration float-right">
-        <img src="images/chapter_04.jpg"
-             alt="Mr Darcy makes his first proposal to Elizabeth Bennet at Hunsford"
-             style="width:100%;border-radius:6px;display:block;">
-        <figcaption class="ch-illus-caption">Mr Darcy makes his first proposal to Elizabeth Bennet at Hunsford.</figcaption>
-      </figure>
+      <div class="ch-illustration">
+        <figure class="ch-illustration">
+  <img src="images/chapter_04.jpg"
+       alt="Elizabeth Bennet and the Gardiners admire the grounds of Pemberley during their tour of Darcy's estate."
+       style="width:100%;max-width:680px;border-radius:6px;display:block;">
+  <figcaption class="ch-illus-caption">Elizabeth Bennet and the Gardiners admire the grounds of Pemberley during their tour of Darcy's estate. <span style="opacity:.6">— Hugh Thomson, 1894 (George Allen edition)</span></figcaption>
+</figure>
+      </div>
 
-      <p>Then, one evening, he appears at the Collinses' parsonage — alone, agitated — and delivers his proposal. It is a masterpiece of the wrong kind. He tells her how ardently he admires and loves her — then spends nearly as long on his reluctance, his sense of her family's inferiority, the degradation the match would cost him. Elizabeth refuses. Not from dislike alone, but with a precise accounting of his wrongs: he separated Jane from Bingley, ruined Wickham's prospects, and proposed with insufferable condescension throughout.</p>
+      <p>Then Darcy arrives. He has returned early. He finds Elizabeth in his grounds, clearly embarrassed to have been caught touring the home of the man who proposed to her. What follows is remarkable: Darcy, the cold and proud man of the first two hundred pages, is transformed. He is warm. He is solicitous. He asks to be introduced to her aunt and uncle — the Gardiners, whom he would previously have considered beneath his notice — and treats them with genuine courtesy.</p>
+
+      <p>Elizabeth watches all this and feels something shift irrevocably. She begins to think she may have been, in every meaningful sense, catastrophically wrong about him.</p>
+
+      <p>Then a letter arrives from Jane. Lydia, the youngest and most reckless Bennet sister, has run away with Wickham. They are not married. The scandal, if it cannot be contained, will destroy the reputations of every Bennet girl. Elizabeth, in a moment of anguished honesty, tells Darcy what has happened. She sees his face change — and reads it, with absolute certainty, as the end of any hope.</p>
 
       <div class="qt" data-qid="pride-and-prejudice-ch4-q1">
-        <p>"In vain I have struggled. It will not do. My feelings will not be repressed. You must allow me to tell you how ardently I admire and love you."</p>
-        <cite>— Mr Darcy, first proposal, Chapter 34</cite>
-      </div>
-
-      <p>Darcy leaves, shaken. The next morning he delivers a letter — long, frank, and devastating in its effect. He explains that he judged Jane insufficiently attached to Bingley — plausible, Elizabeth must admit. He then reveals the truth about <span class="cn-tip" data-char="Wickham">Wickham</span>. The man's real grievance was Darcy's refusal to fund his dissolute lifestyle after squandering his inheritance. His most recent act: an attempt to elope with Darcy's fifteen-year-old sister Georgiana, for her fortune. Elizabeth reads the letter once — and dismisses it. Then she reads it again. The charge about Wickham, she realises with creeping horror, is entirely consistent with things she already knew but had not examined. Her confidence in her own judgement — always her greatest pleasure — begins to crack.</p>
-
-      <div class="qt" data-qid="pride-and-prejudice-ch4-q2">
-        <p>"How despicably I have acted! I, who have prided myself on my discernment! I, who have valued myself on my abilities!"</p>
-        <cite>— Elizabeth Bennet, after reading Darcy's letter, Chapter 36</cite>
+        <p>"You never see a fault in anybody. All the world are good and agreeable in your eyes."</p>
+        <cite>— Elizabeth to Jane, Chapter 4</cite>
       </div>
 
       <div class="ch-recap">
-        <p class="recap-title">The Letter That Changes Everything</p>
-        <p>Darcy's proposal fails because his pride is still intact — he expects acceptance despite spelling out why the match appals him. But the letter that follows is a different matter: it does not attempt to persuade so much as to correct, and it is the first honest thing either of them has done. Elizabeth rereading it is the novel's true turning point — the moment she stops laughing and starts seeing.</p>
+        <p class="recap-title">The Estate as Character Witness</p>
+        <p>Pemberley functions in the novel as evidence — a great house built and maintained by a man of genuine taste and care is a kind of moral argument. Austen is not naive about this: she knows that wealth can be built badly. But she also knows that how a man treats his tenants, servants, and dependants reveals something true. The housekeeper's praise carries more weight than any social recommendation. Elizabeth understands it when she sees it — and the timing of Lydia's catastrophe, arriving just as hope consolidates, is Austen's plot at its most ruthlessly efficient.</p>
       </div>
     </div>
 
-    <!-- CH 5: Pemberley -->
-    <div class="ch" data-t="V · Pemberley">
-      <div class="ch-title">V · Pemberley</div>
-      <div class="ch-sub">Derbyshire — the man behind the estate</div>
+    <!-- CH 5: Resolution -->
+    <div class="ch" data-t="Resolution">
+      <h2 class="ch-title">V. Resolution</h2>
+      <p>The Lydia crisis is real and the Bennet family is in chaos. Wickham has debts across Meryton and no intention of marrying without money. Negotiations are conducted through Mr Gardiner, who eventually secures the marriage by what appears to be a generous settlement — far more than the Gardiners could plausibly afford. Elizabeth suspects, and then confirms, what has happened: Darcy tracked Wickham to London, paid off his debts entirely, provided him a commission, and arranged the marriage. He did it without telling anyone. He did it, she understands slowly, for her.</p>
 
-      <p>Months pass. <span class="cn-tip" data-char="Bingley">Bingley</span> inexplicably quits Netherfield; <span class="cn-tip" data-char="Jane">Jane</span> goes to London and does not see him. The household returns to its ordinary anxious hum. That summer, Elizabeth joins her aunt and uncle, the Gardiners — cultured, calm, and well-matched, everything her own family is not — for a tour of the north of England, which takes them, almost accidentally, to Derbyshire and specifically to <span class="cn-tip" data-char="Darcy">Darcy</span>'s seat at Pemberley. He is not expected to be home.</p>
+      <p>Lydia, oblivious and triumphant, lets the secret slip in a careless remark. Elizabeth writes to Mr Gardiner, who confirms it. The knowledge reorders everything she feels.</p>
 
-      <figure class="ch-illustration float-right">
-        <img src="images/chapter_05.jpg"
-             alt="Elizabeth Bennet contemplates the portrait of Mr Darcy at Pemberley"
-             style="width:100%;border-radius:6px;display:block;">
-        <figcaption class="ch-illus-caption">Elizabeth Bennet contemplates the portrait of Mr Darcy at Pemberley.</figcaption>
-      </figure>
+      <div class="ch-illustration">
+        <figure class="ch-illustration">
+  <img src="images/chapter_05.jpg"
+       alt="Lady Catherine de Bourgh confronts Elizabeth Bennet, demanding she refuse any future proposal from Mr Darcy."
+       style="width:100%;max-width:680px;border-radius:6px;display:block;">
+  <figcaption class="ch-illus-caption">Lady Catherine de Bourgh confronts Elizabeth Bennet, demanding she refuse any future proposal from Mr Darcy. <span style="opacity:.6">— Pickering & Greatbatch, 1833 (Richard Bentley edition)</span></figcaption>
+</figure>
+      </div>
 
-      <p>Pemberley surprises Elizabeth. The house is grand but without ostentation. Its grounds are handsome but natural. The housekeeper, who has known Darcy since boyhood, speaks of him with genuine warmth — not the servile praise Elizabeth might have expected. He has never been proud to his inferiors, the housekeeper says, and she has never had a cross word from him. Elizabeth looks around the beautiful rooms and finds herself thinking — for the first time with something like regret — that she might have been mistress of all this. Then Darcy himself appears, having returned early, and the encounter on the lawn is something altogether new: he is courteous, warm, considerate, entirely without the stiffness that made him hateful before. Elizabeth is disarmed.</p>
+      <p>There is one obstacle left. Lady Catherine de Bourgh arrives at Longbourn in a fury, having heard rumours that Darcy means to propose to Elizabeth. She demands that Elizabeth promise, on her honour, to refuse him. Lady Catherine is certain that Elizabeth, a woman of inferior birth, cannot possibly belong in Darcy's world. Elizabeth's response is calm, clear, and devastating: she owes Lady Catherine nothing, and will make no such promise.</p>
+
+      <p>Lady Catherine reports this exchange to Darcy — intending, presumably, to warn him off. Instead she confirms that Elizabeth has not ruled him out. Darcy returns. He walks with Elizabeth. He tells her that his character, though unchanged in its essentials, has been improved by her.</p>
 
       <div class="qt" data-qid="pride-and-prejudice-ch5-q1">
-        <p>"She had never seen a place for which nature had done more, or where natural beauty had been so little counteracted by an awkward taste."</p>
-        <cite>— Elizabeth at Pemberley, Chapter 43</cite>
+        <p>"What do I not owe you! You taught me a lesson, hard indeed at first, but most advantageous. By you I was properly humbled."</p>
+        <cite>— Darcy to Elizabeth, second proposal</cite>
       </div>
 
-      <p>He meets the Gardiners with perfect ease. He introduces his sister Georgiana, shy and gentle. He asks if he may introduce his friend Bingley — a signal, perhaps, that he intends to undo what he did to <span class="cn-tip" data-char="Jane">Jane</span>. For a few warm days, something new seems possible. Then a letter arrives from Jane: <span class="cn-tip" data-char="Lydia">Lydia</span> has eloped with <span class="cn-tip" data-char="Wickham">Wickham</span>.</p>
+      <p>Elizabeth accepts. Bingley, finally freed of Darcy's earlier interference, proposes to Jane. Mrs Bennet's ecstasies on hearing of two engagements simultaneously are among the novel's finest comic passages. Mr Bennet, who has watched the whole affair with the detached amusement of a man who expected very little from the world, gives his blessing to both matches — and privately tells Elizabeth that Darcy is the only man he has ever thought worthy of her.</p>
 
-      <div class="qt" data-qid="pride-and-prejudice-ch5-q2">
-        <p>"At that moment she felt that to be mistress of Pemberley might be something!"</p>
-        <cite>— Elizabeth Bennet, Chapter 43</cite>
-      </div>
+      <p>Both marriages are earned. Not by beauty or fortune, but by hard self-knowledge, revised judgement, and the willingness to be humbled by a person worth being humbled by.</p>
 
       <div class="ch-recap">
-        <p class="recap-title">The House That Makes His Case</p>
-        <p>Pemberley is the novel's most elegant reversal: the house argues for Darcy better than Darcy ever argued for himself, and Elizabeth's shift in feeling is inseparable from what she sees there. The elopement lands with particular force because Lydia's letter arrives at the exact moment Elizabeth has let her guard down — it is not random bad timing but the consequence of Wickham's character, the very character Elizabeth once championed against Darcy's. The catastrophe is the final payment on her earlier misjudgement.</p>
+        <p class="recap-title">Earned, Not Given</p>
+        <p>Austen refuses the easy resolution. Darcy does not simply declare his love again — he demonstrates, through a secret and costly act, that he has understood what love actually requires: sacrifice without expectation of credit. Elizabeth does not simply reconsider her feelings — she must watch evidence accumulate over months before trusting her own revised judgement. Their second proposal scene is one of the warmest in English fiction precisely because it is so unromantically honest: two intelligent people, both chastened, arriving at happiness through something harder than chemistry.</p>
       </div>
     </div>
 
-    <!-- CH 6: Resolution -->
-    <div class="ch" data-t="VI · Resolution">
-      <div class="ch-title">VI · Resolution</div>
-      <div class="ch-sub">Longbourn — disgrace, rescue, and a second chance</div>
+    <!-- CH 6: Why it matters -->
+    <div class="ch" data-t="Why it matters">
+      <h2 class="ch-title">Why It Matters</h2>
 
-      <p>Lydia's elopement with <span class="cn-tip" data-char="Wickham">Wickham</span> — a man with no money, no honour, and no intention of marrying her without financial inducement — threatens to ruin the entire Bennet family. An unmarried woman who has run away with an officer destroys the social standing of every sister she leaves behind. Mr Bennet departs for London to find them. <span class="cn-tip" data-char="MrsBennet">Mrs Bennet</span> takes to her room in spectacular distress. <span class="cn-tip" data-char="Elizabeth">Elizabeth</span> confronts, in this lowest moment, the consequences of her own family's chaos — and her own failure to warn anyone about Wickham's character.</p>
-
-      <p>The resolution, when it comes, arrives from an unexpected source. Lydia and Wickham are found, and Wickham's debts are paid — and the man who arranged and funded it all, Elizabeth learns through the Gardiners, is <span class="cn-tip" data-char="Darcy">Darcy</span>. He did it not from duty but from love, from a desire to repair harm he felt partly responsible for, and with no expectation of acknowledgement. Elizabeth is stunned. It is the act of a man who has genuinely changed.</p>
-
-      <div class="qt" data-qid="pride-and-prejudice-ch6-q1">
-        <p>"You are too generous to trifle with me. If your feelings are still what they were last April, tell me so at once. My affections and wishes are unchanged, but one word from you will silence me on this subject for ever."</p>
-        <cite>— Mr Darcy, second proposal, Chapter 58</cite>
+      <div class="hl">
+        <p class="hl-title">First Impressions vs. True Character</p>
+        <p>Both Elizabeth and Darcy form confident first judgements that are spectacularly wrong — she takes Wickham's lies for truth, he mistakes Elizabeth's lively manners for impropriety. The novel is a sustained education in seeing clearly, structured around the humiliation of two clever people discovering that confidence is not the same as correctness. Austen's insight is quietly radical: intelligence makes you more susceptible to elegant prejudice, not less.</p>
+        <p>This is why the book has outlasted its period. Every generation produces readers who recognise the gap between first impressions and considered knowledge — and who have been, at least once, exactly as wrong as Elizabeth Bennet.</p>
       </div>
 
-      <figure class="ch-illustration float-right">
-        <img src="images/chapter_06.jpg"
-             alt="Lady Catherine de Bourgh confronts Elizabeth Bennet"
-             style="width:100%;border-radius:6px;display:block;">
-        <figcaption class="ch-illus-caption">Lady Catherine de Bourgh confronts Elizabeth Bennet.</figcaption>
-      </figure>
-
-      <p><span class="cn-tip" data-char="Bingley">Bingley</span> returns to Netherfield, proposes to Jane, and is accepted. Then Lady Catherine de Bourgh descends on Longbourn in high fury — she has heard rumours of Darcy and Elizabeth, and demands Elizabeth promise never to marry her nephew. Elizabeth refuses, splendidly. Darcy, hearing of his aunt's visit, understands that Elizabeth did not discourage him — and comes to Longbourn himself.</p>
-
-      <p>His second proposal is stripped to its essentials — no preamble, no qualifications, only the question of whether her feelings have changed. Elizabeth accepts — and then tells him, with the old warmth restored, that she loves him. They walk together, and she explains how she came to see him more clearly; he explains how her refusal forced him to examine himself. It is, for both of them, the conversation that could only happen after everything that came before.</p>
-
-      <div class="qt" data-qid="pride-and-prejudice-ch6-q2">
-        <p>"I cannot fix on the hour, or the spot, or the look, or the words, which laid the foundation. It is too long ago. I was in the middle before I knew that I had begun."</p>
-        <cite>— Mr Darcy, Chapter 60</cite>
+      <div class="hl">
+        <p class="hl-title">Marriage as Economy</p>
+        <p>Austen takes the marriage market seriously without reducing it to cynicism. Charlotte Lucas marries Collins for security: she is clear-eyed, unsentimental, and right that this is her best option. Lydia marries Wickham in a fog of infatuation and nearly destroys her family. Jane marries Bingley out of genuine love, enabled only by Darcy's intervention. Elizabeth marries Darcy because, after everything, she finally sees him clearly. Each marriage is a different answer to the same economic and emotional problem.</p>
+        <p>Austen does not pretend money does not matter. She insists that it matters enormously — and that this makes the human choices inside that constraint all the more significant, not less.</p>
       </div>
 
-      <div class="ch-recap">
-        <p class="recap-title">The Argument the Ending Makes</p>
-        <p>The novel does not end by rewarding virtue — it ends by rewarding self-correction. Neither Darcy nor Elizabeth is a better person in the conventional moral sense; each has simply become capable of being wrong about themselves. That, Austen quietly insists, is rarer and more valuable than goodness: the willingness to reread your own first chapter and revise the conclusions you were most certain of.</p>
-      </div>
-    </div>
-
-    <!-- CH 7: Why it matters -->
-    <div class="ch" data-t="✦ Why it matters">
-      <div class="ch-title">✦ Why it matters</div>
-      <div class="ch-sub">Themes, legacy, and famous passages</div>
-
-      <p class="wim-section-title">Central Themes</p>
-
-      <div class="card-grid">
-        <div class="card">
-          <h4>Pride and Self-Knowledge</h4>
-          <p>Both Darcy and Elizabeth are intelligent people undone by their own blind spots — his social pride, her confident prejudice. The novel argues that self-examination is harder than self-congratulation, and that the two characters can only reach each other by learning this the painful way.</p>
-        </div>
-        <div class="card">
-          <h4>Marriage and Economic Reality</h4>
-          <p>Austen never lets us forget that marriage is not merely romantic: for women of the Bennet class, it is the only path to security. Charlotte accepts Collins with clear eyes; Lydia elopes without thinking at all. The novel presents the full spectrum — from mercenary to reckless — and places Elizabeth's marriage to Darcy as the rare case where love and material sense coincide.</p>
-        </div>
-        <div class="card">
-          <h4>Class and Its Discontents</h4>
-          <p>Darcy's world polices its boundaries relentlessly — Lady Catherine de Bourgh is its most grotesque enforcer — but Austen shows that class judgment is also a failure of perception. The people who sneer at the Bennets consistently misread character; those who do not are consistently right.</p>
-        </div>
-        <div class="card">
-          <h4>Irony as a Form of Truth</h4>
-          <p>Austen's narrating voice is never straightforwardly earnest. The famous opening sentence is ironic: it mocks Mrs Bennet even as it concedes her point. This double vision — sympathising while laughing — is itself an argument that clear sight requires a sense of humour.</p>
-        </div>
+      <div class="hl">
+        <p class="hl-title">Pride and Self-Knowledge</p>
+        <p>The title names both protagonists' flaws. Darcy's pride is the obvious one — the cold condescension of a man who has never been seriously challenged. But Elizabeth's prejudice is the subtler kind: she prides herself on her discernment, which makes her wrong in precisely the ways she is most confident about. The novel's warmth comes from the fact that both failings are understandable, even sympathetic, in people of genuine intelligence and feeling. The cure is not charm but evidence, humility, and the rare willingness to say: I was wrong about this, in front of the person who matters most.</p>
       </div>
 
-      <p class="wim-section-title">Fun Facts</p>
-
-      <div class="stat-row">
-        <div class="stat-card">
-          <div class="stat-n">1797</div>
-          <div class="stat-l">First draft written ("First Impressions")</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-n">20–21</div>
-          <div class="stat-l">Austen's age when she wrote the first version</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-n">1813</div>
-          <div class="stat-l">Published anonymously ("By a Lady")</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-n">£110</div>
-          <div class="stat-l">Austen's earnings from first edition</div>
-        </div>
+      <div class="hl">
+        <p class="hl-title">Fun Facts</p>
+        <ul>
+          <li>Originally titled <em>First Impressions</em> — Austen wrote the first draft in 1796–97, aged 20–21. It was rejected by a publisher without being read. The revised version was published in January 1813 under its new title.</li>
+          <li>The first edition of 1,500 copies sold out within twelve months. Austen received £110 — roughly equivalent to £8,000 today.</li>
+          <li>Over 20 million copies have sold worldwide. It has never gone out of print.</li>
+          <li>The 1995 BBC television adaptation starring Colin Firth as Darcy is estimated to have been watched by 10 million viewers per episode — a third of the UK population.</li>
+          <li>Austen called Elizabeth Bennet "as delightful a creature as ever appeared in print" — one of the few direct recorded statements she made about her own characters.</li>
+          <li>The novel has been adapted into over 70 films, television series, stage productions, and literary sequels — including versions set in India, South Korea, Bollywood, and contemporary Silicon Valley.</li>
+        </ul>
       </div>
 
-      <div class="card-grid">
-        <div class="card">
-          <h4>The Rejected Title</h4>
-          <p>Austen's original title, "First Impressions," was not available — another novel had already been published under that name. She chose "Pride and Prejudice," a phrase that appears three times in her earlier novel <em>Cecilia</em> by Fanny Burney.</p>
+      <div class="hl">
+        <p class="hl-title">Famous Passages</p>
+        <div class="qt" data-qid="pride-and-prejudice-why-q1" style="margin-top:.8rem;">
+          <p>"It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife."</p>
+          <cite>— Opening line</cite>
         </div>
-        <div class="card">
-          <h4>The 1995 Effect</h4>
-          <p>The BBC miniseries with Colin Firth sold 100,000 VHS box sets while still airing. An estimated 10 million viewers watched the final episode — transforming Darcy into one of the most recognisable romantic heroes in popular culture.</p>
+        <p>Perhaps the most famous first sentence in English fiction. Its power lies in the word "universally" — Austen does not claim this is true, she observes that society <em>treats</em> it as true. The irony is polite, devastating, and perfectly timed.</p>
+
+        <div class="qt" data-qid="pride-and-prejudice-why-q2" style="margin-top:.8rem;">
+          <p>"In vain I have struggled. It will not do. My feelings will not be repressed."</p>
+          <cite>— Darcy, first proposal</cite>
         </div>
-        <div class="card">
-          <h4>Endless Reimaginings</h4>
-          <p>The novel has been adapted into a Bollywood film (<em>Bride and Prejudice</em>), a zombie thriller (<em>Pride and Prejudice and Zombies</em>), a contemporary romcom (<em>Bridget Jones's Diary</em>), and a gay drama set on Fire Island — among dozens of others.</p>
+        <p>Darcy's declaration is a clinical study in the gap between feeling and expression. He clearly loves her. He is also, in this moment, constitutionally incapable of saying so without sounding like he is confessing to a character flaw. The pathos is real. So is the comedy.</p>
+
+        <div class="qt" data-qid="pride-and-prejudice-why-q3" style="margin-top:.8rem;">
+          <p>"I, who have prided myself on my discernment! — I, who have valued myself on my abilities! How humiliating is this discovery!"</p>
+          <cite>— Elizabeth, after reading Darcy's letter</cite>
         </div>
-        <div class="card">
-          <h4>Austen's Own Verdict</h4>
-          <p>In a letter to her sister Cassandra, Austen called the novel "rather too light, and bright, and sparkling" — which is the closest she ever came to admitting it was perfect.</p>
-        </div>
-      </div>
-
-      <p class="wim-section-title">Famous Passages</p>
-
-      <div class="wim-qt">
-        <p>"It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife."</p>
-        <cite>— Opening line, Chapter 1</cite>
-        <p class="qt-why">One of the most recognised opening sentences in the English novel works by saying the opposite of what it means: it is the neighbourhood, not the bachelor, that is in want. The irony announces Austen's method for the next sixty-one chapters.</p>
-      </div>
-
-      <div class="wim-qt">
-        <p>"In vain I have struggled. It will not do. My feelings will not be repressed. You must allow me to tell you how ardently I admire and love you."</p>
-        <cite>— Mr Darcy, first proposal, Chapter 34</cite>
-        <p class="qt-why">Darcy's declaration is genuinely moving — and genuinely disastrous. The next forty words undo it entirely, as he explains why the match degrades him. Elizabeth is not wrong to refuse, and neither is he wrong to offer. The scene is a perfect collision of two people who are each half-right.</p>
-      </div>
-
-      <div class="wim-qt">
-        <p>"I cannot fix on the hour, or the spot, or the look, or the words, which laid the foundation. It is too long ago. I was in the middle before I knew that I had begun."</p>
-        <cite>— Mr Darcy, Chapter 60</cite>
-        <p class="qt-why">Asked when he fell in love, Darcy cannot say — because love in this novel is not an event but a process of revision. His answer is also Austen's answer to everyone who wants the story to begin at a particular moment of recognition.</p>
+        <p>Elizabeth does not simply admit she was wrong. She turns the full force of her intelligence on herself, finding the precise mechanism of her error. This passage earns everything that follows. A lesser novelist would have given her a gentler realisation.</p>
       </div>
     </div>
 
-    <!-- CH 8: Quiz -->
-    <div class="ch" data-t="✎ Quiz">
-      <div class="ch-title">✎ Quiz</div>
-      <div class="ch-sub">Three questions on themes and ideas</div>
+    <!-- CH 7: Quiz -->
+    <div class="ch" data-t="Quiz">
+      <h2 class="ch-title">Quiz</h2>
+      <p style="color:#A89880; font-size:.93rem; margin-bottom:1.8rem;">Three questions on themes and ideas. Not plot recall.</p>
 
-      <div class="qz-q" id="q1">
-        <h4>1. What does Darcy's first proposal most reveal about him at that point in the novel?</h4>
-        <div class="qz-opts">
-          <button class="qz-opt" onclick="ans(1,'a')">a) That he has admired Elizabeth for months but lacked the courage to speak sooner.</button>
-          <button class="qz-opt" onclick="ans(1,'b')">b) That he expects rejection, and frames his flaws pre-emptively to protect his dignity.</button>
-          <button class="qz-opt" onclick="ans(1,'c')">c) That his love is genuine but his pride is fully intact — he cannot offer one without advertising the cost of the other.</button>
-        </div>
-        <div class="qz-fb" id="fb1">
-          Darcy's proposal is sincere — Austen is not mocking it. But he cannot separate his feeling from his social superiority. The condescension is not a rhetorical mistake; it is who he still is at this moment. Elizabeth is right to refuse, and Darcy will spend the rest of the novel learning why.
-        </div>
+      <div class="quiz-q" id="qq0">
+        <p>1. The novel's title pairs two abstract nouns. Which character most embodies "pride" and which most embodies "prejudice" — and does Austen keep them cleanly separate?</p>
+        <button class="quiz-opt" onclick="ans(0,0)">A. Darcy has pride; Elizabeth has prejudice. They remain separate throughout.</button>
+        <button class="quiz-opt" onclick="ans(0,1)">B. Darcy has pride; Elizabeth has prejudice. But both characters share both flaws before the end.</button>
+        <button class="quiz-opt" onclick="ans(0,2)">C. Mrs Bennet embodies both flaws; Darcy and Elizabeth are largely free of them.</button>
+        <button class="quiz-opt" onclick="ans(0,3)">D. Wickham is the true locus of both vices — pride in his charm, prejudice in his hatred of Darcy.</button>
+        <div class="quiz-feedback" id="qf0"></div>
       </div>
 
-      <div class="qz-q" id="q2">
-        <h4>2. Charlotte Lucas accepts Mr Collins because:</h4>
-        <div class="qz-opts">
-          <button class="qz-opt" onclick="ans(2,'a')">a) She has correctly assessed her situation: at 27 with no fortune, a comfortable home is a better outcome than her realistic alternatives.</button>
-          <button class="qz-opt" onclick="ans(2,'b')">b) She secretly hopes Collins's connection to Lady Catherine will improve her family's standing.</button>
-          <button class="qz-opt" onclick="ans(2,'c')">c) She wants to secure her future before Elizabeth, who refused him, has a chance to reconsider.</button>
-        </div>
-        <div class="qz-fb" id="fb2">
-          The novel takes Charlotte's reasoning seriously. She is not deluded or defeated — she is realistic. Austen places this decision immediately after Elizabeth's idealistic refusal to make the contrast deliberate: Elizabeth's freedom to wait for love is itself a consequence of relative security. Charlotte has no such luxury, and Austen does not pretend otherwise.
-        </div>
+      <div class="quiz-q" id="qq1">
+        <p>2. Charlotte Lucas accepts Collins's proposal with full knowledge of his limitations. How does Austen treat this decision?</p>
+        <button class="quiz-opt" onclick="ans(1,0)">A. As a moral failure — Charlotte is condemned for choosing money over love.</button>
+        <button class="quiz-opt" onclick="ans(1,1)">B. As an economic reality — Austen presents it without contempt, as a rational response to genuine constraints.</button>
+        <button class="quiz-opt" onclick="ans(1,2)">C. As secretly romantic — Collins improves once married and Charlotte grows to love him.</button>
+        <button class="quiz-opt" onclick="ans(1,3)">D. As irrelevant — Charlotte is a minor character and Austen does not develop her perspective.</button>
+        <div class="quiz-feedback" id="qf1"></div>
       </div>
 
-      <div class="qz-q" id="q3">
-        <h4>3. What does Darcy's secret role in the Lydia-Wickham affair demonstrate?</h4>
-        <div class="qz-opts">
-          <button class="qz-opt" onclick="ans(3,'a')">a) That he feels guilty about failing to warn the Bennet family about Wickham before the elopement.</button>
-          <button class="qz-opt" onclick="ans(3,'b')">b) That his transformation is genuine — he acts entirely for Elizabeth's sake, in secret, expecting nothing in return.</button>
-          <button class="qz-opt" onclick="ans(3,'c')">c) That wealth allows him to solve problems through money rather than confronting Wickham directly.</button>
-        </div>
-        <div class="qz-fb" id="fb3">
-          Darcy does everything in secret and asks the Gardiners not to tell Elizabeth. This is the precise opposite of his first proposal, where he expected gratitude while behaving badly. The secrecy is the evidence: a man who once needed his generosity acknowledged now acts without any audience at all.
-        </div>
-      </div>
-
-      <div id="qz-score">
-        <div id="score-n"></div>
-        <div id="score-msg"></div>
+      <div class="quiz-q" id="qq2">
+        <p>3. Why is Darcy's secret rescue of the Bennet family — paying Wickham's debts and arranging Lydia's marriage — more significant than a second proposal would be on its own?</p>
+        <button class="quiz-opt" onclick="ans(2,0)">A. Because it proves he has enough money to solve any problem Elizabeth might face.</button>
+        <button class="quiz-opt" onclick="ans(2,1)">B. Because Elizabeth's family wealth is now restored and their social standing secured.</button>
+        <button class="quiz-opt" onclick="ans(2,2)">C. Because it is an act of love without expectation of credit — he expects nothing and tells no one, which is the opposite of the pride he showed in his first proposal.</button>
+        <button class="quiz-opt" onclick="ans(2,3)">D. Because it finally wins over Mrs Bennet, whose approval was the last obstacle.</button>
+        <div class="quiz-feedback" id="qf2"></div>
       </div>
     </div>
 
-    <!-- Nav -->
+    <!-- NAV -->
     <div class="nr">
       <button id="pb" onclick="nav(-1)" disabled>&#8592; Back</button>
-      <span><span id="nc">1</span> / <span id="ntot">8</span></span>
+      <span><span id="nc">1</span> / <span id="ntot">7</span></span>
       <button id="fwb" onclick="nav(1)">Next &#8594;</button>
     </div>
 
   </div>
 </div>
 
-<div class="tip-box" id="tipbox">
-  <div class="tip-name" id="tipname"></div>
-  <div class="tip-pron" id="tippron">
-    <span></span>
-    <button class="tip-speak" id="tipspeak" title="Hear pronunciation">&#9654; hear</button>
-  </div>
-  <div class="tip-desc" id="tipdesc"></div>
-</div>
-
 <script>
-let c = 0;
-const chs = document.querySelectorAll('.ch');
-const tis = document.querySelectorAll('.ti');
-const N = chs.length;
-document.getElementById('ntot').textContent = N;
-function go(i) {
-  chs[c].classList.remove('on'); tis[c].classList.remove('on');
-  c = i;
-  chs[c].classList.add('on'); tis[c].classList.add('on');
-  document.getElementById('pb').disabled  = c === 0;
-  document.getElementById('fwb').disabled = c === N-1;
-  document.getElementById('nc').textContent = (c+1);
-  document.getElementById('ntot').textContent = N;
-  window.scrollTo({top:0, behavior:'smooth'});
+var cur = 0;
+var chs = document.querySelectorAll(".ch");
+var tis = document.querySelectorAll(".ti");
+var N = chs.length;
+document.getElementById("ntot").textContent = N;
+
+function go(n) {
+  chs[cur].classList.remove("on");
+  tis[cur].classList.remove("on");
+  cur = n;
+  chs[cur].classList.add("on");
+  tis[cur].classList.add("on");
+  document.getElementById("nc").textContent = cur + 1;
+  document.getElementById("pb").disabled = cur === 0;
+  document.getElementById("fwb").disabled = cur === N - 1;
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
-function nav(d) { go(c+d); }
+
+function nav(d) {
+  var next = cur + d;
+  if (next >= 0 && next < N) go(next);
+}
 </script>
 
 <script>
 var CHARS = {
-  Elizabeth: { pron:"eh-LIZ-uh-buth", speak:"Elizabeth Bennet", desc:"The second Bennet daughter, witty and perceptive. Her sharp judgement is also her greatest liability." },
-  Darcy: { pron:"DAR-see", speak:"Fitzwilliam Darcy", desc:"Wealthy Derbyshire landowner whose pride masks genuine feeling and quiet generosity." },
-  Jane: { pron:"JAYN", speak:"Jane Bennet", desc:"The eldest Bennet daughter, beautiful and inclined to think well of everyone." },
-  Bingley: { pron:"BING-lee", speak:"Charles Bingley", desc:"An amiable friend of Darcy, whose attachment to Jane is genuine but easily swayed." },
-  MrsBennet: { pron:"MIS-iz BEN-it", speak:"Mrs Bennet", desc:"A woman of nerves and matrimonial ambition, whose single goal is to see her daughters married." },
-  MrBennet: { pron:"MIS-ter BEN-it", speak:"Mr Bennet", desc:"The dry-witted Bennet patriarch who retreats into irony and is not blameless for the chaos that follows." },
-  Wickham: { pron:"WIK-um", speak:"George Wickham", desc:"A charming, plausible militia officer with debts, dishonesty, and very good manners." },
-  Collins: { pron:"KOL-inz", speak:"Mr William Collins", desc:"A pompous clergyman and cousin to the Bennets, who manages to be both ridiculous and consequential." },
-  Lydia: { pron:"LID-ee-uh", speak:"Lydia Bennet", desc:"The youngest and most reckless Bennet daughter, whose elopement nearly ruins them all." },
-  LadyCatherine: { pron:"LAY-dee KATH-rin", speak:"Lady Catherine de Bourgh", desc:"An imperious aunt of Darcy, who considers social hierarchy a law of nature and enforces it accordingly." }
+  Elizabeth: { pron: "eh-LIZ-uh-beth BEH-net", speak: "Elizabeth Bennet", desc: "Second Bennet daughter — witty, independent, and prone to confident misjudgement." },
+  Darcy: { pron: "FITS-wil-yum DAR-see", speak: "Fitzwilliam Darcy", desc: "Wealthy, proud, honest — a man who must learn to humble his pride for love." },
+  Jane: { pron: "JAYN BEH-net", speak: "Jane Bennet", desc: "Eldest Bennet daughter — beautiful, trusting, and slow to see ill in anyone." },
+  Bingley: { pron: "BING-lee", speak: "Charles Bingley", desc: "Affable, wealthy friend of Darcy — falls genuinely for Jane." },
+  Wickham: { pron: "JOR-j WIK-um", speak: "George Wickham", desc: "Charming militia officer whose pleasant surface conceals greed and dishonesty." },
+  Collins: { pron: "KOL-inz", speak: "Mr Collins", desc: "Pompous clergyman and heir to Longbourn — comic villain of misplaced self-importance." },
+  Charlotte: { pron: "SHAR-lut LOO-kus", speak: "Charlotte Lucas", desc: "Elizabeth best friend — marries Collins for security, not love." },
+  MrsBennet: { pron: "MIS-iz BEH-net", speak: "Mrs Bennet", desc: "Elizabeth mother — anxious matchmaker and social comedy engine of the novel." },
+  LadyCatherine: { pron: "lay-dee KATH-rin deh BOOR", speak: "Lady Catherine de Bourgh", desc: "Darcy overbearing aunt — represents aristocratic snobbery at its worst." },
+  Gardiner: { pron: "GAR-din-er", speak: "Mr Gardiner", desc: "Mrs Bennet sensible brother — quiet decency contrasting the household chaos." }
 };
 
-var qAnswers = { 1:"c", 2:"a", 3:"b" };
-var scores = {};
-var answered = 0;
+var QUIZ = {
+  correct: [1, 1, 2],
+  feedback: [
+    [
+      "Close — but Austen is more interested in overlap than clean separation. Both characters carry both vices.",
+      "Correct. Darcy opens the novel stiff with pride; Elizabeth is blinded by prejudice. But both fail in both directions before they earn their happiness.",
+      "Mrs Bennet provides wonderful comic energy, but the title flaws belong to the protagonists.",
+      "Wickham is dishonest, but his role is catalyst rather than embodiment of either vice."
+    ],
+    [
+      "Austen does not condemn Charlotte. She presents the decision with clear-eyed sympathy for the constraints Charlotte faces.",
+      "Correct. Charlotte is pragmatic, not pitiable. Austen grants her full rational agency and the reader is not invited to sneer.",
+      "There is no suggestion of this in the text. Collins does not improve, and Charlotte manages rather than loves him.",
+      "Charlotte is developed with considerable care — her perspective is among the most honest in the whole novel."
+    ],
+    [
+      "Austen is not primarily interested in financial security as a romantic credential.",
+      "Lydia and Wickham are married, but the Bennet family is not wealthy — the social damage is contained, not reversed.",
+      "Correct. The act proves Darcy has changed: he has replaced pride with genuine selflessness. He acts for love, not credit — which is what his first proposal entirely lacked.",
+      "Mrs Bennet approves of money, but her approval is not the moral hinge of the novel."
+    ]
+  ]
+};
 
-function ans(qn, opt) {
-  var correct = qAnswers[qn];
-  var fb = document.getElementById('fb'+qn);
-  var opts = document.querySelectorAll('#q'+qn+' .qz-opt');
-  opts.forEach(function(b, i) {
-    b.disabled = true;
-    var o = ['a','b','c'][i];
-    if (o === correct) b.classList.add('correct');
-    else if (o === opt && opt !== correct) b.classList.add('wrong');
-    else b.classList.add('reveal');
-  });
-  fb.classList.add('show');
-  fb.classList.add(opt === correct ? 'correct' : 'wrong');
-  if (!scores[qn]) {
-    scores[qn] = (opt === correct) ? 1 : 0;
-    answered++;
-    if (answered === 3) {
-      var total = (scores[1]||0) + (scores[2]||0) + (scores[3]||0);
-      var sc = document.getElementById('qz-score');
-      document.getElementById('score-n').textContent = total + ' / 3';
-      document.getElementById('score-msg').textContent = total === 3 ? 'A reader of rare discernment.' : total === 2 ? 'Sharp eyes, mostly.' : 'First impressions deceive even the best of us.';
-      sc.classList.add('show');
-    }
+var answered = [false, false, false];
+
+function ans(q, choice) {
+  if (answered[q]) return;
+  answered[q] = true;
+  var opts = document.querySelectorAll("#qq" + q + " .quiz-opt");
+  var fb = document.getElementById("qf" + q);
+  opts.forEach(function(o) { o.disabled = true; });
+  if (choice === QUIZ.correct[q]) {
+    opts[choice].classList.add("correct");
+  } else {
+    opts[choice].classList.add("wrong");
+    opts[QUIZ.correct[q]].classList.add("correct");
   }
-}
-
-var tipbox = document.getElementById('tipbox');
-var tipname = document.getElementById('tipname');
-var tippron = document.getElementById('tippron').querySelector('span');
-var tipspeak = document.getElementById('tipspeak');
-var tipdesc = document.getElementById('tipdesc');
-
-document.querySelectorAll('.cn-tip').forEach(function(el) {
-  el.addEventListener('mouseenter', function(e) {
-    var key = el.getAttribute('data-char');
-    var ch = CHARS[key];
-    if (!ch) return;
-    tipname.textContent = ch.speak;
-    tippron.textContent = ch.pron;
-    tipdesc.textContent = ch.desc;
-    tipspeak.onclick = function() {
-      var u = new SpeechSynthesisUtterance(ch.speak);
-      window.speechSynthesis.speak(u);
-    };
-    var r = el.getBoundingClientRect();
-    tipbox.style.display = 'block';
-    tipbox.style.left = Math.min(r.left, window.innerWidth - 260) + 'px';
-    tipbox.style.top = (r.bottom + 8 + window.scrollY) + 'px';
-  });
-  el.addEventListener('mouseleave', function() {
-    tipbox.style.display = 'none';
-  });
-});
-if ("ontouchstart" in window) {
-  document.querySelectorAll('.cn-tip').forEach(function(el) {
-    el.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      var key = el.getAttribute('data-char');
-      var ch = CHARS[key];
-      if (!ch) return;
-      tipname.textContent = ch.speak;
-      tippron.textContent = ch.pron;
-      tipdesc.textContent = ch.desc;
-      tipspeak.onclick = function() {
-        var u = new SpeechSynthesisUtterance(ch.speak);
-        window.speechSynthesis.speak(u);
-      };
-      var r = el.getBoundingClientRect();
-      tipbox.style.display = 'block';
-      tipbox.style.left = Math.min(r.left, window.innerWidth - 260) + 'px';
-      tipbox.style.top = (r.bottom + 8 + window.scrollY) + 'px';
-    });
-  });
-  document.addEventListener('touchstart', function(e) {
-    if (!tipbox.contains(e.target) && !e.target.classList.contains('cn-tip')) {
-      tipbox.style.display = 'none';
-    }
-  });
+  fb.textContent = QUIZ.feedback[q][choice];
 }
 </script>
 

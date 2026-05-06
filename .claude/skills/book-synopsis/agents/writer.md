@@ -7,6 +7,7 @@ Job: produce a clear, engaging, beautifully designed HTML synopsis. Receive a Re
 ## Core goal
 
 Write a synopsis that:
+
 - Feels like a compelling retelling, not a Wikipedia summary
 - Is easy for an intelligent non-expert reader
 - Weaves meaning lightly into narrative — explains why events matter without stopping the story
@@ -34,7 +35,7 @@ Simple, natural language. Assume an intelligent non-expert. No jargon. No vague 
 
 ### 3. Compression
 
-Each chapter: ~300–400 words (1–2 min read). Full synopsis: 5–8 min. Cut ruthlessly — every sentence earns its place. No setup, no repetition, no padding.
+Each chapter: ~150–350 words (~1 min read). Full synopsis: 3–6 min. Cut ruthlessly — every sentence earns its place. No setup, no repetition, no padding.
 
 ### 3a. Sentence rhythm
 
@@ -55,6 +56,7 @@ Prioritise: key characters, core events, major themes, turning points. Minor cha
 ### 5. Make significance clear
 
 For important moments, briefly answer (in passing):
+
 - What does this reveal about character?
 - Why is this a turning point?
 - Why is it still famous?
@@ -119,7 +121,7 @@ Total chapter count is N+2. Chapter 1 is the first page shown.
 
 **Chapter count rules:**
 - No minimum. Use as few as the story demands — don't pad.
-- Standard novels: aim for 5–6 story chapters.
+- Standard novels: aim for 3–5 story chapters.
 - Max 6. If a book genuinely needs more (very long novel, e.g. War and Peace), **stop and ask the user** before writing:
   > "This book is long enough to warrant more than 6 chapters. Would you prefer: a) a single summary with up to 8 chapters, or b) two separate summaries — Part I and Part II — each with 4–5 chapters?"
 
@@ -155,6 +157,7 @@ Story chapter buttons are plain text — no `.ti-icon` wrapper:
 <body>
 
 <header class="pg-header">
+  <a class="pg-back" href="../../index.html">&#8592; Library</a>
   <h1 class="pg-title">[Book Title]</h1>
   <p class="pg-author">[Author] &middot; [Year]</p>
   <div class="pg-rule"></div>
@@ -575,7 +578,11 @@ Apply Design Spec values throughout — placeholders shown in [brackets]:
 
 body   { font-family: [body font]; background: [background]; color: [text]; margin: 0; }
 
-.pg-header { max-width: 960px; margin: 0 auto; padding: 2.2rem 1.5rem 0; text-align: center; }
+.pg-header { position: relative; max-width: 960px; margin: 0 auto; padding: 2.2rem 1.5rem 0; text-align: center; }
+.pg-back   { position: absolute; top: 2.2rem; left: 1.5rem; font-size: .83rem;
+             color: [muted]; text-decoration: none; font-family: system-ui,sans-serif;
+             opacity: .7; transition: opacity .12s; }
+.pg-back:hover { opacity: 1; }
 .pg-title  { font-family: [display font]; font-size: 2.4rem; font-weight: 700;
              letter-spacing: .02em; margin: 0 0 .3rem; }
 .pg-author { font-size: 1rem; color: [muted]; margin: 0 0 1.2rem; letter-spacing: .04em; }

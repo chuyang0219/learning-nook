@@ -1,7 +1,5 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 Static site of interactive book synopses, deployed on GitHub Pages. No build step, no framework — pure HTML/CSS/JS. Open any `.html` directly in a browser.
 
 ## Adding a new book
@@ -13,6 +11,12 @@ Output paths:
 - HTML: `classic-books/<slug>/<slug>.html`
 - Images: `classic-books/<slug>/images/chapter_NN.jpg` + `manifest.json`
 
-After adding a book, add a card to `index.html` manually.
+## Reminders
 
-Each book gets a **bespoke colour palette** from the Designer agent — do not copy colours or styles from another book.
+After adding a book, it also needs to be added to `index.html` manually.
+
+These pages are intended to be viewed on both desktop and mobile.
+Keep both in mind when designing or changing the layout, e.g., is this look mobile-friendly?
+
+When I report on something that I don't like or want to update in a specific book, always check whether the change is something general that could be translated into a principle or rule to be added to the `book-synopsis` skill.
+We want to avoid the same mistakes across future books.

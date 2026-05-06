@@ -20,12 +20,14 @@ like reading the book itself, compressed and illuminated.
 
 ## Agents
 
-- **Designer** — derives bespoke visual identity from the Research Brief. Full spec: `agents/designer.md`
-- **Writer** — produces the HTML synopsis. Full spec: `agents/writer.md`
-- **Reader** — evaluates the HTML cold, returns verdict. Full spec: `agents/reader.md`
-- **Illustrator** — finds period illustrations, downloads them, outputs a manifest. Full spec: `agents/illustrator.md`
+- **Doodles the Designer** — derives bespoke visual identity from the Research Brief. Full spec: `agents/designer.md`
+- **Willy the Writer** — produces the HTML synopsis. Full spec: `agents/writer.md`
+- **Matilda the Reader** — evaluates the HTML cold, returns verdict. Full spec: `agents/reader.md`
+- **Arty the Illustrator** — finds period illustrations, downloads them, outputs a manifest. Full spec: `agents/illustrator.md`
 
 Read all four agent files before spawning any agent.
+
+When announcing agent activity, always use the full name+role — e.g. "Spawning Doodles the Designer now" or "Matilda the Reader has flagged some revisions". Never use the first name alone.
 
 ---
 
@@ -44,6 +46,7 @@ Phase 0 — Pre-research and design:
   1. Run web searches in parallel:
      - "[Book title] [Author] plot summary"
      - "[Book title] famous quotes"
+     - Goodreads quotes page for the book — note top ~8 by likes
      - "[Book title] characters"
      - Wikipedia page for the work
      - SparkNotes or LitCharts if available
@@ -97,6 +100,7 @@ KEY CHARACTERS (6–12):
 VERIFIED QUOTES (10–15):
 Ch[N]: "[exact text]" — [speaker, to whom, context]
 …
+Prioritise quotes with high Goodreads like counts. Include all top ~8 somewhere — in chapter prose if not the "Famous Passages" section.
 
 THEMES (2–3):
 - [theme]: [1–2 sentence explanation]
