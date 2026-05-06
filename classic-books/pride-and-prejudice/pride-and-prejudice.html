@@ -615,6 +615,32 @@ document.querySelectorAll('.cn-tip').forEach(function(el) {
     tipbox.style.display = 'none';
   });
 });
+if ("ontouchstart" in window) {
+  document.querySelectorAll('.cn-tip').forEach(function(el) {
+    el.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      var key = el.getAttribute('data-char');
+      var ch = CHARS[key];
+      if (!ch) return;
+      tipname.textContent = ch.speak;
+      tippron.textContent = ch.pron;
+      tipdesc.textContent = ch.desc;
+      tipspeak.onclick = function() {
+        var u = new SpeechSynthesisUtterance(ch.speak);
+        window.speechSynthesis.speak(u);
+      };
+      var r = el.getBoundingClientRect();
+      tipbox.style.display = 'block';
+      tipbox.style.left = Math.min(r.left, window.innerWidth - 260) + 'px';
+      tipbox.style.top = (r.bottom + 8 + window.scrollY) + 'px';
+    });
+  });
+  document.addEventListener('touchstart', function(e) {
+    if (!tipbox.contains(e.target) && !e.target.classList.contains('cn-tip')) {
+      tipbox.style.display = 'none';
+    }
+  });
+}
 </script>
 
 </body>

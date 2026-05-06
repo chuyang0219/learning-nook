@@ -115,6 +115,8 @@ body   { font-family: Georgia, serif; background: #f5f2ed; color: #1a1a1a; margi
   .pg-title { font-size: 1.9rem; }
   .ch p { font-size: 1.05rem; }
   .qt p { font-size: 1rem; }
+  .ch-illustration { float: none; max-width: 100%; margin: 0 0 1.2rem; }
+  .ch-illustration svg { max-width: 100%; height: auto; }
 }
 </style>
 </head>
@@ -319,7 +321,7 @@ body   { font-family: Georgia, serif; background: #f5f2ed; color: #1a1a1a; margi
       <p><span class="cn-tip" data-char="Raskolnikov">Raskolnikov</span> receives eight years of hard labour in Siberia. The sentence is lightened by his voluntary confession and by <span class="cn-tip" data-char="Razumikhin">Razumikhin</span>'s tireless work on his behalf. <span class="cn-tip" data-char="Sonya">Sonya</span> follows him to Siberia, settling in the town near the camp and sending news of his family. <span class="cn-tip" data-char="Dunya">Dunya</span> marries <span class="cn-tip" data-char="Razumikhin">Razumikhin</span> &mdash; one of the most deserved unions in the novel's world. His mother, unable to bear the weight of what has happened, falls ill and dies without learning the full truth.</p>
 
       <div class="ch-illustration">
-        <svg width="680" height="90" xmlns="http://www.w3.org/2000/svg">
+        <svg width="680" height="90" viewBox="0 0 680 90" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="sky6" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#0a1830"/>
@@ -556,6 +558,22 @@ document.querySelectorAll(".cn-tip").forEach(function(el) {
   el.addEventListener("mouseenter", function(e){ showTip(el, e); });
   el.addEventListener("mouseleave", hideTip);
 });
+if ("ontouchstart" in window) {
+  document.querySelectorAll(".cn-tip").forEach(function(el) {
+    el.addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      clearTimeout(hideTimer);
+      var t = e.touches[0];
+      showTip(el, { clientX: t.clientX, clientY: t.clientY });
+    });
+  });
+  document.addEventListener("touchstart", function(e) {
+    if (!tipbox.contains(e.target) && !e.target.classList.contains("cn-tip")) {
+      clearTimeout(hideTimer);
+      tipbox.style.display = "none";
+    }
+  });
+}
 
 var qAnswers  = { 1:"b", 2:"a", 3:"c" };
 var qDone     = {};

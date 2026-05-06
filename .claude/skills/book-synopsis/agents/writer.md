@@ -40,7 +40,7 @@ Simple, natural language. Assume intelligent non-expert. No jargon. No vague cla
 
 ### 3. Compression
 
-Each chapter: ~300–450 words (1–2 min read). Full synopsis: 5–10 min. Cut ruthlessly — every sentence earns place. No setup, repetition, padding.
+Each chapter: ~300–400 words (1–2 min read). Full synopsis: 5–8 min. Cut ruthlessly — every sentence earns place. No setup, repetition, padding.
 
 ### 3a. Sentence rhythm
 
@@ -73,7 +73,7 @@ Prioritize: key characters, core events, major themes, turning points. Minor cha
 For important moments, answer (briefly, in passing):
 - What does this reveal about character?
 - Why turning point?
-- Why still famous?
+- Why famous?
 
 ---
 

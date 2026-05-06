@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Nook</title>
+  <style>
+    body { font-family: Georgia, serif; background: #f5f2ed; color: #1a1a1a; margin: 0; padding: 0; }
+
+    header { max-width: 800px; margin: 0 auto; padding: 3.5rem 1.5rem 0; text-align: center; }
+    h1 { font-size: 2.4rem; font-weight: 700; margin: 0 0 .4rem; letter-spacing: .02em; }
+    .subtitle { font-size: 1rem; color: #999; margin: 0 0 2rem; font-style: italic; }
+    .rule { border: none; border-top: 1px solid #ccc; max-width: 180px; margin: 0 auto 3rem; }
+
+    .grid { max-width: 800px; margin: 0 auto; padding: 0 1.5rem 5rem;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+
+    a.card { display: block; background: #fff; border-radius: 8px; padding: 1.4rem 1.6rem;
+             border: 1px solid rgba(0,0,0,.08); text-decoration: none; color: inherit;
+             transition: box-shadow .15s, transform .15s; }
+    a.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.1); transform: translateY(-2px); }
+    .card-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 .35rem; line-height: 1.3; }
+    .card-meta { font-size: .83rem; color: #999; margin: 0; font-family: system-ui, sans-serif; }
+
+    @media (max-width: 520px) {
+      h1 { font-size: 1.8rem; }
+      .grid { grid-template-columns: 1fr 1fr; gap: .75rem; }
+      a.card { padding: 1.1rem 1.2rem; }
+    }
+    @media (max-width: 360px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Reading Nook</h1>
+  <p class="subtitle">Interactive synopses for works of classic literature</p>
+  <hr class="rule">
+</header>
+
+<div class="grid">
+  <a class="card" href="classic-books/crime-and-punishment/crime-and-punishment.html">
+    <p class="card-title">Crime and Punishment</p>
+    <p class="card-meta">Fyodor Dostoevsky &middot; 1866</p>
+  </a>
+  <a class="card" href="classic-books/demian/demian.html">
+    <p class="card-title">Demian</p>
+    <p class="card-meta">Hermann Hesse &middot; 1919</p>
+  </a>
+  <a class="card" href="classic-books/hamlet/hamlet.html">
+    <p class="card-title">Hamlet</p>
+    <p class="card-meta">William Shakespeare &middot; c.&thinsp;1600&ndash;1601</p>
+  </a>
+  <a class="card" href="classic-books/jane-eyre/jane-eyre.html">
+    <p class="card-title">Jane Eyre</p>
+    <p class="card-meta">Charlotte Bront&euml; &middot; 1847</p>
+  </a>
+  <a class="card" href="classic-books/pride-and-prejudice/pride-and-prejudice.html">
+    <p class="card-title">Pride and Prejudice</p>
+    <p class="card-meta">Jane Austen &middot; 1813</p>
+  </a>
+  <a class="card" href="classic-books/sense-and-sensibility/sense-and-sensibility.html">
+    <p class="card-title">Sense and Sensibility</p>
+    <p class="card-meta">Jane Austen &middot; 1811</p>
+  </a>
+  <a class="card" href="classic-books/wuthering-heights/wuthering-heights.html">
+    <p class="card-title">Wuthering Heights</p>
+    <p class="card-meta">Emily Bront&euml; &middot; 1847</p>
+  </a>
+</div>
+
+</body>
+</html>
