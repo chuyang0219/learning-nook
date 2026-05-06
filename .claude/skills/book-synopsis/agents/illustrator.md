@@ -127,7 +127,7 @@ Two layouts — chosen based on image dimensions + prose position:
 <figure class="ch-illustration">
   <img src="images/chapter_01.jpg"
        alt="{brief one-line description}"
-       style="width:100%;max-width:680px;border-radius:6px;display:block;">
+       style="width:auto;max-width:680px;max-height:480px;min-width:200px;min-height:150px;border-radius:6px;display:block;margin:0 auto;">
   <figcaption class="ch-illus-caption">{caption}</figcaption>
 </figure>
 ```
@@ -137,12 +137,12 @@ Two layouts — chosen based on image dimensions + prose position:
 <figure class="ch-illustration float-right">
   <img src="images/chapter_01.jpg"
        alt="{brief one-line description}"
-       style="width:100%;border-radius:6px;display:block;">
+       style="width:auto;max-width:100%;max-height:320px;min-width:120px;min-height:100px;border-radius:6px;display:block;">
   <figcaption class="ch-illus-caption">{caption}</figcaption>
 </figure>
 ```
 
-No `max-height` or `object-fit:cover` — never crop images.
+Never use `object-fit:cover` — never crop images. `max-height` is permitted and required.
 
 CSS to add alongside Step 11:
 ```css
@@ -152,6 +152,12 @@ CSS to add alongside Step 11:
 .ch::after { content: ""; display: table; clear: both; }
 .ch-illus-caption { font-size: .78rem; color: #888; margin: .4rem 0 0;
                     font-style: italic; line-height: 1.5; }
+@media (max-width: 600px) {
+  .ch-illustration.float-right,
+  .ch-illustration.float-left { float: none; max-width: 100%; margin: 0 0 1.4rem; }
+  .ch-illustration img { min-width: 0 !important; min-height: 0 !important; width: 100% !important;
+                         max-height: 400px !important; height: auto; }
+}
 ```
 
 Chapters with `"found": false` retain SVG strip unchanged.

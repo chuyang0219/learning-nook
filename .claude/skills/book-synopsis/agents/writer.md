@@ -562,7 +562,7 @@ Good question types:
 - "Why does the novel's structure work the way it does?"
 - "What does [character/event] represent in contrast to [other]?"
 
-Choose correct answers independently per question. The only rule: not all three the same letter. Do not make the correct option the longest. Make distractors genuinely plausible.
+Choose correct answers independently per question. Do not make the correct option the longest. Make distractors genuinely plausible.
 
 ---
 
