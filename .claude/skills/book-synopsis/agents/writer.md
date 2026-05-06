@@ -7,6 +7,7 @@ Job: produce a clear, engaging, beautifully designed HTML synopsis. Receive a Re
 ## Core goal
 
 Write a synopsis that:
+
 - Feels like a compelling retelling, not a Wikipedia summary
 - Is easy for an intelligent non-expert reader
 - Weaves meaning lightly into narrative — explains why events matter without stopping the story
@@ -34,7 +35,7 @@ Simple, natural language. Assume an intelligent non-expert. No jargon. No vague 
 
 ### 3. Compression
 
-Each chapter: ~300–400 words (1–2 min read). Full synopsis: 5–8 min. Cut ruthlessly — every sentence earns its place. No setup, no repetition, no padding.
+Each chapter: ~150–350 words (~1 min read). Full synopsis: 3–6 min. Cut ruthlessly — every sentence earns its place. No setup, no repetition, no padding.
 
 ### 3a. Sentence rhythm
 
@@ -55,6 +56,7 @@ Prioritise: key characters, core events, major themes, turning points. Minor cha
 ### 5. Make significance clear
 
 For important moments, briefly answer (in passing):
+
 - What does this reveal about character?
 - Why is this a turning point?
 - Why is it still famous?
@@ -75,8 +77,9 @@ Apply each field to CSS as follows:
 | `text` | `body { color: ... }` |
 | `accent` | `.ch-title { color }`, `::first-letter { color }`, `.qt { border-color }`, `.ti.on { border-left-color }`, `.ti.on { border-bottom-color }` (mobile) |
 | `muted` | `.ch-sub { color }`, `.pg-author { color }`, `.ch-illus-caption { color }`, `.ti { color }` |
-| `recap-bg` | `.ch-recap { background }` |
+| `recap-bg` | `.ch-recap { background }`, `.hl { background }` |
 | `quote-bg` | `.qt { background }` — omit this rule entirely if blank in spec |
+| `fact-bg`  | `.fact-card { background }` — tinted with accent hue, clearly different from `recap-bg` |
 | `display` font | `body, .pg-title, .ch-title` — or just display elements if body font differs |
 | `body` font | `body, .ch p` |
 | `sidebar-width` | `.sb { width }` |
@@ -112,14 +115,15 @@ If anything in the brief conflicts with your knowledge, add `<!-- RESEARCH NOTE:
 | # | Type | Content |
 |---|------|---------|
 | 1–N | Story chapters | One per major narrative beat |
-| N+1 | ✦ Why it matters | Themes, legacy, famous passages |
-| N+2 | ✎ Quiz | 3 questions on key ideas |
+| N+1 | ✦ Why it matters | 4 theme cards (2×2 grid) + Fun Facts |
+| N+2 | ❝ Quotes | 6–8 celebrated quotes with expandable context |
+| N+3 | ✎ Quiz | 3 questions on key ideas |
 
-Total chapter count is N+2. Chapter 1 is the first page shown.
+Total chapter count is N+3. Chapter 1 is the first page shown.
 
 **Chapter count rules:**
 - No minimum. Use as few as the story demands — don't pad.
-- Standard novels: aim for 5–6 story chapters.
+- Standard novels: aim for 3–5 story chapters.
 - Max 6. If a book genuinely needs more (very long novel, e.g. War and Peace), **stop and ask the user** before writing:
   > "This book is long enough to warrant more than 6 chapters. Would you prefer: a) a single summary with up to 8 chapters, or b) two separate summaries — Part I and Part II — each with 4–5 chapters?"
 
@@ -136,6 +140,23 @@ Story chapter buttons are plain text — no `.ti-icon` wrapper:
 ```html
 <button class="ti on" onclick="go(0)">I · The Bennets</button>
 <button class="ti" onclick="go(1)">II · First Impressions</button>
+```
+
+The three special pages use icons:
+
+**Why it matters** → SparklesIcon (go(N)):
+```html
+<button class="ti" onclick="go(N)"><span class="ti-icon"><!-- sparkles SVG -->Why it matters</span></button>
+```
+
+**Quotes** → BookBookmark02Icon (go(N+1)):
+```html
+<button class="ti" onclick="go(N+1)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 22H6C4.89543 22 4 21.1046 4 20M4 20C4 18.8954 4.89543 18 6 18H20V6C20 4.11438 20 3.17157 19.4142 2.58579C18.8284 2 17.8856 2 16 2H10C7.17157 2 5.75736 2 4.87868 2.87868C4 3.75736 4 5.17157 4 8V20Z"/><path d="M19.5 18C19.5 18 18.5 18.7628 18.5 20C18.5 21.2372 19.5 22 19.5 22"/><path d="M9 2V10L12 7L15 10V2"/></svg>Quotes</span></button>
+```
+
+**Quiz** → Certificate01Icon (go(N+2)):
+```html
+<button class="ti" onclick="go(N+2)"><span class="ti-icon"><!-- certificate SVG -->Quiz</span></button>
 ```
 
 ---
@@ -155,6 +176,7 @@ Story chapter buttons are plain text — no `.ti-icon` wrapper:
 <body>
 
 <header class="pg-header">
+  <a class="pg-back" href="../../index.html">&#8592; Library</a>
   <h1 class="pg-title">[Book Title]</h1>
   <p class="pg-author">[Author] &middot; [Year]</p>
   <div class="pg-rule"></div>
@@ -294,6 +316,8 @@ Each chapter gets a lightweight atmospheric header — an SVG strip (680×90px).
 
 **Always include `viewBox="0 0 680 90"`** so the strip scales on mobile.
 
+**Wrap every SVG strip in a `<figure class="ch-illustration">` — no inner `<figcaption>` for SVGs.** The image insertion script replaces the entire `<figure>` when a real illustration is found. Never use a plain `<div>` wrapper — this causes double-nesting after insertion.
+
 Use the Design Spec's `SVG MOOD` section:
 - `palette`: hex values for gradient backgrounds
 - `motif`: silhouette vocabulary to draw
@@ -324,7 +348,9 @@ Use **hardcoded hex colours only** in SVGs — no CSS variables (they won't inve
 
 ---
 
-## Step 6 — Character tooltips
+## Step 6 — Character and location tooltips
+
+### Characters
 
 Tag every named character on first use (and on subsequent uses where a reminder helps):
 
@@ -344,6 +370,49 @@ var CHARS = {
 - `pron`: phonetic guide, stressed syllable in CAPS
 - `speak`: full name for `speechSynthesis`
 - `desc`: one sentence, **no apostrophes** (use `"Friend of Raskolnikov"` not `"Raskolnikov's friend"`)
+
+### Locations
+
+Tag 4–6 recurring locations on first use in each chapter (and where a reminder helps):
+
+```html
+<span class="loc-tip" data-loc="LocKey">Place Name</span>
+```
+
+The JS `LOCS` object maps each key:
+
+```js
+var LOCS = {
+  Pemberley: { desc: "Darcy estate in Derbyshire — its beauty and upkeep are moral evidence of his character." },
+  Longbourn: { desc: "The Bennet family home — modest country house, entailed away from daughters to a male heir." }
+};
+```
+
+- `desc`: one sentence, **no apostrophes** — what is it, why does it matter?
+- Choose locations that recur across chapters and carry narrative weight
+- `.loc-tip` renders with `border-bottom: 1px dotted [accent]` — visually distinct from character dashes
+
+### Shared tipbox — both types use `#tipbox`
+
+The same global tipbox serves both characters and locations. For locations the pronunciation row is hidden:
+
+```js
+function showTip(el, e) {
+  var isChar = el.classList.contains("cn-tip");
+  var key    = isChar ? el.getAttribute("data-char") : el.getAttribute("data-loc");
+  var data   = isChar ? CHARS[key] : LOCS[key];
+  if (!data) return;
+  currentSpeakText = isChar ? data.speak : "";
+  tipname.textContent = isChar ? data.speak : key;
+  tippron.style.display = isChar ? "flex" : "none";
+  if (isChar) tiprontext.textContent = data.pron;
+  tipdesc.textContent = data.desc;
+  placeTip(e);
+  tipbox.style.display = "block";
+}
+```
+
+Event listeners target both classes: `document.querySelectorAll(".cn-tip, .loc-tip")`.
 
 ---
 
@@ -394,36 +463,51 @@ function go(i) {
   window.scrollTo({top:0, behavior:'smooth'});
 }
 function nav(d) { go(c+d); }
+function toggleNote(btn) {
+  var note = btn.closest('.fp-quote').querySelector('.fp-note');
+  var open = note.classList.toggle('open');
+  btn.classList.toggle('active', open);
+  btn.textContent = open ? '▾ explain' : '▸ explain';
+}
 ```
 
 ### Script 2 (tooltips + quiz)
 
 ```js
 var CHARS = { /* see Step 6 */ };
+var LOCS  = { /* see Step 6 */ };
 
-var tipbox   = document.getElementById("tipbox");
-var tipname  = document.getElementById("tipname");
-var tippron  = document.getElementById("tippron");
-var tipspeak = document.getElementById("tipspeak");
-var tipdesc  = document.getElementById("tipdesc");
-var hideTimer = null;
+var tipbox      = document.getElementById("tipbox");
+var tipname     = document.getElementById("tipname");
+var tippron     = document.getElementById("tippron");
+var tiprontext  = document.getElementById("tiprontext");
+var tipspeak    = document.getElementById("tipspeak");
+var tipdesc     = document.getElementById("tipdesc");
+var hideTimer   = null;
 var currentSpeakText = "";
 
 function placeTip(e) {
   var x = e.clientX + 16, y = e.clientY + 16;
   if (x + 260 > window.innerWidth)  x = e.clientX - 264;
-  if (y + 120 > window.innerHeight) y = e.clientY - 124;
+  if (y + 140 > window.innerHeight) y = e.clientY - 144;
   tipbox.style.left = x + "px";
   tipbox.style.top  = y + "px";
 }
 function showTip(el, e) {
   clearTimeout(hideTimer);
-  var ch = CHARS[el.getAttribute("data-char")];
-  if (!ch) return;
-  currentSpeakText = ch.speak;
-  tipname.textContent = el.getAttribute("data-char");
-  tippron.querySelector("span").textContent = ch.pron;
-  tipdesc.textContent = ch.desc;
+  var isChar = el.classList.contains("cn-tip");
+  var key    = isChar ? el.getAttribute("data-char") : el.getAttribute("data-loc");
+  var data   = isChar ? CHARS[key] : LOCS[key];
+  if (!data) return;
+  currentSpeakText = isChar ? data.speak : "";
+  tipname.textContent = isChar ? data.speak : key;
+  if (isChar) {
+    tippron.style.display = "flex";
+    tiprontext.textContent = data.pron;
+  } else {
+    tippron.style.display = "none";
+  }
+  tipdesc.textContent = data.desc;
   placeTip(e);
   tipbox.style.display = "block";
 }
@@ -436,9 +520,7 @@ tipspeak.addEventListener("click", function(e) {
   e.stopPropagation();
   if (!window.speechSynthesis || !currentSpeakText) return;
   var u = new SpeechSynthesisUtterance(currentSpeakText);
-  var voices = speechSynthesis.getVoices();
-  var match = voices.find(function(v){ return v.lang.startsWith("LANG_CODE"); });
-  u.lang = match ? "LANG_CODE" : "en-GB";
+  u.lang = "LANG_CODE";   /* replace with BCP-47 code, e.g. "en-GB" for English novels */
   u.rate = 0.8;
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
@@ -446,12 +528,12 @@ tipspeak.addEventListener("click", function(e) {
 if (window.speechSynthesis && speechSynthesis.onvoiceschanged !== undefined) {
   speechSynthesis.onvoiceschanged = function(){};
 }
-document.querySelectorAll(".cn-tip").forEach(function(el) {
+document.querySelectorAll(".cn-tip, .loc-tip").forEach(function(el) {
   el.addEventListener("mouseenter", function(e){ showTip(el, e); });
   el.addEventListener("mouseleave", hideTip);
 });
 if ("ontouchstart" in window) {
-  document.querySelectorAll(".cn-tip").forEach(function(el) {
+  document.querySelectorAll(".cn-tip, .loc-tip").forEach(function(el) {
     el.addEventListener("touchstart", function(e) {
       e.preventDefault();
       clearTimeout(hideTimer);
@@ -460,7 +542,9 @@ if ("ontouchstart" in window) {
     });
   });
   document.addEventListener("touchstart", function(e) {
-    if (!tipbox.contains(e.target) && !e.target.classList.contains("cn-tip")) {
+    if (!tipbox.contains(e.target) &&
+        !e.target.classList.contains("cn-tip") &&
+        !e.target.classList.contains("loc-tip")) {
       clearTimeout(hideTimer);
       tipbox.style.display = "none";
     }
@@ -513,43 +597,118 @@ Place just before closing `</body>`:
 <div class="tip-box" id="tipbox">
   <div class="tip-name" id="tipname"></div>
   <div class="tip-pron" id="tippron">
-    <span></span>
+    <span id="tiprontext"></span>
     <button class="tip-speak" id="tipspeak" title="Hear pronunciation">&#9654; hear</button>
   </div>
   <div class="tip-desc" id="tipdesc"></div>
 </div>
 ```
 
-Critical CSS — `pointer-events` must NOT be `none` (the hear button must be clickable):
+Notes:
+- `tipname` shows `data.speak` for characters, the location key for places
+- `#tippron` is toggled `display:none` / `display:flex` per tooltip type
+- `pointer-events` must NOT be `none` on `.tip-box` (the hear button must be clickable)
 
 ```css
-.cn-tip  { border-bottom: 1px dotted [muted]; cursor: help; }
+/* Characters: dashed underline in muted colour */
+.cn-tip  { border-bottom: 1px dashed [muted]; cursor: help; }
+/* Locations: dotted underline in accent colour — visually distinct from characters */
+.loc-tip { border-bottom: 1px dotted [accent]; cursor: help; }
+
 .tip-box { display: none; position: fixed; z-index: 9999; max-width: 240px;
-           background: [background]; border: .5px solid rgba(0,0,0,.15);
-           border-radius: 8px; padding: 10px 13px; }
+           background: [text]; color: [background];
+           border-radius: 8px; padding: 10px 13px;
+           font-size: .82rem; line-height: 1.45; pointer-events: auto; }
+.tip-name { font-weight: 700; font-size: .9rem; margin-bottom: .2rem;
+            font-family: [display font]; letter-spacing: .02em; }
+.tip-pron { display: flex; align-items: center; gap: .4rem;
+            font-size: .75rem; color: [muted]; font-style: italic; margin-bottom: .3rem; }
+.tip-speak { background: none; border: 1px solid rgba(168,152,128,.4); border-radius: 3px;
+             color: [muted]; font-size: .7rem; padding: 1px 5px;
+             cursor: pointer; font-family: system-ui, sans-serif; flex-shrink: 0; }
+.tip-speak:hover { background: rgba(168,152,128,.15); }
+.tip-desc { font-size: .8rem; opacity: .85; }
 ```
 
 ---
 
 ## Step 9 — "Why it matters" page
 
-This is the only page where thematic analysis and `.hl` highlight boxes are appropriate. Keep analysis out of story chapters.
+This is the only page where thematic analysis is appropriate. Keep analysis out of story chapters.
 
-### Section 1 — Central Themes & Legacy
+### Section 1 — Theme cards (2×2 grid)
 
-Up to 3 central themes or core ideas. Each gets:
-- A short title (3–5 words)
-- 2–3 sentences of plain explanation — why does this theme matter, what does the book do with it?
+Exactly 4 theme cards in a CSS grid. HTML structure:
 
-No academic jargon. No vague claims.
+```html
+<div class="hl-grid">
+  <div class="hl">
+    <p class="hl-title">Short Title</p>
+    <ul>
+      <li>Specific point — one sentence</li>
+      <li>Specific point — one sentence</li>
+      <li>Specific point — one sentence</li>
+      <li>Specific point — one sentence</li>
+    </ul>
+  </div>
+  <!-- repeat ×4 -->
+</div>
+```
 
-### Section 2 — Fun Facts
+- Each card: 3–4 bullets. One concrete idea per bullet, no filler.
+- Good titles: "First Impressions vs True Character", "Marriage as Economy", "Legacy"
+- No paragraphs inside `.hl` — bullets only
+- No academic jargon. No vague claims ("explores the human condition").
+- The 4th card is typically "Legacy" — sales, adaptations, cultural impact, influence on later works.
 
-4–6 surprising or little-known facts about the work: its composition, reception, adaptations, controversies, cultural impact. Include numbers and dates where interesting.
+### Section 2 — Fun Facts (distinct card)
 
-### Section 3 — Famous Passages
+4–6 surprising facts about the work's composition, reception, adaptations, or cultural impact. Use numbers and dates.
 
-Three celebrated quotes, each with one sentence explaining why the passage is famous or what makes it land. Style as pull-quotes.
+HTML structure — **visually distinct from theme cards**:
+
+```html
+<div class="fact-card">
+  <p class="fact-title">Fun Facts</p>
+  <ul>
+    <li>…</li>
+  </ul>
+</div>
+```
+
+The `.fact-card` uses a different background (tinted with the accent colour) and a top border in the accent colour. Do not use `.hl` for this section.
+
+---
+
+## Step 9b — Quotes page
+
+6–8 celebrated quotes from the work. Each has a hidden one-paragraph explanation revealed by a `▸ explain` toggle — so the page reads cleanly as a list of quotes by default, with depth available on demand.
+
+HTML structure:
+
+```html
+<h2 class="ch-title">Quotes</h2>
+
+<div class="fp-quote">
+  <div class="fp-qt" data-qid="[slug]-fp-q1">
+    <p>"[exact quote]"</p>
+    <cite>— [Attribution, chapter number]</cite>
+    <button class="fp-toggle" onclick="toggleNote(this)">▸ explain</button>
+  </div>
+  <p class="fp-note">[One paragraph: why this passage is famous, what it does, why no other writer did it this way.]</p>
+</div>
+
+<!-- repeat ×6–8 total -->
+```
+
+- 6–8 quotes total — spread across the arc of the book, not clustered at one point
+- Cover a range: wit, irony, character revelation, moral insight, famous declarations
+- Include chapter attribution in `<cite>` where possible
+- No subtitle paragraph above the quotes — let them speak for themselves
+- Use `.fp-qt` (not `.qt`) — it has no box or border, just plain text with tighter line spacing
+- `.fp-note` is hidden by default; `toggleNote()` reveals it and flips the button to `▾ explain`
+- Choose passages that are genuinely celebrated and quotable — not just plot-significant
+- The explanatory paragraph must add something the reader could not get from the quote alone
 
 ---
 
@@ -575,7 +734,11 @@ Apply Design Spec values throughout — placeholders shown in [brackets]:
 
 body   { font-family: [body font]; background: [background]; color: [text]; margin: 0; }
 
-.pg-header { max-width: 960px; margin: 0 auto; padding: 2.2rem 1.5rem 0; text-align: center; }
+.pg-header { position: relative; max-width: 960px; margin: 0 auto; padding: 2.2rem 1.5rem 0; text-align: center; }
+.pg-back   { position: absolute; top: 2.2rem; left: 1.5rem; font-size: .83rem;
+             color: [muted]; text-decoration: none; font-family: system-ui,sans-serif;
+             opacity: .7; transition: opacity .12s; }
+.pg-back:hover { opacity: 1; }
 .pg-title  { font-family: [display font]; font-size: 2.4rem; font-weight: 700;
              letter-spacing: .02em; margin: 0 0 .3rem; }
 .pg-author { font-size: 1rem; color: [muted]; margin: 0 0 1.2rem; letter-spacing: .04em; }
@@ -628,12 +791,46 @@ body   { font-family: [body font]; background: [background]; color: [text]; marg
 .nr button:hover:not(:disabled) { background: rgba(0,0,0,.06); }
 .nr button:disabled { opacity: .35; cursor: default; }
 
-.ch-illustration { margin: 0 0 1.4rem; }
-.ch-illustration.float-right { float: right; margin: 0 0 1rem 1.5rem; max-width: 280px; }
-.ch-illustration.float-left  { float: left;  margin: 0 1.5rem 1rem 0; max-width: 280px; }
-.ch::after { content: ""; display: table; clear: both; }
-.ch-illus-caption { display: block; font-size: .78rem; color: [muted];
-                    margin-top: .4rem; font-family: system-ui, sans-serif; font-style: italic; }
+/* Illustrations — centred, constrained to ~420px so they don't overwhelm prose */
+.ch-illustration { margin: 1.4rem auto; max-width: 420px; text-align: center; }
+.ch-illustration img { width: 100%; display: block; border-radius: 6px; }
+/* Caption: always visible — lighter, italic, smaller than body text. NO attribution source. */
+.ch-illus-caption { display: block; font-size: .76rem; color: [muted];
+                    margin-top: .45rem; font-family: system-ui, sans-serif;
+                    font-style: italic; line-height: 1.4; }
+
+/* WHY IT MATTERS — 2×2 grid of theme cards */
+.hl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.6rem; }
+.hl { background: [recap-bg]; border-radius: 8px; padding: 1.1rem 1.3rem; }
+.hl-title { font-family: [display font]; font-size: 1rem; font-weight: 700;
+            color: [accent]; margin-bottom: .6rem; }
+.hl ul { padding-left: 1.1rem; margin: 0; }
+.hl ul li { font-size: .93rem; line-height: 1.55; margin-bottom: .35rem; }
+.hl ul li:last-child { margin-bottom: 0; }
+
+/* FUN FACTS — distinct from theme cards: tinted background + top border */
+.fact-card { background: [fact-bg]; border-top: 3px solid [accent];
+             border-radius: 0 0 8px 8px; padding: 1.2rem 1.4rem; margin-bottom: 1.6rem; }
+.fact-title { font-family: system-ui, sans-serif; font-size: .72rem; font-weight: 700;
+              letter-spacing: .12em; text-transform: uppercase;
+              color: [accent]; margin-bottom: .7rem; }
+.fact-card ul { padding-left: 1.1rem; margin: 0; }
+.fact-card ul li { font-size: .95rem; line-height: 1.6; margin-bottom: .45rem; }
+.fact-card ul li:last-child { margin-bottom: 0; }
+
+/* FAMOUS PASSAGES */
+.fp-quote { margin-bottom: 1.2rem; }
+.fp-qt { padding: .5rem 0; margin: 0; }
+.fp-qt p { font-size: 1.05rem; line-height: 1.55; color: [body-text]; margin-bottom: .28rem; }
+.fp-qt cite { display: block; font-size: .82rem; color: [muted]; font-style: normal; letter-spacing: .03em; }
+.fp-toggle { display: inline-block; background: none; border: none; padding: 0;
+             margin-top: .22rem; font-size: .78rem; color: [muted]; cursor: pointer;
+             letter-spacing: .02em; font-family: inherit; }
+.fp-toggle:hover, .fp-toggle.active { color: [accent]; }
+.fp-note { display: none; font-size: .9rem; line-height: 1.55; color: [body-text];
+           padding: .4rem 0 .1rem 1.3rem; border-left: 2px solid rgba(0,0,0,.12);
+           margin-top: .4rem; margin-bottom: 0; }
+.fp-note.open { display: block; }
 
 @media (max-width: 640px) {
   .layout { flex-direction: column; padding: 1rem .9rem; }
@@ -648,8 +845,8 @@ body   { font-family: [body font]; background: [background]; color: [text]; marg
   .pg-title { font-size: 1.9rem; }
   .ch p { font-size: 1.05rem; }
   .qt p { font-size: 1rem; }
-  .ch-illustration { float: none; max-width: 100%; margin: 0 0 1.2rem; }
-  .ch-illustration svg { max-width: 100%; height: auto; }
+  .ch-illustration { max-width: 100%; }
+  .hl-grid { grid-template-columns: 1fr; }
 }
 ```
 
@@ -680,14 +877,21 @@ Story chapter buttons are plain text. Only the two special pages use icons:
 | Chapters 2+ render blank | Missing `</div>` on a `.ch` wrapper | Run depth-check script; add closing div before each `<!-- CH N -->` marker |
 | `SyntaxError: Unexpected identifier 's'` | Apostrophe in JS double-quoted string | Rewrite desc strings without apostrophes; use shell heredoc for script 2 |
 | `SyntaxError: Unexpected token '<'` | Duplicate `<script>` open tag | Grep for `<script` count — must equal `</script>` count |
+| Tooltip hear button missing / not clickable | Old inline CSS-only tooltip, no JS | Use global `#tipbox` approach from Step 8; `pointer-events: auto` on `.tip-box` |
 | Tooltip follows mouse, hear button unreachable | `mousemove` updating position | Position set once in `mouseenter` only |
 | Tooltip disappears before button click | No delay or `pointer-events:none` | 150ms `setTimeout` on hide; remove `pointer-events:none` |
+| Caption invisible or missing | `.ch-illus-caption` not in CSS | Add the rule from Step 11; it must have `display:block` and a `color` |
+| Images are too large | `width:100%;max-width:680px` fills the column | Use `max-width:420px` and `margin:1.4rem auto` on `.ch-illustration` |
+| Double-nested `<figure>` after image insertion | SVG wrapped in `<div>` not `<figure>` | Wrap SVG in `<figure class="ch-illustration">` directly (no outer div) |
+| Caption shows source attribution | Insertion script appended attribution span | Caption = description only; no source credit in `<figcaption>` |
 | "Why it matters" page blank | Nested inside unclosed sibling chapter | Run depth-check script |
 | Quote annotations don't match section | Quotes placed thematically, not chronologically | Move every quote to the chapter where it occurs |
 | Nav counter shows "2 / 11 / 11" | Old single-span pattern | Use two-span pattern: separate `nc` and `ntot` spans |
 | Header rule looks too narrow | `pg-rule max-width` too small | Set `max-width: 912px` to match content width |
 | Story chapters contain `.hl` / `.sym-row` blocks | Analysis leaking into narrative | Move to `.ch-recap` or to "Why it matters" page |
 | Recap block missing from a chapter | Skipped | Every story chapter must end with `.ch-recap` |
+| Fun Facts look same as theme cards | Both using `.hl` | Fun Facts must use `.fact-card` with distinct background and top border |
+| Quotes page buried in "Why it matters" | Old structure | Quotes is its own page (N+2), after "Why it matters" |
 | Sidebar titles truncated | Labels too long for sidebar | Keep full label under 22 chars |
 | SVG strips overflow on mobile | Missing `viewBox` | Add `viewBox="0 0 680 90"` to every chapter SVG |
 
