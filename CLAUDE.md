@@ -17,5 +17,4 @@ After adding a book, it also needs to be added to `index.html` manually.
 
 These pages are intended to be viewed on both desktop and mobile. Keep both in mind when designing or changing the layout, e.g., is this look mobile-friendly?
 
-When I report on something that I don't like or want to update in a specific book, always check whether the change is something general that could be translated into a principle or rule to be added to the `book-synopsis` skill.
-We want to avoid the same mistakes happening again in future books.
+After any fix to a book page, you MUST — before reporting the task done — state whether the fix generalises to the skill, and either apply it or explain why not. Do not wait to be asked.

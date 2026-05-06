@@ -487,9 +487,13 @@ var hideTimer   = null;
 var currentSpeakText = "";
 
 function placeTip(e) {
-  var x = e.clientX + 16, y = e.clientY + 16;
-  if (x + 260 > window.innerWidth)  x = e.clientX - 264;
-  if (y + 140 > window.innerHeight) y = e.clientY - 144;
+  var TW = 256;
+  var x = e.clientX + 16;
+  if (x + TW > window.innerWidth) x = e.clientX - TW;
+  if (x < 8) x = 8;
+  var y = e.clientY + 16;
+  if (y + 150 > window.innerHeight) y = e.clientY - 154;
+  if (y < 8) y = 8;
   tipbox.style.left = x + "px";
   tipbox.style.top  = y + "px";
 }
@@ -833,15 +837,18 @@ body   { font-family: [body font]; background: [background]; color: [text]; marg
 .fp-note.open { display: block; }
 
 @media (max-width: 640px) {
-  .layout { flex-direction: column; padding: 1rem .9rem; }
-  .sb { width: 100%; padding: 0 0 .8rem; position: static;
-        display: flex; flex-wrap: nowrap; overflow-x: auto;
-        gap: .3rem; -webkit-overflow-scrolling: touch; }
+  .layout { flex-direction: column; gap: 0; padding: 0 0 4rem; }
+  .sb { width: 100%; position: sticky; top: 0; z-index: 100;
+        display: flex; flex-wrap: nowrap; overflow-x: auto; gap: .3rem;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        background: [background]; padding: .5rem .9rem;
+        border-bottom: 1px solid rgba(0,0,0,.07); }
   .sb::-webkit-scrollbar { display: none; }
   .sb .sb-label, .sb .tdiv { display: none; }
   .ti { width: auto; flex-shrink: 0; white-space: nowrap; border-left: none;
         border-bottom: 2px solid transparent; border-radius: 4px; }
   .ti.on { border-bottom: 2px solid [accent]; border-left: none; }
+  .main { padding: 1.2rem .9rem; }
   .pg-title { font-size: 1.9rem; }
   .ch p { font-size: 1.05rem; }
   .qt p { font-size: 1rem; }
