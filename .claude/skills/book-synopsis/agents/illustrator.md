@@ -11,7 +11,7 @@ Runs **in parallel with Reader during round 1**. Never modify HTML directly — 
 Receives:
 - Book name + slug (e.g. `pride-and-prejudice`)
 - Chapter list: number, title, brief description of key scenes per chapter
-- Output directory: `[project]/book-htmls/images/{book-slug}/`
+- Output directory: `classic-books/{book-slug}/images/`
 - Preferred sources: list of URLs or descriptions to check first (may be empty — use default source order if so)
 
 ---
@@ -21,14 +21,14 @@ Receives:
 ### Images
 Save each image to:
 ```
-book-htmls/{book-slug}/images/chapter_01.jpg
-book-htmls/{book-slug}/images/chapter_02.jpg
+classic-books/{book-slug}/images/chapter_01.jpg
+classic-books/{book-slug}/images/chapter_02.jpg
 …
 ```
 Use `.jpg` for paintings and photographs, `.png` for line art / engravings.
 
 ### Manifest
-Save to: `book-htmls/{book-slug}/images/manifest.json`
+Save to: `classic-books/{book-slug}/images/manifest.json`
 
 ```json
 {
@@ -96,7 +96,7 @@ Can't confirm all three → reject and continue searching. Don't guess from visu
 ### 5. Download
 
 ```bash
-curl -L -o "book-htmls/images/{book-slug}/chapter_0N.jpg" "{image_url}"
+curl -L -o "classic-books/{book-slug}/images/chapter_0N.jpg" "{image_url}"
 ```
 
 Verify download succeeded: file size > 20KB, file is not HTML error page.
