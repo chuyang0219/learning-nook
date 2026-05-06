@@ -76,8 +76,9 @@ Round 3 (only if Reader round 2 returns NEEDS REVISION):
   11. Deliver regardless of verdict.
 
 Final check:
-  12. Compare manifest chapter count vs final HTML chapter count.
+  12. Compare manifest chapter count vs final HTML chapter count (N story chapters).
       Revert mismatched chapter images to SVG strips.
+      Note: total HTML pages = N + 3 (story + Why it matters + Famous Passages + Quiz).
 ```
 
 ---
@@ -95,6 +96,10 @@ CHAPTER OUTLINE:
 
 KEY CHARACTERS (6–12):
 [Name] (pron: [STRESSED-syllable]) — [role, 1 sentence, no apostrophes]
+…
+
+KEY LOCATIONS (4–6):
+[PlaceKey] — [what it is, why it matters, 1 sentence, no apostrophes]
 …
 
 VERIFIED QUOTES (10–15):
@@ -138,17 +143,25 @@ for ch in manifest["chapters"]:
     svg_start = block.find('<svg width="680"')
     if svg_start == -1:
         continue  # already replaced
-    svg_end = block.find("</svg>", svg_start) + len("</svg>")
+    # Find enclosing <figure class="ch-illustration"> if it wraps the SVG
+    fig_open  = '<figure class="ch-illustration">'
+    fig_start = block.rfind(fig_open, 0, svg_start)
+    if fig_start != -1:
+        fig_end = block.find("</figure>", fig_start) + len("</figure>")
+        replace_start, replace_end = fig_start, fig_end
+    else:
+        # bare SVG fallback
+        svg_end = block.find("</svg>", svg_start) + len("</svg>")
+        replace_start, replace_end = svg_start, svg_end
+    # Caption = brief description only — no source attribution in <figcaption>
     figure = (
         '<figure class="ch-illustration">\n'
         f'  <img src="images/chapter_{n:02d}.jpg"\n'
-        f'       alt="{ch["caption"]}"\n'
-        '       style="width:100%;max-width:680px;border-radius:6px;display:block;">\n'
-        f'  <figcaption class="ch-illus-caption">{ch["caption"]}'
-        f' <span style="opacity:.6">— {ch["attribution"]}</span></figcaption>\n'
+        f'       alt="{ch["caption"]}">\n'
+        f'  <figcaption class="ch-illus-caption">{ch["caption"]}</figcaption>\n'
         '</figure>'
     )
-    block = block[:svg_start] + figure + block[svg_end:]
+    block = block[:replace_start] + figure + block[replace_end:]
     html  = html[:start] + block + html[end:]
 
 open(html_path, "w").write(html)
