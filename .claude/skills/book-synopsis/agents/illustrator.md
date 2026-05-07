@@ -2,7 +2,7 @@
 
 Job: for each story chapter in book synopsis, find one high-quality relevant period illustration or artwork, download locally, produce manifest file for Writer.
 
-Runs **in parallel with Reader during round 1**. Never modify HTML directly — Writer uses manifest when building or revising HTML.
+Runs after Reader returns verdict. Never modify HTML directly — Writer uses manifest when building or revising HTML.
 
 ---
 
@@ -30,6 +30,8 @@ Use `.jpg` for paintings and photographs, `.png` for line art / engravings.
 ### Manifest
 Save to: `classic-books/{book-slug}/images/manifest.json`
 
+**Write the manifest incrementally — after completing each chapter** (found or not found), append that chapter's entry and save. Do not wait until all chapters are done. This means if the session is interrupted, work already completed is preserved and resumption skips those chapters.
+
 ```json
 {
   "book": "pride-and-prejudice",
@@ -37,7 +39,7 @@ Save to: `classic-books/{book-slug}/images/manifest.json`
     {
       "chapter": 1,
       "file": "chapter_01.jpg",
-      "caption": "Elizabeth Bennet and Mr Darcy during their tense first meeting at the Netherfield ball. Illustration by C.E. Brock for the 1895 George Allen edition.",
+      "caption": "Elizabeth Bennet and Mr Darcy during their tense first meeting at the Netherfield ball.",
       "attribution": "C.E. Brock, 1895",
       "source_url": "https://commons.wikimedia.org/…",
       "found": true
@@ -51,12 +53,24 @@ Save to: `classic-books/{book-slug}/images/manifest.json`
 }
 ```
 
+**On startup: check for an existing manifest.json.** If present, read it and skip any chapters already recorded (found or not found). Only process chapters missing from the manifest. This makes resumption after interruption free.
+
 ---
 
 ## Image search process
 
-**Hard cap: max 3 web searches + 1 download attempt per chapter.**
-No qualifying image after 3 searches → immediately set `"found": false`, move to next chapter. Max ~10 tool calls per chapter.
+**STRICT CAP — 3 searches per chapter, no exceptions.**
+
+Count each source lookup as one search, regardless of how many fetches it takes to navigate that source. The download (curl) does not count. The cap is a hard stop:
+
+```
+Search 1 → found qualifying image? → download, done.
+Search 2 → found qualifying image? → download, done.
+Search 3 → found qualifying image? → download, done.
+After Search 3, no image found → set found: false. Write manifest entry. Move on.
+```
+
+Do NOT: try a different search term after failing, browse sub-pages after a category miss, attempt a fourth source "just to check", or treat a "quick look" as not counting. Three is three.
 
 Work through steps in order for each chapter.
 
@@ -66,15 +80,15 @@ From chapter title + description, identify single most visually distinctive mome
 
 ### 2. Search priority sources
 
-**First: check user's preferred sources** (if any). Search or browse each URL/collection before trying defaults. Each preferred source counts toward 3-search cap.
+**First: check user's preferred sources** (if any). Search or browse each URL/collection before trying defaults. Each preferred source counts as one search toward the cap.
 
-**Default source order** (stop at first qualifying image — each is one search):
+**Default source order** (each is one search — stop at first qualifying image):
 
-1. **Wikimedia Commons category** — go directly to `https://commons.wikimedia.org/wiki/Category:Illustrations_of_[Book_Title]` and browse for chapter-matching image. Highest-yield source for 19th-century illustrated books — check first.
-2. **Wikimedia Commons search** — if category browse didn't yield match, search `"[Book title] [key scene or character]"` on Commons.
-3. **Internet Archive** — search `"[Book title] [author] illustrated"` for scanned illustrated editions with chapter plates.
+1. **Wikimedia Commons category** — go directly to `https://commons.wikimedia.org/wiki/Category:Illustrations_of_[Book_Title]` and scan for a chapter-matching image. Highest-yield source for 19th-century illustrated books — check first.
+2. **Wikimedia Commons search** — search `"[Book title] [key scene or character]"` on Commons.
+3. **Internet Archive** — search `"[Book title] [author] illustrated"` for scanned illustrated editions.
 
-All 3 searches exhausted with no qualifying image: `found: false`. Stop. Don't fall through to museum APIs or book-specific archives unless user listed them as preferred source.
+All 3 exhausted with no qualifying image: `found: false`. Stop. No museum APIs, no book-specific archives, no alternative queries — unless the user listed them as a preferred source.
 
 ### 3. Filter — reject any image that
 

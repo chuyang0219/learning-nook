@@ -473,123 +473,33 @@ function toggleNote(btn) {
 
 ### Script 2 (tooltips + quiz)
 
-```js
-var CHARS = { /* see Step 6 */ };
-var LOCS  = { /* see Step 6 */ };
+Write this script in the heredoc, then splice. All strings double-quoted. Structure:
 
-var tipbox      = document.getElementById("tipbox");
-var tipname     = document.getElementById("tipname");
-var tippron     = document.getElementById("tippron");
-var tiprontext  = document.getElementById("tiprontext");
-var tipspeak    = document.getElementById("tipspeak");
-var tipdesc     = document.getElementById("tipdesc");
-var hideTimer   = null;
-var currentSpeakText = "";
+```
+var CHARS = { /* from Step 6 */ };
+var LOCS  = { /* from Step 6 */ };
 
-function placeTip(e) {
-  var TW = 256;
-  var x = e.clientX + 16;
-  if (x + TW > window.innerWidth) x = e.clientX - TW;
-  if (x < 8) x = 8;
-  var y = e.clientY + 16;
-  if (y + 150 > window.innerHeight) y = e.clientY - 154;
-  if (y < 8) y = 8;
-  tipbox.style.left = x + "px";
-  tipbox.style.top  = y + "px";
-}
-function showTip(el, e) {
-  clearTimeout(hideTimer);
-  var isChar = el.classList.contains("cn-tip");
-  var key    = isChar ? el.getAttribute("data-char") : el.getAttribute("data-loc");
-  var data   = isChar ? CHARS[key] : LOCS[key];
-  if (!data) return;
-  currentSpeakText = isChar ? data.speak : "";
-  tipname.textContent = isChar ? data.speak : key;
-  if (isChar) {
-    tippron.style.display = "flex";
-    tiprontext.textContent = data.pron;
-  } else {
-    tippron.style.display = "none";
-  }
-  tipdesc.textContent = data.desc;
-  placeTip(e);
-  tipbox.style.display = "block";
-}
-function hideTip() {
-  hideTimer = setTimeout(function(){ tipbox.style.display = "none"; }, 150);
-}
-tipbox.addEventListener("mouseenter", function(){ clearTimeout(hideTimer); });
-tipbox.addEventListener("mouseleave", hideTip);
-tipspeak.addEventListener("click", function(e) {
-  e.stopPropagation();
-  if (!window.speechSynthesis || !currentSpeakText) return;
-  var u = new SpeechSynthesisUtterance(currentSpeakText);
-  u.lang = "LANG_CODE";   /* replace with BCP-47 code, e.g. "en-GB" for English novels */
-  u.rate = 0.8;
-  speechSynthesis.cancel();
-  speechSynthesis.speak(u);
-});
-if (window.speechSynthesis && speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = function(){};
-}
-document.querySelectorAll(".cn-tip, .loc-tip").forEach(function(el) {
-  el.addEventListener("mouseenter", function(e){ showTip(el, e); });
-  el.addEventListener("mouseleave", hideTip);
-});
-if ("ontouchstart" in window) {
-  document.querySelectorAll(".cn-tip, .loc-tip").forEach(function(el) {
-    el.addEventListener("touchstart", function(e) {
-      e.preventDefault();
-      clearTimeout(hideTimer);
-      var t = e.touches[0];
-      showTip(el, { clientX: t.clientX, clientY: t.clientY });
-    });
-  });
-  document.addEventListener("touchstart", function(e) {
-    if (!tipbox.contains(e.target) &&
-        !e.target.classList.contains("cn-tip") &&
-        !e.target.classList.contains("loc-tip")) {
-      clearTimeout(hideTimer);
-      tipbox.style.display = "none";
-    }
-  });
-}
+// DOM refs: tipbox, tipname, tippron, tiprontext, tipspeak, tipdesc, hideTimer, currentSpeakText
 
-/* === QUIZ === */
-var qAnswers  = { 1:"b", 2:"b", 3:"b" };   /* update to match actual correct answers */
-var qDone     = {};
-var qFeedback = {
-  1: { b:"Explanation of why b is correct.", wrong:"Explanation of what the wrong answers miss." },
-  2: { b:"...", wrong:"..." },
-  3: { b:"...", wrong:"..." }
-};
-function answer(qNum, choice) {
-  if (qDone[qNum]) return;
-  qDone[qNum] = choice;
-  var correct = qAnswers[qNum];
-  document.querySelectorAll("#q" + qNum + "-opts .qz-opt").forEach(function(btn, i) {
-    var letter = ["a","b","c"][i];
-    btn.disabled = true;
-    if (letter === correct) btn.classList.add("correct");
-    else if (letter === choice) btn.classList.add("wrong");
-    else btn.classList.add("reveal");
-  });
-  var fb = document.getElementById("q" + qNum + "-fb");
-  fb.textContent = (choice === correct) ? qFeedback[qNum][correct] : qFeedback[qNum]["wrong"];
-  fb.className = "qz-fb show " + (choice === correct ? "correct" : "wrong");
-  if (Object.keys(qDone).length === 3) {
-    var score = [1,2,3].filter(function(q){ return qDone[q] === qAnswers[q]; }).length;
-    document.getElementById("score-n").textContent = score + " / 3";
-    document.getElementById("score-msg").textContent = ["Keep reading.",
-      "Good — you have the shape of it.", "Very good.", "Excellent."][score];
-    document.getElementById("qz-score").classList.add("show");
-  }
-}
+// placeTip(e): position tipbox at cursor (clamp to viewport, TW=256)
+// showTip(el, e): populate tipbox from CHARS or LOCS; hide tippron row for locations;
+//   set currentSpeakText = data.speak for chars, "" for locs; call placeTip; show tipbox
+// hideTip(): 150ms setTimeout to hide tipbox (delay keeps hear button clickable)
+// tipbox mouseenter: clearTimeout; mouseleave: hideTip
+// tipspeak click: speechSynthesis.speak(currentSpeakText) at rate 0.8, lang = LANG_CODE
+// querySelectorAll(".cn-tip, .loc-tip"): mouseenter → showTip, mouseleave → hideTip
+// ontouchstart fallback: same show/hide logic via touch events; tap outside to dismiss
+
+// QUIZ:
+// var qAnswers = {1:"x", 2:"x", 3:"x"};  — set correct letters independently; not all same; correct not longest
+// var qDone = {};
+// var qFeedback = {1:{x:"why correct",wrong:"what wrong answers miss"}, ...};
+// answer(qNum, choice): disable all opts, mark correct/wrong/reveal, show feedback,
+//   tally score after all 3 answered, show #qz-score with message from ["Keep reading.",
+//   "Good — you have the shape of it.", "Very good.", "Excellent."][score]
 ```
 
-Replace `"LANG_CODE"` with the appropriate BCP-47 code (`"ru-RU"`, `"fr-FR"`, `"ja-JP"`, etc.). Use `"en-GB"` for English-language novels.
-
-Choose correct answers independently — update `qAnswers`. Constraint: not all three the same letter. Do not make the correct option the longest.
+Replace `LANG_CODE` with BCP-47: `"ru-RU"`, `"fr-FR"`, `"ja-JP"`, etc. Use `"en-GB"` for English novels.
 
 ---
 
@@ -795,9 +705,9 @@ body   { font-family: [body font]; background: [background]; color: [text]; marg
 .nr button:hover:not(:disabled) { background: rgba(0,0,0,.06); }
 .nr button:disabled { opacity: .35; cursor: default; }
 
-/* Illustrations — centred, constrained to ~420px so they don't overwhelm prose */
-.ch-illustration { margin: 1.4rem auto; max-width: 420px; text-align: center; }
-.ch-illustration img { width: 100%; display: block; border-radius: 6px; }
+/* Illustrations — centred, constrained to 600px in either dimension */
+.ch-illustration { margin: 1.4rem auto; text-align: center; }
+.ch-illustration img { max-width: 600px; max-height: 600px; width: auto; height: auto; display: block; margin: 0 auto; border-radius: 6px; }
 /* Caption: always visible — lighter, italic, smaller than body text. NO attribution source. */
 .ch-illus-caption { display: block; font-size: .76rem; color: [muted];
                     margin-top: .45rem; font-family: system-ui, sans-serif;
@@ -877,30 +787,9 @@ Story chapter buttons are plain text. Only the two special pages use icons:
 
 ---
 
-## Failure modes quick-reference
+## Failure modes
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| Chapters 2+ render blank | Missing `</div>` on a `.ch` wrapper | Run depth-check script; add closing div before each `<!-- CH N -->` marker |
-| `SyntaxError: Unexpected identifier 's'` | Apostrophe in JS double-quoted string | Rewrite desc strings without apostrophes; use shell heredoc for script 2 |
-| `SyntaxError: Unexpected token '<'` | Duplicate `<script>` open tag | Grep for `<script` count — must equal `</script>` count |
-| Tooltip hear button missing / not clickable | Old inline CSS-only tooltip, no JS | Use global `#tipbox` approach from Step 8; `pointer-events: auto` on `.tip-box` |
-| Tooltip follows mouse, hear button unreachable | `mousemove` updating position | Position set once in `mouseenter` only |
-| Tooltip disappears before button click | No delay or `pointer-events:none` | 150ms `setTimeout` on hide; remove `pointer-events:none` |
-| Caption invisible or missing | `.ch-illus-caption` not in CSS | Add the rule from Step 11; it must have `display:block` and a `color` |
-| Images are too large | `width:100%;max-width:680px` fills the column | Use `max-width:420px` and `margin:1.4rem auto` on `.ch-illustration` |
-| Double-nested `<figure>` after image insertion | SVG wrapped in `<div>` not `<figure>` | Wrap SVG in `<figure class="ch-illustration">` directly (no outer div) |
-| Caption shows source attribution | Insertion script appended attribution span | Caption = description only; no source credit in `<figcaption>` |
-| "Why it matters" page blank | Nested inside unclosed sibling chapter | Run depth-check script |
-| Quote annotations don't match section | Quotes placed thematically, not chronologically | Move every quote to the chapter where it occurs |
-| Nav counter shows "2 / 11 / 11" | Old single-span pattern | Use two-span pattern: separate `nc` and `ntot` spans |
-| Header rule looks too narrow | `pg-rule max-width` too small | Set `max-width: 912px` to match content width |
-| Story chapters contain `.hl` / `.sym-row` blocks | Analysis leaking into narrative | Move to `.ch-recap` or to "Why it matters" page |
-| Recap block missing from a chapter | Skipped | Every story chapter must end with `.ch-recap` |
-| Fun Facts look same as theme cards | Both using `.hl` | Fun Facts must use `.fact-card` with distinct background and top border |
-| Quotes page buried in "Why it matters" | Old structure | Quotes is its own page (N+2), after "Why it matters" |
-| Sidebar titles truncated | Labels too long for sidebar | Keep full label under 22 chars |
-| SVG strips overflow on mobile | Missing `viewBox` | Add `viewBox="0 0 680 90"` to every chapter SVG |
+If something breaks, read `writer-failure-modes.md` (skill root) for a symptom → cause → fix table.
 
 ---
 

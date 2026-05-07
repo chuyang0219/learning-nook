@@ -55,28 +55,31 @@ Phase 0 — Pre-research and design:
 
 Round 1:
   4. Spawn Writer with Research Brief + Design Spec → saves HTML.
-  5. In parallel: Spawn Reader + Spawn Illustrator.
+  5. Spawn Reader. Wait for verdict before spawning Illustrator.
+     (Running Reader and Illustrator in parallel risks rate-limit contention —
+      Reader finishes in ~1 min; Illustrator takes 15–25 min and burns the budget.)
      - Reader: critiques HTML, returns APPROVED or NEEDS REVISION.
+  6. Spawn Illustrator after Reader returns verdict.
      - Illustrator: finds images, saves manifest.json.
 
 Image insertion (orchestrator — no Writer spawn needed):
-  6. Once Illustrator finishes: run image insertion script below.
+  7. Once Illustrator finishes: run image insertion script below.
      For chapters with found: true → replace SVG strip with <figure>.
      For chapters with found: false → keep SVG strip unchanged.
-     If Illustrator hasn't finished by the time Round 2 Writer is needed,
+     If a revision round is needed before Illustrator finishes,
      run Writer revision first, then insert images afterwards.
 
 Round 2 (only if Reader returned NEEDS REVISION):
-  7. Spawn Writer (round 2) with Reader feedback.
-  8. Re-run image insertion script.
-  9. Spawn Reader (round 2).
+  8. Spawn Writer (round 2) with Reader feedback.
+  9. Re-run image insertion script.
+  10. Spawn Reader (round 2).
 
 Round 3 (only if Reader round 2 returns NEEDS REVISION):
-  10. Spawn Writer (round 3, final). Re-run image insertion after.
-  11. Deliver regardless of verdict.
+  11. Spawn Writer (round 3, final). Re-run image insertion after.
+  12. Deliver regardless of verdict.
 
 Final check:
-  12. Compare manifest chapter count vs final HTML chapter count (N story chapters).
+  13. Compare manifest chapter count vs final HTML chapter count (N story chapters).
       Revert mismatched chapter images to SVG strips.
       Note: total HTML pages = N + 3 (story + Why it matters + Famous Passages + Quiz).
 ```
@@ -180,6 +183,8 @@ Re-run after every Writer revision round to keep images current.
 Prompt must include: book name, slug, and the full Research Brief.
 Include full contents of `agents/designer.md`.
 
+**Use the Haiku model** — the task is pure reasoning with no tool calls and a fixed output format. Haiku is 20× cheaper and equally capable for palette/font derivation.
+
 The Designer returns a **Design Spec**. Pass this verbatim to the Writer in Round 1.
 
 ### Writer — Round 1
@@ -223,7 +228,11 @@ Prompt must include: book name, slug, chapter list (number + title + 1-sentence 
 
 If a subagent returns a rate-limit error ("You've hit your limit · resets HH:MMam"):
 - Tell the user the reset time and stop.
-- When the user says "continue", re-spawn that agent from where it failed. Same prompt — do not restart the whole process.
+- When the user says "continue", re-spawn that agent with the same prompt.
+
+**Illustrator specifically:** Arty writes `manifest.json` incrementally after each chapter. On re-spawn it reads the existing manifest and skips completed chapters automatically — no work is repeated. The re-spawn prompt needs no changes; the skip logic is in `agents/illustrator.md`.
+
+**Writer/Reader:** These do not have incremental state. Re-spawn from scratch with the same prompt.
 
 ---
 
