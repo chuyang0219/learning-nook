@@ -572,7 +572,7 @@
 
       <p>Hindley Earnshaw is easy — already half-ruined by drink and grief, he gambles away the Heights to Heathcliff and dies shortly after, leaving his young son <span class="cn-tip" data-char="HaretonEarnshaw">Hareton</span> in Heathcliff's care. Heathcliff raises Hareton exactly as Hindley raised him: denied education, denied dignity, kept useful and kept low. The mirror is exact and deliberate.</p>
 
-      <p>Edgar Linton's sister Isabella is less guarded than wisdom allows — she mistakes his cruelty for passion, reads the gothic outsider as romantic hero, and elopes with him despite every warning. The marriage is a calculated cruelty. He treats her with open contempt and she flees south, bearing his son: sickly, peevish <span class="cn-tip" data-char="CathyLinton">Linton Heathcliff</span>.</p>
+      <p>Edgar Linton's sister Isabella is less guarded than wisdom allows — she mistakes his cruelty for passion, reads the gothic outsider as romantic hero, and elopes with him despite every warning. The marriage is a calculated cruelty. He treats her with open contempt and she flees south, bearing his son: sickly, peevish <span class="cn-tip" data-char="CathyLinton">Linton Heathcliff</span>. She dies about twelve years later; Edgar keeps the boy until Heathcliff claims him as he closes in on the Grange.</p>
 
       <div class="qt" data-qid="wuthering-heights-ch5-q1">
         <p>"I have not broken your heart — you have broken it; and in breaking it, you have broken mine."</p>
@@ -610,6 +610,8 @@
       </div>
 
       <p>He stopped eating. He sat alone in the room where Catherine's ghost had appeared to Lockwood and kept the window open. Nelly found him one morning in the alcove, rain on his face, the window swinging wide. Dead. His expression, she says, was not peaceful — but it was not in pain either. It was something she could not name.</p>
+
+      <p>He is buried beside Catherine, as he arranged. Years earlier, when grief had grown unbearable, he had bribed the sexton to open her coffin so he could look at her face — and had the sides of both their coffins loosened, so that when his own decays and hers does, their remains will mingle. The union refused in life is arranged in earth.</p>
 
       <p>The local people say two figures walk the moors together on stormy nights. Lockwood passes the graves on his way south — Edgar, Catherine, Heathcliff, side by side. He wonders how anyone could imagine unquiet slumbers for the sleepers in that quiet earth. The novel does not share his confidence.</p>
 
@@ -811,10 +813,10 @@ var CHARS = {
   Lockwood: { pron:"LOK-wood", speak:"Lockwood", desc:"London gentleman narrator; outsider who frames the whole story." }
 };
 var LOCS = {
-  WutheringHeights: { desc: "Storm-battered Earnshaw farmhouse on the moor heights; gothic, wild, cold; the emotional heart of the novel." },
-  ThrushcrossGrange: { desc: "The Linton estate in the valley; refined, warm, civilised — everything Wuthering Heights is not." },
-  TheMoors: { desc: "Wild expanse between the two houses; where Catherine and Heathcliff truly belong; freedom, danger, and belonging." },
-  Liverpool: { desc: "Port city where Earnshaw found the starving orphan Heathcliff; his unknown origins carry racial and social weight." }
+  WutheringHeights:  { pron:"WUTH-er-ing HYTS",  desc: "Storm-battered Earnshaw farmhouse on the moor heights; gothic, wild, cold; the emotional heart of the novel." },
+  ThrushcrossGrange: { pron:"THRUSH-kross GRANJ", desc: "The Linton estate in the valley; refined, warm, civilised — everything Wuthering Heights is not." },
+  TheMoors:          { pron:"thuh MOORZ",          desc: "Wild expanse between the two houses; where Catherine and Heathcliff truly belong; freedom, danger, and belonging." },
+  Liverpool:         { pron:"LIV-er-pool",         desc: "Port city where Earnshaw found the starving orphan Heathcliff; his unknown origins carry racial and social weight." }
 };
 
 var tipbox = document.getElementById("tipbox");
@@ -837,16 +839,12 @@ function placeTip(el) {
   tipbox.style.top = top + "px";
 }
 
-function showTip(el, name, pron, desc, isLoc) {
+function showTip(el, name, pron, desc) {
   tipname.textContent = name;
   tiprontext.textContent = pron || "";
   tipdesc.textContent = desc;
   currentSpeak = name;
-  if (isLoc) {
-    tippron.style.display = "none";
-  } else {
-    tippron.style.display = "flex";
-  }
+  tippron.style.display = "flex";
   tipbox.style.display = "block";
   placeTip(el);
 }
@@ -859,7 +857,7 @@ document.querySelectorAll(".cn-tip").forEach(function(el) {
   el.addEventListener("mouseenter", function() {
     var key = el.getAttribute("data-char");
     var ch = CHARS[key];
-    if (ch) { showTip(el, ch.speak, ch.pron, ch.desc, false); }
+    if (ch) { showTip(el, ch.speak, ch.pron, ch.desc); }
   });
   el.addEventListener("mouseleave", hideTip);
 });
@@ -868,7 +866,7 @@ document.querySelectorAll(".loc-tip").forEach(function(el) {
   el.addEventListener("mouseenter", function() {
     var key = el.getAttribute("data-loc");
     var lo = LOCS[key];
-    if (lo) { showTip(el, key.replace(/([A-Z])/g, " $1").trim(), "", lo.desc, true); }
+    if (lo) { showTip(el, key.replace(/([A-Z])/g, " $1").trim(), lo.pron, lo.desc); }
   });
   el.addEventListener("mouseleave", hideTip);
 });

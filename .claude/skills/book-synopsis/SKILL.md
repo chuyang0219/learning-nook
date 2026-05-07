@@ -117,6 +117,13 @@ Prioritise quotes with high Goodreads like counts. Include all top ~8 somewhere 
 THEMES (2–3):
 - [theme]: [1–2 sentence explanation]
 …
+
+NOTABLE DETAILS:
+- Subplot resolutions: what becomes of each named secondary character by the end
+- Symbolically charged details: small objects, acts, or gestures whose provenance or context
+  makes them carry meaning beyond their surface — include the context, not just the thing
+  (ask: would a reader who loved the book remember this as significant?)
+…
 ```
 
 ---

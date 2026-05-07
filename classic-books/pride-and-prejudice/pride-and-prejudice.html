@@ -633,6 +633,8 @@
 
       <p>Both marriages are earned. Not by beauty or fortune, but by hard self-knowledge, revised judgement, and the willingness to be humbled by a person worth being humbled by.</p>
 
+      <p>The epilogue distributes fates with Austen's customary precision. <span class="cn-tip" data-char="Charlotte">Charlotte</span>, in Kent, is not unhappy — she asked for security and a household of her own, and has both. <span class="cn-tip" data-char="Wickham">Wickham</span> and <span class="cn-tip" data-char="Lydia">Lydia</span> are less fortunate: they drift between garrison towns, perpetually short of money, a standing illustration of what happens when mutual attraction substitutes for judgement.</p>
+
       <div class="ch-recap">
         <p class="recap-title">Earned, Not Given</p>
         <p>Austen refuses the easy resolution. Darcy does not simply declare his love again — he demonstrates, through a secret and costly act, that he has understood what love actually requires: sacrifice without expectation of credit. Elizabeth does not simply reconsider her feelings — she must watch evidence accumulate over months before trusting her own revised judgement. Their second proposal scene is one of the warmest in English fiction precisely because it is so unromantically honest: two intelligent people, both chastened, arriving at happiness through something harder than chemistry.</p>
@@ -864,15 +866,16 @@ var CHARS = {
   Charlotte:     { pron: "SHAR-lut LOO-kus",             speak: "Charlotte Lucas",            desc: "Elizabeth best friend — marries Collins for security, not love." },
   MrsBennet:     { pron: "MIS-iz BEH-net",               speak: "Mrs Bennet",                 desc: "Elizabeth mother — anxious matchmaker and social comedy engine of the novel." },
   LadyCatherine: { pron: "lay-dee KATH-rin deh BOOR",    speak: "Lady Catherine de Bourgh",   desc: "Darcy overbearing aunt — represents aristocratic snobbery at its worst." },
-  Gardiner:      { pron: "GAR-din-er",                   speak: "Mr Gardiner",                desc: "Mrs Bennet sensible brother — quiet decency contrasting the household chaos." }
+  Gardiner:      { pron: "GAR-din-er",                   speak: "Mr Gardiner",                desc: "Mrs Bennet sensible brother — quiet decency contrasting the household chaos." },
+  Lydia:         { pron: "LID-ee-uh BEH-net",            speak: "Lydia Bennet",               desc: "Youngest Bennet daughter — reckless and vain, elopes with Wickham and pays for it." }
 };
 
 var LOCS = {
-  Netherfield: { desc: "Large estate near Longbourn, leased by Bingley — the social catalyst that sets the whole plot in motion." },
-  Longbourn:   { desc: "The Bennet family home — a modest country house in Hertfordshire, entailed away from daughters to a male heir." },
-  Meryton:     { desc: "Local market town in Hertfordshire — site of the assembly balls and the militia regiment." },
-  Pemberley:   { desc: "Darcy estate in Derbyshire — its beauty and fine management serve as moral evidence of his true character." },
-  Rosings:     { desc: "Lady Catherine de Bourgh estate in Kent — a stage for aristocratic condescension and unwanted opinions." }
+  Netherfield: { pron:"NETH-er-feeld", desc: "Large estate near Longbourn, leased by Bingley — the social catalyst that sets the whole plot in motion." },
+  Longbourn:   { pron:"LONG-born",     desc: "The Bennet family home — a modest country house in Hertfordshire, entailed away from daughters to a male heir." },
+  Meryton:     { pron:"MAIR-i-ton",    desc: "Local market town in Hertfordshire — site of the assembly balls and the militia regiment." },
+  Pemberley:   { pron:"PEM-ber-lee",   desc: "Darcy estate in Derbyshire — its beauty and fine management serve as moral evidence of his true character." },
+  Rosings:     { pron:"ROH-zingz",     desc: "Lady Catherine de Bourgh estate in Kent — a stage for aristocratic condescension and unwanted opinions." }
 };
 
 var tipbox      = document.getElementById("tipbox");
@@ -902,14 +905,10 @@ function showTip(el, e) {
   var key    = isChar ? el.getAttribute("data-char") : el.getAttribute("data-loc");
   var data   = isChar ? CHARS[key] : LOCS[key];
   if (!data) return;
-  currentSpeakText = isChar ? data.speak : "";
+  currentSpeakText = isChar ? data.speak : key;
   tipname.textContent = isChar ? data.speak : key;
-  if (isChar) {
-    tippron.style.display = "flex";
-    tiprontext.textContent = data.pron;
-  } else {
-    tippron.style.display = "none";
-  }
+  tippron.style.display = "flex";
+  tiprontext.textContent = data.pron;
   tipdesc.textContent = data.desc;
   placeTip(e);
   tipbox.style.display = "block";

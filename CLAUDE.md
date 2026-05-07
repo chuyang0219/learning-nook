@@ -2,6 +2,11 @@
 
 Static site of interactive book synopses, deployed on GitHub Pages. No build step, no framework — pure HTML/CSS/JS. Open any `.html` directly in a browser.
 
+## Referring to books
+
+I will typically use acronyms when referring to book titles, e.g. P&P for Pride and Prejudice, WH for Wuthering Heights.
+If you find any acronyms confusing or ambiguous, clarify with me.
+
 ## Adding a new book
 
 Use the `book-synopsis` skill. Read `.claude/skills/book-synopsis/SKILL.md` first — it orchestrates four subagents (Designer, Writer, Reader, Illustrator) and defines the full flow, agent prompts, and image insertion script.

@@ -35,7 +35,7 @@ Simple, natural language. Assume an intelligent non-expert. No jargon. No vague 
 
 ### 3. Compression
 
-Each chapter: ~150–350 words (~1 min read). Full synopsis: 3–6 min. Cut ruthlessly — every sentence earns its place. No setup, no repetition, no padding.
+Each chapter: ~200 words of prose (not counting quotes or recap). Cut ruthlessly — every sentence earns its place. No setup, no repetition, no padding. Exception: NOTABLE DETAILS from the Research Brief survive the cut regardless of length — they are flagged precisely because they would otherwise be the first things dropped.
 
 ### 3a. Sentence rhythm
 
@@ -52,6 +52,8 @@ If prose references a famous remark, quote it directly. Never write "one of his 
 ### 4. Focus on what matters
 
 Prioritise: key characters, core events, major themes, turning points. Minor characters only if necessary. Excessive detail is failure.
+
+Include everything in the Research Brief's NOTABLE DETAILS section — subplot resolutions and symbolically charged details. These are small but load-bearing; the brief flags them precisely because compression pressure tends to drop them.
 
 ### 5. Make significance clear
 
@@ -116,16 +118,16 @@ If anything in the brief conflicts with your knowledge, add `<!-- RESEARCH NOTE:
 |---|------|---------|
 | 1–N | Story chapters | One per major narrative beat |
 | N+1 | ✦ Why it matters | 4 theme cards (2×2 grid) + Fun Facts |
-| N+2 | ❝ Quotes | 6–8 celebrated quotes with expandable context |
+| N+2 | ❝ Quotes | 8 celebrated quotes with expandable context |
 | N+3 | ✎ Quiz | 3 questions on key ideas |
 
 Total chapter count is N+3. Chapter 1 is the first page shown.
 
 **Chapter count rules:**
-- No minimum. Use as few as the story demands — don't pad.
-- Standard novels: aim for 3–5 story chapters.
-- Max 6. If a book genuinely needs more (very long novel, e.g. War and Peace), **stop and ask the user** before writing:
-  > "This book is long enough to warrant more than 6 chapters. Would you prefer: a) a single summary with up to 8 chapters, or b) two separate summaries — Part I and Part II — each with 4–5 chapters?"
+- Standard novels: 3-5 chapters. Use as few chapters as possible if the story fits - never pad.
+- More chapters allowed only if it would significantly improve readability (e.g., separates clearly distinct story arcs, or each chapter would otherwise contain too much content).
+- Max 7. If a book genuinely needs more (very long novel, e.g. War and Peace), **stop and ask the user** before writing:
+  > "This book is long enough to warrant more than 7 chapters. Would you prefer: a) a single summary with up to 8 chapters, or b) two separate summaries — Part I and Part II — each with 4–5 chapters?"
 
 For plays: chapters = Acts (or scene-clusters for long Acts).
 
@@ -271,8 +273,6 @@ Every story chapter follows this structure:
 
 **Image placement:** Illustrations belong near the prose moment they depict. Top placement is only appropriate when the image introduces the chapter's setting or atmosphere.
 
-**Reading time target:** ~300–400 words of prose per chapter, not counting quotes or recap.
-
 Do not use `.hl` highlight boxes or `.sym-row` symbol rows inside story chapters.
 
 ### Quote markup
@@ -302,11 +302,11 @@ Every story chapter ends with a `<div class="ch-recap">`:
 </div>
 ```
 
-The title (3–5 words) should capture the chapter's defining quality, not its plot.
+The title (~3 words, 5 words max) should capture the chapter's defining quality, not its plot.
 Good: `"The Social Architecture"`, `"Pride Before the Fall"`
 Weak: `"Chapter Summary"`, `"Elizabeth Meets Darcy"`
 
-The paragraph (2–4 sentences) is an editor's note: draw out an irony, a character shift, a power dynamic. Never just restate the prose above.
+The paragraph (~2 sentences) is an editor's note: draw out an irony, a character shift, a power dynamic. Never just restate the prose above.
 
 ---
 
@@ -352,7 +352,7 @@ Use **hardcoded hex colours only** in SVGs — no CSS variables (they won't inve
 
 ### Characters
 
-Tag every named character on first use (and on subsequent uses where a reminder helps):
+Tag every character — named or unnamed — on their **first two uses in each chapter**. For important unnamed characters use a descriptive key (e.g. `Pawnbroker`, `Inspector`):
 
 ```html
 <span class="cn-tip" data-char="CharKey">Character Name</span>
@@ -368,12 +368,12 @@ var CHARS = {
 ```
 
 - `pron`: phonetic guide, stressed syllable in CAPS
-- `speak`: full name for `speechSynthesis`
+- `speak`: full name (or role label for unnamed characters) for `speechSynthesis`
 - `desc`: one sentence, **no apostrophes** (use `"Friend of Raskolnikov"` not `"Raskolnikov's friend"`)
 
 ### Locations
 
-Tag 4–6 recurring locations on first use in each chapter (and where a reminder helps):
+Tag 4–6 recurring locations on their **first two uses in each chapter**:
 
 ```html
 <span class="loc-tip" data-loc="LocKey">Place Name</span>
@@ -383,18 +383,19 @@ The JS `LOCS` object maps each key:
 
 ```js
 var LOCS = {
-  Pemberley: { desc: "Darcy estate in Derbyshire — its beauty and upkeep are moral evidence of his character." },
-  Longbourn: { desc: "The Bennet family home — modest country house, entailed away from daughters to a male heir." }
+  Pemberley: { pron:"PEM-ber-lee", desc: "Darcy estate in Derbyshire — its beauty and upkeep are moral evidence of his character." },
+  Longbourn: { pron:"LONG-born", desc: "The Bennet family home — modest country house, entailed away from daughters to a male heir." }
 };
 ```
 
+- `pron`: phonetic guide, stressed syllable in CAPS
 - `desc`: one sentence, **no apostrophes** — what is it, why does it matter?
 - Choose locations that recur across chapters and carry narrative weight
 - `.loc-tip` renders with `border-bottom: 1px dotted [accent]` — visually distinct from character dashes
 
 ### Shared tipbox — both types use `#tipbox`
 
-The same global tipbox serves both characters and locations. For locations the pronunciation row is hidden:
+The same global tipbox serves both characters and locations. Both show the pronunciation row:
 
 ```js
 function showTip(el, e) {
@@ -402,10 +403,10 @@ function showTip(el, e) {
   var key    = isChar ? el.getAttribute("data-char") : el.getAttribute("data-loc");
   var data   = isChar ? CHARS[key] : LOCS[key];
   if (!data) return;
-  currentSpeakText = isChar ? data.speak : "";
+  currentSpeakText = isChar ? data.speak : key;
   tipname.textContent = isChar ? data.speak : key;
-  tippron.style.display = isChar ? "flex" : "none";
-  if (isChar) tiprontext.textContent = data.pron;
+  tippron.style.display = "flex";
+  tiprontext.textContent = data.pron;
   tipdesc.textContent = data.desc;
   placeTip(e);
   tipbox.style.display = "block";
@@ -482,8 +483,8 @@ var LOCS  = { /* from Step 6 */ };
 // DOM refs: tipbox, tipname, tippron, tiprontext, tipspeak, tipdesc, hideTimer, currentSpeakText
 
 // placeTip(e): position tipbox at cursor (clamp to viewport, TW=256)
-// showTip(el, e): populate tipbox from CHARS or LOCS; hide tippron row for locations;
-//   set currentSpeakText = data.speak for chars, "" for locs; call placeTip; show tipbox
+// showTip(el, e): populate tipbox from CHARS or LOCS; tippron always display:flex;
+//   set currentSpeakText = data.speak for chars, key for locs; call placeTip; show tipbox
 // hideTip(): 150ms setTimeout to hide tipbox (delay keeps hear button clickable)
 // tipbox mouseenter: clearTimeout; mouseleave: hideTip
 // tipspeak click: speechSynthesis.speak(currentSpeakText) at rate 0.8, lang = LANG_CODE
@@ -520,7 +521,7 @@ Place just before closing `</body>`:
 
 Notes:
 - `tipname` shows `data.speak` for characters, the location key for places
-- `#tippron` is toggled `display:none` / `display:flex` per tooltip type
+- `#tippron` is always `display:flex` — both characters and locations have pronunciation
 - `pointer-events` must NOT be `none` on `.tip-box` (the hear button must be clickable)
 
 ```css
@@ -569,7 +570,7 @@ Exactly 4 theme cards in a CSS grid. HTML structure:
 </div>
 ```
 
-- Each card: 3–4 bullets. One concrete idea per bullet, no filler.
+- Each card: 3 bullets. One concrete idea per bullet, no filler. 4th bullet only if it contains critical information.
 - Good titles: "First Impressions vs True Character", "Marriage as Economy", "Legacy"
 - No paragraphs inside `.hl` — bullets only
 - No academic jargon. No vague claims ("explores the human condition").
@@ -577,7 +578,8 @@ Exactly 4 theme cards in a CSS grid. HTML structure:
 
 ### Section 2 — Fun Facts (distinct card)
 
-4–6 surprising facts about the work's composition, reception, adaptations, or cultural impact. Use numbers and dates.
+4 surprising facts about the work's composition, reception, adaptations, or cultural impact. Add a 5th if it's genuinely super interesting.
+Use numbers and dates.
 
 HTML structure — **visually distinct from theme cards**:
 
@@ -596,7 +598,7 @@ The `.fact-card` uses a different background (tinted with the accent colour) and
 
 ## Step 9b — Quotes page
 
-6–8 celebrated quotes from the work. Each has a hidden one-paragraph explanation revealed by a `▸ explain` toggle — so the page reads cleanly as a list of quotes by default, with depth available on demand.
+8 celebrated quotes from the work. Each has a hidden one-paragraph explanation revealed by a `▸ explain` toggle — so the page reads cleanly as a list of quotes by default, with depth available on demand.
 
 HTML structure:
 
@@ -615,7 +617,7 @@ HTML structure:
 <!-- repeat ×6–8 total -->
 ```
 
-- 6–8 quotes total — spread across the arc of the book, not clustered at one point
+- 8 quotes total — spread across the arc of the book, not clustered at one point
 - Cover a range: wit, irony, character revelation, moral insight, famous declarations
 - Include chapter attribution in `<cite>` where possible
 - No subtitle paragraph above the quotes — let them speak for themselves

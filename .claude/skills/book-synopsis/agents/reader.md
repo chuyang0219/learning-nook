@@ -42,7 +42,7 @@ Each chapter make you want to read next? Any flat, procedural, or list-of-events
 Explain WHY events matter — not just what happens? Themes stated clearly, not academically? Reader know why it's a classic?
 
 **PROSE WEIGHT**
-Cut anything without losing meaning? Target: ~1 min/chapter. Flag overlong.
+Target: ~1 min/chapter. Flag chapters that run long due to repetition, padding, or re-stating what is already clear from context. Do not flag subplot resolutions or symbolically charged details as bloat — these earn their place.
 
 **SENTENCE RHYTHM**
 Sentences clean + direct? Flag heavy hyphens, semi-colons, 3+ chained clauses. One idea per sentence almost always better.
@@ -55,6 +55,9 @@ Title evocative + specific (not generic like "Chapter Summary")? Paragraph add g
 
 **QUOTES**
 Each quote land in context? Attribution correct? Any quote dropped without narrative setup?
+
+**RESOLUTIONS**
+Do major secondary arcs close out? Any character the reader followed left dangling without outcome?
 
 **CONSISTENCY**
 Character names + details stable? Tone consistent? Facts seem off?
