@@ -1,110 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wuthering Heights</title>
-<style>
-body { font-family: Georgia, serif; background: #f0ece5; color: #1a1a1a; margin: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wuthering Heights — Emily Brontë</title>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Page header — English moorland palette */
-.pg-header { max-width: 960px; margin: 0 auto; padding: 2.2rem 1.5rem 0; text-align: center; }
-.pg-title  { font-size: 2.4rem; font-weight: 700; letter-spacing: .04em; margin: 0 0 .3rem; color: #2c1f0e; font-variant: small-caps; }
-.pg-author { font-size: .95rem; color: #776655; margin: 0 0 1.2rem; letter-spacing: .06em; }
-.pg-rule   { border: none; border-top: 2px double #8a7055; margin: 0 auto; max-width: 912px; padding-bottom: 0.5rem; }
+    body {
+      background: #2a2623;
+      color: #f5f1e8;
+      font-family: "Crimson Text", serif;
+      font-size: 1.125rem;
+      line-height: 1.72;
+    }
 
-.ch    { display: none; }
-.ch.on { display: block; }
-.layout { display: flex; max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; gap: 0; }
-.sb    { width: 178px; flex-shrink: 0; position: sticky; top: 1.5rem; align-self: flex-start;
-         padding-right: 1.2rem; }
-.main  { flex: 1; min-width: 0; }
-.ti    { display: block; width: 100%; text-align: left; background: none;
-         border: none; padding: 5px 9px; border-radius: 6px; cursor: pointer;
-         font-family: system-ui,sans-serif; font-size: 12px; color: #665544;
-         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-         border-left: 2px solid transparent; transition: background .12s; }
-.ti:hover { background: rgba(0,0,0,.06); color: #1a1a1a; }
-.ti.on    { background: rgba(0,0,0,.08); color: #2c1f0e; font-weight: 600;
-            border-left: 2px solid #8a7055; }
-.ti-icon { display:inline-flex; align-items:center; gap:5px; }
-.ti-icon svg { flex-shrink:0; }
-.tdiv { border-top: 1px solid #c4aa88; margin: 8px 0; }
+    /* Header */
+    .pg-header {
+      text-align: center;
+      padding: 2.2rem 1.2rem 1.4rem;
+      position: relative;
+    }
+    .pg-back {
+      position: absolute;
+      left: 1.2rem;
+      top: 2.2rem;
+      color: #a89f96;
+      text-decoration: none;
+      font-size: .95rem;
+      transition: color .2s;
+    }
+    .pg-back:hover { color: #f5f1e8; }
+    .pg-title {
+      font-family: "Crimson Text", serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: #f5f1e8;
+      margin-bottom: .25rem;
+    }
+    .pg-author {
+      color: #a89f96;
+      font-size: 1rem;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    .pg-rule {
+      border: none;
+      border-top: 2px double #8b4513;
+      width: 60%;
+      margin: 0 auto;
+    }
 
-/* Chapter content */
-h2 { font-size: 1.4rem; color: #2c1f0e; margin-top: 0; border-bottom: 1px solid #c4aa88; padding-bottom: .5rem; }
-h3 { font-size: 1rem; color: #665544; margin: 1.4rem 0 .4rem; text-transform: uppercase; letter-spacing: .07em; }
-p  { line-height: 1.75; margin: .85rem 0; }
+    /* Layout */
+    .layout {
+      display: flex;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 1.4rem 1rem 3rem;
+      gap: 1.6rem;
+      align-items: flex-start;
+    }
 
-.quote { border-left: 3px solid #8a7055; margin: 1.4rem 0; padding: .7rem 1.1rem;
-         background: #e8e0d4; border-radius: 0 6px 6px 0; font-style: italic; color: #3a2d1e; }
-.quote cite { display: block; margin-top: .4rem; font-style: normal; font-size: .82rem; color: #887766; }
+    /* Sidebar */
+    .sb {
+      width: 178px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 1rem;
+    }
+    .sb-label {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: #a89f96;
+      margin-bottom: .6rem;
+      padding-left: .5rem;
+    }
+    .ti {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      color: #a89f96;
+      font-family: "Crimson Text", serif;
+      font-size: .93rem;
+      text-align: left;
+      padding: .38rem .55rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background .18s, color .18s;
+      line-height: 1.35;
+      margin-bottom: .12rem;
+    }
+    .ti:hover { background: rgba(255,255,255,.06); color: #f5f1e8; }
+    .ti.on {
+      background: rgba(255,255,255,.08);
+      color: #f5f1e8;
+      border-left: 3px solid #8b4513;
+      border-bottom: none;
+      padding-left: calc(.55rem - 3px);
+    }
+    .ti-icon {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .tdiv {
+      border-top: 1px solid rgba(255,255,255,.1);
+      margin: .7rem 0;
+    }
 
-.hl { background: #dfd4c0; border: 1px solid #c4aa88; border-radius: 8px;
-      padding: .9rem 1.1rem; margin: 1.4rem 0; }
-.hl strong { color: #2c1f0e; display: block; margin-bottom: .3rem; font-size: .9rem; text-transform: uppercase; letter-spacing: .05em; }
+    /* Main */
+    .main { flex: 1; min-width: 0; }
 
-.sym-row { display: flex; gap: .8rem; margin: 1.2rem 0; flex-wrap: wrap; }
-.sym { background: #2c1f0e; color: #e8dcc8; padding: .3rem .8rem; border-radius: 20px; font-size: .78rem; }
+    /* Chapter panels */
+    .ch { display: none; }
+    .ch.on { display: block; }
 
-/* Illustration SVGs */
-.ill { width: 100%; border-radius: 8px; margin: .5rem 0 1.2rem; display: block; }
+    .ch-title {
+      font-family: "Crimson Text", serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #8b4513;
+      margin-bottom: .2rem;
+    }
+    .ch-sub {
+      color: #a89f96;
+      font-size: .95rem;
+      font-style: italic;
+      margin-bottom: 1.3rem;
+    }
 
-/* "Why it matters" page */
-.wim-bullets { padding-left: 1.2rem; }
-.wim-bullets li { margin: .5rem 0; line-height: 1.7; }
-.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.2rem 0; }
-.card { background: #e8e0d4; border: 1px solid #c4aa88; border-radius: 8px; padding: .9rem 1rem; }
-.card h4 { margin: 0 0 .4rem; color: #2c1f0e; font-size: .95rem; }
-.card p  { margin: 0; font-size: .87rem; line-height: 1.6; }
-.stat-row { display: flex; gap: 1rem; margin: 1.2rem 0; flex-wrap: wrap; }
-.stat { background: #2c1f0e; color: #e8dcc8; border-radius: 8px; padding: .8rem 1rem; flex: 1; min-width: 130px; text-align: center; }
-.stat .n { font-size: 1.5rem; font-weight: 700; display: block; }
-.stat .l { font-size: .78rem; margin-top: .2rem; color: #c4aa88; }
-.pull-quote { border: 1px solid #c4aa88; border-radius: 8px; padding: 1rem 1.2rem; margin: .9rem 0; background: #e8e0d4; }
-.pull-quote p { font-style: italic; margin: 0 0 .4rem; }
-.pull-quote .why { font-size: .84rem; color: #665544; font-style: normal; margin: 0; }
+    /* Drop cap — decorated */
+    .ch > p:first-of-type::first-letter {
+      font-size: 3.4em;
+      line-height: .85;
+      margin: .08em .12em 0 0;
+      font-weight: 700;
+      color: #8b4513;
+      font-style: italic;
+      float: left;
+    }
 
-/* Quiz */
-.qz-q  { margin: 1.5rem 0 .5rem; font-weight: 600; }
-.qz-opt { display: block; width: 100%; text-align: left; margin: .35rem 0; padding: .5rem .9rem;
-           background: #e8e0d4; border: 1px solid #c4aa88; border-radius: 6px; cursor: pointer;
-           font-family: Georgia, serif; font-size: .93rem; transition: background .12s; }
-.qz-opt:hover:not(:disabled) { background: #dfd4c0; }
-.qz-opt.correct  { background: #b8d4b0; border-color: #6a9e62; }
-.qz-opt.wrong    { background: #d4a0a0; border-color: #a06060; }
-.qz-opt.reveal   { background: #dfd4c0; opacity: .7; }
-.qz-fb  { display: none; margin: .5rem 0 1rem; padding: .6rem .9rem; border-radius: 6px; font-size: .87rem; line-height: 1.6; }
-.qz-fb.show         { display: block; }
-.qz-fb.show.correct { background: #c8e0c0; border: 1px solid #6a9e62; }
-.qz-fb.show.wrong   { background: #ddb8b8; border: 1px solid #a06060; }
-#qz-score { display: none; margin-top: 1.5rem; padding: 1rem; background: #dfd4c0; border-radius: 8px; text-align: center; border: 1px solid #c4aa88; }
-#qz-score.show { display: block; }
-#score-n { font-size: 1.6rem; font-weight: 700; color: #2c1f0e; }
-#score-msg { color: #665544; font-size: .9rem; margin-top: .3rem; }
+    .ch p { margin-bottom: 1rem; }
+    .ch p:last-of-type { margin-bottom: 0; }
 
-/* Nav row */
-.nr { display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;
-      padding: .7rem 0; border-top: 1px solid #c4aa88; }
-.nr button { background: #2c1f0e; color: #e8dcc8; border: none; padding: .4rem .9rem;
-             border-radius: 6px; cursor: pointer; font-size: .85rem; }
-.nr button:disabled { opacity: .3; cursor: default; }
-.nr span { font-size: .85rem; color: #887766; }
+    /* Quote */
+    .qt {
+      background: #1a1815;
+      border-left: 3px solid #8b4513;
+      padding: .9rem 1.1rem .9rem 1.3rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.4rem 0;
+    }
+    .qt p {
+      font-style: italic;
+      font-size: 1.1rem;
+      margin-bottom: .4rem;
+    }
+    .qt cite {
+      font-size: .88rem;
+      color: #a89f96;
+      font-style: normal;
+    }
 
-/* Tooltip */
-.cn-tip  { border-bottom: 1px dotted #8a7055; cursor: help; }
-.tip-box { display: none; position: fixed; z-index: 9999; max-width: 240px;
-           background: #f5ede0; border: .5px solid #c4aa88; border-radius: 8px;
-           padding: 10px 13px; box-shadow: 0 4px 16px rgba(0,0,0,.15); }
-.tip-name { font-weight: 700; font-size: .95rem; color: #2c1f0e; margin-bottom: .2rem; }
-.tip-pron { font-size: .8rem; color: #776655; margin-bottom: .3rem; display: flex; gap: .5rem; align-items: center; }
-.tip-speak { background: #2c1f0e; color: #e8dcc8; border: none; border-radius: 4px; padding: 2px 7px; cursor: pointer; font-size: .75rem; }
-.tip-desc { font-size: .84rem; color: #3a2d1e; line-height: 1.5; }
-</style>
+    /* Recap */
+    .ch-recap {
+      background: #3a3530;
+      border-top: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      margin-top: 1.6rem;
+    }
+    .recap-title {
+      font-weight: 700;
+      font-size: .95rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #8b4513;
+      margin-bottom: .4rem;
+    }
+    .ch-recap p:last-child { margin-bottom: 0; }
+
+    /* Highlight */
+    .hl { background: #3a3530; border-radius: 3px; padding: 0 .2em; }
+
+    /* Illustration */
+    .ch-illustration { margin: 0 0 1.4rem; }
+    .ch-illustration img { max-width: 600px; max-height: 600px; width: auto; height: auto; display: block; margin: 0 auto; border-radius: 6px; }
+    .ch-illustration.float-right { float: right; margin: 0 0 1rem 1.5rem; max-width: 280px; }
+    .ch-illustration.float-left  { float: left;  margin: 0 1.5rem 1rem 0; max-width: 280px; }
+    .ch::after { content: ""; display: table; clear: both; }
+    .ch-illustration svg { display: block; width: 100%; height: auto; }
+    .ch-illus-caption {
+      font-size: .8rem;
+      color: #a89f96;
+      font-style: italic;
+      text-align: center;
+      margin-top: .3rem;
+    }
+
+    /* Nav row */
+    .nr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,.08);
+      margin-top: 2rem;
+      padding-top: 1rem;
+      font-size: .9rem;
+      color: #a89f96;
+    }
+    .nr button {
+      background: none;
+      border: 1px solid rgba(255,255,255,.15);
+      color: #f5f1e8;
+      font-family: "Crimson Text", serif;
+      font-size: .95rem;
+      padding: .35rem .85rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background .18s;
+    }
+    .nr button:hover:not(:disabled) { background: rgba(255,255,255,.06); }
+    .nr button:disabled { opacity: .35; cursor: default; }
+
+    /* === WHY IT MATTERS === */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+    .theme-card {
+      background: #3a3530;
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+    }
+    .theme-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #8b4513;
+      margin-bottom: .4rem;
+    }
+    .theme-card p { font-size: .97rem; margin-bottom: 0; }
+
+    .fact-card {
+      background: #3d2a1a;
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      margin-top: 1rem;
+    }
+    .fact-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #8b4513;
+      margin-bottom: .6rem;
+    }
+    .fact-card ul { padding-left: 1.2rem; }
+    .fact-card li { margin-bottom: .5rem; font-size: .97rem; }
+
+    /* === QUOTES PAGE === */
+    .fp-quote {
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      padding: 1.1rem 0;
+    }
+    .fp-quote:last-child { border-bottom: none; }
+    .fp-text {
+      font-style: italic;
+      font-size: 1.12rem;
+      margin-bottom: .35rem;
+      color: #f5f1e8;
+    }
+    .fp-attr {
+      font-size: .88rem;
+      color: #a89f96;
+      margin-bottom: .4rem;
+    }
+    .fp-toggle {
+      background: none;
+      border: 1px solid rgba(139,69,19,.5);
+      color: #8b4513;
+      font-family: "Crimson Text", serif;
+      font-size: .85rem;
+      padding: .2rem .55rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .fp-toggle:hover { background: rgba(139,69,19,.12); }
+    .fp-toggle.active { background: rgba(139,69,19,.15); }
+    .fp-note {
+      display: none;
+      background: #3a3530;
+      border-radius: 5px;
+      padding: .75rem .9rem;
+      margin-top: .6rem;
+      font-size: .94rem;
+    }
+    .fp-note.open { display: block; }
+
+    /* === QUIZ === */
+    .quiz-q {
+      background: #3a3530;
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1rem;
+    }
+    .quiz-q p { font-weight: 600; margin-bottom: .7rem; }
+    .quiz-opts { list-style: none; padding: 0; }
+    .quiz-opts li { margin-bottom: .4rem; }
+    .quiz-opts button {
+      background: none;
+      border: 1px solid rgba(255,255,255,.15);
+      color: #f5f1e8;
+      font-family: "Crimson Text", serif;
+      font-size: .97rem;
+      padding: .3rem .75rem;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      transition: background .15s;
+    }
+    .quiz-opts button:hover { background: rgba(255,255,255,.06); }
+    .quiz-opts button.correct { background: rgba(50,180,80,.18); border-color: #32b450; color: #7ddb8e; }
+    .quiz-opts button.wrong   { background: rgba(200,60,60,.15); border-color: #c83c3c; color: #e07878; }
+    .quiz-fb {
+      margin-top: .5rem;
+      font-size: .93rem;
+      color: #a89f96;
+      font-style: italic;
+      display: none;
+    }
+
+    /* Char / Loc tooltips */
+    .cn-tip, .loc-tip {
+      border-bottom: 1px dotted #8b4513;
+      cursor: help;
+      color: inherit;
+    }
+    .tip-box {
+      position: fixed;
+      background: #f5f1e8;
+      color: #2a2623;
+      border-radius: 7px;
+      padding: .65rem .85rem;
+      max-width: 270px;
+      font-size: .88rem;
+      box-shadow: 0 4px 18px rgba(0,0,0,.45);
+      z-index: 9999;
+      display: none;
+      line-height: 1.5;
+    }
+    .tip-name { font-weight: 700; margin-bottom: .15rem; font-size: .95rem; }
+    .tip-pron {
+      font-size: .8rem;
+      color: #5a4a42;
+      margin-bottom: .3rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .tip-speak {
+      background: none;
+      border: 1px solid #8b4513;
+      color: #8b4513;
+      font-size: .75rem;
+      padding: .05rem .35rem;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .tip-desc { font-size: .88rem; }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .layout { flex-direction: column; gap: .8rem; padding: .8rem .7rem 2rem; }
+      .sb {
+        width: 100%;
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        gap: .3rem;
+        align-items: center;
+      }
+      .sb-label { width: 100%; margin-bottom: .2rem; }
+      .ti {
+        width: auto;
+        flex: 0 0 auto;
+        font-size: .82rem;
+        padding: .28rem .45rem;
+      }
+      .ti.on {
+        border-left: none;
+        border-bottom: 2px solid #8b4513;
+        padding-left: .45rem;
+      }
+      .tdiv { width: 100%; }
+      .pg-title { font-size: 1.75rem; }
+      .ch-title { font-size: 1.4rem; }
+      .theme-grid { grid-template-columns: 1fr; }
+      .ch-illustration.float-right,
+      .ch-illustration.float-left { float: none; max-width: 100%; margin: 0 0 1.4rem; }
+      .ch-illustration img { min-width: 0 !important; min-height: 0 !important; width: 100% !important;
+                             max-height: 400px !important; height: auto; }
+    }
+  </style>
 </head>
 <body>
 
 <header class="pg-header">
+  <a class="pg-back" href="../../index.html">&#8592; Library</a>
   <h1 class="pg-title">Wuthering Heights</h1>
   <p class="pg-author">Emily Bront&euml; &middot; 1847</p>
   <div class="pg-rule"></div>
@@ -112,818 +420,356 @@ p  { line-height: 1.75; margin: .85rem 0; }
 
 <div class="layout">
   <div class="sb">
-    <button class="ti on" onclick="go(0)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 19.5C7.5 18.5344 7.82853 17.5576 8.63092 17.0204C9.59321 16.3761 10.7524 16 12 16C13.2476 16 14.4068 16.3761 15.3691 17.0204C16.1715 17.5576 16.5 18.5344 16.5 19.5"/><circle cx="12" cy="11" r="2.5"/><path d="M17.5 11C18.6101 11 19.6415 11.3769 20.4974 12.0224C21.2229 12.5696 21.5 13.4951 21.5 14.4038V14.5"/><circle cx="17.5" cy="6.5" r="2"/><path d="M6.5 11C5.38987 11 4.35846 11.3769 3.50256 12.0224C2.77706 12.5696 2.5 13.4951 2.5 14.4038V14.5"/><circle cx="6.5" cy="6.5" r="2"/></svg>Character Map</span></button>
-    <button class="ti" onclick="go(1)">I · The Stranger Arrives</button>
-    <button class="ti" onclick="go(2)">II · Foundling</button>
-    <button class="ti" onclick="go(3)">III · Love on the Moor</button>
-    <button class="ti" onclick="go(4)">IV · Humiliation &amp; Flight</button>
-    <button class="ti" onclick="go(5)">V · The Return</button>
-    <button class="ti" onclick="go(6)">VI · Revenge Unfolds</button>
-    <button class="ti" onclick="go(7)">VII · The Second Generation</button>
-    <button class="ti" onclick="go(8)">VIII · Ruin &amp; Release</button>
+    <div class="sb-label">Chapters</div>
+    <button class="ti on" onclick="go(0)">I &middot; Storm-Battered House</button>
+    <button class="ti" onclick="go(1)">II &middot; The Foundling</button>
+    <button class="ti" onclick="go(2)">III &middot; Thrushcross Grange</button>
+    <button class="ti" onclick="go(3)">IV &middot; The Return</button>
+    <button class="ti" onclick="go(4)">V &middot; Death and Revenge</button>
+    <button class="ti" onclick="go(5)">VI &middot; The Ghost Appeased</button>
     <div class="tdiv"></div>
-    <button class="ti" onclick="go(9)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M15 2L15.5387 4.39157C15.9957 6.42015 17.5798 8.00431 19.6084 8.46127L22 9L19.6084 9.53873C17.5798 9.99569 15.9957 11.5798 15.5387 13.6084L15 16L14.4613 13.6084C14.0043 11.5798 12.4202 9.99569 10.3916 9.53873L8 9L10.3916 8.46127C12.4201 8.00431 14.0043 6.42015 14.4613 4.39158L15 2Z"/><path d="M7 12L7.38481 13.7083C7.71121 15.1572 8.84275 16.2888 10.2917 16.6152L12 17L10.2917 17.3848C8.84275 17.7112 7.71121 18.8427 7.38481 20.2917L7 22L6.61519 20.2917C6.28879 18.8427 5.15725 17.7112 3.70827 17.3848L2 17L3.70827 16.6152C5.15725 16.2888 6.28879 15.1573 6.61519 13.7083L7 12Z"/></svg>Why it matters</span></button>
-    <button class="ti" onclick="go(10)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 22C7.49306 22 5.48959 22 4.2448 20.5355C3 19.0711 3 16.714 3 12C3 7.28596 3 4.92893 4.2448 3.46447C5.48959 2 7.49306 2 11.5 2C15.5069 2 17.5104 2 18.7552 3.46447C19.7572 4.64332 19.9527 6.40054 19.9908 9.5"/><path d="M8 8H15M8 13H11"/><path d="M19.6092 18.1054C20.4521 17.4918 21 16.4974 21 15.375C21 13.511 19.489 12 17.625 12H17.375C15.511 12 14 13.511 14 15.375C14 16.4974 14.5479 17.4918 15.3908 18.1054M19.6092 18.1054C19.0523 18.5108 18.3666 18.75 17.625 18.75H17.375C16.6334 18.75 15.9477 18.5108 15.3908 18.1054M19.6092 18.1054L20.192 19.9404C20.4143 20.6403 20.5255 20.9903 20.4951 21.2082C20.4318 21.6617 20.0619 21.9984 19.6252 22C19.4154 22.0008 19.101 21.8358 18.4723 21.5059C18.2027 21.3644 18.0679 21.2936 17.93 21.252C17.649 21.1673 17.351 21.1673 17.07 21.252C16.9321 21.2936 16.7973 21.3644 16.5277 21.5059C15.899 21.8358 15.5846 22.0008 15.3748 22C14.9381 21.9984 14.5682 21.6617 14.5049 21.2082C14.4745 20.9903 14.5857 20.6403 14.808 19.9404L15.3908 18.1054"/></svg>Quiz</span></button>
+    <button class="ti" onclick="go(6)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M15 2L15.5387 4.39157C15.9957 6.42015 17.5798 8.00431 19.6084 8.46127L22 9L19.6084 9.53873C17.5798 9.99569 15.9957 11.5798 15.5387 13.6084L15 16L14.4613 13.6084C14.0043 11.5798 12.4202 9.99569 10.3916 9.53873L8 9L10.3916 8.46127C12.4201 8.00431 14.0043 6.42015 14.4613 4.39158L15 2Z"/><path d="M7 12L7.38481 13.7083C7.71121 15.1572 8.84275 16.2888 10.2917 16.6152L12 17L10.2917 17.3848C8.84275 17.7112 7.71121 18.8427 7.38481 20.2917L7 22L6.61519 20.2917C6.28879 18.8427 5.15725 17.7112 3.70827 17.3848L2 17L3.70827 16.6152C5.15725 16.2888 6.28879 15.1573 6.61519 13.7083L7 12Z"/></svg>Why it matters</span></button>
+    <button class="ti" onclick="go(7)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 22H6C4.89543 22 4 21.1046 4 20M4 20C4 18.8954 4.89543 18 6 18H20V6C20 4.11438 20 3.17157 19.4142 2.58579C18.8284 2 17.8856 2 16 2H10C7.17157 2 5.75736 2 4.87868 2.87868C4 3.75736 4 5.17157 4 8V20Z"/><path d="M19.5 18C19.5 18 18.5 18.7628 18.5 20C18.5 21.2372 19.5 22 19.5 22"/><path d="M9 2V10L12 7L15 10V2"/></svg>Quotes</span></button>
+    <button class="ti" onclick="go(8)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 22C7.49306 22 5.48959 22 4.2448 20.5355C3 19.0711 3 16.714 3 12C3 7.28596 3 4.92893 4.2448 3.46447C5.48959 2 7.49306 2 11.5 2C15.5069 2 17.5104 2 18.7552 3.46447C19.7572 4.64332 19.9527 6.40054 19.9908 9.5"/><path d="M8 8H15M8 13H11"/><path d="M19.6092 18.1054C20.4521 17.4918 21 16.4974 21 15.375C21 13.511 19.489 12 17.625 12H17.375C15.511 12 14 13.511 14 15.375C14 16.4974 14.5479 17.4918 15.3908 18.1054M19.6092 18.1054C19.0523 18.5108 18.3666 18.75 17.625 18.75H17.375C16.6334 18.75 15.9477 18.5108 15.3908 18.1054M19.6092 18.1054L20.192 19.9404C20.4143 20.6403 20.5255 20.9903 20.4951 21.2082C20.4318 21.6617 20.0619 21.9984 19.6252 22C19.4154 22.0008 19.101 21.8358 18.4723 21.5059C18.2027 21.3644 18.0679 21.2936 17.93 21.252C17.649 21.1673 17.351 21.1673 17.07 21.252C16.9321 21.2936 16.7973 21.3644 16.5277 21.5059C15.899 21.8358 15.5846 22.0008 15.3748 22C14.9381 21.9984 14.5682 21.6617 14.5049 21.2082C14.4745 20.9903 14.5857 20.6403 14.808 19.9404L15.3908 18.1054"/></svg>Quiz</span></button>
   </div>
 
   <div class="main">
 
-    <!-- CH CAST -->
-    <div class="ch on" data-t="cast">
-      <h2>Character Map</h2>
-      <p style="color:#665544;font-size:.9rem;margin-bottom:1rem;">Three generations of the Earnshaw and Linton families, and the narrators who tell their story. Generations run top to bottom; lines show blood, marriage, and the bonds that shape the plot.</p>
-
-      <!--
-        CANVAS: 860 x 680   BOX: w=150 h=72
-        Gen1 row  y=40..112   Mr Earnshaw only, cx=325  (box x=250..400)
-        Gen2 row  y=190..262  5 chars: Heathcliff(cx=85) Catherine(cx=255) Hindley(cx=425) Edgar(cx=595) Isabella(cx=765)
-        Gen3 row  y=420..492  3 chars: Hareton(cx=255) YoungCathy(cx=425) LintonH(cx=595)
-        Narrators y=560..632  Nelly(cx=100,w=180) Lockwood(cx=305,w=180) Joseph(cx=510,w=180)
-
-        ROUTING LANES (between Gen2 bottom=262 and Gen3 top=420):
-          Lane A: y=145   Gen1→Gen2 parent wires
-          Lane B: y=172   Catherine-Edgar marriage bar (above Gen2 boxes)
-          Lane C: y=290   Heathcliff-Isabella forced marriage (below Gen2)
-          Lane D: y=320   Catherine+Edgar child wire (joins at x=425, drops to YoungCathy)
-          Lane E: y=355   Hindley→Hareton child wire
-          Lane F: y=390   Heathcliff+Isabella→LintonH child wire
-          Lane G: y=400   Heathcliff degrades Hareton (arrives at Hareton left x=180)
-
-        BOX EDGE MIDPOINTS (used for line termination):
-          Earnshaw:  top(325,40) bottom(325,112) left(250,76) right(400,76)
-          Heathcliff:top(85,190) bottom(85,262)  left(10,226) right(160,226)
-          Catherine: top(255,190)bottom(255,262) left(180,226)right(330,226)
-          Hindley:   top(425,190)bottom(425,262) left(350,226)right(500,226)
-          Edgar:     top(595,190)bottom(595,262) left(520,226)right(670,226)
-          Isabella:  top(765,190)bottom(765,262) left(690,226)right(840,226)
-          Hareton:   top(255,420)bottom(255,492) left(180,456)right(330,456)
-          YoungCathy:top(425,420)bottom(425,492) left(350,456)right(500,456)
-          LintonH:   top(595,420)bottom(595,492) left(520,456)right(670,456)
-      -->
-
-      <svg viewBox="0 0 860 680" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:8px;background:#e8e0d4;display:block;margin-bottom:1.2rem;">
-
-        <!-- ─── GENERATION ROW LABELS ─── -->
-        <text x="8" y="82" fill="#b0966a" font-size="9" font-family="Georgia,serif" letter-spacing="1" writing-mode="tb" text-anchor="middle">GEN 1</text>
-        <text x="8" y="232" fill="#b0966a" font-size="9" font-family="Georgia,serif" letter-spacing="1" writing-mode="tb" text-anchor="middle">GEN 2</text>
-        <text x="8" y="462" fill="#b0966a" font-size="9" font-family="Georgia,serif" letter-spacing="1" writing-mode="tb" text-anchor="middle">GEN 3</text>
-
-        <!-- faint row dividers -->
-        <line x1="22" y1="155" x2="850" y2="155" stroke="#c4aa88" stroke-width="0.5" stroke-dasharray="3,5"/>
-        <line x1="22" y1="400" x2="850" y2="400" stroke="#c4aa88" stroke-width="0.5" stroke-dasharray="3,5"/>
-        <line x1="22" y1="545" x2="850" y2="545" stroke="#c4aa88" stroke-width="0.5" stroke-dasharray="3,5"/>
-
-        <!-- ═══════════ GEN 1 ═══════════ -->
-        <!-- Mr Earnshaw  x=250 y=40 w=150 h=72  cx=325 cy=76 -->
-        <rect x="250" y="40" width="150" height="72" rx="6" fill="#3a2810" stroke="#8a7055" stroke-width="1.5"/>
-        <text x="325" y="58" fill="#e8dcc8" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Mr Earnshaw</text>
-        <text x="325" y="73" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Patriarch of Wuthering</text>
-        <text x="325" y="86" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Heights; brings Heathcliff</text>
-        <text x="325" y="99" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">home from Liverpool</text>
-
-        <!-- ═══════════ GEN 2 ═══════════ -->
-        <!-- Heathcliff  x=10 y=190 w=150 h=72  cx=85 -->
-        <rect x="10" y="190" width="150" height="72" rx="6" fill="#1a0e04" stroke="#d09030" stroke-width="2"/>
-        <text x="85" y="208" fill="#e8dcc8" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Heathcliff</text>
-        <text x="85" y="223" fill="#d09030" font-size="8.5" font-family="Georgia,serif" text-anchor="middle" font-style="italic">(no surname known)</text>
-        <text x="85" y="238" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Foundling raised at Heights;</text>
-        <text x="85" y="251" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">drives the novel&apos;s revenge</text>
-
-        <!-- Catherine  x=180 y=190 w=150 h=72  cx=255 -->
-        <rect x="180" y="190" width="150" height="72" rx="6" fill="#3a2810" stroke="#8a7055" stroke-width="1.5"/>
-        <text x="255" y="208" fill="#e8dcc8" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Catherine Linton</text>
-        <text x="255" y="221" fill="#c4aa88" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">n&#233;e Earnshaw (&#8220;Cathy&#8221;)</text>
-        <text x="255" y="237" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Wild spirit torn between</text>
-        <text x="255" y="250" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">passion and ambition</text>
-
-        <!-- Hindley  x=350 y=190 w=150 h=72  cx=425 -->
-        <rect x="350" y="190" width="150" height="72" rx="6" fill="#3a2810" stroke="#8a7055" stroke-width="1.5"/>
-        <text x="425" y="208" fill="#e8dcc8" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Hindley Earnshaw</text>
-        <text x="425" y="222" fill="#c4aa88" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">m. Frances (&#8224;)</text>
-        <text x="425" y="238" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Jealous heir; degrades</text>
-        <text x="425" y="251" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Heathcliff; drinks to ruin</text>
-
-        <!-- Edgar  x=520 y=190 w=150 h=72  cx=595 -->
-        <rect x="520" y="190" width="150" height="72" rx="6" fill="#3a3020" stroke="#8a7055" stroke-width="1.5"/>
-        <text x="595" y="208" fill="#e8dcc8" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Edgar Linton</text>
-        <text x="595" y="222" fill="#c4aa88" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">&#8220;Master of the Grange&#8221;</text>
-        <text x="595" y="238" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Gentle owner of Thrushcross</text>
-        <text x="595" y="251" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Grange; marries Catherine</text>
-
-        <!-- Isabella  x=690 y=190 w=150 h=72  cx=765 -->
-        <rect x="690" y="190" width="150" height="72" rx="6" fill="#3a3020" stroke="#8a7055" stroke-width="1.5"/>
-        <text x="765" y="208" fill="#e8dcc8" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Isabella Linton</text>
-        <text x="765" y="222" fill="#c4aa88" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">later Heathcliff</text>
-        <text x="765" y="238" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Edgar&apos;s sister; elopes with</text>
-        <text x="765" y="251" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Heathcliff, soon regrets it</text>
-
-        <!-- ═══════════ GEN 3 ═══════════ -->
-        <!-- Hareton  x=180 y=420 w=150 h=72  cx=255 -->
-        <rect x="180" y="420" width="150" height="72" rx="6" fill="#3a2810" stroke="#8a7055" stroke-width="1.5"/>
-        <text x="255" y="438" fill="#e8dcc8" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Hareton Earnshaw</text>
-        <text x="255" y="452" fill="#c4aa88" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">(&#8220;Hare&#8221;)</text>
-        <text x="255" y="468" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Denied education by</text>
-        <text x="255" y="481" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Heathcliff; yet uncorrupted</text>
-
-        <!-- YoungCathy  x=350 y=420 w=150 h=72  cx=425 -->
-        <rect x="350" y="420" width="150" height="72" rx="6" fill="#3a3020" stroke="#d09030" stroke-width="2"/>
-        <text x="425" y="438" fill="#e8dcc8" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Catherine Linton</text>
-        <text x="425" y="452" fill="#c4aa88" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">later Heathcliff (&#8220;Young Cathy&#8221;)</text>
-        <text x="425" y="468" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">Bright &amp; spirited; the</text>
-        <text x="425" y="481" fill="#c4aa88" font-size="9" font-family="Georgia,serif" text-anchor="middle">novel&apos;s fragile hope</text>
-
-        <!-- LintonH  x=520 y=420 w=150 h=72  cx=595  dashed = deceased -->
-        <rect x="520" y="420" width="150" height="72" rx="6" fill="#1a1408" stroke="#8a7055" stroke-width="1" stroke-dasharray="5,3"/>
-        <text x="595" y="438" fill="#b8a080" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Linton Heathcliff &#8224;</text>
-        <text x="595" y="453" fill="#9a8870" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">(&#8220;Linton&#8221;)</text>
-        <text x="595" y="468" fill="#9a8870" font-size="9" font-family="Georgia,serif" text-anchor="middle">Sickly son of Heathcliff;</text>
-        <text x="595" y="481" fill="#9a8870" font-size="9" font-family="Georgia,serif" text-anchor="middle">used as a pawn, dies young</text>
-
-        <!-- ═══════════ NARRATORS ═══════════ -->
-        <text x="30" y="556" fill="#9a8060" font-size="9" font-family="Georgia,serif" letter-spacing="1.5" font-style="italic">Narrators</text>
-
-        <!-- Nelly Dean  x=10 y=562 w=190 h=72  cx=105 -->
-        <rect x="10" y="562" width="190" height="72" rx="6" fill="#2e2820" stroke="#8a7055" stroke-width="1" stroke-dasharray="4,3"/>
-        <text x="105" y="580" fill="#c4aa88" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Ellen Dean</text>
-        <text x="105" y="594" fill="#9a8870" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">(&#8220;Nelly&#8221;)</text>
-        <text x="105" y="609" fill="#9a8870" font-size="9" font-family="Georgia,serif" text-anchor="middle">Housekeeper &amp; primary</text>
-        <text x="105" y="622" fill="#9a8870" font-size="9" font-family="Georgia,serif" text-anchor="middle">narrator; shapes belief</text>
-
-        <!-- Lockwood  x=215 y=562 w=190 h=72  cx=310 -->
-        <rect x="215" y="562" width="190" height="72" rx="6" fill="#2e2820" stroke="#8a7055" stroke-width="1" stroke-dasharray="4,3"/>
-        <text x="310" y="580" fill="#c4aa88" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Mr Lockwood</text>
-        <text x="310" y="595" fill="#9a8870" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">&#160;</text>
-        <text x="310" y="609" fill="#9a8870" font-size="9" font-family="Georgia,serif" text-anchor="middle">New tenant at the Grange;</text>
-        <text x="310" y="622" fill="#9a8870" font-size="9" font-family="Georgia,serif" text-anchor="middle">outer narrator; records Nelly</text>
-
-        <!-- Joseph  x=420 y=562 w=190 h=72  cx=515 -->
-        <rect x="420" y="562" width="190" height="72" rx="6" fill="#2e2820" stroke="#8a7055" stroke-width="1" stroke-dasharray="4,3"/>
-        <text x="515" y="580" fill="#c4aa88" font-size="11.5" font-family="Georgia,serif" font-weight="bold" text-anchor="middle">Joseph</text>
-        <text x="515" y="595" fill="#9a8870" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">(surname unknown)</text>
-        <text x="515" y="609" fill="#9a8870" font-size="9" font-family="Georgia,serif" text-anchor="middle">Fanatical servant at Heights;</text>
-        <text x="515" y="622" fill="#9a8870" font-size="9" font-family="Georgia,serif" text-anchor="middle">chorus of condemnation</text>
-
-        <!-- ═══════════════════════════════════════════════════════
-             CONNECTING LINES
-             All paths use only H and V segments (orthogonal).
-             Lines always start/end at exact box edge midpoints.
-        ═══════════════════════════════════════════════════════ -->
-
-        <!-- ── 1. Earnshaw → Catherine (daughter) ──
-             Earnshaw bottom-mid (325,112) → V down to Lane A (y=145)
-             → H left to x=255 → V up to Catherine top-mid (255,190) -->
-        <path d="M325,112 V145 H255 V190" stroke="#8a7055" stroke-width="1.5" fill="none"/>
-        <text x="282" y="141" fill="#9a8060" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">daughter</text>
-
-        <!-- ── 2. Earnshaw → Hindley (son) ──
-             Earnshaw bottom-mid (325,112) → V down to y=145
-             → H right to x=425 → V up to Hindley top-mid (425,190) -->
-        <path d="M325,112 V145 H425 V190" stroke="#8a7055" stroke-width="1.5" fill="none"/>
-        <text x="385" y="141" fill="#9a8060" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">son</text>
-
-        <!-- ── 3. Earnshaw → Heathcliff (adopted, dashed) ──
-             Earnshaw left-mid (250,76) → H left to x=85
-             → V down to Heathcliff top-mid (85,190)
-             Note: runs at y=76, well above Gen2 row at y=190 -->
-        <path d="M250,76 H85 V190" stroke="#8a7055" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
-        <text x="168" y="71" fill="#9a8060" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">adopted</text>
-
-        <!-- ── 4. Heathcliff ↔ Catherine (soul-bond, gold arc) ──
-             Gap between Heathcliff right (160) and Catherine left (180): 20px.
-             Arc dipping above at y=206 -->
-        <path d="M160,226 Q170,206 180,226" stroke="#d09030" stroke-width="2" fill="none"/>
-        <text x="170" y="202" fill="#d09030" font-size="8.5" font-family="Georgia,serif" text-anchor="middle" font-style="italic">soul-bond</text>
-
-        <!-- ── 5. Catherine — Edgar (married) ──
-             Route ABOVE all Gen2 boxes at Lane B (y=172).
-             Catherine top-mid (255,190) → V up to y=172
-             → H right to x=595 → V down to Edgar top-mid (595,190)
-             Child drop from midpoint (425,172) down to YoungCathy — see #10 -->
-        <path d="M255,190 V172 H595 V190" stroke="#8a7055" stroke-width="1.5" fill="none"/>
-        <text x="425" y="168" fill="#9a8060" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">married</text>
-
-        <!-- ── 6. Edgar — Isabella (siblings) ──
-             Gap between Edgar right (670) and Isabella left (690): 20px.
-             Arc above at y=206 -->
-        <path d="M670,226 Q680,206 690,226" stroke="#8a7055" stroke-width="1.5" fill="none"/>
-        <text x="680" y="202" fill="#9a8060" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">siblings</text>
-
-        <!-- ── 7. Heathcliff — Isabella (forced marriage, dashed) ──
-             Route below Gen2 at Lane C (y=290).
-             Heathcliff bottom-mid (85,262) → V down to y=290
-             → H right to x=765 → V up to Isabella bottom-mid (765,262) -->
-        <path d="M85,262 V290 H765 V262" stroke="#8a7055" stroke-width="1" fill="none" stroke-dasharray="6,3"/>
-        <text x="425" y="304" fill="#9a8060" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">married (forced)</text>
-
-        <!-- ── 8. Catherine + Edgar → Young Cathy (daughter) ──
-             Drop from midpoint of marriage bar (Lane B, y=172) at x=425.
-             → V down to Lane D (y=320) → H to x=425 (already there)
-             → V down to YoungCathy top-mid (425,420)
-             Path: from (425,172) straight down, avoiding boxes (box tops at 190, bottoms at 262) —
-             x=425 is the Hindley box centre (x=350..500), so we can't drop straight through.
-             Route around: from (425,172) → right exit at x=500 (Hindley right edge), then down, then in.
-             Actually cleaner: drop from Lane D junction below Hindley.
-             Lane D wire: Catherine bottom (255,262) → V down to y=320 → H right to x=595 → V up to Edgar bottom (595,262)
-             Child drop: from (425,320) → V down to YoungCathy top (425,420) -->
-        <path d="M255,262 V320 H595 V262" stroke="#8a7055" stroke-width="1.5" fill="none"/>
-        <path d="M425,320 V420" stroke="#8a7055" stroke-width="1.5" fill="none"/>
-        <text x="448" y="374" fill="#9a8060" font-size="8.5" font-family="Georgia,serif">daughter</text>
-
-        <!-- ── 9. Hindley + Frances → Hareton (son) ──
-             Lane E (y=355).
-             Hindley bottom-mid (425,262) → V down to y=355 → H left to x=255 → V up to Hareton top-mid (255,420) -->
-        <path d="M425,262 V355 H255 V420" stroke="#8a7055" stroke-width="1.5" fill="none"/>
-        <text x="332" y="351" fill="#9a8060" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">son (w. Frances)</text>
-
-        <!-- ── 10. Heathcliff + Isabella → Linton Heathcliff (son, dashed) ──
-             Lane F (y=390).
-             Midpoint of forced-marriage wire is at (425,290) — Lane C.
-             But we already have the Hindley→Hareton wire at Lane E (y=355) using x=255..425.
-             Drop from Isabella side to avoid crossing:
-             Isabella bottom-mid (765,262) → V down to y=390 → H left to x=595 → V up to LintonH top-mid (595,420)
-             Heathcliff contribution: we note via label on the marriage wire (#7) already. -->
-        <path d="M765,262 V390 H595 V420" stroke="#8a7055" stroke-width="1" fill="none" stroke-dasharray="5,3"/>
-        <text x="682" y="386" fill="#9a8060" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">son</text>
-
-        <!-- ── 11. Young Cathy — Linton Heathcliff (forced marriage, dashed) ──
-             Gap between YoungCathy right (500) and LintonH left (520): 20px.
-             Arc above at y=436 -->
-        <path d="M500,456 Q510,436 520,456" stroke="#8a7055" stroke-width="1" fill="none" stroke-dasharray="4,2"/>
-        <text x="510" y="432" fill="#9a8060" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">wed (forced)</text>
-
-        <!-- ── 12. Hareton — Young Cathy (love, gold arc) ──
-             Gap between Hareton right (330) and YoungCathy left (350): 20px.
-             Arc below at y=474 -->
-        <path d="M330,456 Q340,474 350,456" stroke="#d09030" stroke-width="2" fill="none"/>
-        <text x="340" y="488" fill="#d09030" font-size="8.5" font-family="Georgia,serif" text-anchor="middle" font-style="italic">love</text>
-
-        <!-- ── 13. Heathcliff degrades Hareton (red dashed) ──
-             Heathcliff left-mid (10,226) → H left impossible (off canvas).
-             Use: Heathcliff bottom-mid (85,262) → V down to Lane G (y=405)
-             → H right to x=180 → V up to Hareton left-mid (180,456)
-             (Lane G y=405 is between Lane F=390 and Gen3 top=420; use y=408) -->
-        <path d="M85,262 V408 H180 V456" stroke="#a04020" stroke-width="1.2" fill="none" stroke-dasharray="4,2"/>
-        <text x="50" y="340" fill="#a04020" font-size="8.5" font-family="Georgia,serif" text-anchor="middle">degrades</text>
-
-        <!-- ═══════════ LEGEND ═══════════ -->
-        <rect x="630" y="555" width="220" height="95" rx="5" fill="#3a2810" opacity=".85"/>
-        <text x="740" y="571" fill="#c4aa88" font-size="9.5" font-family="Georgia,serif" text-anchor="middle" font-weight="bold" letter-spacing="1">LEGEND</text>
-        <line x1="642" y1="583" x2="672" y2="583" stroke="#8a7055" stroke-width="1.5"/>
-        <text x="677" y="586" fill="#c4aa88" font-size="8.5" font-family="Georgia,serif">family / marriage</text>
-        <line x1="642" y1="597" x2="672" y2="597" stroke="#8a7055" stroke-width="1" stroke-dasharray="5,3"/>
-        <text x="677" y="600" fill="#c4aa88" font-size="8.5" font-family="Georgia,serif">adoption / forced tie</text>
-        <line x1="642" y1="611" x2="672" y2="611" stroke="#d09030" stroke-width="2"/>
-        <text x="677" y="614" fill="#c4aa88" font-size="8.5" font-family="Georgia,serif">soul-bond / love</text>
-        <line x1="642" y1="625" x2="672" y2="625" stroke="#a04020" stroke-width="1.2" stroke-dasharray="4,2"/>
-        <text x="677" y="628" fill="#c4aa88" font-size="8.5" font-family="Georgia,serif">deliberate harm</text>
-        <text x="642" y="642" fill="#9a8870" font-size="8.5" font-family="Georgia,serif">&#8224; deceased character</text>
-
-      </svg>
-
-      <div class="hl">
-        <strong>How to read this</strong>
-        The Earnshaw line (left) and Linton line (right) are joined by Catherine's marriage to Edgar — and invaded by Heathcliff, who enters as a foundling and methodically takes possession of both estates. The third generation re-enacts the first, but with a chance for the cycle to break. Nelly Dean and Lockwood are outside the family web entirely: they are the lenses, not the subjects.
-      </div>
-    </div>
-
     <!-- CH 1 -->
-    <div class="ch" data-t="I">
-      <h2>Chapter I &middot; The Stranger Arrives</h2>
-      <svg class="ill" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="sky1" cx="50%" cy="30%" r="60%">
-            <stop offset="0%" stop-color="#4a3a28"/>
-            <stop offset="100%" stop-color="#1a1008"/>
-          </radialGradient>
-          <radialGradient id="moon1" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#d4c8a8"/>
-            <stop offset="100%" stop-color="#b0a070"/>
-          </radialGradient>
-        </defs>
-        <rect width="680" height="195" fill="url(#sky1)"/>
-        <!-- moor ground -->
-        <ellipse cx="340" cy="210" rx="420" ry="60" fill="#2a1e0e"/>
-        <!-- heath tufts -->
-        <rect x="30" y="155" width="4" height="18" fill="#3a2e18" rx="2"/>
-        <rect x="40" y="150" width="3" height="22" fill="#3a2e18" rx="2"/>
-        <rect x="600" y="158" width="4" height="16" fill="#3a2e18" rx="2"/>
-        <rect x="615" y="152" width="3" height="20" fill="#3a2e18" rx="2"/>
-        <!-- Wuthering Heights house silhouette -->
-        <rect x="240" y="80" width="200" height="100" fill="#1a0e04"/>
-        <rect x="250" y="60" width="30" height="25" fill="#1a0e04"/>
-        <rect x="360" y="55" width="25" height="30" fill="#1a0e04"/>
-        <!-- chimney stacks -->
-        <rect x="258" y="40" width="8" height="22" fill="#130b02"/>
-        <rect x="273" y="45" width="6" height="17" fill="#130b02"/>
-        <rect x="365" y="35" width="8" height="22" fill="#130b02"/>
-        <!-- window glow -->
-        <rect x="270" y="100" width="20" height="16" fill="#b07820" opacity=".7" rx="1"/>
-        <rect x="345" y="100" width="20" height="16" fill="#b07820" opacity=".5" rx="1"/>
-        <!-- moon -->
-        <circle cx="540" cy="45" r="22" fill="url(#moon1)" opacity=".85"/>
-        <!-- windswept tree -->
-        <line x1="160" y1="175" x2="155" y2="95" stroke="#2a1e0e" stroke-width="6"/>
-        <line x1="155" y1="95" x2="120" y2="65" stroke="#2a1e0e" stroke-width="3"/>
-        <line x1="155" y1="110" x2="125" y2="88" stroke="#2a1e0e" stroke-width="2"/>
-        <line x1="155" y1="95" x2="185" y2="75" stroke="#2a1e0e" stroke-width="2"/>
-        <!-- figure approaching -->
-        <rect x="380" y="148" width="8" height="22" fill="#0f0904" rx="2"/>
-        <circle cx="384" cy="143" r="5" fill="#0f0904"/>
-        <text x="340" y="188" fill="#5a4a30" font-size="10" font-family="Georgia,serif" opacity=".5" text-anchor="middle">Yorkshire Moors, 1801</text>
-      </svg>
+    <div class="ch on" data-t="I · Storm-Battered House">
+      <h2 class="ch-title">I &middot; Storm-Battered House</h2>
+      <p class="ch-sub">November 1801 — A stranger arrives; a ghost appears; a story begins</p>
 
-      <p>The year is 1801. <span class="cn-tip" data-char="Lockwood">Lockwood</span>, a self-styled misanthrope newly arrived from London, has taken the lease on Thrushcross Grange — a comfortable manor on the Yorkshire moors. Seeking out his landlord, he makes his way across the windswept heath to <em>Wuthering Heights</em>, a farmhouse as forbidding as its name suggests: the very architecture seems built against weather and human warmth alike.</p>
+      <figure class="ch-illustration">
+  <img src="images/chapter_01.jpg"
+       alt="The brooding figure of Heathcliff stands beneath a bare tree at the remote, wind-blasted farmhouse of Wuthering Heights.">
+  <figcaption class="ch-illus-caption">The brooding figure of Heathcliff stands beneath a bare tree at the remote, wind-blasted farmhouse of Wuthering Heights.</figcaption>
+</figure>
 
-      <p>He is received with surly hostility by <span class="cn-tip" data-char="Heathcliff">Heathcliff</span>, a dark, weathered man of obscure origins who seems to gnaw on his own bitterness. The household is a gallery of strangeness: a young woman of cold beauty who refuses to speak, a rough manservant named <span class="cn-tip" data-char="Joseph">Joseph</span> who dispenses scripture like curses, and an air of old, unresolved passion clinging to the stone walls.</p>
+      <p><span class="cn-tip" data-char="Lockwood">Lockwood</span> is a London gentleman who has rented <span class="loc-tip" data-loc="ThrushcrossGrange">Thrushcross Grange</span> in the Yorkshire moors, imagining himself suited to solitude. His first act is to call on his landlord. The road north carries him across <span class="loc-tip" data-loc="TheMoors">the moors</span> until he reaches a farmhouse that seems to grow from the rock itself — low, dark, its name carved above the door: <span class="loc-tip" data-loc="WutheringHeights">Wuthering Heights</span>.</p>
 
-      <div class="quote">
-        &ldquo;A perfect misanthropist&rsquo;s heaven&rdquo; — Lockwood's first impression of the Heights.<cite>— Ch. 1, Lockwood narrating</cite>
+      <p>The master of the house is <span class="cn-tip" data-char="Heathcliff">Heathcliff</span>: a tall, dark man whose face carries both refinement and something harder underneath, a stored-up fury that makes his rare silences feel like pressure. He admits Lockwood grudgingly. The household is strange — a surly young woman, a rough-mannered young man named <span class="cn-tip" data-char="HaretonEarnshaw">Hareton</span>, and dogs that snap at visitors. Heathcliff does not explain any of them.</p>
+
+      <p>A blizzard traps Lockwood overnight. He is shown to a closed-off room with a bed built into a window alcove. In the ledge, names are scratched into the paint: <em>Catherine Earnshaw, Catherine Heathcliff, Catherine Linton</em>. An old diary fills the margins of a mildewed Bible. Lockwood reads himself drowsy.</p>
+
+      <div class="qt" data-qid="wuthering-heights-ch1-q1">
+        <p>"I have just returned from a visit to my landlord — the solitary neighbour that I shall be troubled with."</p>
+        <cite>— Lockwood, opening the novel; his breezy condescension will be demolished by the tale that follows</cite>
       </div>
 
-      <p>Trapped by a snowstorm, Lockwood is forced to spend the night. He sleeps in a closet-bed and discovers old diaries scratched into the windowsill paint — the name <em>Catherine</em>, over and over. In a dream half-waking, a small hand claws at the frozen glass. He wrenches the wrist across the broken pane and a child's voice begs to be let in after twenty years of wandering. He wakes, shaking. Heathcliff, summoned by the noise, rushes to the window and cries into the dark with an anguish that no visitor's curiosity can begin to explain.</p>
+      <p>He falls into a nightmare — or something worse. A child's hand reaches through the glass. A voice cries, "Let me in — let me in!" Lockwood panics and, horribly, rubs the wrist against the broken pane until the crying stops. He wakes screaming. Heathcliff bursts in, and Lockwood watches as the man throws open the window and calls into the darkness with a grief so raw it seems to hollow him out.</p>
 
-      <div class="hl">
-        <strong>Narrative frame</strong>
-        Bront&euml; tells the story twice-removed: Lockwood records what the housekeeper <span class="cn-tip" data-char="Nelly">Nelly Dean</span> tells him. This distance lets the reader judge both narrators — neither is wholly reliable, and the truth of Heathcliff and Catherine's love must be assembled from their partial testimony.
+      <p>Heathcliff will not say who the ghost is. But Lockwood knows he needs to understand this house. Recovered at the Grange, he asks his housekeeper <span class="cn-tip" data-char="NellyDean">Nelly Dean</span> how it came to this. Nelly was raised at the Heights. She knows everything. She begins.</p>
+
+      <div class="ch-recap">
+        <p class="recap-title">The Frame Within the Frame</p>
+        <p>Bront&euml; opens with two layers of unreliable narration — Lockwood retelling what Nelly tells him. Neither is neutral. The ghost in the window is not a horror-story device; it is the novel announcing its true subject before a word of backstory is spoken.</p>
       </div>
     </div>
 
     <!-- CH 2 -->
-    <div class="ch" data-t="II">
-      <h2>Chapter II &middot; The Foundling</h2>
-      <svg class="ill" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="lamp2" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#c87820"/>
-            <stop offset="80%" stop-color="#7a3800" stop-opacity=".3"/>
-            <stop offset="100%" stop-color="#7a3800" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <rect width="680" height="195" fill="#1a1008"/>
-        <!-- Liverpool dock suggestion -->
-        <rect x="0" y="140" width="680" height="55" fill="#120c04"/>
-        <rect x="80" y="80" width="60" height="65" fill="#0f0802"/>
-        <rect x="200" y="95" width="45" height="50" fill="#0f0802"/>
-        <!-- mast -->
-        <line x1="400" y1="30" x2="400" y2="145" stroke="#2a1e0e" stroke-width="4"/>
-        <line x1="340" y1="60" x2="460" y2="60" stroke="#2a1e0e" stroke-width="2"/>
-        <!-- lantern glow -->
-        <circle cx="220" cy="128" r="35" fill="url(#lamp2)" opacity=".8"/>
-        <circle cx="220" cy="128" r="8" fill="#e89030" opacity=".9"/>
-        <!-- Earnshaw silhouette with child -->
-        <rect x="290" y="115" width="10" height="35" fill="#0a0600" rx="2"/>
-        <circle cx="295" cy="110" r="7" fill="#0a0600"/>
-        <rect x="305" y="125" width="7" height="25" fill="#0a0600" rx="2"/>
-        <circle cx="308" cy="120" r="5" fill="#0a0600"/>
-        <text x="340" y="188" fill="#5a4a30" font-size="10" font-family="Georgia,serif" opacity=".5" text-anchor="middle">Liverpool, 1771</text>
-      </svg>
+    <div class="ch" data-t="II · The Foundling">
+      <h2 class="ch-title">II &middot; The Foundling</h2>
+      <p class="ch-sub">c. 1771–1783 — A child appears; a bond forms; cruelty sets the future in motion</p>
 
-      <p>Nelly Dean has lived at the Heights since childhood. She tells Lockwood how, some thirty years earlier, old <span class="cn-tip" data-char="Earnshaw">Mr Earnshaw</span> returned from a journey to Liverpool with a ragged dark-skinned boy he had found starving in the streets. He named the boy <span class="cn-tip" data-char="Heathcliff">Heathcliff</span> — a name that would serve as both given name and surname, the name of a dead son — and declared he would raise him as his own.</p>
+      <figure class="ch-illustration">
+  <img src="images/chapter_02.jpg"
+       alt="A solitary figure moves through a moody autumn moorland under a heavy, overcast sky — the wild landscape that shaped Catherine and Heathcliff's childhood bond.">
+  <figcaption class="ch-illus-caption">A solitary figure moves through a moody autumn moorland under a heavy, overcast sky — the wild landscape that shaped Catherine and Heathcliff's childhood bond.</figcaption>
+</figure>
 
-      <p>The household divided at once. <span class="cn-tip" data-char="Hindley">Hindley</span>, Earnshaw's son, burned with jealousy at the interloper who displaced him in his father's affections. But <span class="cn-tip" data-char="Catherine">Catherine</span>, the wild, headstrong daughter, was immediately drawn to the boy. They were inseparable from their first days together, roaming the moors in defiance of weather and propriety alike, forming a bond that felt older than circumstance.</p>
+      <p>Mr Earnshaw returns from <span class="loc-tip" data-loc="Liverpool">Liverpool</span> one evening with his coat wrapped around something — a ragged, starving boy he found alone in the city streets. He cannot say where the child came from. He names him <span class="cn-tip" data-char="Heathcliff">Heathcliff</span>, after a son who died, and that is all the origin the novel ever provides. The unknown origins carry weight the story never quite releases.</p>
 
-      <div class="quote">
-        &ldquo;He seemed a sullen, patient child; hardened, perhaps, to ill-treatment.&rdquo;<cite>— Ch. 4, Nelly Dean</cite>
+      <p><span class="cn-tip" data-char="HindleyEarnshaw">Hindley Earnshaw</span> loathes the intruder from the first hour. He is the heir; this foundling has no claim, no name, no place — and yet his father favours him. The resentment calcifies over years into something systematic. But <span class="cn-tip" data-char="CatherineEarnshaw">Catherine Earnshaw</span>, wild and quick and fearless, takes to Heathcliff immediately. They run together on <span class="loc-tip" data-loc="TheMoors">the moors</span> from childhood, two creatures who have found their other half.</p>
+
+      <div class="qt" data-qid="wuthering-heights-ch2-q1">
+        <p>"He's more myself than I am. Whatever our souls are made of, his and mine are the same."</p>
+        <cite>— Catherine Earnshaw, to Nelly Dean</cite>
       </div>
 
-      <p>When Earnshaw died, Hindley inherited the Heights and immediately began his revenge: Heathcliff was stripped of his education, turned into a servant, forbidden the company of the gentry. But degradation only hardened the bond between Heathcliff and Catherine. The moors became their kingdom — beyond class, beyond family, beyond any law the house could impose.</p>
+      <p>When Mr Earnshaw dies, Hindley inherits the Heights and moves swiftly. Heathcliff is stripped of his education, reduced to a farmhand, made to sleep in the servants' quarters. Every degradation is precise and intentional. Hindley does not simply resent Heathcliff — he sets about unmaking him, erasing the education and status that Earnshaw had given him, returning him to the condition of a street urchin.</p>
 
-      <div class="hl">
-        <strong>Origins and belonging</strong>
-        Heathcliff's race, parentage, and origin are never explained — deliberately. Bront&euml; makes him legible as Irish famine refugee, Romani traveller, or freed slave. His irreducible otherness is the engine of the novel: he is the person the English class system refuses to accommodate, and he will make that system pay.
-      </div>
+      <p>Heathcliff endures. He endures because Catherine is still there, still his, still slipping out at night to run across the dark moors with him — two outcasts who have made the wilderness their home. This is the period the novel holds as its lost paradise: before class, before marriage, before the world intervened. It will not last.</p>
 
-      <div class="sym-row">
-        <span class="sym">🌿 The moor as freedom</span>
-        <span class="sym">🔗 Class as cage</span>
-        <span class="sym">👤 Identity without origin</span>
+      <div class="ch-recap">
+        <p class="recap-title">The Making of a Monster</p>
+        <p>Hindley does not create Heathcliff's capacity for cruelty — but he gives it its shape. Every act of revenge Heathcliff commits later mirrors what was done to him here, with surgical precision. The novel forces the question: what is the difference between Hindley and Heathcliff — between the one who inflicted the original wound and the one who later mirrors it exactly?</p>
       </div>
     </div>
 
     <!-- CH 3 -->
-    <div class="ch" data-t="III">
-      <h2>Chapter III &middot; Love on the Moor</h2>
-      <svg class="ill" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="dusk3" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#6a3e20"/>
-            <stop offset="60%" stop-color="#3a1e08"/>
-            <stop offset="100%" stop-color="#1a0e02"/>
-          </linearGradient>
-        </defs>
-        <rect width="680" height="195" fill="url(#dusk3)"/>
-        <!-- moor -->
-        <ellipse cx="340" cy="220" rx="500" ry="80" fill="#1a1008"/>
-        <!-- heather suggestion -->
-        <ellipse cx="100" cy="175" rx="60" ry="12" fill="#4a2040" opacity=".6"/>
-        <ellipse cx="560" cy="170" rx="70" ry="10" fill="#4a2040" opacity=".5"/>
-        <ellipse cx="300" cy="180" rx="80" ry="10" fill="#3a1830" opacity=".5"/>
-        <!-- two figures -->
-        <rect x="310" y="140" width="9" height="32" fill="#0f0802" rx="2"/>
-        <circle cx="314" cy="134" r="6" fill="#0f0802"/>
-        <rect x="328" y="143" width="8" height="30" fill="#0f0802" rx="2"/>
-        <circle cx="332" cy="137" r="6" fill="#0f0802"/>
-        <!-- Thrushcross Grange glow far right -->
-        <rect x="570" y="105" width="70" height="55" fill="#0f0802" opacity=".6"/>
-        <rect x="585" y="115" width="14" height="12" fill="#c08020" opacity=".5" rx="1"/>
-        <rect x="610" y="115" width="14" height="12" fill="#c08020" opacity=".4" rx="1"/>
-        <!-- stars -->
-        <circle cx="120" cy="30" r="1.5" fill="#d4c8a8" opacity=".8"/>
-        <circle cx="280" cy="18" r="1" fill="#d4c8a8" opacity=".7"/>
-        <circle cx="450" cy="25" r="1.5" fill="#d4c8a8" opacity=".9"/>
-        <circle cx="600" cy="40" r="1" fill="#d4c8a8" opacity=".6"/>
-        <circle cx="50" cy="50" r="1" fill="#d4c8a8" opacity=".7"/>
-      </svg>
+    <div class="ch" data-t="III · Thrushcross Grange">
+      <h2 class="ch-title">III &middot; Thrushcross Grange</h2>
+      <p class="ch-sub">c. 1778–1783 — Civilisation claims Catherine; Heathcliff overhears what will destroy him</p>
 
-      <p>Peering through the windows of Thrushcross Grange one evening, <span class="cn-tip" data-char="Catherine">Catherine</span> and <span class="cn-tip" data-char="Heathcliff">Heathcliff</span> spy on the <span class="cn-tip" data-char="Linton">Linton</span> children — Edgar and Isabella — squabbling over a lap-dog in a room blazing with candlelight and crimson carpet. The two worlds could not be more different: the Lintons represent everything polished and possessed; Catherine and Heathcliff, wild and dispossessed, watch from the cold dark.</p>
+      <figure class="ch-illustration">
+  <img src="images/chapter_03.jpg"
+       alt="A young woman pauses at ornate park gates in her fine clothes, poised between two worlds — the untamed moors behind her and the polished refinement of the Linton estate ahead.">
+  <figcaption class="ch-illus-caption">A young woman pauses at ornate park gates in her fine clothes, poised between two worlds — the untamed moors behind her and the polished refinement of the Linton estate ahead.</figcaption>
+</figure>
 
-      <p>Catherine is caught by the Lintons' dog and injured. She is taken inside and kept for five weeks to recover; Heathcliff is turned away as a guttersnipe. When Catherine returns, she has absorbed some of the Grange's culture — its refinements, its manners — and something between them has imperceptibly shifted. She is still Catherine, but she is also becoming someone else. Heathcliff watches, and begins to understand what class costs.</p>
+      <p>One autumn evening, Catherine and Heathcliff slip away to spy on <span class="loc-tip" data-loc="ThrushcrossGrange">Thrushcross Grange</span>. Through the lit windows they see another world — carpeted floors, fine furniture, two children bickering over a lapdog in a room that seems to belong to a different England entirely. Then a dog bites Catherine's ankle as they flee, and the Lintons take her inside to recover.</p>
 
-      <div class="quote">
-        &ldquo;I am Heathcliff — he&rsquo;s always, always in my mind.&rdquo;<cite>— Ch. 9, Catherine to Nelly Dean</cite>
+      <p>She stays five weeks. She returns transformed — dressed well, her wildness smoothed into something that can pass in drawing rooms. Heathcliff, left at the Heights, has not been transformed. He notices the gap opening between them. <span class="cn-tip" data-char="EdgarLinton">Edgar Linton</span>, the Grange's gentle, fair-haired son, begins to court her.</p>
+
+      <p>Catherine tells <span class="cn-tip" data-char="NellyDean">Nelly</span> she has accepted Edgar's proposal. She knows she loves Heathcliff more deeply — he is her soul, her substance, not merely a person she desires. But Edgar can give her position, comfort, status. Heathcliff cannot. She means to marry Edgar and keep Heathcliff close, somehow. It is an impossibility she refuses to see as one.</p>
+
+      <p>What she does not know — what Nelly watches her not-know — is that Heathcliff is in the room. He hears her say she cannot marry him. He does not stay to hear her say that her love for him is "like the eternal rocks beneath." He is gone before she says it. He slips out of the Heights into the dark, and disappears entirely.</p>
+
+      <div class="qt" data-qid="wuthering-heights-ch3-q1">
+        <p>"My love for Linton is like the foliage in the woods: time will change it... My love for Heathcliff resembles the eternal rocks beneath: a source of little visible delight, but necessary."</p>
+        <cite>— Catherine Earnshaw, to Nelly Dean; Heathcliff has already left the room</cite>
       </div>
 
-      <p>Catherine confides to Nelly Dean that she has accepted <span class="cn-tip" data-char="Edgar">Edgar Linton</span>'s proposal of marriage. She insists her love for Edgar is like the leaves — changeable, earthly. But her love for Heathcliff is like the eternal rocks beneath — a source of little visible delight, but necessary. Heathcliff, hiding in the kitchen and hearing only the first half of the speech, steals out into the night before she can finish. He does not hear her say he is more herself than she is.</p>
-
-      <div class="hl">
-        <strong>The divided self</strong>
-        Catherine's famous declaration — "I am Heathcliff" — is not romantic hyperbole. It describes a metaphysical claim: that two selves have become one, that separation is not heartbreak but self-annihilation. Bront&euml; takes this literally. Catherine does not mourn Heathcliff's departure; she goes mad from the fracture of her own being.
+      <div class="ch-recap">
+        <p class="recap-title">The Choice That Unmakes Everything</p>
+        <p>Catherine does not choose Edgar over Heathcliff — she believes she can have both, that love and marriage are separate things. The novel does not let this stand. Her failure to imagine the cruelty of her position sets the catastrophe in motion.</p>
       </div>
     </div>
 
     <!-- CH 4 -->
-    <div class="ch" data-t="IV">
-      <h2>Chapter IV &middot; Humiliation &amp; Flight</h2>
-      <svg class="ill" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="rain4" cx="50%" cy="0%" r="80%">
-            <stop offset="0%" stop-color="#2a2a3a"/>
-            <stop offset="100%" stop-color="#0a0a0f"/>
-          </radialGradient>
-        </defs>
-        <rect width="680" height="195" fill="url(#rain4)"/>
-        <!-- rain lines -->
-        <line x1="50" y1="0" x2="30" y2="195" stroke="#303050" stroke-width="1" opacity=".5"/>
-        <line x1="130" y1="0" x2="110" y2="195" stroke="#303050" stroke-width="1" opacity=".4"/>
-        <line x1="210" y1="0" x2="190" y2="195" stroke="#303050" stroke-width="1" opacity=".5"/>
-        <line x1="310" y1="0" x2="290" y2="195" stroke="#303050" stroke-width="1" opacity=".3"/>
-        <line x1="400" y1="0" x2="380" y2="195" stroke="#303050" stroke-width="1" opacity=".4"/>
-        <line x1="500" y1="0" x2="480" y2="195" stroke="#303050" stroke-width="1" opacity=".5"/>
-        <line x1="620" y1="0" x2="600" y2="195" stroke="#303050" stroke-width="1" opacity=".4"/>
-        <!-- Heights silhouette -->
-        <rect x="420" y="70" width="180" height="110" fill="#0a0a0a"/>
-        <rect x="440" y="50" width="25" height="25" fill="#0a0a0a"/>
-        <rect x="550" y="45" width="20" height="30" fill="#0a0a0a"/>
-        <rect x="448" y="30" width="7" height="22" fill="#080808"/>
-        <rect x="555" y="25" width="7" height="22" fill="#080808"/>
-        <!-- window — dark, no light -->
-        <rect x="465" y="90" width="18" height="14" fill="#1a1a28" rx="1"/>
-        <!-- lone running figure -->
-        <rect x="180" y="148" width="8" height="28" fill="#0a0806" rx="2"/>
-        <circle cx="184" cy="142" r="6" fill="#0a0806"/>
-        <!-- road suggestion -->
-        <path d="M0 185 Q340 175 680 185" stroke="#1a1820" stroke-width="3" fill="none"/>
-      </svg>
+    <div class="ch" data-t="IV · The Return">
+      <h2 class="ch-title">IV &middot; The Return</h2>
+      <p class="ch-sub">1783–1784 — He comes back changed; she cannot survive the contradiction</p>
 
-      <p>The wedding of <span class="cn-tip" data-char="Catherine">Catherine</span> and <span class="cn-tip" data-char="Edgar">Edgar Linton</span> goes ahead. Heathcliff, humiliated at every turn by <span class="cn-tip" data-char="Hindley">Hindley</span> — who has by now drunk himself into ruin since the death of his wife Frances — disappears without warning into the night. Three years pass. Catherine settles into a kind of contentment at the Grange, becoming mistress of the house, suppressing the wildness that was always her truest self. It is a performance, and Nelly Dean can see the cost.</p>
+      <figure class="ch-illustration">
+  <img src="images/chapter_04.jpg"
+       alt="A moonlit lane gleams under a wet, cold sky — the desolate nocturnal atmosphere of Heathcliff's return and his agonised final reunion with the dying Catherine.">
+  <figcaption class="ch-illus-caption">A moonlit lane gleams under a wet, cold sky — the desolate nocturnal atmosphere of Heathcliff's return and his agonised final reunion with the dying Catherine.</figcaption>
+</figure>
 
-      <p>Meanwhile, Hindley sinks further into dissolution at the Heights. He gambles, drinks, neglects his son <span class="cn-tip" data-char="Hareton">Hareton</span>, and treats the estate with contempt. The Heights decays with him. The only person who seems to benefit from Hindley's destruction is Heathcliff — who is, of course, not yet there to collect.</p>
+      <p>Three years pass. <span class="cn-tip" data-char="CatherineEarnshaw">Catherine</span> is <span class="cn-tip" data-char="EdgarLinton">Edgar</span>'s wife, settled at <span class="loc-tip" data-loc="ThrushcrossGrange">Thrushcross Grange</span>. <span class="cn-tip" data-char="HindleyEarnshaw">Hindley</span> has drunk himself into ruin at the Heights since his wife's death. Then <span class="cn-tip" data-char="Heathcliff">Heathcliff</span> walks back.</p>
 
-      <div class="quote">
-        &ldquo;He had been used to sleeping in a room with Hindley as a child... he was now made to sleep with the horses.&rdquo;<cite>— Ch. 6, Nelly, recounting the degradation</cite>
+      <p>He is unrecognisable — or rather, the rough boy is recognisable underneath a transformation that seems willed into existence by pure fury. He is wealthy now, erect, commanding. He will not say where he has been or how he made his money. He moves into the Heights, where Hindley, desperate for gambling funds, cannot refuse him. And he calls on Catherine at the Grange.</p>
+
+      <p>The reunion is devastating. Catherine weeps with joy that she cannot explain to Edgar, who watches with the clarity of a man who sees exactly what is lost to him. Heathcliff and Catherine have not become less to each other — three years have made the feeling darker, more dangerous. But she is married. She is Edgar's. And Edgar is not Heathcliff.</p>
+
+      <div class="qt" data-qid="wuthering-heights-ch4-q1">
+        <p>"Be with me always — take any form — drive me mad! only do not leave me in this abyss, where I cannot find you! I cannot live without my life! I cannot live without my soul!"</p>
+        <cite>— Heathcliff, after Catherine's death, raging at her grave</cite>
       </div>
 
-      <div class="hl">
-        <strong>The wound of class</strong>
-        Hindley's persecution of Heathcliff is the novel's original violence — the point at which the class system acts through a petty individual to crush something extraordinary. Everything that follows is consequence. Bront&euml; does not excuse Heathcliff; she insists we understand the arithmetic of cause and effect.
-      </div>
+      <p>Catherine begins to fracture under the impossibility she has constructed. She cannot have both, and having half of either is unbearable. Her mind breaks first — a feverish illness that Nelly watches with a mixture of sympathy and judgement. She rallies briefly. She is pregnant. In the early hours of a March morning, she gives birth to a daughter — <span class="cn-tip" data-char="CathyLinton">Cathy Linton</span> — and dies before dawn. Heathcliff, waiting in the garden below, hears the news and howls at the sky.</p>
 
-      <div class="sym-row">
-        <span class="sym">🌧 Rain as abandonment</span>
-        <span class="sym">🚪 Flight &amp; return</span>
+      <div class="ch-recap">
+        <p class="recap-title">The Cost of Returning</p>
+        <p>Heathcliff comes back to claim what was taken from him. But Catherine cannot be claimed — she was already pulled apart by two worlds she refused to choose between. His return does not cause her death so much as reveal it was always coming.</p>
       </div>
     </div>
 
     <!-- CH 5 -->
-    <div class="ch" data-t="V">
-      <h2>Chapter V &middot; The Return</h2>
-      <svg class="ill" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="sun5" cx="60%" cy="40%" r="50%">
-            <stop offset="0%" stop-color="#c08030"/>
-            <stop offset="100%" stop-color="#3a1e08" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <rect width="680" height="195" fill="#2a1808"/>
-        <rect x="0" y="140" width="680" height="55" fill="#1a1008"/>
-        <!-- evening glow -->
-        <ellipse cx="500" cy="60" rx="200" ry="120" fill="url(#sun5)" opacity=".6"/>
-        <!-- Grange, lit warmly -->
-        <rect x="90" y="75" width="170" height="100" fill="#120c04"/>
-        <rect x="110" y="55" width="22" height="22" fill="#120c04"/>
-        <rect x="220" y="60" width="18" height="20" fill="#120c04"/>
-        <rect x="115" y="90" width="16" height="13" fill="#c09030" opacity=".8" rx="1"/>
-        <rect x="155" y="90" width="16" height="13" fill="#c09030" opacity=".7" rx="1"/>
-        <rect x="200" y="90" width="16" height="13" fill="#c09030" opacity=".6" rx="1"/>
-        <!-- tall figure, well-dressed -->
-        <rect x="370" y="125" width="11" height="40" fill="#0a0602" rx="2"/>
-        <circle cx="375" cy="118" r="8" fill="#0a0602"/>
-        <!-- hat brim -->
-        <rect x="362" y="116" width="26" height="4" fill="#0a0602" rx="2"/>
-        <text x="340" y="188" fill="#5a4a30" font-size="10" font-family="Georgia,serif" opacity=".5" text-anchor="middle">Thrushcross Grange, 1783</text>
-      </svg>
+    <div class="ch" data-t="V · Death and Revenge">
+      <h2 class="ch-title">V &middot; Death and Revenge</h2>
+      <p class="ch-sub">1784–1801 — Heathcliff takes everything; no estate, no person, no generation escapes</p>
 
-      <p>Three years after his flight, <span class="cn-tip" data-char="Heathcliff">Heathcliff</span> returns — and returns transformed. He is tall, well-made, well-dressed; he carries himself with a cold authority that commands respect where before he invited contempt. He says nothing of where he has been, how he has prospered, or what he intends. He says only that he has come back.</p>
+      <figure class="ch-illustration">
+  <img src="images/chapter_05.jpg"
+       alt="Dark woodland paths wind beneath bare autumn trees, evoking the grim, inexorable march of Heathcliff's revenge over the two families.">
+  <figcaption class="ch-illus-caption">Dark woodland paths wind beneath bare autumn trees, evoking the grim, inexorable march of Heathcliff's revenge over the two families.</figcaption>
+</figure>
 
-      <p><span class="cn-tip" data-char="Catherine">Catherine</span> is transported with joy. <span class="cn-tip" data-char="Edgar">Edgar</span> is discomfited — he recognises the man, cannot account for the transformation, and is immediately, correctly, afraid. Heathcliff takes lodgings at the Heights, where <span class="cn-tip" data-char="Hindley">Hindley</span> welcomes the deep-pocketed newcomer to his card table without recognising, or caring about, the danger. Heathcliff begins, methodically, to win the Heights from him.</p>
+      <p>With Catherine gone, Heathcliff's grief cures itself into something cold and methodical. He has a plan, and it is executed across two decades with the patience of a man who has nothing else to live for.</p>
 
-      <div class="quote">
-        &ldquo;He&rsquo;s a dark-skinned gypsy in aspect, in dress and manners a gentleman.&rdquo;<cite>— Ch. 7, Nelly Dean on the returned Heathcliff</cite>
+      <p>Hindley Earnshaw is easy — already half-ruined by drink and grief, he gambles away the Heights to Heathcliff and dies shortly after, leaving his young son <span class="cn-tip" data-char="HaretonEarnshaw">Hareton</span> in Heathcliff's care. Heathcliff raises Hareton exactly as Hindley raised him: denied education, denied dignity, kept useful and kept low. The mirror is exact and deliberate.</p>
+
+      <p>Edgar Linton's sister Isabella is less guarded than wisdom allows — she mistakes his cruelty for passion, reads the gothic outsider as romantic hero, and elopes with him despite every warning. The marriage is a calculated cruelty. He treats her with open contempt and she flees south, bearing his son: sickly, peevish <span class="cn-tip" data-char="CathyLinton">Linton Heathcliff</span>.</p>
+
+      <div class="qt" data-qid="wuthering-heights-ch5-q1">
+        <p>"I have not broken your heart — you have broken it; and in breaking it, you have broken mine."</p>
+        <cite>— Heathcliff to Catherine</cite>
       </div>
 
-      <p>Catherine insists on seeing Heathcliff. Edgar objects. She falls dangerously ill — refusing food, throwing herself into a fever that is as much psychological as physical. Bront&euml; presents the illness not as melodrama but as fact: Catherine Earnshaw cannot live in contradiction of her own nature, and her nature is Heathcliff. Edgar and Heathcliff face each other across her suffering like opposing poles of her divided self.</p>
+      <p>When Edgar Linton is dying, Heathcliff moves on the Grange. He lures young <span class="cn-tip" data-char="CathyLinton">Cathy Linton</span> — Catherine and Edgar's daughter, now sixteen — to the Heights and forces her marriage to his ailing son Linton Heathcliff. Edgar dies before she can return to him. Linton Heathcliff, already failing, dies weeks later. Cathy does not mourn the husband she was coerced into — she mourns her father, and she is given no time even for that: Heathcliff locks her at the Heights, a servant in the house she now technically owns through the very marriage he arranged. Both estates are his.</p>
 
-      <div class="hl">
-        <strong>Gothic transformation</strong>
-        Heathcliff's mysterious enrichment is the novel's deliberate blank — Bront&euml; never explains it. Readers have imagined everything from soldiering to slave-trading. The omission is the point: Heathcliff is a force the narrative refuses to fully domesticate. His return is not reconciliation; it is the beginning of a systematic settling of accounts.
+      <p>He has everything. He has nothing. Catherine is still dead.</p>
+
+      <div class="ch-recap">
+        <p class="recap-title">Revenge as Hollow Architecture</p>
+        <p>Every move Heathcliff makes is legally sound, financially precise, and emotionally exact — a mirror of every humiliation visited on him. But acquiring property and degrading his enemies does not bring Catherine back. The novel has been showing us this the whole time.</p>
       </div>
     </div>
 
     <!-- CH 6 -->
-    <div class="ch" data-t="VI">
-      <h2>Chapter VI &middot; Revenge Unfolds</h2>
-      <svg class="ill" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="fire6" cx="50%" cy="80%" r="60%">
-            <stop offset="0%" stop-color="#c04010"/>
-            <stop offset="70%" stop-color="#6a1800" stop-opacity=".4"/>
-            <stop offset="100%" stop-color="#1a0800" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <rect width="680" height="195" fill="#1a0e04"/>
-        <!-- fireplace glow from below -->
-        <ellipse cx="340" cy="220" rx="260" ry="80" fill="url(#fire6)" opacity=".8"/>
-        <!-- interior: two chairs, fireplace -->
-        <rect x="200" y="100" width="30" height="50" fill="#0f0802"/>
-        <rect x="450" y="100" width="30" height="50" fill="#0f0802"/>
-        <rect x="295" y="115" width="90" height="65" fill="#1a0e04"/>
-        <!-- fireplace arch -->
-        <path d="M295 180 Q340 115 385 180" fill="#100800"/>
-        <!-- flame glow -->
-        <ellipse cx="340" cy="175" rx="30" ry="10" fill="#c04010" opacity=".7"/>
-        <!-- figure L -->
-        <rect x="205" y="70" width="9" height="32" fill="#0a0602" rx="2"/>
-        <circle cx="209" cy="64" r="6" fill="#0a0602"/>
-        <!-- figure R -->
-        <rect x="457" y="70" width="9" height="32" fill="#0a0602" rx="2"/>
-        <circle cx="461" cy="64" r="6" fill="#0a0602"/>
-      </svg>
+    <div class="ch" data-t="VI · The Ghost Appeased">
+      <h2 class="ch-title">VI &middot; The Ghost Appeased</h2>
+      <p class="ch-sub">1802 — Something shifts; hatred exhausts itself; the moors remember</p>
 
-      <p>Heathcliff elopes with <span class="cn-tip" data-char="Isabella">Isabella Linton</span> — Edgar's naively romantic sister — not from desire but from calculation. She is his means of access to the Linton fortune and a wound in Edgar's flank. He makes no secret of his contempt for her. When Isabella writes to Nelly, horrified and disillusioned, describing the violence and degradation of her marriage, it reads like a dispatch from a prisoner who did not understand she was entering a cell.</p>
+      <figure class="ch-illustration">
+  <img src="images/chapter_06.jpg"
+       alt="Young Hareton and his cousin Cathy sit together in a quiet moment of growing tenderness, their bond offering the novel's sole note of redemptive hope.">
+  <figcaption class="ch-illus-caption">Young Hareton and his cousin Cathy sit together in a quiet moment of growing tenderness, their bond offering the novel's sole note of redemptive hope.</figcaption>
+</figure>
 
-      <p><span class="cn-tip" data-char="Catherine">Catherine</span>, meanwhile, collapses entirely. The illness that began as will becomes organic; the doctors speak of brain fever. She is pregnant. In her delirium she imagines herself back at the Heights as a child, she and Heathcliff together on the moor, before any of it — before class, before Edgar, before the division that is killing her. She dies giving birth to a daughter, <span class="cn-tip" data-char="Cathy2">young Cathy</span>.</p>
+      <p><span class="cn-tip" data-char="Lockwood">Lockwood</span> returns to the moors a year after his winter visit, expecting the same frozen tableau. Instead he finds <span class="loc-tip" data-loc="WutheringHeights">Wuthering Heights</span> softened — firelight visible through the windows, voices inside that sound almost like ordinary life. <span class="cn-tip" data-char="CathyLinton">Cathy Linton</span> and <span class="cn-tip" data-char="HaretonEarnshaw">Hareton Earnshaw</span> have discovered each other. They are reading together, and if Cathy is the teacher it is done with something gentle in it.</p>
 
-      <div class="quote">
-        &ldquo;May she wake in torment!&rdquo; — Heathcliff's curse upon Catherine for choosing Edgar.<cite>— Ch. 16</cite>
+      <p><span class="cn-tip" data-char="NellyDean">Nelly</span> tells him the rest. Something changed in <span class="cn-tip" data-char="Heathcliff">Heathcliff</span> after Cathy began to teach Hareton letters — something in seeing Hareton's face, seeing Catherine's eyes in a young man who had been degraded exactly as he once was. The vengeance had reproduced the original injury. He looked at it and could not eat, could not sleep. He saw <span class="cn-tip" data-char="CatherineEarnshaw">Catherine</span>'s face everywhere, felt the distance between them thinning to nothing.</p>
+
+      <div class="qt" data-qid="wuthering-heights-ch6-q1">
+        <p>"Catherine Earnshaw, may you not rest as long as I am living; you said I killed you — haunt me, then!"</p>
+        <cite>— Heathcliff, at Catherine's grave</cite>
       </div>
 
-      <p>Heathcliff, admitted to the dying Catherine at last, accuses her of breaking both their hearts by marrying Edgar. He holds her. She tells him he has killed her and she does not care. He tells her not to leave him. She leaves. He begs her ghost to haunt him forever — a beggar's prayer, and one the novel takes seriously. Standing over her grave, alone in the dark, he tears at the earth and speaks to the air.</p>
+      <p>He stopped eating. He sat alone in the room where Catherine's ghost had appeared to Lockwood and kept the window open. Nelly found him one morning in the alcove, rain on his face, the window swinging wide. Dead. His expression, she says, was not peaceful — but it was not in pain either. It was something she could not name.</p>
 
-      <div class="hl">
-        <strong>Love as destruction</strong>
-        Heathcliff does not love Catherine gently. His love is total, possessive, and finally lethal — to her and, by the novel's end, to himself. Bront&euml; does not romanticise this. She presents it as a fact of nature: certain forces are incompatible with survival in a social world, and will burn themselves out. The question is what they consume on the way.
-      </div>
+      <p>The local people say two figures walk the moors together on stormy nights. Lockwood passes the graves on his way south — Edgar, Catherine, Heathcliff, side by side. He wonders how anyone could imagine unquiet slumbers for the sleepers in that quiet earth. The novel does not share his confidence.</p>
 
-      <div class="sym-row">
-        <span class="sym">🔥 Fire as passion</span>
-        <span class="sym">👻 Haunting as continuity</span>
-        <span class="sym">⛓ Marriage as imprisonment</span>
+      <div class="ch-recap">
+        <p class="recap-title">What Survives the Storm</p>
+        <p>Cathy and Hareton — the second generation — inherit both houses and enough lightness to be happy. Where Catherine consumed Heathcliff and could not let go, Cathy approaches Hareton with patience; where wildness destroyed the first pair, education and earned understanding save the second. Heathcliff, having spent his rage and his grief, simply steps toward whatever he has been walking toward since Catherine died. The moors remain.</p>
       </div>
     </div>
 
     <!-- CH 7 -->
-    <div class="ch" data-t="VII">
-      <h2>Chapter VII &middot; The Second Generation</h2>
-      <svg class="ill" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="morn7" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#5a7080"/>
-            <stop offset="100%" stop-color="#2a3a40"/>
-          </linearGradient>
-        </defs>
-        <rect width="680" height="195" fill="url(#morn7)"/>
-        <rect x="0" y="155" width="680" height="40" fill="#1a2828"/>
-        <!-- young Cathy climbing -->
-        <rect x="190" y="130" width="8" height="28" fill="#0f1818" rx="2"/>
-        <circle cx="194" cy="124" r="6" fill="#0f1818"/>
-        <!-- Hareton on fence -->
-        <rect x="240" y="128" width="9" height="30" fill="#0f1010" rx="2"/>
-        <circle cx="244" cy="122" r="6" fill="#0f1010"/>
-        <!-- fence posts -->
-        <rect x="230" y="135" width="5" height="20" fill="#1a1208"/>
-        <rect x="260" y="135" width="5" height="20" fill="#1a1208"/>
-        <rect x="290" y="135" width="5" height="20" fill="#1a1208"/>
-        <!-- Heights, weathered -->
-        <rect x="400" y="80" width="200" height="100" fill="#0f1010"/>
-        <rect x="415" y="60" width="25" height="25" fill="#0f1010"/>
-        <rect x="555" y="55" width="20" height="30" fill="#0f1010"/>
-        <!-- Linton Heathcliff, frail -->
-        <rect x="460" y="138" width="6" height="22" fill="#0a0e0e" rx="2"/>
-        <circle cx="463" cy="133" r="5" fill="#0a0e0e"/>
-        <text x="340" y="188" fill="#3a5060" font-size="10" font-family="Georgia,serif" opacity=".5" text-anchor="middle">The moors, twelve years later</text>
-      </svg>
+    <div class="ch" data-t="Why it matters">
+      <h2 class="ch-title">Why It Matters</h2>
+      <p class="ch-sub">Themes, legacy, and what makes this novel still burn</p>
 
-      <p>The years pass. <span class="cn-tip" data-char="Cathy2">Young Cathy</span> — Catherine and Edgar's daughter — grows up at Thrushcross Grange, pretty, clever, and sheltered. Her father's great terror is that she will wander toward the Heights. She does, of course, discover the moors; she discovers <span class="cn-tip" data-char="Hareton">Hareton Earnshaw</span>, Hindley's son, degraded by Heathcliff's deliberate neglect into illiteracy and roughness; and she discovers <span class="cn-tip" data-char="LintonH">Linton Heathcliff</span>, Isabella's son, who has returned to his father after his mother's death — a pale, peevish, sickly boy who is both pawn and victim.</p>
-
-      <p>Heathcliff, seeing history before him, manufactures a romance between young Cathy and Linton — his frail, compliant son. The goal is direct: if Cathy marries Linton, then upon Linton's near-inevitable early death, Thrushcross Grange passes to Heathcliff. He will own both properties. He will possess everything the Earnshaws and Lintons ever had.</p>
-
-      <div class="quote">
-        &ldquo;I want him to be my heir, and I want him to acquire wealth and position for me.&rdquo;<cite>— Ch. 20, Heathcliff on Linton</cite>
+      <div class="theme-grid">
+        <div class="theme-card">
+          <h3>Love as Identity</h3>
+          <p>Catherine and Heathcliff do not love each other — they claim to <em>be</em> each other. "He's more myself than I am." This is not romance; it is ontology. The novel asks what destruction follows when this identity-bond is severed by class, convention, and a woman's need for comfort. It offers no clean answer.</p>
+        </div>
+        <div class="theme-card">
+          <h3>Class and Its Violence</h3>
+          <p>Heathcliff arrives with no name, no history, no race the novel will specify. Society strips him to nothing; his revenge is perfectly calibrated to mirror every humiliation. The novel refuses to let us condemn him simply — it insists we see his tormentors in his actions. Monster or product? Both, simultaneously.</p>
+        </div>
+        <div class="theme-card">
+          <h3>Wild vs. Civilised</h3>
+          <p>The moors and the Heights represent passion, freedom, cold, death. The Grange represents warmth, refinement, compromise, life. Catherine tries to inhabit both worlds; it kills her. Every character must choose — or discovers the choice was made for them. The moors have no sentimentality about who wins.</p>
+        </div>
+        <div class="theme-card">
+          <h3>Legacy and Endurance</h3>
+          <p>Bront&euml; died at thirty, having published one novel under a male pseudonym. <em>Wuthering Heights</em> was dismissed as brutal and formless in 1847. It has never gone out of print. Adapted for film over twenty times, inspiring Kate Bush, Sylvia Plath, and virtually every Gothic novelist since. Its power resists explanation — which may be the point.</p>
+        </div>
       </div>
 
-      <p>Edgar Linton, dying, tries to prevent the marriage by appealing to the courts to alter his will. He is too late. Heathcliff lures Cathy to the Heights on a false pretext, keeps her captive long enough to force the wedding, and Edgar dies without seeing his daughter again. The trap closes. The revenge, taking twenty-five years to build, is now complete — on paper.</p>
-
-      <div class="hl">
-        <strong>The inheritance of suffering</strong>
-        The second generation re-enacts the first — but as tragedy becomes mechanism. Hareton is Heathcliff: the capable, passionate person denied education and dignity by a vindictive guardian. Cathy is Catherine: the bright woman constrained by circumstance. Linton Heathcliff is the cruelest irony — a son Heathcliff cannot love, a weapon he is compelled to use.
+      <div class="fact-card">
+        <h3>Surprising Facts</h3>
+        <ul>
+          <li>Emily published as "Ellis Bell" — her publishers and most readers assumed the author was male. Her sex was revealed only after her death.</li>
+          <li>The novel was poorly received on first publication. Critics found it "coarse" and "brutal." One called Heathcliff "a deformed monster." Charlotte Bront&euml; spent years defending her sister's reputation.</li>
+          <li>Kate Bush wrote and recorded "Wuthering Heights" in a single night in 1977, aged eighteen. It reached number one in the UK and became one of the best-known pop songs of the twentieth century.</li>
+          <li>Emily drew heavily on the landscape around Haworth, Yorkshire, where she spent almost her entire life. The farmhouse thought to inspire Wuthering Heights — Top Withens — still stands, ruined, on the moor.</li>
+          <li>Heathcliff's racial identity is deliberately ambiguous. Earnshaw calls him a "gipsy brat"; characters call him "dark"; his origin in Liverpool — a major slave-trade port — is rarely accidental. Scholars have debated his possible mixed-race background for decades.</li>
+          <li>The novel has two interlocking timeframes separated by a generation — a structural complexity that confused early readers but is now considered one of its greatest achievements.</li>
+        </ul>
       </div>
     </div>
 
     <!-- CH 8 -->
-    <div class="ch" data-t="VIII">
-      <h2>Chapter VIII &middot; Ruin &amp; Release</h2>
-      <svg class="ill" viewBox="0 0 680 195" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="dawn8" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stop-color="#1a1008"/>
-            <stop offset="60%" stop-color="#4a3020"/>
-            <stop offset="100%" stop-color="#8a6040"/>
-          </linearGradient>
-        </defs>
-        <rect width="680" height="195" fill="url(#dawn8)"/>
-        <!-- ground -->
-        <rect x="0" y="158" width="680" height="37" fill="#0f0a04"/>
-        <!-- moor in early light -->
-        <ellipse cx="340" cy="162" rx="500" ry="20" fill="#1a1208" opacity=".8"/>
-        <!-- Heights: one window lit -->
-        <rect x="260" y="70" width="190" height="100" fill="#100c06"/>
-        <rect x="278" y="52" width="24" height="23" fill="#100c06"/>
-        <rect x="405" y="48" width="20" height="28" fill="#100c06"/>
-        <rect x="285" y="32" width="7" height="20" fill="#0c0804"/>
-        <rect x="408" y="26" width="7" height="24" fill="#0c0804"/>
-        <!-- one golden window -->
-        <rect x="305" y="92" width="18" height="14" fill="#d09030" opacity=".9" rx="1"/>
-        <!-- solitary figure at window interior suggestion -->
-        <!-- Hareton and Cathy together, small, before the house -->
-        <rect x="368" y="145" width="7" height="22" fill="#0a0602" rx="2"/>
-        <circle cx="371" cy="139" r="5" fill="#0a0602"/>
-        <rect x="380" y="147" width="7" height="20" fill="#0a0602" rx="2"/>
-        <circle cx="383" cy="141" r="5" fill="#0a0602"/>
-        <text x="340" y="188" fill="#5a4a30" font-size="10" font-family="Georgia,serif" opacity=".5" text-anchor="middle">Wuthering Heights, 1802</text>
-      </svg>
+    <div class="ch" data-t="Quotes">
+      <h2 class="ch-title">Celebrated Quotes</h2>
+      <p class="ch-sub">The lines that have lasted</p>
 
-      <p>Linton Heathcliff dies, as expected, months after the forced marriage. Young <span class="cn-tip" data-char="Cathy2">Cathy</span> is now a widow and a prisoner at the Heights, subject to the man who destroyed her father. But something unexpected is happening. <span class="cn-tip" data-char="Heathcliff">Heathcliff</span>, who has won everything, finds he cannot collect.</p>
-
-      <p>Looking at <span class="cn-tip" data-char="Hareton">Hareton</span>, he sees <span class="cn-tip" data-char="Catherine">Catherine</span> — her eyes in the young man's face. Looking at young Cathy, he sees her too. The objects of his revenge are mirrors of the people he loved and destroyed. He loses his appetite. He cannot eat. He begins to see Catherine everywhere — waking, in the dark, on the moor. She is in every face he turns toward.</p>
-
-      <div class="quote">
-        &ldquo;I have to remind myself to breathe — almost to remind my heart to beat.&rdquo;<cite>— Ch. 33, Heathcliff to Nelly Dean</cite>
+      <div class="fp-quote">
+        <p class="fp-text">"He's more myself than I am. Whatever our souls are made of, his and mine are the same."</p>
+        <p class="fp-attr">— Catherine Earnshaw, to Nelly Dean</p>
+        <button class="fp-toggle" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Catherine is not describing romantic love — she is describing identity. Heathcliff is not her beloved; he is her substance. This is the line the entire novel turns on: if souls can be identical, can they be separated? What happens when they are?</div>
       </div>
 
-      <p>Meanwhile, <span class="cn-tip" data-char="Cathy2">young Cathy</span> begins teaching <span class="cn-tip" data-char="Hareton">Hareton</span> to read. The tenderness between them — unlikely, tentative — is the novel's only new growth. It is not a repetition of their parents; it is something the second generation has built against the grain of their inheritance. Heathcliff, watching them, experiences something he cannot name.</p>
-
-      <p>He stops eating entirely. He dies alone in Catherine's old room, the window open, rain-wet, his face — Nelly says — wearing an expression not of suffering but of fierce exultation. He is buried, as he asked, beside Catherine, with the sides of both coffins removed so that they mingle in the earth. The country people say they walk the moors together still.</p>
-
-      <div class="hl">
-        <strong>Dissolution as reunion</strong>
-        Heathcliff does not die of grief in any clinical sense — he dies of completion. He has fulfilled the only desire that ever animated him: to be with Catherine, beyond the body, beyond class, beyond the social world that kept them apart. Whether the ghost-sightings are real or the projection of guilty minds, Bront&euml; leaves carefully, lovingly open.
+      <div class="fp-quote">
+        <p class="fp-text">"If all else perished, and he remained, I should still continue to be; and if all else remained, and he were annihilated, the universe would turn to a mighty stranger."</p>
+        <p class="fp-attr">— Catherine Earnshaw</p>
+        <button class="fp-toggle" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Catherine is saying that Heathcliff is not someone she loves — he is the condition of her own existence. Without him, the world becomes alien. This is the most philosophically radical claim in Victorian fiction about the nature of love.</div>
       </div>
 
-      <div class="sym-row">
-        <span class="sym">🌅 Dawn as hope for Cathy &amp; Hareton</span>
-        <span class="sym">👁 Eyes as inheritance</span>
-        <span class="sym">🪟 Open window as passage</span>
-      </div>
-    </div>
-
-    <!-- CH 9 — Why it matters -->
-    <div class="ch" data-t="wim">
-      <h2>✦ Why it Matters</h2>
-
-      <h3>The central argument</h3>
-      <ul class="wim-bullets">
-        <li>Bront&euml; insists that the deepest love is not compatible with the social world — it can only be fulfilled in death or dissolution.</li>
-        <li>Class is not background texture but the machine that produces all the novel's violence; Heathcliff's revenge is the mirror the system deserves.</li>
-        <li>The two narrative generations test whether cycles of damage can be broken — and tentatively suggest they can, but only through tenderness and education.</li>
-        <li>The novel refuses resolution: Heathcliff is simultaneously monster and victim, and Bront&euml; never blinks at either.</li>
-      </ul>
-
-      <div class="card-grid">
-        <div class="card">
-          <h4>Love &amp; Self</h4>
-          <p>Catherine's "I am Heathcliff" is the novel's philosophical centre. Bront&euml; imagines love not as feeling but as identity — to love is to be constituted by another person, and loss is therefore not grief but fragmentation.</p>
-        </div>
-        <div class="card">
-          <h4>Class &amp; Violence</h4>
-          <p>Every act of Heathcliff's revenge traces back to a precise prior act of class humiliation. Bront&euml; constructs the revenge with the rigour of a moral accountant — and then complicates it by showing what revenge costs its architect.</p>
-        </div>
-        <div class="card">
-          <h4>Nature vs Society</h4>
-          <p>The moor is the novel's moral landscape — amoral, ungovernable, alive. Every character who belongs to it (Catherine, Heathcliff) is destroyed by the effort of living in society. Every character who belongs to society (Edgar, Isabella) is destroyed by contact with the moor.</p>
-        </div>
-        <div class="card">
-          <h4>The Uncanny</h4>
-          <p>Whether Catherine haunts Heathcliff literally or psychologically, the novel treats the question seriously. Bront&euml; does not close the supernatural door; she leaves it open on the dark, and that ambiguity is itself an argument about how the past inhabits us.</p>
-        </div>
+      <div class="fp-quote">
+        <p class="fp-text">"Be with me always — take any form — drive me mad! only do not leave me in this abyss, where I cannot find you! I cannot live without my life! I cannot live without my soul!"</p>
+        <p class="fp-attr">— Heathcliff, after Catherine's death, raging at her grave</p>
+        <button class="fp-toggle" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Heathcliff does not ask Catherine to rest — he demands she haunt him. His grief is not passive; it is a command. "I cannot live without my life" is perhaps the most concentrated paradox in the novel: she is literally his life, not a metaphor for it.</div>
       </div>
 
-      <h3>Why it endures</h3>
-      <div class="stat-row">
-        <div class="stat">
-          <span class="n">1847</span>
-          <span class="l">Published under the pseudonym Ellis Bell</span>
-        </div>
-        <div class="stat">
-          <span class="n">180+</span>
-          <span class="l">Years in continuous print</span>
-        </div>
-        <div class="stat">
-          <span class="n">1 novel</span>
-          <span class="l">Emily Bront&euml;'s only work of fiction</span>
-        </div>
+      <div class="fp-quote">
+        <p class="fp-text">"I wish I were a girl again, half-savage and hardy, and free."</p>
+        <p class="fp-attr">— Catherine Earnshaw, on her deathbed</p>
+        <button class="fp-toggle" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Spoken as Catherine is dying, pregnant with Edgar's child. She does not wish to be with Heathcliff — she wishes to be the version of herself that existed before the choice. The moors, not any man, are what she has lost.</div>
       </div>
-      <ul class="wim-bullets">
-        <li>Critics initially condemned it as brutal and structurally confusing; within a generation it was canonised.</li>
-        <li>Kate Bush's 1978 song brought the novel to a global audience who had never read it — and sent them back to the text.</li>
-        <li>It sits at the intersection of Romanticism and Gothic fiction and belongs comfortably to neither.</li>
-        <li>It is one of the only canonical novels in which the romantic lead is plausibly read as a person of colour, making its racial politics permanently modern.</li>
-        <li>The double-narrative structure — Lockwood, Nelly, the diaries — anticipates modernist experiments in unreliable narration by fifty years.</li>
-      </ul>
 
-      <h3>Three most famous passages</h3>
-      <div class="pull-quote">
-        <p>&ldquo;I am Heathcliff — he&rsquo;s always, always in my mind.&rdquo;</p>
-        <p class="why">This is not a declaration of romantic feeling but an ontological claim. Catherine is not saying she loves Heathcliff; she is saying she <em>is</em> him — that her selfhood is constituted by his existence. The sentence rewrites what a love story can be.</p>
+      <div class="fp-quote">
+        <p class="fp-text">"Catherine Earnshaw, may you not rest as long as I am living; you said I killed you — haunt me, then!"</p>
+        <p class="fp-attr">— Heathcliff, at Catherine's grave</p>
+        <button class="fp-toggle" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">The most famous ghost-summoning in English literature. Heathcliff does not want Catherine at peace; he wants her present, even as a torment. His grief has always been this: not to mourn but to pursue.</div>
       </div>
-      <div class="pull-quote">
-        <p>&ldquo;Be with me always — take any form — drive me mad.&rdquo;</p>
-        <p class="why">Heathcliff over Catherine's grave. This is the novel's emotional summit — the moment when the love-plot becomes openly supernatural. He is not asking for comfort; he is demanding haunting. It is the most unguarded sentence in the book.</p>
+
+      <div class="fp-quote">
+        <p class="fp-text">"Nelly, I am Heathcliff!"</p>
+        <p class="fp-attr">— Catherine Earnshaw, the novel's most famous declaration</p>
+        <button class="fp-toggle" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Four words. Catherine does not say she loves him, or belongs to him, or cannot live without him. She says she <em>is</em> him. The entire philosophical framework of the novel is compressed into this sentence.</div>
       </div>
-      <div class="pull-quote">
-        <p>&ldquo;I have to remind myself to breathe — almost to remind my heart to beat.&rdquo;</p>
-        <p class="why">Heathcliff near death. The sentence describes not grief but the literal failure of the body when the animating purpose is exhausted. Bront&euml; turns a metaphor — heartbreak — back into physiology. The revenge is done; the engine stops.</p>
+
+      <div class="fp-quote">
+        <p class="fp-text">"I have not broken your heart — you have broken it; and in breaking it, you have broken mine."</p>
+        <p class="fp-attr">— Heathcliff to Catherine</p>
+        <button class="fp-toggle" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Heathcliff refuses the role of destroyer. He insists that Catherine, in choosing Edgar and then refusing to choose fully, inflicted the original wound on both of them. It is his most precise accusation — and possibly his most accurate one.</div>
+      </div>
+
+      <div class="fp-quote">
+        <p class="fp-text">"If he loved with all the powers of his puny being, he couldn't love as much in eighty years as I could in a day."</p>
+        <p class="fp-attr">— Catherine Earnshaw, on Edgar Linton</p>
+        <button class="fp-toggle" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Catherine is not boasting — she is stating something she believes to be as plain as arithmetic. Edgar's love is decent, steady, civilised; hers for Heathcliff is of a different order entirely, closer to a force of nature than an emotion. The line exposes the impossible position she occupies: she has chosen the man whose capacity for love cannot match her own, and she knows it.</div>
       </div>
     </div>
 
-    <!-- CH 10 — Quiz -->
-    <div class="ch" data-t="quiz">
-      <h2>✎ Quiz</h2>
-      <p>Three questions on the themes and ideas of <em>Wuthering Heights</em>. Not plot recall — understanding.</p>
+    <!-- CH 9 -->
+    <div class="ch" data-t="Quiz">
+      <h2 class="ch-title">Quiz</h2>
+      <p class="ch-sub">Three questions on the ideas beneath the story</p>
 
-      <p class="qz-q">1. Catherine marries Edgar Linton despite her love for Heathcliff. What does Bront&euml; argue through this choice?</p>
-      <div id="q1-opts">
-        <button class="qz-opt" onclick="answer(1,'a')">a) That Catherine is shallow and values comfort over love</button>
-        <button class="qz-opt" onclick="answer(1,'b')">b) That social forces can split a self against itself, and that the fracture is fatal</button>
-        <button class="qz-opt" onclick="answer(1,'c')">c) That Edgar is a better match for Catherine's refined later character</button>
+      <div class="quiz-q" id="qq1">
+        <p>1. Catherine says "I am Heathcliff." What does this claim most precisely express?</p>
+        <ul class="quiz-opts">
+          <li><button onclick="answer(1,'a')">a) Her romantic obsession with him</button></li>
+          <li><button onclick="answer(1,'b')">b) That their identities are fused — he is her self, not merely her beloved</button></li>
+          <li><button onclick="answer(1,'c')">c) Her wish to escape class constraints through him</button></li>
+          <li><button onclick="answer(1,'d')">d) Her guilt at having chosen Edgar</button></li>
+        </ul>
+        <div class="quiz-fb" id="qf1"></div>
       </div>
-      <div class="qz-fb" id="q1-fb"></div>
 
-      <p class="qz-q">2. Why does Heathcliff's revenge ultimately fail him, even after he succeeds?</p>
-      <div id="q2-opts">
-        <button class="qz-opt" onclick="answer(2,'a')">a) Because Hareton and young Cathy resist him too effectively</button>
-        <button class="qz-opt" onclick="answer(2,'b')">b) Because possessing property cannot fill the absence that drives him; Catherine is not in the things he wins</button>
-        <button class="qz-opt" onclick="answer(2,'c')">c) Because he runs out of money before completing his plan</button>
+      <div class="quiz-q" id="qq2">
+        <p>2. Heathcliff's revenge is systematic and legally sound. What does this reveal about the novel's view of class violence?</p>
+        <ul class="quiz-opts">
+          <li><button onclick="answer(2,'a')">a) That Heathcliff is simply evil by nature</button></li>
+          <li><button onclick="answer(2,'b')">b) That property law always favours the wealthy</button></li>
+          <li><button onclick="answer(2,'c')">c) That cruelty learned from society can be turned back on it with equal force — the oppressed and oppressor mirror each other</button></li>
+          <li><button onclick="answer(2,'d')">d) That love transforms people into monsters</button></li>
+        </ul>
+        <div class="quiz-fb" id="qf2"></div>
       </div>
-      <div class="qz-fb" id="q2-fb"></div>
 
-      <p class="qz-q">3. The double narrative — Lockwood recording Nelly's account — creates two unreliable narrators. What is Bront&euml; arguing through this structure?</p>
-      <div id="q3-opts">
-        <button class="qz-opt" onclick="answer(3,'a')">a) That the story is too complex for one perspective to carry</button>
-        <button class="qz-opt" onclick="answer(3,'b')">b) That extreme feeling resists testimony — what happened between Catherine and Heathcliff cannot be fully comprehended by anyone watching from outside</button>
-        <button class="qz-opt" onclick="answer(3,'c')">c) That Victorian readers required a respectable narrator framing a scandalous story</button>
-      </div>
-      <div class="qz-fb" id="q3-fb"></div>
-
-      <div id="qz-score">
-        <div id="score-n"></div>
-        <div id="score-msg"></div>
+      <div class="quiz-q" id="qq3">
+        <p>3. Why does Cathy and Hareton's relationship matter to the novel's ending?</p>
+        <ul class="quiz-opts">
+          <li><button onclick="answer(3,'a')">a) It proves that love always conquers class difference</button></li>
+          <li><button onclick="answer(3,'b')">b) It allows Heathcliff to reclaim Thrushcross Grange</button></li>
+          <li><button onclick="answer(3,'c')">c) It shows Nelly Dean was right all along</button></li>
+          <li><button onclick="answer(3,'d')">d) It offers a second-generation resolution — passion tempered by education, wildness met with patience — that the first generation destroyed itself refusing</button></li>
+        </ul>
+        <div class="quiz-fb" id="qf3"></div>
       </div>
     </div>
 
-    <!-- Tension + Nav -->
+    <!-- Nav -->
     <div class="nr">
       <button id="pb" onclick="nav(-1)" disabled>&#8592; Back</button>
-      <span><span id="nc">1</span> / <span id="ntot">11</span></span>
+      <span><span id="nc">1</span> / <span id="ntot">9</span></span>
       <button id="fwb" onclick="nav(1)">Next &#8594;</button>
     </div>
-
   </div>
 </div>
 
 <div class="tip-box" id="tipbox">
   <div class="tip-name" id="tipname"></div>
   <div class="tip-pron" id="tippron">
-    <span></span>
+    <span id="tiprontext"></span>
     <button class="tip-speak" id="tipspeak" title="Hear pronunciation">&#9654; hear</button>
   </div>
   <div class="tip-desc" id="tipdesc"></div>
@@ -945,106 +791,133 @@ function go(i) {
   window.scrollTo({top:0, behavior:'smooth'});
 }
 function nav(d) { go(c+d); }
+function toggleNote(btn) {
+  var note = btn.closest('.fp-quote').querySelector('.fp-note');
+  var open = note.classList.toggle('open');
+  btn.classList.toggle('active', open);
+  btn.textContent = open ? '▾ explain' : '▸ explain';
+}
 </script>
 
 <script>
 var CHARS = {
-  Lockwood:  { pron:"LOK-wood",  speak:"Lockwood",              desc:"Narrator and tenant at Thrushcross Grange, a self-styled misanthrope from London." },
-  Heathcliff:{ pron:"HEETH-klif",speak:"Heathcliff",            desc:"Foundling raised at the Heights, driven by a love that becomes systematic vengeance." },
-  Catherine: { pron:"KATH-rin",  speak:"Catherine Earnshaw",    desc:"Wild, passionate daughter of the Heights, divided between nature and society." },
-  Edgar:     { pron:"EHD-gar",   speak:"Edgar Linton",          desc:"Gentle, cultivated owner of Thrushcross Grange who marries Catherine." },
-  Hindley:   { pron:"HIND-lee",  speak:"Hindley Earnshaw",      desc:"Catherines brother whose jealousy and dissolution make him an instrument of cruelty." },
-  Nelly:     { pron:"NEH-lee",   speak:"Nelly Dean",            desc:"Housekeeper and primary narrator whose loyalties shape what she chooses to tell." },
-  Joseph:    { pron:"JOH-zef",   speak:"Joseph",                desc:"Fanatically religious servant at the Heights, a chorus of condemnation." },
-  Earnshaw:  { pron:"URNZ-haw",  speak:"Mr Earnshaw",           desc:"Patriarch of Wuthering Heights who brings Heathcliff home from Liverpool." },
-  Isabella:  { pron:"iz-uh-BEH-lah", speak:"Isabella Linton",  desc:"Edgars sister who elopes with Heathcliff and discovers her romantic illusions are fatal." },
-  Hareton:   { pron:"HAIR-eh-tun",speak:"Hareton Earnshaw",     desc:"Hindleys son, degraded by Heathcliff into illiteracy, yet the novels quiet hope." },
-  Cathy2:    { pron:"KATH-ee",   speak:"young Cathy Linton",    desc:"Catherines daughter, spirited and kind, who breaks the cycle through tenderness." },
-  LintonH:   { pron:"LIN-tun",   speak:"Linton Heathcliff",     desc:"Heathcliffs sickly son, used as a pawn to secure Thrushcross Grange." },
-  Linton:    { pron:"LIN-tun",   speak:"the Linton family",     desc:"Gentry family of Thrushcross Grange representing refinement and social propriety." }
+  Heathcliff: { pron:"HETH-cliff", speak:"Heathcliff", desc:"Orphan foundling raised at Wuthering Heights; love for Catherine and humiliation by Hindley harden into lifelong vengeance." },
+  CatherineEarnshaw: { pron:"ERN-shaw", speak:"Catherine Earnshaw", desc:"Wild daughter of the Heights; insists Heathcliff is not her lover but her very soul." },
+  EdgarLinton: { pron:"LIN-tun", speak:"Edgar Linton", desc:"Gentle, civilised owner of Thrushcross Grange; marries Catherine; loses her to her obsession." },
+  NellyDean: { pron:"NEL-ee", speak:"Nelly Dean", desc:"Housekeeper and narrator; moral anchor of the tale." },
+  HindleyEarnshaw: { pron:"HIND-lee", speak:"Hindley Earnshaw", desc:"Brother to Catherine; torments Heathcliff into servitude; destroys himself through drink and debt." },
+  CathyLinton: { pron:"KATH-ee", speak:"Cathy Linton", desc:"Daughter of Catherine and Edgar; inherits the fire of Catherine without the fatal self-division." },
+  HaretonEarnshaw: { pron:"HAIR-eh-tun", speak:"Hareton Earnshaw", desc:"Son of Hindley; degraded by Heathcliff into illiteracy; the novel quiet redeemer." },
+  Lockwood: { pron:"LOK-wood", speak:"Lockwood", desc:"London gentleman narrator; outsider who frames the whole story." }
+};
+var LOCS = {
+  WutheringHeights: { desc: "Storm-battered Earnshaw farmhouse on the moor heights; gothic, wild, cold; the emotional heart of the novel." },
+  ThrushcrossGrange: { desc: "The Linton estate in the valley; refined, warm, civilised — everything Wuthering Heights is not." },
+  TheMoors: { desc: "Wild expanse between the two houses; where Catherine and Heathcliff truly belong; freedom, danger, and belonging." },
+  Liverpool: { desc: "Port city where Earnshaw found the starving orphan Heathcliff; his unknown origins carry racial and social weight." }
 };
 
-var tipbox   = document.getElementById("tipbox");
-var tipname  = document.getElementById("tipname");
-var tippron  = document.getElementById("tippron");
+var tipbox = document.getElementById("tipbox");
+var tipname = document.getElementById("tipname");
+var tiprontext = document.getElementById("tiprontext");
 var tipspeak = document.getElementById("tipspeak");
-var tipdesc  = document.getElementById("tipdesc");
-var hideTimer = null;
-var currentSpeakText = "";
+var tipdesc = document.getElementById("tipdesc");
+var tippron = document.getElementById("tippron");
 
-function placeTip(e) {
-  var x = e.clientX + 16, y = e.clientY + 16;
-  if (x + 260 > window.innerWidth)  x = e.clientX - 264;
-  if (y + 120 > window.innerHeight) y = e.clientY - 124;
-  tipbox.style.left = x + "px";
-  tipbox.style.top  = y + "px";
+var currentSpeak = "";
+
+function placeTip(el) {
+  var rect = el.getBoundingClientRect();
+  var bw = tipbox.offsetWidth || 270;
+  var left = rect.left + window.scrollX;
+  var top = rect.bottom + window.scrollY + 6;
+  if (left + bw > window.innerWidth - 12) { left = window.innerWidth - bw - 12; }
+  if (left < 8) { left = 8; }
+  tipbox.style.left = left + "px";
+  tipbox.style.top = top + "px";
 }
-function showTip(el, e) {
-  clearTimeout(hideTimer);
-  var ch = CHARS[el.getAttribute("data-char")];
-  if (!ch) return;
-  currentSpeakText = ch.speak;
-  tipname.textContent = el.getAttribute("data-char") === "Cathy2" ? "Young Cathy" : el.getAttribute("data-char") === "LintonH" ? "Linton Heathcliff" : el.getAttribute("data-char");
-  tippron.querySelector("span").textContent = ch.pron;
-  tipdesc.textContent = ch.desc;
-  placeTip(e);
+
+function showTip(el, name, pron, desc, isLoc) {
+  tipname.textContent = name;
+  tiprontext.textContent = pron || "";
+  tipdesc.textContent = desc;
+  currentSpeak = name;
+  if (isLoc) {
+    tippron.style.display = "none";
+  } else {
+    tippron.style.display = "flex";
+  }
   tipbox.style.display = "block";
+  placeTip(el);
 }
+
 function hideTip() {
-  hideTimer = setTimeout(function(){ tipbox.style.display = "none"; }, 150);
+  tipbox.style.display = "none";
 }
-tipbox.addEventListener("mouseenter", function(){ clearTimeout(hideTimer); });
-tipbox.addEventListener("mouseleave", hideTip);
-tipspeak.addEventListener("click", function(e) {
-  e.stopPropagation();
-  if (!window.speechSynthesis || !currentSpeakText) return;
-  var u = new SpeechSynthesisUtterance(currentSpeakText);
-  u.lang = "en-GB";
-  u.rate = 0.8;
-  speechSynthesis.cancel();
-  speechSynthesis.speak(u);
-});
+
 document.querySelectorAll(".cn-tip").forEach(function(el) {
-  el.addEventListener("mouseenter", function(e){ showTip(el, e); });
+  el.addEventListener("mouseenter", function() {
+    var key = el.getAttribute("data-char");
+    var ch = CHARS[key];
+    if (ch) { showTip(el, ch.speak, ch.pron, ch.desc, false); }
+  });
   el.addEventListener("mouseleave", hideTip);
 });
 
-var qAnswers  = { 1:"b", 2:"b", 3:"b" };
-var qDone     = {};
+document.querySelectorAll(".loc-tip").forEach(function(el) {
+  el.addEventListener("mouseenter", function() {
+    var key = el.getAttribute("data-loc");
+    var lo = LOCS[key];
+    if (lo) { showTip(el, key.replace(/([A-Z])/g, " $1").trim(), "", lo.desc, true); }
+  });
+  el.addEventListener("mouseleave", hideTip);
+});
+
+tipspeak.addEventListener("click", function() {
+  if (!currentSpeak) { return; }
+  var utt = new SpeechSynthesisUtterance(currentSpeak);
+  utt.lang = "en-GB";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utt);
+});
+
+var qAnswers = {1:"b", 2:"c", 3:"d"};
+var qDone = {};
 var qFeedback = {
   1: {
-    b:"Correct. Catherine does not choose Edgar out of shallowness but out of social entrapment. The novel presents her illness and death as the direct consequence of living divided against herself. Bronte makes the social world lethal.",
-    wrong:"The novel is more severe than this. Bronte presents the marriage not as a reasonable choice but as a form of self-destruction — Catherine cannot inhabit both worlds, and the attempt to do so kills her."
+    b: "Correct. Catherine does not frame this as love or longing — she frames it as identity. Heathcliff is the same substance as herself.",
+    wrong: "The quote goes further than romantic feeling or social rebellion — Catherine is making an ontological claim about shared selfhood."
   },
   2: {
-    b:"Correct. Heathcliff discovers that revenge is structured around an absence it cannot fill. Owning the Heights and the Grange does not restore Catherine. Looking at Hareton, he sees her eyes — and the sight undoes him more completely than any opposition could.",
-    wrong:"The novel frames the failure of revenge philosophically, not practically. Heathcliff succeeds completely as a schemer. What defeats him is that success reveals the void at the centre of the project."
+    c: "Correct. Heathcliff uses the same legal and social mechanisms that oppressed him. The novel shows cruelty as systemic, not personal.",
+    wrong: "The novel is careful to make Heathcliff coherent, not simply monstrous. His methods mirror exactly what was done to him — this is the point."
   },
   3: {
-    b:"Correct. Bronte builds structural distance between the reader and the central love story precisely because that love exceeds what testimony can convey. Nelly moralises; Lockwood aestheticises. Neither can account for what Heathcliff and Catherine were to each other. The gap between the narrators and the truth is itself a meaning.",
-    wrong:"While both answers contain some truth, Bronte uses the double narration to make a deeper point: the love at the novels centre is epistemically inaccessible. It can only be approached obliquely, through imperfect witnesses."
+    d: "Correct. Cathy and Hareton succeed where the first generation failed — by approaching each other with patience rather than consuming intensity.",
+    wrong: "The relationship matters structurally: it offers hope without erasing what the first generation destroyed. It is not about Heathcliff or Nelly."
   }
 };
+
 function answer(qNum, choice) {
-  if (qDone[qNum]) return;
-  qDone[qNum] = choice;
+  if (qDone[qNum]) { return; }
+  qDone[qNum] = true;
   var correct = qAnswers[qNum];
-  document.querySelectorAll("#q" + qNum + "-opts .qz-opt").forEach(function(btn, i) {
-    var letter = ["a","b","c"][i];
+  var qq = document.getElementById("qq" + qNum);
+  var btns = qq.querySelectorAll(".quiz-opts button");
+  var letters = ["a","b","c","d"];
+  btns.forEach(function(btn, i) {
+    var letter = letters[i];
+    if (letter === correct) {
+      btn.classList.add("correct");
+    } else if (letter === choice) {
+      btn.classList.add("wrong");
+    }
     btn.disabled = true;
-    if (letter === correct) btn.classList.add("correct");
-    else if (letter === choice) btn.classList.add("wrong");
-    else btn.classList.add("reveal");
   });
-  var fb = document.getElementById("q" + qNum + "-fb");
-  fb.textContent = (choice === correct) ? qFeedback[qNum][correct] : qFeedback[qNum]["wrong"];
-  fb.className = "qz-fb show " + (choice === correct ? "correct" : "wrong");
-  if (Object.keys(qDone).length === 3) {
-    var score = [1,2,3].filter(function(q){ return qDone[q] === qAnswers[q]; }).length;
-    document.getElementById("score-n").textContent = score + " / 3";
-    document.getElementById("score-msg").textContent = ["Keep reading — the novel rewards it.", "Good — you have the shape of it.", "Very good.", "Excellent."][score];
-    document.getElementById("qz-score").classList.add("show");
-  }
+  var fb = document.getElementById("qf" + qNum);
+  var feedbackSet = qFeedback[qNum];
+  fb.textContent = (choice === correct) ? feedbackSet[correct] : feedbackSet["wrong"];
+  fb.style.display = "block";
 }
 </script>
 

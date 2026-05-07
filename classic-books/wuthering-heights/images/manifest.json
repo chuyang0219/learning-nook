@@ -1,0 +1,66 @@
+{
+  "book": "Wuthering Heights",
+  "author": "Emily Brontë",
+  "chapters": [
+    {
+      "chapter": 1,
+      "file": "chapter_01.jpg",
+      "title": "The Storm-Battered House",
+      "caption": "The brooding figure of Heathcliff stands beneath a bare tree at the remote, wind-blasted farmhouse of Wuthering Heights.",
+      "attribution": "Fritz Eichenberg, wood engraving from the 1943 Random House edition of Wuthering Heights. Public domain (published in the US without copyright notice between 1931–1977).",
+      "source": "https://commons.wikimedia.org/wiki/File:Heathcliff_Under_the_Tree_by_Fritz_Eichenberg_(1943).jpg",
+      "dimensions": "2286x3577",
+      "license": "PD-US"
+    },
+    {
+      "chapter": 2,
+      "file": "chapter_02.jpg",
+      "title": "The Foundling",
+      "caption": "A solitary figure moves through a moody autumn moorland under a heavy, overcast sky — the wild landscape that shaped Catherine and Heathcliff's childhood bond.",
+      "attribution": "John Atkinson Grimshaw, Late October (1882). Oil on card. Public domain.",
+      "source": "https://commons.wikimedia.org/wiki/File:Grimshaw_-_Late_October.jpg",
+      "dimensions": "3091x4000",
+      "license": "PD-old-100"
+    },
+    {
+      "chapter": 3,
+      "file": "chapter_03.jpg",
+      "title": "Thrushcross Grange",
+      "caption": "A young woman pauses at ornate park gates in her fine clothes, poised between two worlds — the untamed moors behind her and the polished refinement of the Linton estate ahead.",
+      "attribution": "John Atkinson Grimshaw, At The Park Gate (1878). Oil on canvas. Public domain.",
+      "source": "https://commons.wikimedia.org/wiki/File:John_Atkinson_Grimshaw,_At_The_Park_Gate,_1878.jpg",
+      "dimensions": "3255x2695",
+      "license": "PD-old-100"
+    },
+    {
+      "chapter": 4,
+      "file": "chapter_04.jpg",
+      "title": "The Return",
+      "caption": "A moonlit lane gleams under a wet, cold sky — the desolate nocturnal atmosphere of Heathcliff's return and his agonised final reunion with the dying Catherine.",
+      "attribution": "John Atkinson Grimshaw, A Wet Moon, Putney Road (1886). Oil on canvas. Public domain.",
+      "source": "https://commons.wikimedia.org/wiki/File:John_Atkinson_Grimshaw_-_A_Wet_Moon,_Putney_Road_(1886).jpg",
+      "dimensions": "3200x1825",
+      "license": "PD-old-100"
+    },
+    {
+      "chapter": 5,
+      "file": "chapter_05.jpg",
+      "title": "Death and Revenge",
+      "caption": "Dark woodland paths wind beneath bare autumn trees, evoking the grim, inexorable march of Heathcliff's revenge over the two families.",
+      "attribution": "John Atkinson Grimshaw, Woodland near Leeds (1869). Oil on canvas. Public domain.",
+      "source": "https://commons.wikimedia.org/wiki/File:(john_atkinson_grimshaw_woodland_near_leeds_093526).jpg",
+      "dimensions": "1624x2000",
+      "license": "PD-old-100"
+    },
+    {
+      "chapter": 6,
+      "file": "chapter_06.jpg",
+      "title": "The Ghost Appeased",
+      "caption": "Young Hareton and his cousin Cathy sit together in a quiet moment of growing tenderness, their bond offering the novel's sole note of redemptive hope.",
+      "attribution": "Edna Clarke Hall, Hareton and his Cousin. Watercolour. Public domain.",
+      "source": "https://commons.wikimedia.org/wiki/File:Hareton_and_his_Cousin,_by_Edna_Clarke_Hall.jpg",
+      "dimensions": "1856x2286",
+      "license": "PD-old-100"
+    }
+  ]
+}

@@ -767,6 +767,21 @@ body   { font-family: [body font]; background: [background]; color: [text]; marg
 }
 ```
 
+### Dark background adjustment
+
+If the Design Spec `background` is dark (deep charcoal, navy, near-black — roughly luminance < 0.3), the `rgba(0,0,0,...)` overlay values above become invisible. Replace them with `rgba(255,255,255,...)` equivalents throughout:
+
+| Rule | Light bg | Dark bg |
+|---|---|---|
+| `.ti:hover` background | `rgba(0,0,0,.06)` | `rgba(255,255,255,.06)` |
+| `.ti.on` background | `rgba(0,0,0,.07)` | `rgba(255,255,255,.08)` |
+| `.ch-recap` border-top | `rgba(0,0,0,.1)` | `rgba(255,255,255,.1)` |
+| `.nr` border-top | `rgba(0,0,0,.08)` | `rgba(255,255,255,.08)` |
+| `.nr button` border | `rgba(0,0,0,.2)` | `rgba(255,255,255,.2)` |
+| `.nr button:hover` bg | `rgba(0,0,0,.06)` | `rgba(255,255,255,.06)` |
+| `.fp-note` border-left | `rgba(0,0,0,.12)` | `rgba(255,255,255,.12)` |
+| Mobile `.sb` border-bottom | `rgba(0,0,0,.07)` | `rgba(255,255,255,.07)` |
+
 ---
 
 ## Step 12 — Sidebar icons (HugeIcons, inlined SVG)

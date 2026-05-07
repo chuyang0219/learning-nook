@@ -141,7 +141,7 @@ Two layouts — chosen based on image dimensions + prose position:
 <figure class="ch-illustration">
   <img src="images/chapter_01.jpg"
        alt="{brief one-line description}"
-       style="width:auto;max-width:680px;max-height:480px;min-width:200px;min-height:150px;border-radius:6px;display:block;margin:0 auto;">
+       style="width:auto;max-width:600px;max-height:600px;min-width:200px;min-height:150px;border-radius:6px;display:block;margin:0 auto;">
   <figcaption class="ch-illus-caption">{caption}</figcaption>
 </figure>
 ```

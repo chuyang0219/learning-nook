@@ -61,6 +61,10 @@ Round 1:
      - Reader: critiques HTML, returns APPROVED or NEEDS REVISION.
   6. Spawn Illustrator after Reader returns verdict.
      - Illustrator: finds images, saves manifest.json.
+     - **Do NOT run Illustrator in background** unless the project settings pre-approve
+       `Bash(curl * -o ".../classic-books/*/images/*" *)`. Background agents cannot
+       prompt for permission — they will complete all searches then silently fail on
+       every download, forcing a full re-run foreground (doubling search tool use).
 
 Image insertion (orchestrator — no Writer spawn needed):
   7. Once Illustrator finishes: run image insertion script below.
