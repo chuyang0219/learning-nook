@@ -19,20 +19,23 @@
 
     /* HEADER */
     .pg-header {
+      position: relative;
       text-align: center;
       padding: 2.8rem 1.5rem 1.4rem;
       background: #1a1410;
     }
     .pg-back {
-      display: inline-block;
-      font-size: .85rem;
+      position: absolute;
+      top: 2.2rem;
+      left: 1.5rem;
+      font-size: .83rem;
       color: #9a8878;
       text-decoration: none;
-      letter-spacing: .04em;
-      margin-bottom: 1rem;
-      transition: color .2s;
+      font-family: system-ui, sans-serif;
+      opacity: .7;
+      transition: opacity .12s;
     }
-    .pg-back:hover { color: #c0392b; }
+    .pg-back:hover { opacity: 1; }
     .pg-title {
       font-family: "Playfair Display", "Georgia", serif;
       font-size: 2.8rem;
