@@ -433,7 +433,7 @@
       .ti { width: auto; flex-shrink: 0; white-space: nowrap;
             border-left: none; border-bottom: 2px solid transparent;
             border-radius: 20px; padding: .3rem .75rem; font-size: .82rem; }
-      .ti.on { border-bottom-color: transparent; border-left: none;
+      .ti.on { border-bottom-color: #7B4F6E; border-left: none;
                background: rgba(123,79,110,.1); color: #7B4F6E; }
       .main { padding: 1.2rem .9rem; }
       .pg-title { font-size: 2rem; }
@@ -592,14 +592,9 @@
 
       <p>Then Darcy arrives. He has returned early. He finds Elizabeth in his grounds, clearly embarrassed to have been caught touring the home of the man who proposed to her. What follows is remarkable: Darcy, the cold and proud man of the first two hundred pages, is transformed. He is warm. He is solicitous. He asks to be introduced to her aunt and uncle — the Gardiners, whom he would previously have considered beneath his notice — and treats them with genuine courtesy.</p>
 
-      <p>Elizabeth watches all this and feels something shift irrevocably. She begins to think she may have been, in every meaningful sense, catastrophically wrong about him.</p>
+      <p>Elizabeth watches all this. She begins to think she may have been, in every meaningful sense, catastrophically wrong about him.</p>
 
       <p>Then a letter arrives from Jane. Lydia, the youngest and most reckless Bennet sister, has run away with Wickham. They are not married. The scandal, if it cannot be contained, will destroy the reputations of every Bennet girl. Elizabeth, in a moment of anguished honesty, tells Darcy what has happened. She sees his face change — and reads it, with absolute certainty, as the end of any hope.</p>
-
-      <div class="qt" data-qid="pride-and-prejudice-ch4-q1">
-        <p>"You never see a fault in anybody. All the world are good and agreeable in your eyes."</p>
-        <cite>— Elizabeth to Jane</cite>
-      </div>
 
       <div class="ch-recap">
         <p class="recap-title">The Estate as Character Witness</p>
@@ -622,7 +617,7 @@
 
       <p>There is one obstacle left. <span class="cn-tip" data-char="LadyCatherine">Lady Catherine de Bourgh</span> arrives at <span class="loc-tip" data-loc="Longbourn">Longbourn</span> in a fury, having heard rumours that Darcy means to propose to Elizabeth. She demands that Elizabeth promise, on her honour, to refuse him. Lady Catherine is certain that Elizabeth, a woman of inferior birth, cannot possibly belong in Darcy's world. Elizabeth's response is calm, clear, and devastating: she owes Lady Catherine nothing, and will make no such promise.</p>
 
-      <p>Lady Catherine reports this exchange to Darcy — intending, presumably, to warn him off. Instead she confirms that Elizabeth has not ruled him out. Darcy returns. He walks with Elizabeth. He tells her that his character, though unchanged in its essentials, has been improved by her.</p>
+      <p>Lady Catherine reports this exchange to Darcy — intending to warn him off. Instead she confirms that Elizabeth has not ruled him out. Darcy returns. He walks with Elizabeth. He tells her that his character, though unchanged in its essentials, has been improved by her.</p>
 
       <div class="qt" data-qid="pride-and-prejudice-ch5-q1">
         <p>"What do I not owe you! You taught me a lesson, hard indeed at first, but most advantageous. By you I was properly humbled."</p>
@@ -803,6 +798,7 @@
         <button class="quiz-opt" onclick="ans(2,3)">D. Because it finally wins over Mrs Bennet, whose approval was the last obstacle.</button>
         <div class="quiz-feedback" id="qf2"></div>
       </div>
+      <div id="qz-score" style="display:none; margin-top:1.5rem; font-style:italic; color:#A89880; font-size:.95rem;"></div>
     </div>
 
     <!-- Nav -->
@@ -985,10 +981,12 @@ var QUIZ = {
 };
 
 var answered = [false, false, false];
+var score = 0;
 
 function ans(q, choice) {
   if (answered[q]) return;
   answered[q] = true;
+  if (choice === QUIZ.correct[q]) { score++; }
   var opts = document.querySelectorAll("#qq" + q + " .quiz-opt");
   var fb   = document.getElementById("qf" + q);
   opts.forEach(function(o){ o.disabled = true; });
@@ -999,6 +997,12 @@ function ans(q, choice) {
     opts[QUIZ.correct[q]].classList.add("correct");
   }
   fb.textContent = QUIZ.feedback[q][choice];
+  if (answered.every(function(a){ return a; })) {
+    var msgs = ["Keep reading.", "Good — you have the shape of it.", "Very good.", "Excellent."];
+    var scoreEl = document.getElementById("qz-score");
+    scoreEl.textContent = "Score: " + score + "/3 — " + msgs[score];
+    scoreEl.style.display = "block";
+  }
 }
 </script>
 

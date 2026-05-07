@@ -184,8 +184,14 @@
     }
     .ch-recap p:last-child { margin-bottom: 0; }
 
-    /* Highlight */
-    .hl { background: #3a3530; border-radius: 3px; padding: 0 .2em; }
+    /* WHY IT MATTERS — 2×2 grid */
+    .hl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.6rem; }
+    .hl { background: #3a3530; border-radius: 8px; padding: 1.1rem 1.3rem; }
+    .hl-title { font-family: "Crimson Text", serif; font-size: 1rem; font-weight: 700;
+                color: #8b4513; margin-bottom: .6rem; }
+    .hl ul { padding-left: 1.1rem; margin: 0; }
+    .hl ul li { font-size: .93rem; line-height: 1.55; margin-bottom: .35rem; }
+    .hl ul li:last-child { margin-bottom: 0; }
 
     /* Illustration */
     .ch-illustration { margin: 0 0 1.4rem; }
@@ -227,40 +233,15 @@
     .nr button:hover:not(:disabled) { background: rgba(255,255,255,.06); }
     .nr button:disabled { opacity: .35; cursor: default; }
 
-    /* === WHY IT MATTERS === */
-    .theme-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1.4rem;
-    }
-    .theme-card {
-      background: #3a3530;
-      border-radius: 8px;
-      padding: 1rem 1.1rem;
-    }
-    .theme-card h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #8b4513;
-      margin-bottom: .4rem;
-    }
-    .theme-card p { font-size: .97rem; margin-bottom: 0; }
-
-    .fact-card {
-      background: #3d2a1a;
-      border-radius: 8px;
-      padding: 1rem 1.1rem;
-      margin-top: 1rem;
-    }
-    .fact-card h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #8b4513;
-      margin-bottom: .6rem;
-    }
-    .fact-card ul { padding-left: 1.2rem; }
-    .fact-card li { margin-bottom: .5rem; font-size: .97rem; }
+    /* FUN FACTS */
+    .fact-card { background: #3d2a1a; border-top: 3px solid #8b4513;
+                 border-radius: 0 0 8px 8px; padding: 1.2rem 1.4rem; margin-bottom: 1.6rem; }
+    .fact-title { font-family: system-ui, sans-serif; font-size: .72rem; font-weight: 700;
+                  letter-spacing: .12em; text-transform: uppercase;
+                  color: #8b4513; margin-bottom: .7rem; }
+    .fact-card ul { padding-left: 1.1rem; margin: 0; }
+    .fact-card ul li { font-size: .95rem; line-height: 1.6; margin-bottom: .45rem; }
+    .fact-card ul li:last-child { margin-bottom: 0; }
 
     /* === QUOTES PAGE === */
     .fp-quote {
@@ -337,11 +318,8 @@
     }
 
     /* Char / Loc tooltips */
-    .cn-tip, .loc-tip {
-      border-bottom: 1px dotted #8b4513;
-      cursor: help;
-      color: inherit;
-    }
+    .cn-tip  { border-bottom: 1px dashed #a89f96; cursor: help; }
+    .loc-tip { border-bottom: 1px dotted #8b4513; cursor: help; }
     .tip-box {
       position: fixed;
       background: #f5f1e8;
@@ -354,6 +332,7 @@
       z-index: 9999;
       display: none;
       line-height: 1.5;
+      pointer-events: auto;
     }
     .tip-name { font-weight: 700; margin-bottom: .15rem; font-size: .95rem; }
     .tip-pron {
@@ -377,31 +356,21 @@
 
     /* Mobile */
     @media (max-width: 600px) {
-      .layout { flex-direction: column; gap: .8rem; padding: .8rem .7rem 2rem; }
-      .sb {
-        width: 100%;
-        position: static;
-        display: flex;
-        flex-wrap: wrap;
-        gap: .3rem;
-        align-items: center;
-      }
-      .sb-label { width: 100%; margin-bottom: .2rem; }
-      .ti {
-        width: auto;
-        flex: 0 0 auto;
-        font-size: .82rem;
-        padding: .28rem .45rem;
-      }
-      .ti.on {
-        border-left: none;
-        border-bottom: 2px solid #8b4513;
-        padding-left: .45rem;
-      }
-      .tdiv { width: 100%; }
+      .layout { flex-direction: column; gap: 0; padding: 0 0 4rem; }
+      .sb { width: 100%; position: sticky; top: 0; z-index: 100;
+            display: flex; flex-wrap: nowrap; overflow-x: auto; gap: .3rem;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none;
+            background: #2a2623; padding: .5rem .9rem;
+            border-bottom: 1px solid rgba(255,255,255,.07); }
+      .sb::-webkit-scrollbar { display: none; }
+      .sb .sb-label, .sb .tdiv { display: none; }
+      .ti { width: auto; flex-shrink: 0; white-space: nowrap; border-left: none;
+            border-bottom: 2px solid transparent; border-radius: 4px; }
+      .ti.on { border-bottom: 2px solid #8b4513; border-left: none; }
+      .main { padding: 1.2rem .9rem; }
       .pg-title { font-size: 1.75rem; }
       .ch-title { font-size: 1.4rem; }
-      .theme-grid { grid-template-columns: 1fr; }
+      .hl-grid { grid-template-columns: 1fr; }
       .ch-illustration.float-right,
       .ch-illustration.float-left { float: none; max-width: 100%; margin: 0 0 1.4rem; }
       .ch-illustration img { min-width: 0 !important; min-height: 0 !important; width: 100% !important;
@@ -544,12 +513,12 @@
 
       <p>The reunion is devastating. Catherine weeps with joy that she cannot explain to Edgar, who watches with the clarity of a man who sees exactly what is lost to him. Heathcliff and Catherine have not become less to each other — three years have made the feeling darker, more dangerous. But she is married. She is Edgar's. And Edgar is not Heathcliff.</p>
 
+      <p>Catherine begins to fracture under the impossibility she has constructed. She cannot have both, and having half of either is unbearable. Her mind breaks first — a feverish illness that Nelly watches with a mixture of sympathy and judgement. She rallies briefly. She is pregnant. In the early hours of a March morning, she gives birth to a daughter — <span class="cn-tip" data-char="CathyLinton">Cathy Linton</span> — and dies before dawn. Heathcliff, waiting in the garden below, hears the news and howls at the sky.</p>
+
       <div class="qt" data-qid="wuthering-heights-ch4-q1">
         <p>"Be with me always — take any form — drive me mad! only do not leave me in this abyss, where I cannot find you! I cannot live without my life! I cannot live without my soul!"</p>
         <cite>— Heathcliff, after Catherine's death, raging at her grave</cite>
       </div>
-
-      <p>Catherine begins to fracture under the impossibility she has constructed. She cannot have both, and having half of either is unbearable. Her mind breaks first — a feverish illness that Nelly watches with a mixture of sympathy and judgement. She rallies briefly. She is pregnant. In the early hours of a March morning, she gives birth to a daughter — <span class="cn-tip" data-char="CathyLinton">Cathy Linton</span> — and dies before dawn. Heathcliff, waiting in the garden below, hears the news and howls at the sky.</p>
 
       <div class="ch-recap">
         <p class="recap-title">The Cost of Returning</p>
@@ -572,7 +541,7 @@
 
       <p>Hindley Earnshaw is easy — already half-ruined by drink and grief, he gambles away the Heights to Heathcliff and dies shortly after, leaving his young son <span class="cn-tip" data-char="HaretonEarnshaw">Hareton</span> in Heathcliff's care. Heathcliff raises Hareton exactly as Hindley raised him: denied education, denied dignity, kept useful and kept low. The mirror is exact and deliberate.</p>
 
-      <p>Edgar Linton's sister Isabella is less guarded than wisdom allows — she mistakes his cruelty for passion, reads the gothic outsider as romantic hero, and elopes with him despite every warning. The marriage is a calculated cruelty. He treats her with open contempt and she flees south, bearing his son: sickly, peevish <span class="cn-tip" data-char="CathyLinton">Linton Heathcliff</span>. She dies about twelve years later; Edgar keeps the boy until Heathcliff claims him as he closes in on the Grange.</p>
+      <p>Edgar Linton's sister Isabella is less guarded than wisdom allows — she mistakes his cruelty for passion, reads the gothic outsider as romantic hero, and elopes with him despite every warning. The marriage is a calculated cruelty. He treats her with open contempt and she flees south, bearing his son: sickly, peevish Linton Heathcliff. She dies about twelve years later; Edgar keeps the boy until Heathcliff claims him as he closes in on the Grange.</p>
 
       <div class="qt" data-qid="wuthering-heights-ch5-q1">
         <p>"I have not broken your heart — you have broken it; and in breaking it, you have broken mine."</p>
@@ -617,7 +586,7 @@
 
       <div class="ch-recap">
         <p class="recap-title">What Survives the Storm</p>
-        <p>Cathy and Hareton — the second generation — inherit both houses and enough lightness to be happy. Where Catherine consumed Heathcliff and could not let go, Cathy approaches Hareton with patience; where wildness destroyed the first pair, education and earned understanding save the second. Heathcliff, having spent his rage and his grief, simply steps toward whatever he has been walking toward since Catherine died. The moors remain.</p>
+        <p>Cathy and Hareton — the second generation — inherit both houses and enough lightness to be happy. Where Catherine could not release Heathcliff, Cathy approaches Hareton with patience; where wildness destroyed the first pair, education and earned understanding save the second. Heathcliff, having spent his rage and his grief, simply steps toward whatever he has been walking toward since Catherine died. The moors remain.</p>
       </div>
     </div>
 
@@ -626,27 +595,47 @@
       <h2 class="ch-title">Why It Matters</h2>
       <p class="ch-sub">Themes, legacy, and what makes this novel still burn</p>
 
-      <div class="theme-grid">
-        <div class="theme-card">
-          <h3>Love as Identity</h3>
-          <p>Catherine and Heathcliff do not love each other — they claim to <em>be</em> each other. "He's more myself than I am." This is not romance; it is ontology. The novel asks what destruction follows when this identity-bond is severed by class, convention, and a woman's need for comfort. It offers no clean answer.</p>
+      <div class="hl-grid">
+        <div class="hl">
+          <p class="hl-title">Love as Identity</p>
+          <ul>
+            <li>Catherine and Heathcliff claim to <em>be</em> each other — "He's more myself than I am" is ontology, not romance</li>
+            <li>Separating them severs not a relationship but a self — the destruction that follows is logical, not melodramatic</li>
+            <li>The novel asks what happens when an identity-bond meets class, convention, and a woman's need for comfort</li>
+            <li>No clean answer is offered — and none is possible</li>
+          </ul>
         </div>
-        <div class="theme-card">
-          <h3>Class and Its Violence</h3>
-          <p>Heathcliff arrives with no name, no history, no race the novel will specify. Society strips him to nothing; his revenge is perfectly calibrated to mirror every humiliation. The novel refuses to let us condemn him simply — it insists we see his tormentors in his actions. Monster or product? Both, simultaneously.</p>
+        <div class="hl">
+          <p class="hl-title">Class and Its Violence</p>
+          <ul>
+            <li>Heathcliff arrives with no name, no history, no race the novel will specify</li>
+            <li>Society strips him methodically; his revenge mirrors every humiliation with surgical precision</li>
+            <li>The novel refuses simple condemnation — his tormentors are visible in his methods</li>
+            <li>Monster or product? The novel insists both simultaneously, and denies the reader a clean verdict</li>
+          </ul>
         </div>
-        <div class="theme-card">
-          <h3>Wild vs. Civilised</h3>
-          <p>The moors and the Heights represent passion, freedom, cold, death. The Grange represents warmth, refinement, compromise, life. Catherine tries to inhabit both worlds; it kills her. Every character must choose — or discovers the choice was made for them. The moors have no sentimentality about who wins.</p>
+        <div class="hl">
+          <p class="hl-title">Wild vs. Civilised</p>
+          <ul>
+            <li>The moors and the Heights represent passion, freedom, cold — and ultimately death</li>
+            <li>Thrushcross Grange represents warmth, refinement, compromise — and life with its limits</li>
+            <li>Catherine tries to inhabit both worlds; the impossibility kills her</li>
+            <li>Only the second generation, chastened and patient, manages to survive the same tension</li>
+          </ul>
         </div>
-        <div class="theme-card">
-          <h3>Legacy and Endurance</h3>
-          <p>Bront&euml; died at thirty, having published one novel under a male pseudonym. <em>Wuthering Heights</em> was dismissed as brutal and formless in 1847. It has never gone out of print. Adapted for film over twenty times, inspiring Kate Bush, Sylvia Plath, and virtually every Gothic novelist since. Its power resists explanation — which may be the point.</p>
+        <div class="hl">
+          <p class="hl-title">Legacy and Endurance</p>
+          <ul>
+            <li>Bront&euml; published under "Ellis Bell" and died at thirty — her sex revealed only after death</li>
+            <li>Dismissed as brutal and coarse in 1847; never out of print since</li>
+            <li>Adapted for film over twenty times; inspired Kate Bush, Sylvia Plath, and generations of Gothic writers</li>
+            <li>Its power resists explanation — which may be the point</li>
+          </ul>
         </div>
       </div>
 
       <div class="fact-card">
-        <h3>Surprising Facts</h3>
+        <p class="fact-title">Fun Facts</p>
         <ul>
           <li>Emily published as "Ellis Bell" — her publishers and most readers assumed the author was male. Her sex was revealed only after her death.</li>
           <li>The novel was poorly received on first publication. Critics found it "coarse" and "brutal." One called Heathcliff "a deformed monster." Charlotte Bront&euml; spent years defending her sister's reputation.</li>
@@ -661,7 +650,6 @@
     <!-- CH 8 -->
     <div class="ch" data-t="Quotes">
       <h2 class="ch-title">Celebrated Quotes</h2>
-      <p class="ch-sub">The lines that have lasted</p>
 
       <div class="fp-quote">
         <p class="fp-text">"He's more myself than I am. Whatever our souls are made of, his and mine are the same."</p>
@@ -757,6 +745,7 @@
         </ul>
         <div class="quiz-fb" id="qf3"></div>
       </div>
+      <div id="qz-score" style="display:none; margin-top:1.5rem; font-style:italic; color:#a89f96; font-size:.95rem;"></div>
     </div>
 
     <!-- Nav -->
@@ -819,68 +808,90 @@ var LOCS = {
   Liverpool:         { pron:"LIV-er-pool",         desc: "Port city where Earnshaw found the starving orphan Heathcliff; his unknown origins carry racial and social weight." }
 };
 
-var tipbox = document.getElementById("tipbox");
-var tipname = document.getElementById("tipname");
-var tiprontext = document.getElementById("tiprontext");
-var tipspeak = document.getElementById("tipspeak");
-var tipdesc = document.getElementById("tipdesc");
-var tippron = document.getElementById("tippron");
+var tipbox      = document.getElementById("tipbox");
+var tipname     = document.getElementById("tipname");
+var tippron     = document.getElementById("tippron");
+var tiprontext  = document.getElementById("tiprontext");
+var tipspeak    = document.getElementById("tipspeak");
+var tipdesc     = document.getElementById("tipdesc");
+var hideTimer   = null;
+var currentSpeakText = "";
 
-var currentSpeak = "";
-
-function placeTip(el) {
-  var rect = el.getBoundingClientRect();
-  var bw = tipbox.offsetWidth || 270;
-  var left = rect.left + window.scrollX;
-  var top = rect.bottom + window.scrollY + 6;
-  if (left + bw > window.innerWidth - 12) { left = window.innerWidth - bw - 12; }
-  if (left < 8) { left = 8; }
-  tipbox.style.left = left + "px";
-  tipbox.style.top = top + "px";
+function placeTip(e) {
+  var TW = 256;
+  var x = e.clientX + 16;
+  if (x + TW > window.innerWidth) x = e.clientX - TW;
+  if (x < 8) x = 8;
+  var y = e.clientY + 16;
+  if (y + 150 > window.innerHeight) y = e.clientY - 154;
+  if (y < 8) y = 8;
+  tipbox.style.left = x + "px";
+  tipbox.style.top  = y + "px";
 }
 
-function showTip(el, name, pron, desc) {
-  tipname.textContent = name;
-  tiprontext.textContent = pron || "";
-  tipdesc.textContent = desc;
-  currentSpeak = name;
+function showTip(el, e) {
+  clearTimeout(hideTimer);
+  var isChar = el.classList.contains("cn-tip");
+  var key    = isChar ? el.getAttribute("data-char") : el.getAttribute("data-loc");
+  var data   = isChar ? CHARS[key] : LOCS[key];
+  if (!data) return;
+  currentSpeakText = isChar ? data.speak : key;
+  tipname.textContent = isChar ? data.speak : key;
   tippron.style.display = "flex";
+  tiprontext.textContent = data.pron;
+  tipdesc.textContent = data.desc;
+  placeTip(e);
   tipbox.style.display = "block";
-  placeTip(el);
 }
 
 function hideTip() {
-  tipbox.style.display = "none";
+  hideTimer = setTimeout(function(){ tipbox.style.display = "none"; }, 150);
 }
 
-document.querySelectorAll(".cn-tip").forEach(function(el) {
-  el.addEventListener("mouseenter", function() {
-    var key = el.getAttribute("data-char");
-    var ch = CHARS[key];
-    if (ch) { showTip(el, ch.speak, ch.pron, ch.desc); }
-  });
-  el.addEventListener("mouseleave", hideTip);
-});
+tipbox.addEventListener("mouseenter", function(){ clearTimeout(hideTimer); });
+tipbox.addEventListener("mouseleave", hideTip);
 
-document.querySelectorAll(".loc-tip").forEach(function(el) {
-  el.addEventListener("mouseenter", function() {
-    var key = el.getAttribute("data-loc");
-    var lo = LOCS[key];
-    if (lo) { showTip(el, key.replace(/([A-Z])/g, " $1").trim(), lo.pron, lo.desc); }
-  });
-  el.addEventListener("mouseleave", hideTip);
-});
-
-tipspeak.addEventListener("click", function() {
-  if (!currentSpeak) { return; }
-  var utt = new SpeechSynthesisUtterance(currentSpeak);
-  utt.lang = "en-GB";
+tipspeak.addEventListener("click", function(e) {
+  e.stopPropagation();
+  if (!window.speechSynthesis || !currentSpeakText) return;
+  var u = new SpeechSynthesisUtterance(currentSpeakText);
+  u.lang = "en-GB";
+  u.rate = 0.8;
   speechSynthesis.cancel();
-  speechSynthesis.speak(utt);
+  speechSynthesis.speak(u);
 });
+
+if (window.speechSynthesis && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = function(){};
+}
+
+document.querySelectorAll(".cn-tip, .loc-tip").forEach(function(el) {
+  el.addEventListener("mouseenter", function(e){ showTip(el, e); });
+  el.addEventListener("mouseleave", hideTip);
+});
+
+if ("ontouchstart" in window) {
+  document.querySelectorAll(".cn-tip, .loc-tip").forEach(function(el) {
+    el.addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      clearTimeout(hideTimer);
+      var t = e.touches[0];
+      showTip(el, { clientX: t.clientX, clientY: t.clientY });
+    });
+  });
+  document.addEventListener("touchstart", function(e) {
+    if (!tipbox.contains(e.target) &&
+        !e.target.classList.contains("cn-tip") &&
+        !e.target.classList.contains("loc-tip")) {
+      clearTimeout(hideTimer);
+      tipbox.style.display = "none";
+    }
+  });
+}
 
 var qAnswers = {1:"b", 2:"c", 3:"d"};
 var qDone = {};
+var qScore = 0;
 var qFeedback = {
   1: {
     b: "Correct. Catherine does not frame this as love or longing — she frames it as identity. Heathcliff is the same substance as herself.",
@@ -900,6 +911,7 @@ function answer(qNum, choice) {
   if (qDone[qNum]) { return; }
   qDone[qNum] = true;
   var correct = qAnswers[qNum];
+  if (choice === correct) { qScore++; }
   var qq = document.getElementById("qq" + qNum);
   var btns = qq.querySelectorAll(".quiz-opts button");
   var letters = ["a","b","c","d"];
@@ -916,6 +928,12 @@ function answer(qNum, choice) {
   var feedbackSet = qFeedback[qNum];
   fb.textContent = (choice === correct) ? feedbackSet[correct] : feedbackSet["wrong"];
   fb.style.display = "block";
+  if (Object.keys(qDone).length === 3) {
+    var msgs = ["Keep reading.", "Good — you have the shape of it.", "Very good.", "Excellent."];
+    var scoreEl = document.getElementById("qz-score");
+    scoreEl.textContent = "Score: " + qScore + "/3 — " + msgs[qScore];
+    scoreEl.style.display = "block";
+  }
 }
 </script>
 

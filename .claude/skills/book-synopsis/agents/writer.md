@@ -35,7 +35,7 @@ Simple, natural language. Assume an intelligent non-expert. No jargon. No vague 
 
 ### 3. Compression
 
-Each chapter: ~200 words of prose (not counting quotes or recap). Cut ruthlessly — every sentence earns its place. No setup, no repetition, no padding. Exception: NOTABLE DETAILS from the Research Brief survive the cut regardless of length — they are flagged precisely because they would otherwise be the first things dropped.
+Each chapter: ~250 words of prose (not counting quotes, captions, or recap). Cut ruthlessly — every sentence earns its place. No setup, no repetition, no padding. Exception: NOTABLE DETAILS from the Research Brief survive the cut regardless of length — they are flagged precisely because they would otherwise be the first things dropped.
 
 ### 3a. Sentence rhythm
 

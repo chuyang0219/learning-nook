@@ -885,6 +885,7 @@
         <button class="quiz-opt" onclick="ans(2,3)">D. Porfiry is corrupt and hopes Raskolnikov will offer him a bribe.</button>
         <div class="quiz-feedback" id="qf2"></div>
       </div>
+      <div id="qz-score" style="display:none; margin-top:1.5rem; font-style:italic; color:#9a8878; font-size:.95rem;"></div>
     </div>
 
     <!-- Nav -->
@@ -1066,10 +1067,12 @@ var QUIZ = {
 };
 
 var answered = [false, false, false];
+var score = 0;
 
 function ans(q, choice) {
   if (answered[q]) return;
   answered[q] = true;
+  if (choice === QUIZ.correct[q]) { score++; }
   var opts = document.querySelectorAll("#qq" + q + " .quiz-opt");
   var fb   = document.getElementById("qf" + q);
   opts.forEach(function(o){ o.disabled = true; });
@@ -1080,6 +1083,12 @@ function ans(q, choice) {
     opts[QUIZ.correct[q]].classList.add("correct");
   }
   fb.textContent = QUIZ.feedback[q][choice];
+  if (answered.every(function(a){ return a; })) {
+    var msgs = ["Keep reading.", "Good — you have the shape of it.", "Very good.", "Excellent."];
+    var scoreEl = document.getElementById("qz-score");
+    scoreEl.textContent = "Score: " + score + "/3 — " + msgs[score];
+    scoreEl.style.display = "block";
+  }
 }
 </script>
 
