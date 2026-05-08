@@ -1,0 +1,28 @@
+# Booklist
+
+- Jekyll & Hyde
+- The Merchant of Venice
+- Emma by Jane Austen
+- The Great Gatsby
+- The Brothers Karamazov
+- Moby Dick
+- Frankenstein
+- 1984
+- The Catcher in the Rye
+- Great Expectations
+- Tess of the d'Urbervilles
+- The Mill on the Floss
+- A Tale of Two Cities
+- Animal Farm
+- Persuasion by Jane Austen
+- Of Mice and Men
+- The Art of War by Sun-Tzu
+- Don Quixote by Miguel Cervantes
+- David Copperfield
+- War and Peace by Leo Tolstoy
+- The Divine Comedy by Dante Alighieri
+- The Hitchhiker’s Guide to the Galaxy
+- Richard III
+- A Midsummer Night’s Dream
+- Macbeth
+- As You Like It

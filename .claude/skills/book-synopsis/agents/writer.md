@@ -684,7 +684,10 @@ body   { font-family: [body font]; background: [background]; color: [text]; marg
             letter-spacing: .05em; text-transform: uppercase; }
 .ch p { line-height: 1.85; font-size: 1.1rem; margin: 0 0 1.1rem; }
 /* drop-cap — apply variant from Design Spec */
-.ch p:first-of-type::first-letter { float: left; font-size: 3.4em; line-height: .85;
+/* IMPORTANT: if story chapters include a .ch-sub subtitle as the first <p>,
+   use :nth-of-type(2) not :first-of-type — otherwise the subtitle gets the
+   float and display:grid siblings (like .hl-grid) shift right due to BFC float avoidance */
+.ch > p:first-of-type::first-letter { float: left; font-size: 3.4em; line-height: .85;
   margin: .08em .12em 0 0; font-weight: 700; color: [accent]; }
 
 /* .qt — apply quote-style variant from Design Spec */
