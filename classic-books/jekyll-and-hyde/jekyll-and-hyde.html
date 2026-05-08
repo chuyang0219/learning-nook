@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strange Case of Dr Jekyll and Mr Hyde</title>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 17px; }
+    body {
+      background: #1a1a1a;
+      color: #e8e8e8;
+      font-family: "IBM Plex Serif", "Georgia", serif;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .pg-header { position: relative; max-width: 960px; margin: 0 auto; padding: 2.2rem 1.5rem 0; text-align: center; }
+    .pg-back { position: absolute; top: 2.2rem; left: 1.5rem; font-size: .83rem; color: #999999; text-decoration: none; font-family: system-ui,sans-serif; opacity: .7; transition: opacity .12s; }
+    .pg-back:hover { color: #e8e8e8; }
+    .pg-title {
+      font-family: "Crimson Text", "Lora", serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: #e8e8e8;
+      margin-top: .25rem;
+      line-height: 1.2;
+    }
+    .pg-author {
+      font-size: .82rem;
+      color: #999999;
+      margin-top: .2rem;
+      font-family: system-ui, sans-serif;
+    }
+    .pg-rule { border: none; border-top: 1px solid #8b0000; opacity: .4; margin: 0 auto; max-width: 912px; }
+
+    /* Layout */
+    .layout {
+      display: flex;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    /* Sidebar */
+    .sb { width: 165px; flex-shrink: 0; position: sticky; top: 1.5rem; align-self: flex-start; padding-right: 1.2rem; }
+    .sb-label {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #999999;
+      padding: 5px 9px 8px;
+      font-family: system-ui, sans-serif;
+    }
+    .tdiv {
+      border-top: 1px solid rgba(255,255,255,.08);
+      margin: .5rem 0;
+    }
+    .ti {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      color: #999999;
+      font-family: system-ui, sans-serif;
+      font-size: .78rem;
+      text-align: left;
+      padding: 6px 9px;
+      cursor: pointer;
+      border-radius: 4px;
+      line-height: 1.4;
+      transition: background .15s, color .15s;
+    }
+    .ti:hover { background: rgba(255,255,255,.06); color: #e8e8e8; }
+    .ti.on { background: rgba(255,255,255,.08); color: #e8e8e8; font-weight: 600; border-left: 2px solid #8b0000; }
+    .ti-icon {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 2rem 2.2rem 3rem;
+      min-width: 0;
+    }
+
+    /* Chapters */
+    .ch { display: none; }
+    .ch.on { display: block; }
+    .ch::after { content: ""; display: table; clear: both; }
+
+    .ch h2 {
+      font-family: "Crimson Text", "Lora", serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: #e8e8e8;
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+    .ch h2 span.ch-num {
+      color: #8b0000;
+      margin-right: .4rem;
+    }
+    .ch p {
+      margin-bottom: 1.1rem;
+      font-size: 1rem;
+    }
+
+    /* Drop cap */
+    .ch p.dropcap::first-letter {
+      font-family: "Crimson Text", "Lora", serif;
+      font-size: 3.4rem;
+      font-weight: 600;
+      float: left;
+      line-height: .78;
+      margin: .1rem .15rem -.05rem 0;
+      color: #8b0000;
+    }
+
+    /* Illustration */
+    .ch-illustration { margin: 1.4rem auto; text-align: center; }
+    .ch-illustration img { max-width: 600px; max-height: 600px; width: auto; height: auto; display: block; margin: 0 auto; border-radius: 6px; }
+    .ch-illustration.float-right {
+      float: right;
+      margin: 0 0 1rem 1.5rem;
+      max-width: 280px;
+    }
+    .ch-illustration.float-left {
+      float: left;
+      margin: 0 1.5rem 1rem 0;
+      max-width: 280px;
+    }
+    .ch-illus-caption {
+      font-size: .78rem;
+      color: #999999;
+      margin: .4rem 0 0;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    @media (max-width: 600px) {
+      .ch-illustration.float-right,
+      .ch-illustration.float-left {
+        float: none;
+        max-width: 100%;
+        margin: 0 0 1.4rem;
+      }
+      .ch-illustration img {
+        min-width: 0 !important;
+        min-height: 0 !important;
+        width: 100% !important;
+        max-height: 400px !important;
+        height: auto;
+      }
+    }
+
+    /* Quotes */
+    .qt {
+      border-left: 3px solid #8b0000;
+      margin: 1.6rem 0;
+      padding: .6rem 0 .6rem 1.4rem;
+      background: #0d0d0d;
+      border-radius: 0 4px 4px 0;
+    }
+    .qt p {
+      font-family: "Crimson Text", "Lora", serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #e8e8e8;
+      margin-bottom: .3rem !important;
+    }
+    .qt cite {
+      font-size: .82rem;
+      color: #999999;
+      font-style: normal;
+      font-family: system-ui, sans-serif;
+    }
+
+    /* Recap */
+    .ch-recap {
+      margin-top: 2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(255,255,255,.1);
+      background: #2a2a2a;
+      padding: 1.1rem 1.3rem;
+      border-radius: 6px;
+    }
+    .recap-title {
+      font-family: "Crimson Text", "Lora", serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #8b0000;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .5rem !important;
+    }
+    .ch-recap p:last-child {
+      font-size: .92rem;
+      color: #999999;
+      line-height: 1.65;
+      margin-bottom: 0 !important;
+    }
+
+    /* Navigation */
+    .nr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+      font-family: system-ui, sans-serif;
+      font-size: .85rem;
+      color: #999999;
+    }
+    .nr button {
+      background: none;
+      border: 1px solid rgba(255,255,255,.2);
+      color: #e8e8e8;
+      padding: .4rem .9rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: system-ui, sans-serif;
+      font-size: .85rem;
+      transition: background .15s;
+    }
+    .nr button:hover { background: rgba(255,255,255,.06); }
+    .nr button:disabled { opacity: .3; cursor: default; }
+
+    
+    .theme-card p {
+      font-size: .92rem;
+      color: #999999;
+      line-height: 1.65;
+      margin-bottom: 0 !important;
+    }
+    .fact-card {
+      background: #2a0000;
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      margin-top: 1.1rem;
+      border-left: 3px solid #8b0000;
+    }
+    .fact-card h3 {
+      font-family: "Crimson Text", "Lora", serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #e8e8e8;
+      margin-bottom: .7rem;
+    }
+    .fact-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    .fact-card ul li {
+      font-size: .92rem;
+      color: #999999;
+      padding: .3rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      line-height: 1.6;
+    }
+    .fact-card ul li:last-child { border-bottom: none; }
+    .fact-card ul li strong { color: #8b0000; }
+
+    /* Quotes page */
+    .fp-quote {
+      margin-bottom: 1.6rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding-bottom: 1.4rem;
+    }
+    .fp-quote:last-of-type { border-bottom: none; }
+    .fp-qt {
+      border-left: 3px solid #8b0000;
+      padding: .6rem 0 .6rem 1.4rem;
+      background: #0d0d0d;
+      border-radius: 0 4px 4px 0;
+    }
+    .fp-qt p {
+      font-family: "Crimson Text", "Lora", serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #e8e8e8;
+      margin-bottom: .3rem;
+    }
+    .fp-qt cite {
+      font-size: .82rem;
+      color: #999999;
+      font-style: normal;
+      font-family: system-ui, sans-serif;
+    }
+    .fp-note {
+      display: none;
+      margin-top: .7rem;
+      padding: .7rem 1rem;
+      border-left: 2px solid rgba(255,255,255,.12);
+      font-size: .9rem;
+      color: #999999;
+      line-height: 1.65;
+    }
+    .fp-note.open { display: block; }
+    .fp-explain-btn {
+      background: none;
+      border: none;
+      color: #8b0000;
+      font-family: system-ui, sans-serif;
+      font-size: .8rem;
+      cursor: pointer;
+      padding: .35rem 0 0;
+      display: block;
+    }
+    .fp-explain-btn:hover { color: #e8e8e8; }
+
+    /* Quiz */
+    .qz-q {
+      margin-bottom: 1.8rem;
+    }
+    .qz-q p.q-stem {
+      font-family: "Crimson Text", "Lora", serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: .7rem;
+      color: #e8e8e8;
+    }
+    .qz-opts label {
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+      padding: .45rem .6rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: .92rem;
+      color: #999999;
+      line-height: 1.55;
+      margin-bottom: .3rem;
+      transition: background .12s;
+    }
+    .qz-opts label:hover { background: rgba(255,255,255,.04); }
+    .qz-opts label.correct { background: rgba(0,100,0,.25); color: #e8e8e8; }
+    .qz-opts label.wrong { background: rgba(139,0,0,.25); color: #e8e8e8; }
+    .qz-opts input { margin-top: .2rem; accent-color: #8b0000; flex-shrink: 0; }
+    #qz-submit {
+      background: #8b0000;
+      color: #e8e8e8;
+      border: none;
+      padding: .55rem 1.4rem;
+      border-radius: 4px;
+      font-family: system-ui, sans-serif;
+      font-size: .9rem;
+      cursor: pointer;
+      margin-top: .5rem;
+    }
+    #qz-submit:hover { background: #a00000; }
+    #qz-score {
+      margin-top: 1.2rem;
+      padding: .8rem 1.1rem;
+      background: #2a2a2a;
+      border-radius: 6px;
+      font-family: "Crimson Text", "Lora", serif;
+      font-size: 1.1rem;
+      color: #e8e8e8;
+      display: none;
+    }
+
+    /* Tooltip */
+    .cn-tip, .loc-tip {
+      border-bottom: 1px dotted #8b0000;
+      cursor: help;
+    }
+    .tip-box {
+      position: fixed;
+      background: #2a2a2a;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 6px;
+      padding: .7rem .9rem;
+      width: 256px;
+      z-index: 9000;
+      display: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,.5);
+    }
+    .tip-name {
+      font-family: "Crimson Text", "Lora", serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #e8e8e8;
+      margin-bottom: .2rem;
+    }
+    .tip-pron {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: system-ui, sans-serif;
+      font-size: .75rem;
+      color: #8b0000;
+      margin-bottom: .35rem;
+    }
+    .tip-speak {
+      background: none;
+      border: none;
+      color: #8b0000;
+      font-size: .72rem;
+      cursor: pointer;
+      padding: 0;
+      font-family: system-ui, sans-serif;
+    }
+    .tip-speak:hover { color: #e8e8e8; }
+    .tip-desc {
+      font-size: .82rem;
+      color: #999999;
+      line-height: 1.55;
+    }
+
+    /* Mobile sidebar */
+    @media (max-width: 700px) {
+      .layout { flex-direction: column; }
+      .sb {
+        width: 100%;
+        height: auto;
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .2rem;
+        padding: .6rem .6rem;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,.07);
+        overflow-x: auto;
+      }
+      .sb-label { display: none; }
+      .tdiv { display: none; }
+      .ti { width: auto; white-space: nowrap; }
+      .main { padding: 1.4rem 1.1rem 2rem; }
+      .pg-header { padding: 1rem 1.1rem .8rem; }
+      .pg-title { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="pg-header">
+  <a class="pg-back" href="../../index.html">← Library</a>
+  <h1 class="pg-title">Strange Case of Dr Jekyll and Mr Hyde</h1>
+  <p class="pg-author">Robert Louis Stevenson &middot; 1886</p>
+  <div class="pg-rule"></div>
+</header>
+
+<div class="layout">
+  <div class="sb">
+    <div class="sb-label">Chapters</div>
+    <button class="ti on" onclick="go(0)">I · The Door</button>
+    <button class="ti" onclick="go(1)">II · The Murder</button>
+    <button class="ti" onclick="go(2)">III · The Last Night</button>
+    <button class="ti" onclick="go(3)">IV · The Confession</button>
+    <div class="tdiv"></div>
+    <button class="ti" onclick="go(4)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M15 2L15.5387 4.39157C15.9957 6.42015 17.5798 8.00431 19.6084 8.46127L22 9L19.6084 9.53873C17.5798 9.99569 15.9957 11.5798 15.5387 13.6084L15 16L14.4613 13.6084C14.0043 11.5798 12.4202 9.99569 10.3916 9.53873L8 9L10.3916 8.46127C12.4201 8.00431 14.0043 6.42015 14.4613 4.39158L15 2Z"/><path d="M7 12L7.38481 13.7083C7.71121 15.1572 8.84275 16.2888 10.2917 16.6152L12 17L10.2917 17.3848C8.84275 17.7112 7.71121 18.8427 7.38481 20.2917L7 22L6.61519 20.2917C6.28879 18.8427 5.15725 17.7112 3.70827 17.3848L2 17L3.70827 16.6152C5.15725 16.2888 6.28879 15.1573 6.61519 13.7083L7 12Z"/></svg>Why it matters</span></button>
+    <button class="ti" onclick="go(5)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 22H6C4.89543 22 4 21.1046 4 20M4 20C4 18.8954 4.89543 18 6 18H20V6C20 4.11438 20 3.17157 19.4142 2.58579C18.8284 2 17.8856 2 16 2H10C7.17157 2 5.75736 2 4.87868 2.87868C4 3.75736 4 5.17157 4 8V20Z"/><path d="M19.5 18C19.5 18 18.5 18.7628 18.5 20C18.5 21.2372 19.5 22 19.5 22"/><path d="M9 2V10L12 7L15 10V2"/></svg>Quotes</span></button>
+    <button class="ti" onclick="go(6)"><span class="ti-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 22C7.49306 22 5.48959 22 4.2448 20.5355C3 19.0711 3 16.714 3 12C3 7.28596 3 4.92893 4.2448 3.46447C5.48959 2 7.49306 2 11.5 2C15.5069 2 17.5104 2 18.7552 3.46447C19.7572 4.64332 19.9527 6.40054 19.9908 9.5"/><path d="M8 8H15M8 13H11"/><path d="M19.6092 18.1054C20.4521 17.4918 21 16.4974 21 15.375C21 13.511 19.489 12 17.625 12H17.375C15.511 12 14 13.511 14 15.375C14 16.4974 14.5479 17.4918 15.3908 18.1054M19.6092 18.1054C19.0523 18.5108 18.3666 18.75 17.625 18.75H17.375C16.6334 18.75 15.9477 18.5108 15.3908 18.1054M19.6092 18.1054L20.192 19.9404C20.4143 20.6403 20.5255 20.9903 20.4951 21.2082C20.4318 21.6617 20.0619 21.9984 19.6252 22C19.4154 22.0008 19.101 21.8358 18.4723 21.5059C18.2027 21.3644 18.0679 21.2936 17.93 21.252C17.649 21.1673 17.351 21.1673 17.07 21.252C16.9321 21.2936 16.7973 21.3644 16.5277 21.5059C15.899 21.8358 15.5846 22.0008 15.3748 22C14.9381 21.9984 14.5682 21.6617 14.5049 21.2082C14.4745 20.9903 14.5857 20.6403 14.808 19.9404L15.3908 18.1054"/></svg>Quiz</span></button>
+  </div>
+
+  <div class="main">
+
+    <!-- CH 1 -->
+    <div class="ch on" data-t="The Door">
+      <h2><span class="ch-num">I.</span> The Door</h2>
+      <p class="dropcap">A blistered, blank-faced door on a side street in London. <span class="cn-tip" data-char="Enfield">Richard Enfield</span>, cousin to the solicitor <span class="cn-tip" data-char="Utterson">Gabriel Utterson</span>, passes it one night and cannot forget what he witnessed there.</p>
+
+      <figure class="ch-illustration">
+  <img src="images/chapter_01.jpg"
+       alt="Utterson stands before the blistered, blank-faced door set into the wall of Jekyll's laboratory in a London side street.">
+  <figcaption class="ch-illus-caption">Utterson stands before the blistered, blank-faced door set into the wall of Jekyll's laboratory in a London side street.</figcaption>
+</figure>
+
+      <p><span class="cn-tip" data-char="Enfield">Enfield</span> tells <span class="cn-tip" data-char="Utterson">Utterson</span> what happened. A small, hunched figure walked straight into a little girl and kept walking — trampled her without breaking stride. Enfield dragged him back. The creature agreed coldly to pay compensation, vanished through <span class="loc-tip" data-loc="TheDoor">that door</span>, and returned with a cheque that cleared.</p>
+
+      <p>The man was <span class="cn-tip" data-char="Hyde">Edward Hyde</span>. Utterson knows the name: an old friend has made a will naming Hyde sole beneficiary of his entire estate. Hearing that this beneficiary tramples children, the trouble deepens into something colder.</p>
+
+      <div class="qt" data-qid="jekyll-and-hyde-ch1-q1">
+        <p>"If he be Mr. Hyde, I shall be Mr. Seek."</p>
+        <cite>— Utterson, to himself</cite>
+      </div>
+
+      <p>Utterson calls on <span class="cn-tip" data-char="Jekyll">Henry Jekyll</span>, who deflects his questions with polished calm. He can be rid of Hyde at any moment, Jekyll says. He simply chooses not to be. <span class="cn-tip" data-char="Lanyon">Hastie Lanyon</span>, the third of their old triumvirate, has been estranged from Jekyll for years and will not help. Utterson sets to watching the door alone.</p>
+
+      <div class="qt" data-qid="jekyll-and-hyde-ch1-q2">
+        <p>"Quiet minds cannot be perplexed or frightened but go on in fortune or misfortune at their own private pace, like a clock during a thunderstorm."</p>
+        <cite>— the narrator, of Utterson</cite>
+      </div>
+
+      <p>Utterson's mind is not quiet. After ten days he catches <span class="cn-tip" data-char="Hyde">Hyde</span> at the door. The encounter lasts seconds. Hyde recoils. There is no single reason to name him ugly — but everyone who sees him feels revulsion at a level that precedes language.</p>
+
+      <div class="ch-recap">
+        <p class="recap-title">The Respectable and the Hidden</p>
+        <p>The mystery begins not with violence but with architecture — a door on a side street used by one man only, attached invisibly to the house of another. Stevenson understands that what a society conceals is at least as revealing as what it displays.</p>
+      </div>
+    </div>
+
+    <!-- CH 2 -->
+    <div class="ch" data-t="The Murder">
+      <h2><span class="ch-num">II.</span> The Murder</h2>
+      <p class="dropcap">A maid watching from her window sees two men meet in the street below: an old man with an air of innocent dignity, and <span class="cn-tip" data-char="Hyde">Edward Hyde</span>. The old man speaks pleasantly. Then, without warning, Hyde attacks.</p>
+
+      <p>He clubs Sir Danvers Carew to death. The blows do not stop when the man falls. The maid faints. When police arrive the cane is found broken in two — a gift from <span class="cn-tip" data-char="Utterson">Gabriel Utterson</span> to <span class="cn-tip" data-char="Jekyll">Henry Jekyll</span>. The weapon used to kill a Member of Parliament was given by the investigating solicitor to the man who created the murderer. The connections are not metaphorical. They are exact.</p>
+
+      <figure class="ch-illustration">
+  <img src="images/chapter_02.jpg"
+       alt="Hyde beats Sir Danvers Carew to death with a weighted cane in the street.">
+  <figcaption class="ch-illus-caption">Hyde beats Sir Danvers Carew to death with a weighted cane in the street.</figcaption>
+</figure>
+
+      <p>Hyde vanishes. Jekyll, when Utterson calls, looks pale and shaken. He burns Hyde's will, produces a letter from Hyde promising to disappear for ever, and seems himself again. He donates to charity, receives friends. For two months, it holds.</p>
+
+      <div class="qt" data-qid="jekyll-and-hyde-ch2-q1">
+        <p>"You must suffer me to go my own dark way."</p>
+        <cite>— Jekyll, to Utterson</cite>
+      </div>
+
+      <p>Then the door closes again. One afternoon, Utterson and <span class="cn-tip" data-char="Enfield">Enfield</span> see <span class="cn-tip" data-char="Jekyll">Jekyll</span> at the laboratory window, half-smiling. They call up. He begins to reply — and his face changes. Not surprise: the look of a man who has just remembered something catastrophic. He shuts the window and is gone. Neither man speaks of it. Victorian professional men do not name what they cannot explain; their silence is a decision, not a failure. Hyde's first victim was a child. His last, a Member of Parliament. The violence escalates; the silence holds.</p>
+
+      <p><span class="cn-tip" data-char="Lanyon">Hastie Lanyon</span> now refuses to speak of Jekyll at all. His face hardens into revulsion and dread at the name. Within weeks he is dying, and will not say why. He sends Utterson a sealed letter: do not open it until Jekyll is dead or disappeared.</p>
+
+      <div class="ch-recap">
+        <p class="recap-title">A Murder Weapon with the Donor's Name on It</p>
+        <p>The Carew murder reveals that Hyde has grown — more violent, more reckless, harder to contain. That the murder weapon was Utterson's own gift to Jekyll is not an accident: the story insists, quietly, that these men's lives are more entangled than any of them know, or wish to.</p>
+      </div>
+    </div>
+
+    <!-- CH 3 -->
+    <div class="ch" data-t="The Last Night">
+      <h2><span class="ch-num">III.</span> The Last Night</h2>
+      <p class="dropcap"><span class="cn-tip" data-char="Poole">Poole</span>, <span class="cn-tip" data-char="Jekyll">Jekyll</span>'s butler, arrives at Utterson's door trembling. He has served in that house for twenty years. He needs Utterson to come.</p>
+
+      <figure class="ch-illustration">
+  <img src="images/chapter_03.jpg"
+       alt="Utterson and Poole stand together in the darkness outside Jekyll's locked laboratory on the last night.">
+  <figcaption class="ch-illus-caption">Utterson and Poole stand together in the darkness outside Jekyll's locked laboratory on the last night.</figcaption>
+</figure>
+
+      <p>The servants have huddled in the kitchen, refusing to separate. For over a week, whatever is in the <span class="loc-tip" data-loc="JekyllLab">laboratory</span> has not come out. It passes notes in a hand they almost recognise, sends urgent orders for chemicals, and rejects every delivery as wrong. Its voice through the door is not quite Jekyll's. The figure glimpsed through the glass had something wrong with its face.</p>
+
+      <p>Utterson and <span class="cn-tip" data-char="Poole">Poole</span> take an axe to <span class="loc-tip" data-loc="TheDoor">the door</span>. When it gives, they smell chemicals, and something organic beneath. On the floor, drowned in <span class="cn-tip" data-char="Jekyll">Jekyll</span>'s clothes — far too large — <span class="cn-tip" data-char="Hyde">Hyde</span> lies dead. Smaller than Jekyll, wrong in proportion, wearing another man's life. A phial of prussic acid lies crushed in his hand. He chose this end rather than wait for the alternative.</p>
+
+      <p>No sign of <span class="cn-tip" data-char="Jekyll">Jekyll</span>. On the dissecting table: a full statement addressed to Utterson, <span class="cn-tip" data-char="Lanyon">Lanyon</span>'s sealed letter, and a will rewritten in Utterson's favour — papers arranged with the care of a man who knew exactly what was coming and spent his last hours of lucidity preparing the record.</p>
+
+      <div class="qt" data-qid="jekyll-and-hyde-ch3-q1">
+        <p>"It is one thing to mortify curiosity, another to conquer it."</p>
+        <cite>— Stevenson, of Utterson</cite>
+      </div>
+
+      <div class="ch-recap">
+        <p class="recap-title">The Empty Room</p>
+        <p>The break-in answers one question by raising a larger one: Jekyll is not dead, and Hyde is not Jekyll — and yet they share a body, and only one remains. Poole's plain loyalty, his refusal to theorise, throws into relief the horror that theory alone cannot contain.</p>
+      </div>
+    </div>
+
+    <!-- CH 4 -->
+    <div class="ch" data-t="The Confession">
+      <h2><span class="ch-num">IV.</span> The Confession</h2>
+      <p class="dropcap"><span class="cn-tip" data-char="Jekyll">Henry Jekyll</span>'s confession begins with a theory: every person contains two selves — one shaped by duty, the other by appetite. Most people suppress the second. Jekyll wanted to separate them.</p>
+
+      <figure class="ch-illustration">
+  <img src="images/chapter_04.jpg"
+       alt="Mr Hyde, the irreversibly dominant alter ego, confronts the reader in Jekyll's full written confession.">
+  <figcaption class="ch-illus-caption">Mr Hyde, the irreversibly dominant alter ego, confronts the reader in Jekyll's full written confession.</figcaption>
+</figure>
+
+      <p>The first draught was agony. On the other side of it was <span class="cn-tip" data-char="Hyde">Edward Hyde</span>: smaller than Jekyll, younger, free of conscience and reputation. <span class="cn-tip" data-char="Jekyll">Jekyll</span> indulged him. The pleasures Hyde pursued are kept vague in the confession — "undignified" is as far as it goes — but Hyde moved through London at night with money and no conscience, no fear of consequence. What lies between trampling a child and beating a Member of Parliament to death, the confession will not name. After each excursion, Jekyll drank the potion and returned.</p>
+
+      <div class="qt" data-qid="jekyll-and-hyde-ch4-q1">
+        <p>"I learned to recognise the thorough and primitive duality of man; I saw that, of the two natures that contended in the field of my consciousness, even if I could rightly be said to be either, it was only because I was radically both."</p>
+        <cite>— Jekyll</cite>
+      </div>
+
+      <p>After the Carew murder, Jekyll swore off the experiment. He lasted two months. Then, on a bench in <span class="loc-tip" data-loc="RegentsPark">Regent's Park</span>, he transformed without the potion. Hyde was becoming the default.</p>
+
+      <div class="qt" data-qid="jekyll-and-hyde-ch4-q2">
+        <p>"I sat in the sun on a bench; the animal within me licking the chops of memory; the spiritual side a little drowsed, promising subsequent penitence, but not yet moved to begin."</p>
+        <cite>— Jekyll</cite>
+      </div>
+
+      <p>He could still transform back — but the supply of the specific salt ran out; none of the new stock worked. In desperation he summoned <span class="cn-tip" data-char="Lanyon">Lanyon</span>, had him collect the chemicals from the <span class="loc-tip" data-loc="JekyllLab">laboratory</span>, then transformed back in front of him. <span class="cn-tip" data-char="Lanyon">Lanyon</span>, a man of reason, watched Hyde become Jekyll. The shock destroyed something in him that his worldview could not repair. He died of it.</p>
+
+      <div class="qt" data-qid="jekyll-and-hyde-ch4-q3">
+        <p>"If I am the chief of sinners, I am the chief of sufferers also."</p>
+        <cite>— Jekyll</cite>
+      </div>
+
+      <p>Hyde grew — physically larger and stronger over time, while Jekyll weakened. The evil self, once released, does not stay contained. In the final days, each transformation back was harder. Jekyll wrote the confession knowing that when Hyde returned, he would not come back. The hand writing these words is Jekyll's. It will not be Jekyll who puts down the pen.</p>
+
+      <div class="qt" data-qid="jekyll-and-hyde-ch4-q5">
+        <p>"There comes an end to all things; the most capacious measure is filled at last; and this brief condescension to evil finally destroyed the balance of my soul."</p>
+        <cite>— Jekyll</cite>
+      </div>
+
+      <div class="ch-recap">
+        <p class="recap-title">The Confession of a Divided Man</p>
+        <p>Jekyll never claims innocence — he was Hyde too, and Hyde was him. The tragedy is not that a good man was corrupted but that a man who believed himself good discovered what was always there, indulged it, and could not stop. Hyde was not created by science. He was released by it.</p>
+      </div>
+    </div>
+
+    <!-- CH 5 -->
+    <div class="ch" data-t="Why it matters">
+      <h2 class="ch-title">Why it matters</h2>
+      <p class="ch-sub">Published 1886 &middot; 80 pages &middot; still in print</p>
+
+      <div class="hl-grid">
+        <div class="hl">
+          <p class="hl-title">Duality of the Self</p>
+          <ul>
+            <li>Hyde is not an intruder — he is the part of Jekyll that was always there</li>
+            <li>The experiment releases what respectability had suppressed; it creates nothing new</li>
+            <li>Goodness is not a default state but an ongoing act of suppression</li>
+            <li>That suppression has costs — and Hyde is what those costs look like when the bill comes due</li>
+          </ul>
+        </div>
+        <div class="hl">
+          <p class="hl-title">The Repressed and the Respectable</p>
+          <ul>
+            <li>Victorian professional life demanded absolute decorum — pleasure was permitted only in secret</li>
+            <li>Hyde is the return of everything repressed, made flesh; his pleasures are never named in the confession</li>
+            <li>The male fraternity of solicitors and physicians operates as a machine for maintaining silence</li>
+            <li>Utterson burns Hyde's letter, averts his eyes, keeps Lanyon's envelope sealed — respectability enables the evil it pretends to prevent</li>
+          </ul>
+        </div>
+        <div class="hl">
+          <p class="hl-title">Science Without Conscience</p>
+          <ul>
+            <li>Jekyll uses scientific language — experiment, hypothesis, controlled trial — to escape moral responsibility</li>
+            <li>Hyde is framed as a finding, not a choice; the scientific frame is itself the rationalisation</li>
+            <li>Lanyon, the strict rationalist, dies of what he witnesses — pure reason is no defence against what reason unleashes</li>
+            <li>The novella anticipates debates about scientific ethics that became acute in the 20th century</li>
+          </ul>
+        </div>
+        <div class="hl">
+          <p class="hl-title">Legacy and Influence</p>
+          <ul>
+            <li>Stevenson wrote two decades before Freud, yet id and superego map onto Hyde and Jekyll almost exactly</li>
+            <li>"Jekyll and Hyde" entered everyday English, joining Frankenstein and Scrooge in the tiny company of fictional names become common words</li>
+            <li>125+ film adaptations — more than almost any other literary work</li>
+            <li>A founding text of horror, science fiction, and the psychological thriller simultaneously</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fact-card">
+        <p class="fact-title">Fun Facts</p>
+        <ul>
+          <li><strong>3–6 days:</strong> The time Stevenson took to write the first draft, in a fever.</li>
+          <li><strong>Burned:</strong> His wife Fanny called it too much an adventure story — Stevenson destroyed the manuscript entirely and rewrote it as a moral allegory.</li>
+          <li><strong>No women speak:</strong> The novella has no significant female speaking characters — the trampled child and the maid witness exist at the periphery, a comment on the closed male world where this repression operates.</li>
+          <li><strong>125+ film adaptations:</strong> The 1931 Fredric March version won him the Academy Award for Best Actor. It remains the definitive screen version for many readers.</li>
+          <li><strong>Into the dictionary:</strong> "Jekyll and Hyde" is one of very few fictional phrases to enter common language as a descriptor for dual-natured people.</li>
+        </ul>
+      </div>
+    </div>
+<!-- CH 6 -->
+    <div class="ch" data-t="Quotes">
+      <h2>Celebrated Passages</h2>
+      <p style="color:#999999;font-size:.92rem;margin-bottom:1.6rem;">The most memorable lines from the novel, with context.</p>
+
+      <div class="fp-quote">
+        <div class="fp-qt">
+          <p>"If he be Mr. Hyde, I shall be Mr. Seek."</p>
+          <cite>— Utterson, to himself, after hearing Enfield's account</cite>
+        </div>
+        <button class="fp-explain-btn" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Utterson's private resolution — dry, lawyerly, almost a joke — is the one moment of levity in a very dark book. But it is also the clearest statement of the novel's structure: everything that follows is a pursuit, and Utterson the reluctant detective. The wordplay on Hyde and Seek is too neat to be accidental.</div>
+      </div>
+
+      <div class="fp-quote">
+        <div class="fp-qt">
+          <p>"Quiet minds cannot be perplexed or frightened but go on in fortune or misfortune at their own private pace, like a clock during a thunderstorm."</p>
+          <cite>— the narrator, of Utterson</cite>
+        </div>
+        <button class="fp-explain-btn" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">The narrator offers this as a kind of ideal — the person who is not rattled by the unaccountable. It is also, quietly, a description of everything Utterson is not quite able to achieve. His mind is not entirely quiet. The thunderstorm of the story is already building.</div>
+      </div>
+
+      <div class="fp-quote">
+        <div class="fp-qt">
+          <p>"It is one thing to mortify curiosity, another to conquer it."</p>
+          <cite>— Stevenson, of Utterson</cite>
+        </div>
+        <button class="fp-explain-btn" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Stevenson offers this as a narrator's observation on Utterson — not dialogue, but diagnosis. Utterson knows he should leave Jekyll's secrets alone. He cannot. This line names the exact mechanism by which the investigation proceeds: not bravery, not duty, but the simple impossibility of truly suppressing what one wants to know. The same impossibility drives Jekyll himself.</div>
+      </div>
+
+      <div class="fp-quote">
+        <div class="fp-qt">
+          <p>"You must suffer me to go my own dark way."</p>
+          <cite>— Jekyll, to Utterson</cite>
+        </div>
+        <button class="fp-explain-btn" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Jekyll says this with confidence, as if the darkness is chosen and contained. He believes he controls it. The reader, by this point, suspects he does not. The phrase is also a model of Victorian male friendship: the request for privacy in matters one will not name, and the assumption that the friend will comply.</div>
+      </div>
+
+      <div class="fp-quote">
+        <div class="fp-qt">
+          <p>"I learned to recognise the thorough and primitive duality of man; I saw that, of the two natures that contended in the field of my consciousness, even if I could rightly be said to be either, it was only because I was radically both."</p>
+          <cite>— Jekyll</cite>
+        </div>
+        <button class="fp-explain-btn" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">The philosophical core of the novel. Jekyll is not saying he discovered something unusual about himself — he is saying he discovered something universal. We are all radically both. The experiment did not create a monster; it revealed the one that was already there, waiting.</div>
+      </div>
+
+      <div class="fp-quote">
+        <div class="fp-qt">
+          <p>"If I am the chief of sinners, I am the chief of sufferers also."</p>
+          <cite>— Jekyll</cite>
+        </div>
+        <button class="fp-explain-btn" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Jekyll cannot quite give up on his own sympathy. He confesses to enormous wrong, then immediately asks for compassion. This is not hypocrisy — it is the logic of the divided self made explicit. Sinners suffer too, often most of all. Whether this plea is justified is left entirely to the reader.</div>
+      </div>
+
+      <div class="fp-quote">
+        <div class="fp-qt">
+          <p>"All human beings, as we meet them, are commingled out of good and evil: and Edward Hyde, alone, in the ranks of mankind, was pure evil."</p>
+          <cite>— Jekyll</cite>
+        </div>
+        <button class="fp-explain-btn" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">This is the horror of what Jekyll actually achieved. Not that he created evil — but that he isolated it. Every normal person contains evil diluted by good. Hyde is the undiluted version: a concentration of what is worst in one man, given a body. The idea that purity of any kind is monstrous is quietly radical.</div>
+      </div>
+
+      <div class="fp-quote">
+        <div class="fp-qt">
+          <p>"There comes an end to all things; the most capacious measure is filled at last; and this brief condescension to evil finally destroyed the balance of my soul."</p>
+          <cite>— Jekyll</cite>
+        </div>
+        <button class="fp-explain-btn" onclick="toggleNote(this)">&#9658; explain</button>
+        <div class="fp-note">Stevenson understood that moral collapse is rarely sudden. It is the accumulation of brief condescensions — small choices, small indulgences — until the balance tips. Jekyll names this with painful precision. The word "condescension" is perfect: he stooped, and kept stooping, until stooping became his natural posture.</div>
+      </div>
+    </div>
+
+    <!-- CH 7 -->
+    <div class="ch" data-t="Quiz">
+      <h2>Test Your Understanding</h2>
+      <p style="color:#999999;font-size:.92rem;margin-bottom:1.8rem;">Three questions on themes and ideas — not plot recall.</p>
+
+      <div class="qz-q">
+        <p class="q-stem">1. Jekyll argues that his experiment separated his two natures into distinct forms. What does the novel suggest this reveals about human identity?</p>
+        <div class="qz-opts">
+          <label><input type="radio" name="q0" value="a"> That evil is an external force that can infect a good person</label>
+          <label><input type="radio" name="q0" value="b"> That the self is not unified — good and evil are both always present, and respectability is a form of ongoing suppression</label>
+          <label><input type="radio" name="q0" value="c"> That scientists should not conduct experiments on themselves</label>
+          <label><input type="radio" name="q0" value="d"> That Victorian medicine was dangerously unregulated</label>
+        </div>
+      </div>
+
+      <div class="qz-q">
+        <p class="q-stem">2. Lanyon witnesses the transformation from Hyde back into Jekyll and dies shortly afterwards. What does his death represent in the context of the story?</p>
+        <div class="qz-opts">
+          <label><input type="radio" name="q1" value="a"> The physical danger of being near Hyde</label>
+          <label><input type="radio" name="q1" value="b"> The failure of Victorian medicine to understand mental illness</label>
+          <label><input type="radio" name="q1" value="c"> The cost of encountering a truth that a rational, materialist worldview cannot accommodate</label>
+          <label><input type="radio" name="q1" value="d"> A coincidence — Lanyon was already ill before the encounter</label>
+        </div>
+      </div>
+
+      <div class="qz-q">
+        <p class="q-stem">3. Hyde grows physically larger and stronger over time while Jekyll weakens. What does this detail suggest about the relationship between suppression and the self?</p>
+        <div class="qz-opts">
+          <label><input type="radio" name="q2" value="a"> Hyde is a supernatural creature with powers independent of Jekyll</label>
+          <label><input type="radio" name="q2" value="b"> The potion has unintended biochemical side effects</label>
+          <label><input type="radio" name="q2" value="c"> Exercise makes all people stronger regardless of morality</label>
+          <label><input type="radio" name="q2" value="d"> What is exercised grows; a nature expressed freely becomes dominant, while a nature suppressed slowly loses strength</label>
+        </div>
+      </div>
+
+      <button id="qz-submit" onclick="answer()">Check answers</button>
+      <div id="qz-score"></div>
+    </div>
+
+    <!-- Nav -->
+    <div class="nr">
+      <button id="pb" onclick="nav(-1)" disabled>&#8592; Back</button>
+      <span><span id="nc">1</span> / <span id="ntot">7</span></span>
+      <button id="fwb" onclick="nav(1)">Next &#8594;</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="tip-box" id="tipbox">
+  <div class="tip-name" id="tipname"></div>
+  <div class="tip-pron" id="tippron">
+    <span id="tiprontext"></span>
+    <button class="tip-speak" id="tipspeak" title="Hear pronunciation">&#9654; hear</button>
+  </div>
+  <div class="tip-desc" id="tipdesc"></div>
+</div>
+
+<script>
+let c = 0;
+const chs = document.querySelectorAll('.ch');
+const tis = document.querySelectorAll('.ti');
+const N = chs.length;
+function go(i) {
+  chs[c].classList.remove('on'); tis[c].classList.remove('on');
+  c = i;
+  chs[c].classList.add('on'); tis[c].classList.add('on');
+  document.getElementById('pb').disabled  = c === 0;
+  document.getElementById('fwb').disabled = c === N-1;
+  document.getElementById('nc').textContent = (c+1);
+  document.getElementById('ntot').textContent = N;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function nav(d) { go(c+d); }
+function toggleNote(btn) {
+  var note = btn.closest('.fp-quote').querySelector('.fp-note');
+  var open = note.classList.toggle('open');
+  btn.classList.toggle('active', open);
+  btn.textContent = open ? '▾ explain' : '▸ explain';
+}
+</script>
+
+<script>
+var CHARS = {
+  "Utterson": {
+    "pron": "YOO-ter-sun",
+    "speak": "Gabriel Utterson",
+    "desc": "Reserved London solicitor and oldest friend to Jekyll, whose loyalty drives the mystery"
+  },
+  "Jekyll": {
+    "pron": "JEE-kul",
+    "speak": "Henry Jekyll",
+    "desc": "Eminent physician whose theory of human duality destroys him"
+  },
+  "Hyde": {
+    "pron": "HYD",
+    "speak": "Edward Hyde",
+    "desc": "Alter ego of Jekyll — pure concentrated evil, smaller than Jekyll and repellent to all who see him"
+  },
+  "Enfield": {
+    "pron": "EN-feeld",
+    "speak": "Richard Enfield",
+    "desc": "Cousin of Utterson, whose account of the trampled girl sets the investigation in motion"
+  },
+  "Lanyon": {
+    "pron": "LAN-ee-on",
+    "speak": "Hastie Lanyon",
+    "desc": "Rationalist physician whose worldview cannot survive witnessing the transformation"
+  },
+  "Poole": {
+    "pron": "POOL",
+    "speak": "Poole",
+    "desc": "Loyal butler of Jekyll whose terror forces the break-in that solves the mystery"
+  }
+};
+var LOCS = {
+  "JekyllLab": {
+    "pron": "JEE-kul LAB",
+    "desc": "The locked cabinet at the rear of the Jekyll house — boundary between respectability and horror"
+  },
+  "TheDoor": {
+    "pron": "THE DOOR",
+    "desc": "The blank-faced back entrance to the Jekyll laboratory, through which Hyde alone enters and exits"
+  },
+  "RegentsPark": {
+    "pron": "REE-jents PARK",
+    "desc": "London park where Jekyll first transforms involuntarily into Hyde — the moment control is lost"
+  },
+  "LanyonStudy": {
+    "pron": "LAN-ee-on STUD-ee",
+    "desc": "The room where Lanyon witnesses the transformation that kills him"
+  }
+};
+
+var tipbox = document.getElementById("tipbox");
+var tipname = document.getElementById("tipname");
+var tippron = document.getElementById("tippron");
+var tiprontext = document.getElementById("tiprontext");
+var tipspeak = document.getElementById("tipspeak");
+var tipdesc = document.getElementById("tipdesc");
+var hideTimer = null;
+var currentSpeakText = "";
+
+function placeTip(e) {
+  var TW = 256;
+  var x = e.clientX + 12;
+  var y = e.clientY + 16;
+  if (x + TW > window.innerWidth - 8) { x = e.clientX - TW - 12; }
+  if (y + 120 > window.innerHeight - 8) { y = e.clientY - 130; }
+  tipbox.style.left = x + "px";
+  tipbox.style.top  = y + "px";
+}
+
+function showTip(el, e) {
+  clearTimeout(hideTimer);
+  var key = el.dataset.char || el.dataset.loc;
+  var data = el.dataset.char ? CHARS[key] : LOCS[key];
+  if (!data) return;
+  tipname.textContent = el.dataset.char ? data.speak : key;
+  tiprontext.textContent = data.pron;
+  tipdesc.textContent = data.desc;
+  tippron.style.display = "flex";
+  currentSpeakText = data.pron;
+  placeTip(e);
+  tipbox.style.display = "block";
+}
+
+function hideTip() {
+  hideTimer = setTimeout(function() {
+    tipbox.style.display = "none";
+  }, 150);
+}
+
+tipbox.addEventListener("mouseenter", function() { clearTimeout(hideTimer); });
+tipbox.addEventListener("mouseleave", hideTip);
+
+tipspeak.addEventListener("click", function() {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  var utt = new SpeechSynthesisUtterance(currentSpeakText);
+  utt.rate = 0.8;
+  utt.lang = "en-GB";
+  window.speechSynthesis.speak(utt);
+});
+
+document.querySelectorAll(".cn-tip, .loc-tip").forEach(function(el) {
+  el.addEventListener("mouseenter", function(e) { showTip(el, e); });
+  el.addEventListener("mousemove",  function(e) { if (tipbox.style.display === "block") placeTip(e); });
+  el.addEventListener("mouseleave", hideTip);
+  el.addEventListener("touchstart", function(e) {
+    var touch = e.touches[0];
+    showTip(el, { clientX: touch.clientX, clientY: touch.clientY });
+    e.preventDefault();
+  }, { passive: false });
+});
+
+var qAnswers = ["b", "c", "d"];
+var qDone = false;
+
+function answer() {
+  if (qDone) return;
+  qDone = true;
+  var score = 0;
+  qAnswers.forEach(function(correct, i) {
+    var chosen = document.querySelector("input[name=q" + i + "]:checked");
+    var labels = document.querySelectorAll(".qz-q:nth-child(" + (i + 1) + ") .qz-opts label");
+    labels.forEach(function(lbl) {
+      var val = lbl.querySelector("input").value;
+      if (val === correct) { lbl.classList.add("correct"); }
+      else if (chosen && val === chosen.value) { lbl.classList.add("wrong"); }
+    });
+    if (chosen && chosen.value === correct) { score++; }
+  });
+  var msg = ["Keep reading — the themes repay close attention.", "Good — you have the shape of it.", "Excellent — you understand the divided soul at the heart of this story."];
+  var el = document.getElementById("qz-score");
+  el.textContent = score + " / 3 — " + msg[score];
+  el.style.display = "block";
+  document.getElementById("qz-submit").disabled = true;
+}
+</script>
+
+</body>
+</html>

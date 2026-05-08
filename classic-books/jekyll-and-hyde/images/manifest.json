@@ -1,0 +1,37 @@
+{
+  "book": "jekyll-and-hyde",
+  "chapters": [
+    {
+      "chapter": 1,
+      "file": "chapter_01.jpg",
+      "caption": "Utterson stands before the blistered, blank-faced door set into the wall of Jekyll's laboratory in a London side street.",
+      "attribution": "Charles Raymond Macauley, 1904, Scott-Thaw edition. Public domain.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Jekyll.and.Hyde.Ch1.Drawing1.jpg",
+      "found": true
+    },
+    {
+      "chapter": 2,
+      "file": "chapter_02.jpg",
+      "caption": "Hyde beats Sir Danvers Carew to death with a weighted cane in the street.",
+      "attribution": "Charles Raymond Macauley, 1904, Scott-Thaw edition. Public domain.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Jekyll.and.Hyde.Ch4.Drawing1.jpg",
+      "found": true
+    },
+    {
+      "chapter": 3,
+      "file": "chapter_03.jpg",
+      "caption": "Utterson and Poole stand together in the darkness outside Jekyll's locked laboratory on the last night.",
+      "attribution": "Charles Raymond Macauley, 1904, Scott-Thaw edition. Public domain.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Jekyll.and.Hyde.Ch8.Drawing3.jpg",
+      "found": true
+    },
+    {
+      "chapter": 4,
+      "file": "chapter_04.jpg",
+      "caption": "Mr Hyde, the irreversibly dominant alter ego, confronts the reader in Jekyll's full written confession.",
+      "attribution": "Charles Raymond Macauley, 1904, Scott-Thaw edition. Public domain.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Jekyll.and.Hyde.Ch10.Drawing1.jpg",
+      "found": true
+    }
+  ]
+}

@@ -55,6 +55,10 @@ Phase 0 — Pre-research and design:
 
 Round 1:
   4. Spawn Writer with Research Brief + Design Spec → saves HTML.
+  4b. Run post-write compliance check (see section below) immediately after Writer returns.
+      Fix any failures yourself before spawning Reader — do not pass a broken file to Reader.
+  4c. Check Writer delivery for a DESIGN NOTES section. If present, surface each note to the
+      user and ask whether to apply before proceeding. Apply approved deviations, then continue.
   5. Spawn Reader. Wait for verdict before spawning Illustrator.
      (Running Reader and Illustrator in parallel risks rate-limit contention —
       Reader finishes in ~1 min; Illustrator takes 15–25 min and burns the budget.)
@@ -125,6 +129,63 @@ NOTABLE DETAILS:
   (ask: would a reader who loved the book remember this as significant?)
 …
 ```
+
+---
+
+## Post-write compliance check
+
+Run this immediately after Writer round 1 (before spawning Reader). Fix any failures yourself.
+
+```python
+import re
+
+slug    = "{book-slug}"
+N_story = {N}   # number of story chapters
+path    = f"classic-books/{slug}/{slug}.html"
+src     = open(path).read()
+errors  = []
+
+# 1. Header must be centered (not a sticky nav)
+if "text-align: center" not in src or ".pg-header" not in src:
+    errors.append("FAIL: .pg-header missing text-align:center — Writer made it a sticky nav instead")
+if "position: sticky" in src.split(".layout")[0]:   # sticky before .layout = sticky header
+    errors.append("FAIL: .pg-header appears to use position:sticky — should be position:relative")
+
+# 2. Global image sizing rule must exist
+if ".ch-illustration img" not in src or "max-width: 600px" not in src:
+    errors.append("FAIL: .ch-illustration img global rule missing or lacks max-width:600px")
+
+# 3. Correct class names in HTML (not Writer inventions)
+for cls in ["hl-grid", "hl-title", "fact-card", "fact-title"]:
+    if f'class="{cls}"' not in src:
+        errors.append(f"FAIL: class=\"{cls}\" not found — Writer used wrong class names")
+
+# 4. Prose word count per story chapter (~250 words, hard cap 350)
+for i in range(1, N_story + 1):
+    tag  = f"<!-- CH {i} -->"
+    nxt  = f"<!-- CH {i+1}" if i < N_story else "<!-- CH " + str(N_story+1)
+    s, e = src.find(tag), src.find(nxt, src.find(tag))
+    block = src[s:e]
+    block = re.sub(r'<div class="qt".*?</div>', '', block, flags=re.DOTALL)
+    block = re.sub(r'<div class="ch-recap".*?</div>\s*</div>', '', block, flags=re.DOTALL)
+    block = re.sub(r'<figure.*?</figure>', '', block, flags=re.DOTALL)
+    words = len(re.sub(r'<[^>]+>', ' ', block).split())
+    if words > 350:
+        errors.append(f"FAIL: CH{i} has {words} prose words — target ~250, hard cap 350")
+    elif words > 300:
+        errors.append(f"WARN: CH{i} has {words} prose words — slightly over target ~250")
+
+if errors:
+    for e in errors: print(e)
+else:
+    print("Compliance check passed.")
+```
+
+**Common Writer failures this catches:**
+- Replacing `text-align: center` header with a sticky nav bar (Writer "improves" dark themes this way)
+- Missing global `.ch-illustration img` rule (mobile media query only → images render full-width)
+- Using invented class names like `.theme-grid`/`.theme-card` instead of `.hl-grid`/`.hl`/`.hl-title`
+- Chapters running 400–600 words instead of ~250
 
 ---
 

@@ -663,7 +663,7 @@ body   { font-family: [body font]; background: [background]; color: [text]; marg
 
 .ch    { display: none; }
 .ch.on { display: block; }
-.layout { display: flex; max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+.layout { display: flex; max-width: 1040px; margin: 0 auto; padding: 2rem 1.5rem; }
 .sb    { width: [sidebar-width]; flex-shrink: 0; position: sticky; top: 1.5rem;
          align-self: flex-start; padding-right: 1.2rem; }
 .main  { flex: 1; min-width: 0; }
@@ -804,6 +804,26 @@ Story chapter buttons are plain text. Only the two special pages use icons:
 ```
 
 `stroke="currentColor"` — icons inherit the button's active/inactive text colour automatically.
+
+---
+
+## Spec compliance — follow exactly, flag deviations
+
+**Follow the spec exactly.** Do not silently improve or adapt it. Every CSS class name, every layout choice, every structural rule in this spec exists for a reason — do not substitute alternatives, even ones that seem locally better.
+
+**If you have a genuine design concern** — e.g. you believe the non-sticky header will hurt usability for this specific book, or the 250-word limit is too tight for a very dense chapter — do NOT implement the deviation silently. Instead:
+
+1. Follow the spec as written.
+2. At the end of your delivery output, add a `DESIGN NOTES` section:
+
+```
+DESIGN NOTES (orchestrator: surface these to the user before proceeding):
+- [what spec choice you'd reconsider] — [brief reason why, specific to this book]
+```
+
+The orchestrator will ask the user whether to apply the deviation. If the user approves, the orchestrator will instruct you to make the change in a targeted revision. If not, the spec version stands.
+
+This means: **spec first, opinion second, never silently.**
 
 ---
 
