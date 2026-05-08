@@ -367,7 +367,7 @@ var CHARS = {
 };
 ```
 
-- `pron`: phonetic guide, stressed syllable in CAPS
+- `pron`: phonetic guide, stressed syllable in CAPS. **Copy directly from the Research Brief** — pronunciations were verified by web search during Phase 0. Do not re-derive from spelling. If the Brief omits a pronunciation, flag it in DESIGN NOTES — the orchestrator should have sourced all pronunciations in Phase 0.
 - `speak`: full name (or role label for unnamed characters) for `speechSynthesis`
 - `desc`: one sentence, **no apostrophes** (use `"Friend of Raskolnikov"` not `"Raskolnikov's friend"`)
 

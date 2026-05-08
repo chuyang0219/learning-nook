@@ -1,6 +1,9 @@
 # Booklist
 
-- Jekyll & Hyde
+- Demian
+- Hamlet
+- Jane Eyre
+- Sense & Sensibility
 - The Merchant of Venice
 - Emma by Jane Austen
 - The Great Gatsby

@@ -429,20 +429,25 @@
         height: auto;
         position: static;
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         align-items: center;
         gap: .2rem;
         padding: .6rem .6rem;
         border-right: none;
         border-bottom: 1px solid rgba(255,255,255,.07);
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
       }
+      .sb::-webkit-scrollbar { display: none; }
       .sb-label { display: none; }
       .tdiv { display: none; }
       .ti { width: auto; white-space: nowrap; }
       .main { padding: 1.4rem 1.1rem 2rem; }
       .pg-header { padding: 1rem 1.1rem .8rem; }
+      .pg-back { position: static; display: block; text-align: left; opacity: 1; margin-bottom: .4rem; }
       .pg-title { font-size: 1.2rem; }
+      .hl-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -822,12 +827,12 @@ function toggleNote(btn) {
 <script>
 var CHARS = {
   "Utterson": {
-    "pron": "YOO-ter-sun",
+    "pron": "UH-ter-sun",
     "speak": "Gabriel Utterson",
     "desc": "Reserved London solicitor and oldest friend to Jekyll, whose loyalty drives the mystery"
   },
   "Jekyll": {
-    "pron": "JEE-kul",
+    "pron": "JEK-ul",
     "speak": "Henry Jekyll",
     "desc": "Eminent physician whose theory of human duality destroys him"
   },
@@ -842,7 +847,7 @@ var CHARS = {
     "desc": "Cousin of Utterson, whose account of the trampled girl sets the investigation in motion"
   },
   "Lanyon": {
-    "pron": "LAN-ee-on",
+    "pron": "LAN-yon",
     "speak": "Hastie Lanyon",
     "desc": "Rationalist physician whose worldview cannot survive witnessing the transformation"
   },
@@ -854,7 +859,7 @@ var CHARS = {
 };
 var LOCS = {
   "JekyllLab": {
-    "pron": "JEE-kul LAB",
+    "pron": "JEK-ul LAB",
     "desc": "The locked cabinet at the rear of the Jekyll house — boundary between respectability and horror"
   },
   "TheDoor": {
@@ -881,6 +886,17 @@ var hideTimer = null;
 var currentSpeakText = "";
 
 function placeTip(e) {
+  if (window.innerWidth <= 700) {
+    tipbox.style.left   = "16px";
+    tipbox.style.right  = "16px";
+    tipbox.style.width  = "auto";
+    tipbox.style.top    = "auto";
+    tipbox.style.bottom = "80px";
+    return;
+  }
+  tipbox.style.right  = "";
+  tipbox.style.bottom = "";
+  tipbox.style.width  = "256px";
   var TW = 256;
   var x = e.clientX + 12;
   var y = e.clientY + 16;
@@ -899,7 +915,7 @@ function showTip(el, e) {
   tiprontext.textContent = data.pron;
   tipdesc.textContent = data.desc;
   tippron.style.display = "flex";
-  currentSpeakText = data.pron;
+  currentSpeakText = el.dataset.char ? data.speak : key;
   placeTip(e);
   tipbox.style.display = "block";
 }
@@ -912,6 +928,13 @@ function hideTip() {
 
 tipbox.addEventListener("mouseenter", function() { clearTimeout(hideTimer); });
 tipbox.addEventListener("mouseleave", hideTip);
+document.addEventListener("touchstart", function(e) {
+  if (tipbox.style.display === "block" &&
+      !e.target.closest(".cn-tip") && !e.target.closest(".loc-tip") &&
+      !e.target.closest("#tipbox")) {
+    tipbox.style.display = "none";
+  }
+});
 
 tipspeak.addEventListener("click", function() {
   if (!window.speechSynthesis) return;

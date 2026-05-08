@@ -368,6 +368,7 @@
             border-bottom: 2px solid transparent; border-radius: 4px; }
       .ti.on { border-bottom: 2px solid #8b4513; border-left: none; }
       .main { padding: 1.2rem .9rem; }
+      .pg-back { position: static; display: block; text-align: left; opacity: 1; margin-bottom: .4rem; }
       .pg-title { font-size: 1.75rem; }
       .ch-title { font-size: 1.4rem; }
       .hl-grid { grid-template-columns: 1fr; }
@@ -818,6 +819,17 @@ var hideTimer   = null;
 var currentSpeakText = "";
 
 function placeTip(e) {
+  if (window.innerWidth <= 600) {
+    tipbox.style.left   = "16px";
+    tipbox.style.right  = "16px";
+    tipbox.style.width  = "auto";
+    tipbox.style.top    = "auto";
+    tipbox.style.bottom = "80px";
+    return;
+  }
+  tipbox.style.right  = "";
+  tipbox.style.bottom = "";
+  tipbox.style.width  = "256px";
   var TW = 256;
   var x = e.clientX + 16;
   if (x + TW > window.innerWidth) x = e.clientX - TW;

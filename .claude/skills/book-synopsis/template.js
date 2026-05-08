@@ -55,6 +55,17 @@ var hideTimer   = null;
 var currentSpeakText = "";
 
 function placeTip(e) {
+  if (window.innerWidth <= 640) {
+    tipbox.style.left   = "16px";
+    tipbox.style.right  = "16px";
+    tipbox.style.width  = "auto";
+    tipbox.style.top    = "auto";
+    tipbox.style.bottom = "80px";
+    return;
+  }
+  tipbox.style.right  = "";
+  tipbox.style.bottom = "";
+  tipbox.style.width  = "256px";
   var TW = 256;
   var x = e.clientX + 16;
   if (x + TW > window.innerWidth) x = e.clientX - TW;

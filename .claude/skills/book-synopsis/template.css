@@ -194,6 +194,7 @@ body { font-family: [body font]; background: [background]; color: [text]; margin
         border-bottom: 2px solid transparent; border-radius: 4px; }
   .ti.on { border-bottom: 2px solid [accent]; border-left: none; }
   .main { padding: 1.2rem .9rem; }
+  .pg-back { position: static; display: block; text-align: left; opacity: 1; margin-bottom: .4rem; }
   .pg-title { font-size: 1.9rem; }
   .ch p { font-size: 1.05rem; }
   .qt p { font-size: 1rem; }

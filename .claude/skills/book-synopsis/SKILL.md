@@ -50,6 +50,9 @@ Phase 0 — Pre-research and design:
      - "[Book title] characters"
      - Wikipedia page for the work
      - SparkNotes or LitCharts if available
+     - "[Character name] pronunciation" for every named character and key location.
+       Record all verified pronunciations in the Research Brief — Writer copies from
+       brief, never guesses cold. Search all names; do not skip "obvious" ones.
   2. Compile Research Brief (format below).
   3. Spawn Designer with Research Brief → produces Design Spec.
 
@@ -108,9 +111,11 @@ CHAPTER OUTLINE:
 KEY CHARACTERS (6–12):
 [Name] (pron: [STRESSED-syllable]) — [role, 1 sentence, no apostrophes]
 …
+Pronunciations must be sourced from web searches done in step 1 — never guessed.
+Use the verified form directly; do not re-derive phonetics from spelling.
 
 KEY LOCATIONS (4–6):
-[PlaceKey] — [what it is, why it matters, 1 sentence, no apostrophes]
+[PlaceKey] (pron: [STRESSED-syllable]) — [what it is, why it matters, 1 sentence, no apostrophes]
 …
 
 VERIFIED QUOTES (10–15):
