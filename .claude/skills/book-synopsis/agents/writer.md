@@ -650,7 +650,7 @@ Apply Design Spec values throughout — placeholders shown in [brackets]:
 
 body   { font-family: [body font]; background: [background]; color: [text]; margin: 0; }
 
-.pg-header { position: relative; max-width: 960px; margin: 0 auto; padding: 2.2rem 1.5rem 0; text-align: center; }
+.pg-header { position: relative; padding: 2.2rem 1.5rem 0; text-align: center; }
 .pg-back   { position: absolute; top: 2.2rem; left: 1.5rem; font-size: .83rem;
              color: [muted]; text-decoration: none; font-family: system-ui,sans-serif;
              opacity: .7; transition: opacity .12s; }
