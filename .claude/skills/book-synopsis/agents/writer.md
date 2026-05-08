@@ -563,7 +563,6 @@ Exactly 4 theme cards in a CSS grid. HTML structure:
       <li>Specific point — one sentence</li>
       <li>Specific point — one sentence</li>
       <li>Specific point — one sentence</li>
-      <li>Specific point — one sentence</li>
     </ul>
   </div>
   <!-- repeat ×4 -->
