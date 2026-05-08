@@ -1,0 +1,218 @@
+/* ============================================================
+   writer-template.css — CSS template for book synopsis pages
+
+   USAGE:
+   1. Copy this entire file into your <style> block (inside <head>).
+   2. Replace every [placeholder] with the value from the Design Spec.
+   3. Apply dark-background adjustments if [background] luminance < 0.3
+      (see table at the bottom of this file).
+
+   PLACEHOLDERS — all must be replaced before delivery:
+     [body font]      e.g. "'Georgia', serif"
+     [display font]   e.g. "'Playfair Display', serif"
+     [background]     page background colour
+     [text]           primary text colour
+     [accent]         accent colour (borders, highlights, active states)
+     [muted]          secondary / caption text colour
+     [recap-bg]       recap box + theme card background
+     [quote-bg]       quote block background (omit rule entirely if blank in spec)
+     [fact-bg]        fun facts card background — tinted with accent hue
+     [sidebar-width]  e.g. "160px"
+
+   DEVIATING FROM THE TEMPLATE:
+   Do not silently change structural values (grid columns, font sizes,
+   layout rules). If a value feels wrong for a specific book, follow
+   the template as written and flag it in DESIGN NOTES so the Reader
+   can evaluate it. Only colour/palette values come from the Design Spec
+   and should be substituted freely.
+   ============================================================ */
+
+/* Google Fonts import goes in <head>, BEFORE the <style> block — not here */
+
+/* ---- GLOBAL ---- */
+
+body { font-family: [body font]; background: [background]; color: [text]; margin: 0; }
+
+/* ---- HEADER ---- */
+
+.pg-header { position: relative; padding: 2.2rem 1.5rem 0; text-align: center; }
+.pg-back   { position: absolute; top: 2.2rem; left: 1.5rem; font-size: .83rem;
+             color: [muted]; text-decoration: none; font-family: system-ui,sans-serif;
+             opacity: .7; transition: opacity .12s; }
+.pg-back:hover { opacity: 1; }
+.pg-title  { font-family: [display font]; font-size: 2.4rem; font-weight: 700;
+             letter-spacing: .02em; margin: 0 0 .3rem; }
+.pg-author { font-size: 1rem; color: [muted]; margin: 0 0 1.2rem; letter-spacing: .04em; }
+.pg-rule   { border: none; border-top: 1px solid [accent]; opacity: .4;
+             margin: 0 auto; max-width: 912px; }
+
+/* ---- LAYOUT + SIDEBAR ---- */
+
+.ch    { display: none; }
+.ch.on { display: block; }
+.layout { display: flex; max-width: 1040px; margin: 0 auto; padding: 2rem 1.5rem; }
+.sb    { width: [sidebar-width]; flex-shrink: 0; position: sticky; top: 1.5rem;
+         align-self: flex-start; padding-right: 1.2rem; }
+.main  { flex: 1; min-width: 0; }
+.ti    { display: block; width: 100%; text-align: left; background: none;
+         border: none; padding: 5px 9px; border-radius: 6px; cursor: pointer;
+         font-family: system-ui,sans-serif; font-size: 13px; color: [muted];
+         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+         border-left: 2px solid transparent; transition: background .12s; }
+.ti:hover { background: rgba(0,0,0,.06); color: [text]; }
+.ti.on    { background: rgba(0,0,0,.07); color: [text]; font-weight: 600;
+            border-left: 2px solid [accent]; }
+.ti-icon     { display: inline-flex; align-items: center; gap: 5px; }
+.ti-icon svg { flex-shrink: 0; }
+
+/* ---- STORY CHAPTERS (Step 4) ---- */
+
+.ch-title { font-family: [display font]; font-size: 1.45rem; font-weight: 700;
+            color: [accent]; margin: 0 0 .2rem; }
+.ch-sub   { font-size: .88rem; color: [muted]; margin: 0 0 1.4rem;
+            letter-spacing: .05em; text-transform: uppercase; }
+.ch p { line-height: 1.85; font-size: 1.1rem; margin: 0 0 1.1rem; }
+/* Drop-cap — apply variant from Design Spec.
+   IMPORTANT: if the first <p> in a story chapter is a .ch-sub subtitle, use
+   :nth-of-type(2) instead of :first-of-type — otherwise the subtitle gets the
+   float and display:grid siblings (like .hl-grid) shift right (BFC float avoidance). */
+.ch > p:first-of-type::first-letter { float: left; font-size: 3.4em; line-height: .85;
+  margin: .08em .12em 0 0; font-weight: 700; color: [accent]; }
+
+/* ---- INLINE QUOTES IN CHAPTERS (Step 4) ---- */
+/* Apply quote-style variant from Design Spec — border-left / border-top / background-block */
+
+.qt { border-left: 3px solid [accent]; padding: .9rem 1.1rem .9rem 1.3rem;
+      margin: 1.6rem 0; border-radius: 0 6px 6px 0; opacity: .92; clear: both; }
+.qt p { margin: 0 0 .35rem; font-style: italic; font-size: 1.05rem; line-height: 1.75; }
+.qt cite { font-size: .82rem; font-style: normal; opacity: .7; }
+
+/* ---- END-OF-CHAPTER RECAP BOXES (Step 4) ---- */
+
+.ch-recap { margin: 2rem 0 0; padding: 1.1rem 1.4rem; border-radius: 6px;
+            border-top: 2px solid rgba(0,0,0,.1); background: [recap-bg]; clear: both; }
+.recap-title { display: block; font-size: .72rem; text-transform: uppercase;
+               letter-spacing: .13em; margin: 0 0 .55rem;
+               font-family: system-ui, sans-serif; font-weight: 600; opacity: .55; }
+.ch-recap p { font-size: .97rem; line-height: 1.72; margin: 0; font-style: italic; }
+
+/* ---- PREV / NEXT NAVIGATION ---- */
+
+.nr { display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 0 .5rem; margin-top: 1rem; border-top: 1px solid rgba(0,0,0,.08); }
+.nr button { background: none; border: 1px solid rgba(0,0,0,.2); border-radius: 5px;
+             padding: .45rem .9rem; cursor: pointer; font-size: .9rem; transition: background .12s; }
+.nr button:hover:not(:disabled) { background: rgba(0,0,0,.06); }
+.nr button:disabled { opacity: .35; cursor: default; }
+
+/* ---- ILLUSTRATIONS (Step 5) ---- */
+
+/* Centred, constrained to 600px in either dimension.
+   Always wrap SVG strips in <figure class="ch-illustration"> — no inner <figcaption> for SVGs. */
+.ch-illustration { margin: 1.4rem auto; text-align: center; }
+.ch-illustration img { max-width: 600px; max-height: 600px; width: auto; height: auto;
+                       display: block; margin: 0 auto; border-radius: 6px; }
+/* Caption: always visible. Lighter, italic, smaller. No attribution source. */
+.ch-illus-caption { display: block; font-size: .76rem; color: [muted];
+                    margin-top: .45rem; font-family: system-ui, sans-serif;
+                    font-style: italic; line-height: 1.4; }
+
+/* ---- CHARACTER + LOCATION TOOLTIPS (Step 6 + Step 8) ---- */
+
+/* Characters: dashed underline in muted colour */
+.cn-tip  { border-bottom: 1px dashed [muted]; cursor: help; }
+/* Locations: dotted underline in accent colour — visually distinct from characters */
+.loc-tip { border-bottom: 1px dotted [accent]; cursor: help; }
+
+.tip-box  { display: none; position: fixed; z-index: 9999; max-width: 240px;
+            background: [text]; color: [background];
+            border-radius: 8px; padding: 10px 13px;
+            font-size: .82rem; line-height: 1.45; pointer-events: auto; }
+.tip-name { font-weight: 700; font-size: .9rem; margin-bottom: .2rem;
+            font-family: [display font]; letter-spacing: .02em; }
+.tip-pron { display: flex; align-items: center; gap: .4rem;
+            font-size: .75rem; color: [muted]; font-style: italic; margin-bottom: .3rem; }
+.tip-speak { background: none; border: 1px solid rgba(168,152,128,.4); border-radius: 3px;
+             color: [muted]; font-size: .7rem; padding: 1px 5px;
+             cursor: pointer; font-family: system-ui, sans-serif; flex-shrink: 0; }
+.tip-speak:hover { background: rgba(168,152,128,.15); }
+.tip-desc { font-size: .8rem; opacity: .85; }
+
+/* ---- WHY IT MATTERS: THEME CARDS (Step 9) ---- */
+/* 2×2 grid. Each card: 3 bullets, .hl background = [recap-bg]. */
+
+.hl-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.6rem; }
+.hl       { background: [recap-bg]; border-radius: 8px; padding: 1.1rem 1.3rem; }
+.hl-title { font-family: [display font]; font-size: 1rem; font-weight: 700;
+            color: [accent]; margin-bottom: .6rem; }
+.hl ul    { padding-left: 1.1rem; margin: 0; }
+.hl ul li { font-size: .93rem; line-height: 1.55; margin-bottom: .35rem; }
+.hl ul li:last-child { margin-bottom: 0; }
+
+/* ---- WHY IT MATTERS: FUN FACTS (Step 9) ---- */
+/* Visually distinct from theme cards: tinted background + top accent border. */
+
+.fact-card { background: [fact-bg]; border-top: 3px solid [accent];
+             border-radius: 0 0 8px 8px; padding: 1.2rem 1.4rem; margin-bottom: 1.6rem; }
+.fact-title { font-family: system-ui, sans-serif; font-size: .72rem; font-weight: 700;
+              letter-spacing: .12em; text-transform: uppercase;
+              color: [accent]; margin-bottom: .7rem; }
+.fact-card ul    { padding-left: 1.1rem; margin: 0; }
+.fact-card ul li { font-size: .95rem; line-height: 1.6; margin-bottom: .45rem; }
+.fact-card ul li:last-child { margin-bottom: 0; }
+
+/* ---- FAMOUS PASSAGES (Step 9b) ---- */
+/* .fp-qt has no box or border — plain text, tight spacing.
+   .fp-note is hidden by default; toggleNote() reveals it. */
+
+.fp-quote  { margin-bottom: 1.2rem; }
+.fp-qt     { padding: .5rem 0; margin: 0; }
+.fp-qt p   { font-size: 1.05rem; line-height: 1.55; color: [text]; margin-bottom: .28rem; }
+.fp-qt cite { display: block; font-size: .82rem; color: [muted]; font-style: normal;
+              letter-spacing: .03em; }
+.fp-toggle { display: inline-block; background: none; border: none; padding: 0;
+             margin-top: .22rem; font-size: .78rem; color: [muted]; cursor: pointer;
+             letter-spacing: .02em; font-family: inherit; }
+.fp-toggle:hover, .fp-toggle.active { color: [accent]; }
+.fp-note   { display: none; font-size: .9rem; line-height: 1.55; color: [text];
+             padding: .4rem 0 .1rem 1.3rem; border-left: 2px solid rgba(0,0,0,.12);
+             margin-top: .4rem; margin-bottom: 0; }
+.fp-note.open { display: block; }
+
+/* ---- MOBILE (max-width: 640px) ---- */
+
+@media (max-width: 640px) {
+  .layout { flex-direction: column; gap: 0; padding: 0 0 4rem; }
+  .sb { width: 100%; position: sticky; top: 0; z-index: 100;
+        display: flex; flex-wrap: nowrap; overflow-x: auto; gap: .3rem;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        background: [background]; padding: .5rem .9rem;
+        border-bottom: 1px solid rgba(0,0,0,.07); }
+  .sb::-webkit-scrollbar { display: none; }
+  .sb .sb-label, .sb .tdiv { display: none; }
+  .ti { width: auto; flex-shrink: 0; white-space: nowrap; border-left: none;
+        border-bottom: 2px solid transparent; border-radius: 4px; }
+  .ti.on { border-bottom: 2px solid [accent]; border-left: none; }
+  .main { padding: 1.2rem .9rem; }
+  .pg-title { font-size: 1.9rem; }
+  .ch p { font-size: 1.05rem; }
+  .qt p { font-size: 1rem; }
+  .ch-illustration { max-width: 100%; }
+  .hl-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   DARK BACKGROUND ADJUSTMENTS (luminance < 0.3)
+   If [background] is dark (deep charcoal, navy, near-black),
+   the rgba(0,0,0,...) values above become invisible.
+   Replace them with rgba(255,255,255,...) equivalents:
+
+   .ti:hover background         rgba(0,0,0,.06)  → rgba(255,255,255,.06)
+   .ti.on background            rgba(0,0,0,.07)  → rgba(255,255,255,.08)
+   .ch-recap border-top         rgba(0,0,0,.1)   → rgba(255,255,255,.1)
+   .nr border-top               rgba(0,0,0,.08)  → rgba(255,255,255,.08)
+   .nr button border            rgba(0,0,0,.2)   → rgba(255,255,255,.2)
+   .nr button:hover background  rgba(0,0,0,.06)  → rgba(255,255,255,.06)
+   .fp-note border-left         rgba(0,0,0,.12)  → rgba(255,255,255,.12)
+   Mobile .sb border-bottom     rgba(0,0,0,.07)  → rgba(255,255,255,.07)
+   ============================================================ */

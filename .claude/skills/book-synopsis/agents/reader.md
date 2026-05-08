@@ -62,6 +62,13 @@ Do major secondary arcs close out? Any character the reader followed left dangli
 **CONSISTENCY**
 Character names + details stable? Tone consistent? Facts seem off?
 
+**DESIGN**
+Visual choices suited to this specific book? Flag if:
+- Colour palette feels wrong for the book's world or mood
+- The 2×2 theme-card grid feels cramped (bullets too long to scan at half-width)
+- Any structural layout choice actively hurts readability for this content
+Do NOT flag minor palette preferences — only raise design issues that impair reading. If the Writer has flagged anything in DESIGN NOTES, evaluate those too.
+
 ---
 
 ## Output format
@@ -89,6 +96,9 @@ KEY QUESTIONS FOR REVISION:
 CHAPTER NOTES:
 [Chapter name] — [specific note, or "good" if nothing to flag]
 [Chapter name] — …
+
+DESIGN NOTES: (omit section entirely if nothing to flag)
+- [specific layout or palette issue — quote the class or HTML involved]
 
 TOP FIXES (only if NEEDS REVISION — most important first):
 1. …

@@ -419,34 +419,9 @@ Event listeners target both classes: `document.querySelectorAll(".cn-tip, .loc-t
 
 ## Step 7 — Writing JS safely
 
-**Always write the second script block via a shell heredoc.** Python string escaping silently writes `\'` for apostrophes, breaking the browser JS parser.
-
-```bash
-cat > /tmp/script2.js << 'JSEOF'
-var CHARS = {
-  CharKey: { pron:"...", speak:"...", desc:"No apostrophes here." }
-};
-/* rest of tooltip + quiz JS, all double-quoted strings */
-JSEOF
-
-python3 -c "
-s = open('/tmp/script2.js').read()
-assert \"'\" not in s, 'Single quotes found — rewrite affected strings'
-print('OK — zero single quotes')
-"
-```
-
-Then splice into the HTML in Python:
-
-```python
-old_start = src.find('\n<script>\nvar CHARS')
-old_end   = src.find('</script>', old_start) + len('</script>')
-with open('/tmp/script2.js') as f:
-    js = f.read()
-src = src[:old_start] + '\n<script>\n' + js + '</script>' + src[old_end:]
-```
-
 ### Script 1 (navigation)
+
+Write inline in the HTML — no heredoc needed, no apostrophe risk:
 
 ```js
 let c = 0;
@@ -474,33 +449,33 @@ function toggleNote(btn) {
 
 ### Script 2 (tooltips + quiz)
 
-Write this script in the heredoc, then splice. All strings double-quoted. Structure:
+**Always write via heredoc** — Python string escaping silently writes `\'` for apostrophes, breaking the JS parser.
 
-```
-var CHARS = { /* from Step 6 */ };
-var LOCS  = { /* from Step 6 */ };
+Copy `template.js` (skill root), fill in CHARS, LOCS, LANG_CODE, qAnswers, and qFeedback, then write via heredoc:
 
-// DOM refs: tipbox, tipname, tippron, tiprontext, tipspeak, tipdesc, hideTimer, currentSpeakText
+```bash
+cat > /tmp/script2.js << 'JSEOF'
+[filled-in template.js content — all strings double-quoted, no apostrophes]
+JSEOF
 
-// placeTip(e): position tipbox at cursor (clamp to viewport, TW=256)
-// showTip(el, e): populate tipbox from CHARS or LOCS; tippron always display:flex;
-//   set currentSpeakText = data.speak for chars, key for locs; call placeTip; show tipbox
-// hideTip(): 150ms setTimeout to hide tipbox (delay keeps hear button clickable)
-// tipbox mouseenter: clearTimeout; mouseleave: hideTip
-// tipspeak click: speechSynthesis.speak(currentSpeakText) at rate 0.8, lang = LANG_CODE
-// querySelectorAll(".cn-tip, .loc-tip"): mouseenter → showTip, mouseleave → hideTip
-// ontouchstart fallback: same show/hide logic via touch events; tap outside to dismiss
-
-// QUIZ:
-// var qAnswers = {1:"x", 2:"x", 3:"x"};  — set correct letters independently; not all same; correct not longest
-// var qDone = {};
-// var qFeedback = {1:{x:"why correct",wrong:"what wrong answers miss"}, ...};
-// answer(qNum, choice): disable all opts, mark correct/wrong/reveal, show feedback,
-//   tally score after all 3 answered, show #qz-score with message from ["Keep reading.",
-//   "Good — you have the shape of it.", "Very good.", "Excellent."][score]
+python3 -c "
+s = open('/tmp/script2.js').read()
+assert \"'\" not in s, 'Single quotes found — rewrite affected strings'
+print('OK — zero single quotes')
+"
 ```
 
-Replace `LANG_CODE` with BCP-47: `"ru-RU"`, `"fr-FR"`, `"ja-JP"`, etc. Use `"en-GB"` for English novels.
+Splice into the HTML:
+
+```python
+old_start = src.find('\n<script>\nvar CHARS')
+old_end   = src.find('</script>', old_start) + len('</script>')
+with open('/tmp/script2.js') as f:
+    js = f.read()
+src = src[:old_start] + '\n<script>\n' + js + '</script>' + src[old_end:]
+```
+
+**LANG_CODE** in template.js: BCP-47 code for the novel's original language. `"en-GB"` for English, `"ru-RU"` Russian, `"fr-FR"` French, `"ja-JP"` Japanese, etc.
 
 ---
 
@@ -551,6 +526,8 @@ Notes:
 
 This is the only page where thematic analysis is appropriate. Keep analysis out of story chapters.
 
+**CSS for this page:** `.hl-grid`, `.hl`, `.hl-title`, `.fact-card`, `.fact-title` — all in template.css under "WHY IT MATTERS" sections. These classes must be present in your `<style>` block.
+
 ### Section 1 — Theme cards (2×2 grid)
 
 Exactly 4 theme cards in a CSS grid. HTML structure:
@@ -597,6 +574,8 @@ The `.fact-card` uses a different background (tinted with the accent colour) and
 
 ## Step 9b — Quotes page
 
+**CSS for this page:** `.fp-quote`, `.fp-qt`, `.fp-toggle`, `.fp-note` — in template.css under "FAMOUS PASSAGES".
+
 8 celebrated quotes from the work. Each has a hidden one-paragraph explanation revealed by a `▸ explain` toggle — so the page reads cleanly as a list of quotes by default, with depth available on demand.
 
 HTML structure:
@@ -642,149 +621,17 @@ Choose correct answers independently per question. Do not make the correct optio
 
 ## Step 11 — Core CSS
 
-Apply Design Spec values throughout — placeholders shown in [brackets]:
+Copy `template.css` (skill root) in its entirety into your `<style>` block. Then substitute every `[placeholder]` with the value from the Design Spec.
 
-```css
-/* Google Fonts import goes in <head>, before this <style> block */
+**Substitution checklist — every placeholder must be replaced:**
+- `[body font]`, `[display font]`
+- `[background]`, `[text]`, `[accent]`, `[muted]`
+- `[recap-bg]`, `[quote-bg]` (omit the `.qt { background }` rule entirely if blank in spec), `[fact-bg]`
+- `[sidebar-width]`
 
-body   { font-family: [body font]; background: [background]; color: [text]; margin: 0; }
+**Dark background:** if `[background]` luminance < 0.3, replace `rgba(0,0,0,...)` with `rgba(255,255,255,...)` throughout — the adjustment table is at the bottom of writer-template.css.
 
-.pg-header { position: relative; padding: 2.2rem 1.5rem 0; text-align: center; }
-.pg-back   { position: absolute; top: 2.2rem; left: 1.5rem; font-size: .83rem;
-             color: [muted]; text-decoration: none; font-family: system-ui,sans-serif;
-             opacity: .7; transition: opacity .12s; }
-.pg-back:hover { opacity: 1; }
-.pg-title  { font-family: [display font]; font-size: 2.4rem; font-weight: 700;
-             letter-spacing: .02em; margin: 0 0 .3rem; }
-.pg-author { font-size: 1rem; color: [muted]; margin: 0 0 1.2rem; letter-spacing: .04em; }
-.pg-rule   { border: none; border-top: 1px solid [accent]; opacity: .4;
-             margin: 0 auto; max-width: 912px; }
-
-.ch    { display: none; }
-.ch.on { display: block; }
-.layout { display: flex; max-width: 1040px; margin: 0 auto; padding: 2rem 1.5rem; }
-.sb    { width: [sidebar-width]; flex-shrink: 0; position: sticky; top: 1.5rem;
-         align-self: flex-start; padding-right: 1.2rem; }
-.main  { flex: 1; min-width: 0; }
-.ti    { display: block; width: 100%; text-align: left; background: none;
-         border: none; padding: 5px 9px; border-radius: 6px; cursor: pointer;
-         font-family: system-ui,sans-serif; font-size: 13px; color: [muted];
-         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-         border-left: 2px solid transparent; transition: background .12s; }
-.ti:hover { background: rgba(0,0,0,.06); color: [text]; }
-.ti.on    { background: rgba(0,0,0,.07); color: [text]; font-weight: 600;
-            border-left: 2px solid [accent]; }
-.ti-icon     { display: inline-flex; align-items: center; gap: 5px; }
-.ti-icon svg { flex-shrink: 0; }
-
-.ch-title { font-family: [display font]; font-size: 1.45rem; font-weight: 700;
-            color: [accent]; margin: 0 0 .2rem; }
-.ch-sub   { font-size: .88rem; color: [muted]; margin: 0 0 1.4rem;
-            letter-spacing: .05em; text-transform: uppercase; }
-.ch p { line-height: 1.85; font-size: 1.1rem; margin: 0 0 1.1rem; }
-/* drop-cap — apply variant from Design Spec */
-/* IMPORTANT: if story chapters include a .ch-sub subtitle as the first <p>,
-   use :nth-of-type(2) not :first-of-type — otherwise the subtitle gets the
-   float and display:grid siblings (like .hl-grid) shift right due to BFC float avoidance */
-.ch > p:first-of-type::first-letter { float: left; font-size: 3.4em; line-height: .85;
-  margin: .08em .12em 0 0; font-weight: 700; color: [accent]; }
-
-/* .qt — apply quote-style variant from Design Spec */
-.qt { border-left: 3px solid [accent]; padding: .9rem 1.1rem .9rem 1.3rem;
-      margin: 1.6rem 0; border-radius: 0 6px 6px 0; opacity: .92; clear: both; }
-.qt p { margin: 0 0 .35rem; font-style: italic; font-size: 1.05rem; line-height: 1.75; }
-.qt cite { font-size: .82rem; font-style: normal; opacity: .7; }
-
-.ch-recap { margin: 2rem 0 0; padding: 1.1rem 1.4rem; border-radius: 6px;
-            border-top: 2px solid rgba(0,0,0,.1); background: [recap-bg]; clear: both; }
-.recap-title { display: block; font-size: .72rem; text-transform: uppercase;
-               letter-spacing: .13em; margin: 0 0 .55rem;
-               font-family: system-ui, sans-serif; font-weight: 600; opacity: .55; }
-.ch-recap p { font-size: .97rem; line-height: 1.72; margin: 0; font-style: italic; }
-
-.nr { display: flex; align-items: center; justify-content: space-between;
-      padding: 1.4rem 0 .5rem; margin-top: 1rem; border-top: 1px solid rgba(0,0,0,.08); }
-.nr button { background: none; border: 1px solid rgba(0,0,0,.2); border-radius: 5px;
-             padding: .45rem .9rem; cursor: pointer; font-size: .9rem; transition: background .12s; }
-.nr button:hover:not(:disabled) { background: rgba(0,0,0,.06); }
-.nr button:disabled { opacity: .35; cursor: default; }
-
-/* Illustrations — centred, constrained to 600px in either dimension */
-.ch-illustration { margin: 1.4rem auto; text-align: center; }
-.ch-illustration img { max-width: 600px; max-height: 600px; width: auto; height: auto; display: block; margin: 0 auto; border-radius: 6px; }
-/* Caption: always visible — lighter, italic, smaller than body text. NO attribution source. */
-.ch-illus-caption { display: block; font-size: .76rem; color: [muted];
-                    margin-top: .45rem; font-family: system-ui, sans-serif;
-                    font-style: italic; line-height: 1.4; }
-
-/* WHY IT MATTERS — 2×2 grid of theme cards */
-.hl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.6rem; }
-.hl { background: [recap-bg]; border-radius: 8px; padding: 1.1rem 1.3rem; }
-.hl-title { font-family: [display font]; font-size: 1rem; font-weight: 700;
-            color: [accent]; margin-bottom: .6rem; }
-.hl ul { padding-left: 1.1rem; margin: 0; }
-.hl ul li { font-size: .93rem; line-height: 1.55; margin-bottom: .35rem; }
-.hl ul li:last-child { margin-bottom: 0; }
-
-/* FUN FACTS — distinct from theme cards: tinted background + top border */
-.fact-card { background: [fact-bg]; border-top: 3px solid [accent];
-             border-radius: 0 0 8px 8px; padding: 1.2rem 1.4rem; margin-bottom: 1.6rem; }
-.fact-title { font-family: system-ui, sans-serif; font-size: .72rem; font-weight: 700;
-              letter-spacing: .12em; text-transform: uppercase;
-              color: [accent]; margin-bottom: .7rem; }
-.fact-card ul { padding-left: 1.1rem; margin: 0; }
-.fact-card ul li { font-size: .95rem; line-height: 1.6; margin-bottom: .45rem; }
-.fact-card ul li:last-child { margin-bottom: 0; }
-
-/* FAMOUS PASSAGES */
-.fp-quote { margin-bottom: 1.2rem; }
-.fp-qt { padding: .5rem 0; margin: 0; }
-.fp-qt p { font-size: 1.05rem; line-height: 1.55; color: [body-text]; margin-bottom: .28rem; }
-.fp-qt cite { display: block; font-size: .82rem; color: [muted]; font-style: normal; letter-spacing: .03em; }
-.fp-toggle { display: inline-block; background: none; border: none; padding: 0;
-             margin-top: .22rem; font-size: .78rem; color: [muted]; cursor: pointer;
-             letter-spacing: .02em; font-family: inherit; }
-.fp-toggle:hover, .fp-toggle.active { color: [accent]; }
-.fp-note { display: none; font-size: .9rem; line-height: 1.55; color: [body-text];
-           padding: .4rem 0 .1rem 1.3rem; border-left: 2px solid rgba(0,0,0,.12);
-           margin-top: .4rem; margin-bottom: 0; }
-.fp-note.open { display: block; }
-
-@media (max-width: 640px) {
-  .layout { flex-direction: column; gap: 0; padding: 0 0 4rem; }
-  .sb { width: 100%; position: sticky; top: 0; z-index: 100;
-        display: flex; flex-wrap: nowrap; overflow-x: auto; gap: .3rem;
-        -webkit-overflow-scrolling: touch; scrollbar-width: none;
-        background: [background]; padding: .5rem .9rem;
-        border-bottom: 1px solid rgba(0,0,0,.07); }
-  .sb::-webkit-scrollbar { display: none; }
-  .sb .sb-label, .sb .tdiv { display: none; }
-  .ti { width: auto; flex-shrink: 0; white-space: nowrap; border-left: none;
-        border-bottom: 2px solid transparent; border-radius: 4px; }
-  .ti.on { border-bottom: 2px solid [accent]; border-left: none; }
-  .main { padding: 1.2rem .9rem; }
-  .pg-title { font-size: 1.9rem; }
-  .ch p { font-size: 1.05rem; }
-  .qt p { font-size: 1rem; }
-  .ch-illustration { max-width: 100%; }
-  .hl-grid { grid-template-columns: 1fr; }
-}
-```
-
-### Dark background adjustment
-
-If the Design Spec `background` is dark (deep charcoal, navy, near-black — roughly luminance < 0.3), the `rgba(0,0,0,...)` overlay values above become invisible. Replace them with `rgba(255,255,255,...)` equivalents throughout:
-
-| Rule | Light bg | Dark bg |
-|---|---|---|
-| `.ti:hover` background | `rgba(0,0,0,.06)` | `rgba(255,255,255,.06)` |
-| `.ti.on` background | `rgba(0,0,0,.07)` | `rgba(255,255,255,.08)` |
-| `.ch-recap` border-top | `rgba(0,0,0,.1)` | `rgba(255,255,255,.1)` |
-| `.nr` border-top | `rgba(0,0,0,.08)` | `rgba(255,255,255,.08)` |
-| `.nr button` border | `rgba(0,0,0,.2)` | `rgba(255,255,255,.2)` |
-| `.nr button:hover` bg | `rgba(0,0,0,.06)` | `rgba(255,255,255,.06)` |
-| `.fp-note` border-left | `rgba(0,0,0,.12)` | `rgba(255,255,255,.12)` |
-| Mobile `.sb` border-bottom | `rgba(0,0,0,.07)` | `rgba(255,255,255,.07)` |
+**Deviating from the template:** Do not silently change structural values (grid columns, font sizes, layout rules). If a value feels wrong for this specific book, follow the template and flag it in DESIGN NOTES — the Reader will evaluate it.
 
 ---
 
