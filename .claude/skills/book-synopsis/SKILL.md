@@ -123,6 +123,12 @@ Ch[N]: "[exact text]" — [speaker, to whom, context]
 …
 Prioritise quotes with high Goodreads like counts. Include all top ~8 somewhere — in chapter prose if not the "Famous Passages" section.
 
+NARRATIVE STRUCTURE:
+- Mode: [first-person / third-person close / omniscient / epistolary / frame narrative — be specific]
+- Frame narrator(s): [who tells the story, to whom, from what vantage point or temporal distance]
+- Reliability: [what each narrator cannot see, chooses not to say, or is biased about]
+- Structural withholding: [what truths are withheld until late, and by what mechanism — sealed letters, hearsay, limited POV, journals]
+
 THEMES (2–3):
 - [theme]: [1–2 sentence explanation]
 …

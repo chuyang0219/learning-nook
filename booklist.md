@@ -29,3 +29,4 @@
 - A Midsummer Night’s Dream
 - Macbeth
 - As You Like It
+- Othello

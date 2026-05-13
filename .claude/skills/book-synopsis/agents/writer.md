@@ -308,6 +308,8 @@ Weak: `"Chapter Summary"`, `"Elizabeth Meets Darcy"`
 
 The paragraph (~2 sentences) is an editor's note: draw out an irony, a character shift, a power dynamic. Never just restate the prose above.
 
+**Narrative structure — Chapter 1 required:** If the Research Brief describes a frame narrative, epistolary structure, limited POV, or any device that mediates the reader's access to events, the Chapter 1 recap must name it explicitly in a second paragraph. Title it to capture the structural device (e.g. "The Frame Within the Frame", "The Epistolary Reveal", "Whose Story Is This?"). Explain: who tells the story, what they cannot see or choose not to say, and how this shapes the reading experience. Do not bury this in the prose — it belongs in the recap where it will be read as a standing structural note.
+
 ---
 
 ## Step 5 — Illustrations (SVG)

@@ -18,7 +18,7 @@ Output paths:
 
 ## Reminders
 
-After adding a book, it also needs to be added to `index.html` manually.
+After adding a book synopsis, it also needs to be added to the shelf index.html. Use the `update-index` skill for this.
 
 These pages are intended to be viewed on both desktop and mobile. Keep both in mind when designing or changing the layout, e.g., is this look mobile-friendly?
 

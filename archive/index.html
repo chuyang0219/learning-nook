@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learning Nook · The Library</title>
+  <title>Reading Nook · The Library</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
@@ -24,33 +24,10 @@
      To add a book: copy an entry block, fill in all fields, add href.
      To check if a book is listed: grep for its title or slug below.
      Ordered alphabetically by authorLast.
-
-     Books are auto-grouped into DRAWERS of 5 (BOOKS_PER_DRAWER below).
-     Each drawer has its own brass handle. On desktop the drawers sit
-     side-by-side; on mobile they stack vertically.
-
-     Books with `comingSoon: true` are placeholders for unwritten synopses
-     — remove the flag once the page exists at the href.
      ═══════════════════════════════════════════════════════════════════ -->
 <script type="text/babel">
-const BOOKS_PER_DRAWER = 6;
-
 const BOOKS = [
   // ── Austen ────────────────────────────────────────────────────────
-  {
-    title: "Emma",
-    author: "Jane Austen",
-    authorLast: "Austen",
-    year: "1815",
-    href: "classic-books/emma/emma.html",
-    cloth: "#b8884a", foil: "#2e1f10", accent: "#6a4a1e",
-    height: 0.84, thickness: 36,
-    style: "cloth",
-    wear: 0.4,
-    lean: 0,
-    age: "normal",
-    comingSoon: true,
-  },
   {
     title: "Pride and Prejudice",
     author: "Jane Austen",
@@ -58,7 +35,7 @@ const BOOKS = [
     year: "1813",
     href: "classic-books/pride-and-prejudice/pride-and-prejudice.html",
     cloth: "#7a3a4a", foil: "#d9b870", accent: "#3d1a22",
-    height: 0.88, thickness: 44,
+    height: 0.88, thickness: 54,
     style: "leather",   // leather | cloth | paper
     wear: 0.6,          // 0–1 cracking/scuffing
     lean: 0,
@@ -71,12 +48,11 @@ const BOOKS = [
     year: "1811",
     href: "classic-books/sense-and-sensibility/sense-and-sensibility.html",
     cloth: "#586b3f", foil: "#c9a24a", accent: "#252e1c",
-    height: 0.95, thickness: 50,
+    height: 0.95, thickness: 60,
     style: "cloth",
     wear: 0.5,
     lean: 0,
     age: "faded",
-    comingSoon: true,
   },
   // ── Brontë ────────────────────────────────────────────────────────
   {
@@ -86,12 +62,11 @@ const BOOKS = [
     year: "1847",
     href: "classic-books/jane-eyre/jane-eyre.html",
     cloth: "#3a4a6b", foil: "#cdb074", accent: "#1d2538",
-    height: 0.82, thickness: 38,
+    height: 0.82, thickness: 46,
     style: "cloth",
     wear: 0.4,
     lean: 0,
     age: "normal",
-    comingSoon: true,
   },
   {
     title: "Wuthering Heights",
@@ -100,42 +75,13 @@ const BOOKS = [
     year: "1847",
     href: "classic-books/wuthering-heights/wuthering-heights.html",
     cloth: "#3a2418", foil: "#c9a86a", accent: "#1c100a",
-    height: 1.0, thickness: 42,
+    height: 1.0, thickness: 50,
     style: "leather",
     wear: 0.75,
     lean: 0,
     age: "weathered",
   },
-  // ── Dickens ───────────────────────────────────────────────────────
-  {
-    title: "Great Expectations",
-    author: "Charles Dickens",
-    authorLast: "Dickens",
-    year: "1861",
-    href: "classic-books/great-expectations/great-expectations.html",
-    cloth: "#1f3a2a", foil: "#caa754", accent: "#0c1c14",
-    height: 0.97, thickness: 54,
-    style: "leather",
-    wear: 0.55,
-    lean: 0,
-    age: "weathered",
-    comingSoon: true,
-  },
   // ── Dostoevsky ────────────────────────────────────────────────────
-  {
-    title: "The Brothers Karamazov",
-    author: "Fyodor Dostoevsky",
-    authorLast: "Dostoevsky",
-    year: "1880",
-    href: "classic-books/brothers-karamazov/brothers-karamazov.html",
-    cloth: "#3a2a4a", foil: "#c9a24a", accent: "#181024",
-    height: 1.0, thickness: 58,
-    style: "leather",
-    wear: 0.7,
-    lean: 0,
-    age: "weathered",
-    comingSoon: true,
-  },
   {
     title: "Crime and Punishment",
     author: "Fyodor Dostoevsky",
@@ -143,41 +89,11 @@ const BOOKS = [
     year: "1866",
     href: "classic-books/crime-and-punishment/crime-and-punishment.html",
     cloth: "#5b1a1a", foil: "#caa754", accent: "#2a0808",
-    height: 0.93, thickness: 52,
+    height: 0.93, thickness: 64,
     style: "leather",
     wear: 0.65,
     lean: 0,
     age: "weathered",
-  },
-  // ── Eliot ─────────────────────────────────────────────────────────
-  {
-    title: "The Mill on the Floss",
-    author: "George Eliot",
-    authorLast: "Eliot",
-    year: "1860",
-    href: "classic-books/mill-on-the-floss/mill-on-the-floss.html",
-    cloth: "#6b4a2c", foil: "#cdb074", accent: "#2e1f10",
-    height: 0.88, thickness: 46,
-    style: "cloth",
-    wear: 0.5,
-    lean: 0,
-    age: "faded",
-    comingSoon: true,
-  },
-  // ── Fitzgerald ────────────────────────────────────────────────────
-  {
-    title: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
-    authorLast: "Fitzgerald",
-    year: "1925",
-    href: "classic-books/great-gatsby/great-gatsby.html",
-    cloth: "#1f4a4a", foil: "#dcb262", accent: "#0d1f1f",
-    height: 0.78, thickness: 32,
-    style: "cloth",
-    wear: 0.35,
-    lean: 0,
-    age: "normal",
-    comingSoon: true,
   },
   // ── Hesse ─────────────────────────────────────────────────────────
   {
@@ -187,42 +103,11 @@ const BOOKS = [
     year: "1919",
     href: "classic-books/demian/demian.html",
     cloth: "#234a3a", foil: "#c9a24a", accent: "#0e1f18",
-    height: 0.78, thickness: 30,
+    height: 0.78, thickness: 38,
     style: "paper",
     wear: 0.45,
     lean: 0,
     age: "faded",
-    comingSoon: true,
-  },
-  // ── Melville ──────────────────────────────────────────────────────
-  {
-    title: "Moby-Dick",
-    author: "Herman Melville",
-    authorLast: "Melville",
-    year: "1851",
-    href: "classic-books/moby-dick/moby-dick.html",
-    cloth: "#1c2a3a", foil: "#c9a86a", accent: "#0a121c",
-    height: 1.0, thickness: 58,
-    style: "leather",
-    wear: 0.7,
-    lean: 0,
-    age: "weathered",
-    comingSoon: true,
-  },
-  // ── Orwell ────────────────────────────────────────────────────────
-  {
-    title: "1984",
-    author: "George Orwell",
-    authorLast: "Orwell",
-    year: "1949",
-    href: "classic-books/nineteen-eighty-four/nineteen-eighty-four.html",
-    cloth: "#7a2418", foil: "#d4c08a", accent: "#3a100a",
-    height: 0.85, thickness: 36,
-    style: "paper",
-    wear: 0.4,
-    lean: 0,
-    age: "normal",
-    comingSoon: true,
   },
   // ── Shakespeare ───────────────────────────────────────────────────
   {
@@ -232,66 +117,21 @@ const BOOKS = [
     year: "c. 1600",
     href: "classic-books/hamlet/hamlet.html",
     cloth: "#2b2622", foil: "#cdb074", accent: "#15110e",
-    height: 0.97, thickness: 38,
+    height: 0.97, thickness: 52,
     style: "leather",
     wear: 0.7,
     lean: 0,
     age: "weathered",
-    comingSoon: true,
-  },
-  {
-    title: "Macbeth",
-    author: "William Shakespeare",
-    authorLast: "Shakespeare",
-    year: "c. 1606",
-    href: "classic-books/macbeth/macbeth.html",
-    cloth: "#3a1818", foil: "#d4b46a", accent: "#1c0808",
-    height: 0.92, thickness: 32,
-    style: "leather",
-    wear: 0.68,
-    lean: 0,
-    age: "weathered",
-    comingSoon: true,
-  },
-  // ── Shelley ───────────────────────────────────────────────────────
-  {
-    title: "Frankenstein",
-    author: "Mary Shelley",
-    authorLast: "Shelley",
-    year: "1818",
-    href: "classic-books/frankenstein/frankenstein.html",
-    cloth: "#2e2438", foil: "#b8a86a", accent: "#14101c",
-    height: 0.9, thickness: 40,
-    style: "leather",
-    wear: 0.6,
-    lean: 0,
-    age: "weathered",
-    comingSoon: true,
-  },
-  // ── Steinbeck ─────────────────────────────────────────────────────
-  {
-    title: "Of Mice and Men",
-    author: "John Steinbeck",
-    authorLast: "Steinbeck",
-    year: "1937",
-    href: "classic-books/of-mice-and-men/of-mice-and-men.html",
-    cloth: "#9a7a3a", foil: "#3a2614", accent: "#5a4422",
-    height: 0.72, thickness: 28,
-    style: "paper",
-    wear: 0.3,
-    lean: 0,
-    age: "normal",
-    comingSoon: true,
   },
   // ── Stevenson ─────────────────────────────────────────────────────
   {
-    title: "Dr Jekyll & Mr Hyde",
+    title: "The Strange Case of Dr Jekyll and Mr Hyde",
     author: "Robert Louis Stevenson",
     authorLast: "Stevenson",
     year: "1886",
     href: "classic-books/jekyll-and-hyde/jekyll-and-hyde.html",
     cloth: "#2c3a2e", foil: "#b8a86a", accent: "#131a14",
-    height: 1.0, thickness: 32,
+    height: 1.0, thickness: 36,
     style: "cloth",
     wear: 0.55,
     lean: 0,
@@ -300,35 +140,22 @@ const BOOKS = [
 ];
 
 window.BOOKS = BOOKS;
-window.BOOKS_PER_DRAWER = BOOKS_PER_DRAWER;
 </script>
 
 <!-- ═══════════════════════════════════════════════════════════════════
      LIBRARY COMPONENTS  (visual layout — edit with care)
      ═══════════════════════════════════════════════════════════════════ -->
 <script type="text/babel">
-// Learning Nook — realistic responsive library
-// Books arranged on a textured oak shelf, auto-chunked into drawers of 6.
-// Each drawer has its own brass handle; clicking it brings that drawer's
-// books forward as face-out covers (3 across, 2 rows). Only one drawer
-// open at a time. Click outside the covers to dismiss.
-// Desktop: 3 drawers across in one row. Mobile: drawers stacked vertically.
-
-function chunk(arr, size) {
-  const out = [];
-  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
-  return out;
-}
+// Reading Nook — realistic single-shelf library
+// Books arranged on a textured oak shelf. Each "drawer" segment has its own
+// brass drawer pull centered beneath it; clicking the pull brings the books
+// in that drawer forward as face-out covers. Only one drawer can be open at
+// a time. Architected to support multiple drawers (currently one segment).
 
 function Library() {
-  const drawers = React.useMemo(() => {
-    const groups = chunk(window.BOOKS, window.BOOKS_PER_DRAWER);
-    return groups.map((books, i) => ({
-      id: `drawer-${i + 1}`,
-      books,
-    }));
-  }, []);
-
+  const drawers = [
+    { id: 'main', books: window.BOOKS },
+  ];
   const [openId, setOpenId] = React.useState(null);
   const [hovered, setHovered] = React.useState(null); // {drawer, idx}
 
@@ -343,38 +170,13 @@ function Library() {
       .rn-rail { transition: opacity .35s ease, transform .4s ease; }
       .rn-rail.rn-shown { opacity: 1; transform: translateY(0); pointer-events: auto; }
       .rn-rail.rn-hidden { opacity: 0; transform: translateY(40px); pointer-events: none; }
-
-      /* Drawer grid — 3 across on desktop, stacked on mobile */
-      .rn-drawer-stack {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .rn-drawer-section + .rn-drawer-section .rn-drawer-divider {
-        display: block;
-      }
-
-      /* Tablet — keep 3 across but tighter */
-      @media (max-width: 900px) {
-        .rn-drawer-stack { grid-template-columns: 1fr; }
-        .rn-drawer-divider { display: none !important; }
-      }
-
-      /* Mobile */
       @media (max-width: 640px) {
-        .rn-scene { padding: 32px 14px 28px !important; }
-        .rn-h1 { font-size: 40px !important; }
-        .rn-kicker { font-size: 10px !important; letter-spacing: .35em !important; }
+        .rn-scene { padding: 28px 16px 24px !important; }
+        .rn-h1 { font-size: 36px !important; }
         .rn-shelf-wrap { max-width: 100% !important; }
-        .rn-shelf-inner { padding: 16px 10px 0 !important; height: 250px !important; }
-        .rn-spine-row { gap: 3px !important; }
-        .rn-rail-row {
-          grid-template-columns: repeat(3, minmax(0, 76px)) !important;
-          gap: 8px 10px !important; padding: 10px 10px 8px !important;
-        }
-        .rn-rail-row .rn-cover { max-width: 76px !important; height: 114px !important; }
-        .rn-drawer-front-face { height: 44px !important; }
-        .rn-brass-pull { width: 104px !important; height: 30px !important; }
-        .rn-footer { font-size: 12px !important; }
+        .rn-shelf-inner { padding: 16px 12px 0 !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+        .rn-shelf-inner::-webkit-scrollbar { display: none; }
+        .rn-spines { justify-content: flex-start !important; }
       }
     `;
     document.head.appendChild(s);
@@ -386,8 +188,8 @@ function Library() {
       <div style={S.dust} />
 
       <header style={S.header}>
-        <p style={S.kicker} className="rn-kicker">· The Learning Nook ·</p>
-        <h1 style={S.h1} className="rn-h1">Library</h1>
+        <p style={S.kicker}>· The Reading Nook ·</p>
+        <h1 style={S.h1} className="rn-h1">The Library</h1>
         <div style={S.divider}>
           <span style={S.divLine} />
           <span style={S.divDot}>✦</span>
@@ -396,15 +198,12 @@ function Library() {
       </header>
 
       <main style={S.shelfWrap} className="rn-shelf-wrap">
-        <div
-          style={S.shelfBox}
-          onClick={(e) => { if (openId) setOpenId(null); }}
-        >
+        <div style={S.shelfBox}>
           <div style={S.woodGrain} />
           <div style={S.woodKnots} />
           <div style={S.molding} />
 
-          <div style={S.drawerStack} className="rn-drawer-stack">
+          <div style={S.drawerStack}>
             {drawers.map((d, di) => {
               const isOpen = openId === d.id;
               return (
@@ -424,7 +223,7 @@ function Library() {
         </div>
       </main>
 
-      <footer style={S.footer} className="rn-footer">
+      <footer style={S.footer}>
         <span style={S.footMark}>❦</span>
         <span>{openId ? "Pull a volume to read it." : "Pull a brass handle to bring books forward."}</span>
         <span style={S.footMark}>❦</span>
@@ -437,11 +236,10 @@ function Drawer({ drawer: d, drawerIdx, isOpen, anyOpen, onToggle, hovered, setH
   const books = d.books;
 
   return (
-    <section style={S.drawerSection} className="rn-drawer-section">
-      <span style={S.drawerDivider} className="rn-drawer-divider" />
-      <div style={S.shelfInner} className="rn-shelf-inner">
+    <section style={S.drawerSection}>
+      <div style={{ ...S.shelfInner, height: 360 }} className="rn-shelf-inner">
         <div
-          className={(isOpen ? 'rn-spines rn-hidden' : 'rn-spines rn-shown') + ' rn-spine-row'}
+          className={isOpen ? 'rn-spines rn-hidden' : 'rn-spines rn-shown'}
           style={S.spineRow}
         >
           {books.map((b, i) => (
@@ -455,7 +253,7 @@ function Drawer({ drawer: d, drawerIdx, isOpen, anyOpen, onToggle, hovered, setH
         </div>
 
         <div
-          className={(isOpen ? 'rn-rail rn-shown' : 'rn-rail rn-hidden') + ' rn-rail-row'}
+          className={isOpen ? 'rn-rail rn-shown' : 'rn-rail rn-hidden'}
           style={S.displayRail}
         >
           {books.map((b, i) => (
@@ -471,17 +269,16 @@ function Drawer({ drawer: d, drawerIdx, isOpen, anyOpen, onToggle, hovered, setH
 
       <div style={S.drawerFront}>
         <div style={S.drawerFrontTop} />
-        <div style={S.drawerFrontFace} className="rn-drawer-front-face">
+        <div style={S.drawerFrontFace}>
           <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); onToggle(); }}
+            onClick={onToggle}
             disabled={anyOpen && !isOpen}
             style={{
               ...S.brassPull,
               opacity: anyOpen && !isOpen ? 0.5 : 1,
               cursor: anyOpen && !isOpen ? 'not-allowed' : 'pointer',
             }}
-            className="rn-brass-pull"
             aria-label={isOpen ? 'Close drawer' : 'Open drawer'}
             title={isOpen ? 'Close — return books to shelf' : 'Open — bring books forward'}
           >
@@ -499,41 +296,33 @@ function Drawer({ drawer: d, drawerIdx, isOpen, anyOpen, onToggle, hovered, setH
 }
 
 function Spine({ book: b, hovered, onHover }) {
-  const h = 260 * b.height; // shortened from 320 so books fit narrower drawers
+  const h = 320 * b.height;
   const ageTint = b.age === 'weathered' ? 'sepia(.15) brightness(.95)'
                 : b.age === 'faded' ? 'saturate(.75) brightness(1.05)'
                 : 'none';
-  const muted = b.comingSoon ? ' saturate(.55) brightness(.92)' : '';
 
   const titleSize = spineTitleSize(b.title, b.thickness, h);
-  const zoneH = h * 0.50;
+  const zoneH = h * 0.46;
   const wrapTitle = b.title.length * titleSize * 0.50 > zoneH;
-  const authorSize = b.thickness >= 42 ? 11 : 9.5;
-
-  const handleClick = (e) => {
-    e.stopPropagation();
-    if (b.comingSoon) { e.preventDefault(); }
-  };
+  const authorSize = b.thickness >= 50 ? 12 : 10.5;
 
   return (
     <a
-      href={b.comingSoon ? '#' : b.href}
-      onClick={handleClick}
+      href={b.href}
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
       style={{
         ...S.spine,
         width: b.thickness,
         height: h,
-        transform: hovered ? 'translateY(-12px)' : 'translateY(0)',
+        transform: hovered ? 'translateY(-16px)' : 'translateY(0)',
         boxShadow: hovered
-          ? `0 18px 26px -10px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,230,180,.15)`
-          : `0 6px 12px -6px rgba(0,0,0,.35), inset -1px 0 2px rgba(0,0,0,.35), inset 1px 0 1px rgba(255,255,255,.04)`,
+          ? `0 22px 30px -10px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,230,180,.15)`
+          : `0 8px 14px -6px rgba(0,0,0,.35), inset -1px 0 2px rgba(0,0,0,.35), inset 1px 0 1px rgba(255,255,255,.04)`,
         zIndex: hovered ? 10 : 1,
-        filter: ageTint + muted,
-        cursor: b.comingSoon ? 'default' : 'pointer',
+        filter: ageTint,
       }}
-      title={`${b.title} — ${b.author}${b.comingSoon ? ' (coming soon)' : ''}`}
+      title={`${b.title} — ${b.author}`}
     >
       <span style={{
         ...S.spineBase,
@@ -563,11 +352,11 @@ function Spine({ book: b, hovered, onHover }) {
       )}
 
       <span style={{ position: 'absolute', left: 0, right: 0, bottom: 0,
-        height: 16 + b.wear * 20,
+        height: 20 + b.wear * 24,
         background: `linear-gradient(0deg, rgba(0,0,0,${0.35 * b.wear}) 0%, transparent 100%)`,
         pointerEvents: 'none' }} />
       <span style={{ position: 'absolute', left: 0, right: 0, top: 0,
-        height: 12 + b.wear * 14,
+        height: 14 + b.wear * 18,
         background: `linear-gradient(180deg, rgba(0,0,0,${0.25 * b.wear}) 0%, transparent 100%)`,
         pointerEvents: 'none' }} />
       {b.wear > 0.5 && (
@@ -578,23 +367,23 @@ function Spine({ book: b, hovered, onHover }) {
 
       {b.style === 'leather' && (
         <>
-          <span style={{ ...S.hub, top: '26%' }} />
-          <span style={{ ...S.hub, top: '50%' }} />
-          <span style={{ ...S.hub, top: '74%' }} />
+          <span style={{ ...S.hub, top: '24%' }} />
+          <span style={{ ...S.hub, top: '46%' }} />
+          <span style={{ ...S.hub, top: '68%' }} />
         </>
       )}
 
-      <span style={{ position: 'absolute', left: 5, right: 5, top: '14%', height: 1, background: `${b.foil}99`, pointerEvents: 'none', boxShadow: `0 1px 0 ${b.accent}77` }} />
-      <span style={{ position: 'absolute', left: 5, right: 5, top: '62%', height: 1, background: `${b.foil}99`, pointerEvents: 'none', boxShadow: `0 1px 0 ${b.accent}77` }} />
+      <span style={{ position: 'absolute', left: 6, right: 6, top: '14%', height: 1, background: `${b.foil}99`, pointerEvents: 'none', boxShadow: `0 1px 0 ${b.accent}77` }} />
+      <span style={{ position: 'absolute', left: 6, right: 6, top: '60%', height: 1, background: `${b.foil}99`, pointerEvents: 'none', boxShadow: `0 1px 0 ${b.accent}77` }} />
 
       <span style={S.spineTitleRot}>
         <span style={{
           ...S.spineTitleRotInner,
           color: b.foil,
           fontSize: titleSize,
-          letterSpacing: b.title.length > 14 ? '.03em' : '.06em',
+          letterSpacing: b.title.length > 14 ? '.04em' : '.08em',
           textShadow: hovered ? `0 1px 0 ${b.accent}, 0 0 8px ${b.foil}aa` : `0 1px 0 ${b.accent}`,
-          ...(wrapTitle ? { whiteSpace: 'normal', width: Math.round(zoneH * 0.92), lineHeight: 1.2 } : {}),
+          ...(wrapTitle ? { whiteSpace: 'normal', width: Math.round(zoneH * 0.92), lineHeight: 1.3 } : {}),
         }}>
           {b.title}
         </span>
@@ -612,9 +401,9 @@ function Spine({ book: b, hovered, onHover }) {
       </span>
 
       <span style={{
-        position: 'absolute', bottom: 6, left: 0, right: 0,
+        position: 'absolute', bottom: 8, left: 0, right: 0,
         textAlign: 'center', fontFamily: '"Cormorant Garamond", serif',
-        fontSize: 7.5, color: `${b.foil}88`, letterSpacing: '.15em',
+        fontSize: 8, color: `${b.foil}88`, letterSpacing: '.15em',
         pointerEvents: 'none',
       }}>{b.year}</span>
     </a>
@@ -622,29 +411,20 @@ function Spine({ book: b, hovered, onHover }) {
 }
 
 function Cover({ book: b, hovered, onHover }) {
-  const handleClick = (e) => {
-    e.stopPropagation();
-    if (b.comingSoon) { e.preventDefault(); }
-  };
-
   return (
     <a
-      href={b.comingSoon ? '#' : b.href}
-      onClick={handleClick}
+      href={b.href}
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
       style={{
         ...S.cover,
         background: `linear-gradient(135deg, ${b.cloth} 0%, ${b.accent} 100%)`,
-        transform: hovered ? 'translateY(-8px) scale(1.06)' : 'translateY(0) scale(1)',
+        transform: hovered ? 'translateY(-12px) scale(1.04)' : 'translateY(0) scale(1)',
         boxShadow: hovered
-          ? `0 18px 26px -10px rgba(0,0,0,.55), 0 0 0 2px ${b.foil}66, inset 0 0 0 1px rgba(255,220,150,.22)`
-          : `0 8px 14px -6px rgba(0,0,0,.45), inset 0 0 0 1px rgba(0,0,0,.35)`,
-        filter: b.comingSoon ? 'saturate(.6) brightness(.92)' : 'none',
-        cursor: b.comingSoon ? 'default' : 'pointer',
+          ? `0 22px 32px -10px rgba(0,0,0,.55), 0 0 0 2px ${b.foil}66, inset 0 0 0 1px rgba(255,220,150,.22)`
+          : `0 10px 16px -6px rgba(0,0,0,.45), inset 0 0 0 1px rgba(0,0,0,.35)`,
       }}
-      className="rn-cover"
-      title={`${b.title} — ${b.author}${b.comingSoon ? ' (coming soon)' : ''}`}
+      title={`${b.title} — ${b.author}`}
     >
       <span style={{ ...S.frameOuter, borderColor: `${b.foil}55` }} />
       <span style={{ ...S.frameInner, borderColor: `${b.foil}aa` }} />
@@ -652,10 +432,8 @@ function Cover({ book: b, hovered, onHover }) {
         <span style={{ ...S.coverOrn, color: b.foil }}>❦</span>
         <span style={{ ...S.coverTitle, color: b.foil, textShadow: `0 1px 0 ${b.accent}` }}>{b.title}</span>
         <span style={{ ...S.coverRule, background: `${b.foil}99` }} />
-        <span style={{ ...S.coverAuthor, color: `${b.foil}dd` }}>{b.authorLast}</span>
-        <span style={{ ...S.coverYear, color: `${b.foil}99` }}>
-          {b.comingSoon ? '— soon —' : b.year}
-        </span>
+        <span style={{ ...S.coverAuthor, color: `${b.foil}dd` }}>{b.author}</span>
+        <span style={{ ...S.coverYear, color: `${b.foil}99` }}>{b.year}</span>
       </span>
     </a>
   );
@@ -663,14 +441,14 @@ function Cover({ book: b, hovered, onHover }) {
 
 function spineTitleSize(title, thickness, height) {
   const len = title.length;
-  const avail = height - 80;
-  const charsFit = avail / 7.5;
-  if (len <= charsFit / 1.5) return 14;
-  if (len <= charsFit / 1.3) return 12.5;
-  if (len <= charsFit / 1.1) return 11.5;
-  if (len <= charsFit * 1.2) return 10.5;
-  if (len <= charsFit * 2.2) return 9.5;
-  return 8.5;
+  const avail = height - 130;
+  const charsFit = avail / 8.5;
+  if (len <= charsFit / 1.5) return 18;
+  if (len <= charsFit / 1.3) return 16;
+  if (len <= charsFit / 1.1) return 14.5;
+  if (len <= charsFit * 1.2) return 13;
+  if (len <= charsFit * 2.2) return 11;
+  return 9.5;
 }
 
 function shade(hex, amt) {
@@ -696,7 +474,7 @@ const S = {
     background: 'radial-gradient(ellipse at 75% 15%, #f5e8c8 0%, #e8d4a8 35%, #c9a874 75%, #8e6a3e 100%)',
     color: '#3a2614',
     fontFamily: '"EB Garamond", serif',
-    padding: '60px 48px 44px',
+    padding: '60px 56px 44px',
     boxSizing: 'border-box',
   },
   windowGlow: {
@@ -711,7 +489,7 @@ const S = {
     backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(255,250,220,.3) 1px, transparent 2px), radial-gradient(circle at 75% 60%, rgba(255,250,220,.25) 1px, transparent 2px), radial-gradient(circle at 40% 80%, rgba(255,250,220,.2) 1px, transparent 2px)',
     backgroundSize: '180px 180px, 240px 240px, 320px 320px',
   },
-  header: { position: 'relative', zIndex: 2, textAlign: 'center', marginBottom: 36 },
+  header: { position: 'relative', zIndex: 2, textAlign: 'center', marginBottom: 44 },
   kicker: {
     color: '#8a5e2a', letterSpacing: '.4em', fontSize: 11,
     margin: '0 0 8px', textTransform: 'uppercase',
@@ -729,7 +507,7 @@ const S = {
   divLine: { width: 90, height: 1, background: 'linear-gradient(90deg, transparent, #8a5e2a, transparent)' },
   divDot: { color: '#8a5e2a', fontSize: 11 },
 
-  shelfWrap: { position: 'relative', zIndex: 2, maxWidth: 1100, margin: '0 auto' },
+  shelfWrap: { position: 'relative', zIndex: 2, maxWidth: 1000, margin: '0 auto' },
   shelfBox: {
     position: 'relative',
     background: `linear-gradient(180deg, ${OAK} 0%, ${OAK_LO} 100%)`,
@@ -763,7 +541,7 @@ const S = {
     mixBlendMode: 'multiply',
   },
   molding: {
-    position: 'relative', height: 14,
+    position: 'relative', height: 16,
     background: `linear-gradient(180deg, ${OAK_HI}, ${OAK} 50%, ${OAK_LO} 100%)`,
     borderBottom: `1px solid ${OAK_LO}`,
     boxShadow: 'inset 0 -2px 4px rgba(0,0,0,.35)',
@@ -772,17 +550,10 @@ const S = {
 
   drawerStack: { position: 'relative', zIndex: 2 },
   drawerSection: { position: 'relative' },
-  drawerDivider: {
-    display: 'none',
-    position: 'absolute', left: 0, top: 8, bottom: 8, width: 1,
-    background: `linear-gradient(180deg, transparent, ${OAK_LO} 18%, ${OAK_LO} 82%, transparent)`,
-    boxShadow: `1px 0 0 ${OAK_HI}33`,
-    zIndex: 4, pointerEvents: 'none',
-  },
-  shelfInner: { position: 'relative', padding: '20px 14px 0', height: 288 },
+  shelfInner: { position: 'relative', padding: '24px 36px 0' },
   spineRow: {
     display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-    gap: 5, height: '100%',
+    gap: 8, height: '100%',
     transition: 'transform .55s cubic-bezier(.5,.05,.2,1), opacity .45s, filter .45s',
     transformOrigin: 'bottom center',
   },
@@ -796,13 +567,13 @@ const S = {
   spineBase: { position: 'absolute', inset: 0, pointerEvents: 'none' },
   layer: { position: 'absolute', inset: 0, pointerEvents: 'none' },
   hub: {
-    position: 'absolute', left: -2, right: -2, height: 4,
+    position: 'absolute', left: -2, right: -2, height: 5,
     background: 'linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(255,230,180,.10) 50%, rgba(0,0,0,.55) 100%)',
     pointerEvents: 'none',
     boxShadow: '0 1px 0 rgba(255,230,180,.05)',
   },
   spineTitleRot: {
-    position: 'absolute', top: '14%', bottom: '36%',
+    position: 'absolute', top: '14%', bottom: '40%',
     left: 0, right: 0,
     overflow: 'hidden',
     pointerEvents: 'none',
@@ -816,7 +587,7 @@ const S = {
     fontFamily: '"Cormorant Garamond", serif', fontWeight: 700,
   },
   spineAuthor: {
-    position: 'absolute', bottom: '10%', left: 0, right: 0, height: '22%',
+    position: 'absolute', bottom: '12%', left: 0, right: 0, height: '24%',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     pointerEvents: 'none',
   },
@@ -824,54 +595,50 @@ const S = {
     transform: 'rotate(90deg)', transformOrigin: 'center',
     whiteSpace: 'nowrap',
     fontFamily: '"Cormorant Garamond", serif',
-    fontStyle: 'italic', fontWeight: 500, letterSpacing: '.06em',
+    fontStyle: 'italic', fontWeight: 500, letterSpacing: '.08em',
   },
 
   displayRail: {
-    position: 'absolute', left: 0, right: 0, bottom: 0, top: 0,
-    padding: '14px 14px 10px',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, minmax(0, 86px))',
-    gridAutoRows: 'min-content',
-    justifyContent: 'center', alignContent: 'center', alignItems: 'center',
-    gap: '10px 12px', zIndex: 20,
+    position: 'absolute', left: 0, right: 0, bottom: 0,
+    padding: '0 28px 8px',
+    display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+    gap: 8, zIndex: 20,
     transition: 'opacity .45s ease, transform .55s cubic-bezier(.2,.7,.3,1.2)',
   },
   cover: {
-    position: 'relative', width: '100%', maxWidth: 86, height: 122,
-    justifySelf: 'center',
+    position: 'relative', width: 92, height: 138,
     borderRadius: 2, cursor: 'pointer',
     transition: 'transform .35s cubic-bezier(.2,.7,.3,1.2), box-shadow .35s',
     textDecoration: 'none', flexShrink: 0, overflow: 'hidden',
   },
-  frameOuter: { position: 'absolute', inset: 5, border: '1px solid', borderRadius: 1, pointerEvents: 'none' },
-  frameInner: { position: 'absolute', inset: 9, border: '0.5px solid', borderRadius: 1, pointerEvents: 'none' },
+  frameOuter: { position: 'absolute', inset: 7, border: '1px solid', borderRadius: 1, pointerEvents: 'none' },
+  frameInner: { position: 'absolute', inset: 11, border: '0.5px solid', borderRadius: 1, pointerEvents: 'none' },
   coverInner: {
-    position: 'absolute', inset: 11,
+    position: 'absolute', inset: 14,
     display: 'flex', flexDirection: 'column',
     alignItems: 'center', justifyContent: 'center',
-    textAlign: 'center', gap: 3,
+    textAlign: 'center', gap: 4,
   },
-  coverOrn: { fontSize: 12, marginBottom: 2, lineHeight: 1 },
+  coverOrn: { fontSize: 13, marginBottom: 2 },
   coverTitle: {
     fontFamily: '"Cormorant Garamond", serif',
-    fontWeight: 600, fontSize: 10.5, lineHeight: 1.12,
-    letterSpacing: '.02em', textWrap: 'balance',
+    fontWeight: 600, fontSize: 11.5, lineHeight: 1.15,
+    letterSpacing: '.03em', textWrap: 'balance',
   },
-  coverRule: { width: 22, height: 1, margin: '3px 0' },
-  coverAuthor: { fontStyle: 'italic', fontSize: 8.5, lineHeight: 1.15, letterSpacing: '.03em' },
-  coverYear: { fontSize: 7, letterSpacing: '.22em', marginTop: 2 },
+  coverRule: { width: 28, height: 1, margin: '4px 0' },
+  coverAuthor: { fontStyle: 'italic', fontSize: 9, lineHeight: 1.2, letterSpacing: '.04em' },
+  coverYear: { fontSize: 7.5, letterSpacing: '.25em', marginTop: 2 },
 
   drawerFront: { position: 'relative', zIndex: 3 },
   drawerFrontTop: {
-    height: 14,
+    height: 18,
     background: `linear-gradient(180deg, ${OAK_HI} 0%, ${OAK} 50%, ${OAK_LO} 100%)`,
     borderTop: `1px solid ${OAK_HI}`,
     borderBottom: `1px solid ${OAK_LO}`,
     boxShadow: 'inset 0 -3px 6px rgba(0,0,0,.4)',
   },
   drawerFrontFace: {
-    position: 'relative', height: 48,
+    position: 'relative', height: 64,
     background: `
       linear-gradient(180deg, rgba(255,220,170,.05), transparent 30%, rgba(0,0,0,.18) 100%),
       linear-gradient(180deg, ${OAK} 0%, ${OAK_LO} 100%)
@@ -889,15 +656,15 @@ const S = {
   },
 
   brassPull: {
-    position: 'relative', width: 110, height: 32,
+    position: 'relative', width: 160, height: 44,
     border: 'none', background: 'transparent', padding: 0,
     transition: 'transform .15s ease',
   },
   brassPlate: {
     position: 'absolute', left: 0, right: 0, top: '50%',
-    transform: 'translateY(-50%)', height: 18,
+    transform: 'translateY(-50%)', height: 26,
     background: `linear-gradient(180deg, #f3d680 0%, #c9a24a 30%, #8e6d24 60%, #5a3f12 100%)`,
-    borderRadius: 2.5,
+    borderRadius: 3,
     boxShadow: `
       0 1px 0 rgba(255,240,200,.5) inset, 0 -1px 0 rgba(0,0,0,.4) inset,
       0 2px 4px rgba(0,0,0,.5), 0 0 0 1px rgba(60,40,20,.6)
@@ -905,29 +672,29 @@ const S = {
   },
   brassScrew: {
     position: 'absolute', top: '50%', transform: 'translateY(-50%)',
-    width: 6, height: 6, borderRadius: '50%',
+    width: 8, height: 8, borderRadius: '50%',
     background: 'radial-gradient(circle at 35% 30%, #f5d98a 0%, #b8923a 60%, #4a2f0c 100%)',
     boxShadow: '0 0 0 1px rgba(0,0,0,.45), inset 0 -1px 1px rgba(0,0,0,.4)',
     zIndex: 2,
   },
   brassBail: {
-    position: 'absolute', left: 18, right: 18, top: 3, height: 19,
-    border: '2.5px solid #5a3f12',
-    borderTop: '2.5px solid #b8923a',
-    borderRadius: '0 0 70px 70px / 0 0 19px 19px',
+    position: 'absolute', left: 22, right: 22, top: 4, height: 28,
+    border: '3px solid #5a3f12',
+    borderTop: '3px solid #b8923a',
+    borderRadius: '0 0 80px 80px / 0 0 28px 28px',
     background: 'linear-gradient(180deg, #f3d680 0%, #c9a24a 35%, #8e6d24 75%, #5a3f12 100%)',
     boxShadow: `0 1px 0 rgba(255,240,200,.4) inset, 0 -1px 2px rgba(0,0,0,.5) inset`,
     pointerEvents: 'none',
   },
   brassBailShadow: {
-    position: 'absolute', left: 15, right: 15, top: 21, height: 3,
+    position: 'absolute', left: 18, right: 18, top: 30, height: 4,
     background: 'radial-gradient(ellipse at center top, rgba(0,0,0,.35), transparent 70%)',
     pointerEvents: 'none',
   },
 
   footer: {
     position: 'relative', zIndex: 2,
-    marginTop: 28, textAlign: 'center',
+    marginTop: 32, textAlign: 'center',
     fontStyle: 'italic', color: '#6b4a2c',
     fontSize: 13, letterSpacing: '.04em',
     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14,
