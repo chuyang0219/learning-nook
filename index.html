@@ -507,8 +507,9 @@ function Spine({ book: b, hovered, onHover }) {
   const h = 260 * b.height; // shortened from 320 so books fit narrower drawers
   const ageTint = b.age === 'weathered' ? 'sepia(.15) brightness(.95)'
                 : b.age === 'faded' ? 'saturate(.75) brightness(1.05)'
-                : 'none';
-  const muted = b.comingSoon ? ' saturate(.55) brightness(.92)' : '';
+                : '';
+  const muted = b.comingSoon ? 'saturate(.1) brightness(.5) opacity(.35)' : '';
+  const filterVal = [ageTint, muted].filter(Boolean).join(' ') || 'none';
 
   const titleSize = spineTitleSize(b.title, b.thickness, h);
   const zoneH = h * 0.50;
@@ -535,7 +536,7 @@ function Spine({ book: b, hovered, onHover }) {
           ? `0 18px 26px -10px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,230,180,.15)`
           : `0 6px 12px -6px rgba(0,0,0,.35), inset -1px 0 2px rgba(0,0,0,.35), inset 1px 0 1px rgba(255,255,255,.04)`,
         zIndex: hovered ? 10 : 1,
-        filter: ageTint + muted,
+        filter: filterVal,
         cursor: b.comingSoon ? 'default' : 'pointer',
       }}
       title={`${b.title} — ${b.author}${b.comingSoon ? ' (coming soon)' : ''}`}
@@ -645,7 +646,7 @@ function Cover({ book: b, hovered, onHover }) {
         boxShadow: hovered
           ? `0 18px 26px -10px rgba(0,0,0,.55), 0 0 0 2px ${b.foil}66, inset 0 0 0 1px rgba(255,220,150,.22)`
           : `0 8px 14px -6px rgba(0,0,0,.45), inset 0 0 0 1px rgba(0,0,0,.35)`,
-        filter: b.comingSoon ? 'saturate(.6) brightness(.92)' : 'none',
+        filter: b.comingSoon ? 'saturate(.1) brightness(.5) opacity(.35)' : 'none',
         cursor: b.comingSoon ? 'default' : 'pointer',
       }}
       className="rn-cover"
