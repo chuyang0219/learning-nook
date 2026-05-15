@@ -44,7 +44,7 @@ export default async function BookPage({
         )}
       </div>
 
-      <MemoryAnchors anchors={(b.memory_anchors as string[]) ?? []} />
+      <MemoryAnchors anchors={(b.memory_anchors as { anchor: string; note: string }[]) ?? []} />
       <WeakAreas items={ri} />
       <FavoriteQuotesSection quotes={fq} />
 
