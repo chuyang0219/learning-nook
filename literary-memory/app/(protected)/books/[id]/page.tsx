@@ -5,6 +5,7 @@ import MemoryAnchors from '@/components/books/MemoryAnchors'
 import WeakAreas from '@/components/books/WeakAreas'
 import FavoriteQuotesSection from '@/components/books/FavoriteQuotesSection'
 import Link from 'next/link'
+import AddQuoteForm from '@/components/books/AddQuoteForm'
 import type { Book, RecallItem, FavoriteQuote } from '@/types'
 
 export default async function BookPage({
@@ -46,6 +47,10 @@ export default async function BookPage({
       <MemoryAnchors anchors={(b.memory_anchors as string[]) ?? []} />
       <WeakAreas items={ri} />
       <FavoriteQuotesSection quotes={fq} />
+
+      <section className="mb-10">
+        <AddQuoteForm bookId={b.id} />
+      </section>
 
       <div className="mt-12 pt-6 border-t border-neutral-900">
         <Link
